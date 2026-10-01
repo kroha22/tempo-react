@@ -13,6 +13,7 @@ import { QuizExercise } from "@/features/practice/QuizExercise";
 import { RulesDeck } from "@/features/practice/RulesDeck";
 import { SunFormExercise } from "@/features/practice/SunFormExercise";
 import { TerGuide } from "@/features/practice/TerGuide";
+import VocabularyLessons from "@/features/vocabulary/VocabularyLessons";
 
 import { people, verbs, type PersonKey, type Tense, type VerbGroup, type VerbKey } from "@/features/conjugation/data";
 import { createPracticeSession, practiceSessionReducer } from "./practice-session";
@@ -333,9 +334,9 @@ export default function PracticeScreen({ initialVerbKey = "fazer", initialTense 
           />
         )}
         </>}
-      </section> : section === "lessons" ? <AdultLessons /> : <Flashcards />}
+      </section> : section === "lessons" ? <AdultLessons /> : section === "vocabulary" ? <VocabularyLessons /> : <Flashcards />}
 
-      <footer><span>{section === "cards" ? "Повторяй ровно тогда, когда начинаешь забывать" : section === "lessons" ? "Коротко о форме — сразу в живом примере" : "Учи форму вместе с местоимением"}</span><span>Português · A1–B2</span></footer>
+      <footer><span>{section === "cards" ? "Повторяй ровно тогда, когда начинаешь забывать" : section === "vocabulary" ? "Сначала тема и пример — затем карточки и проверка" : section === "lessons" ? "Коротко о форме — сразу в живом примере" : "Учи форму вместе с местоимением"}</span><span>Português · A1–B2</span></footer>
     </div>
   );
 }
