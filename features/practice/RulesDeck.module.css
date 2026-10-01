@@ -1,0 +1,85 @@
+.deck { overflow: hidden; border: 2px solid var(--kingdom); border-radius: 22px; background: color-mix(in srgb, var(--kingdom-soft) 24%, #fffef9); box-shadow: 0 12px 28px color-mix(in srgb, var(--kingdom) 14%, transparent); }
+.header { min-height: 78px; padding: 10px 16px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 14px; border-bottom: 1px solid color-mix(in srgb, var(--kingdom) 22%, transparent); background: color-mix(in srgb, var(--kingdom-soft) 58%, white); }
+.header > div:nth-child(2) { text-align: center; }
+.kicker { color: var(--kingdom); font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: .1em; }
+.header h2 { margin: 1px 0 0; color: var(--kingdom); font-family: "Fredoka", sans-serif; font-size: 25px; line-height: 1; }
+.back { justify-self: start; min-height: 34px; padding: 5px 11px; display: flex; align-items: center; gap: 5px; border: 1px solid color-mix(in srgb, var(--kingdom) 28%, transparent); border-radius: 999px; background: white; color: var(--kingdom); cursor: pointer; font-size: 10px; font-weight: 900; }
+.back span { font-size: 20px; line-height: .7; }
+.tense { justify-self: end; }
+.intro { margin: 0; padding: 10px 16px 4px; color: var(--muted); text-align: center; font-size: 11px; font-weight: 700; }
+.intro span { color: var(--kingdom); white-space: nowrap; }
+.meaning { margin: 9px 16px 2px; padding: 8px 11px; display: grid; grid-template-columns: auto minmax(180px, 1fr) auto; align-items: center; gap: 9px 13px; border: 1px solid color-mix(in srgb, var(--kingdom) 28%, white); border-radius: 13px; background: color-mix(in srgb, var(--kingdom-soft) 45%, white); }
+.meaning > strong { color: var(--kingdom); font-family: "Fredoka", sans-serif; font-size: 12px; }
+.meaning > span { color: var(--muted); font-size: 9px; line-height: 1.25; }
+.meaning > div { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px; }
+.meaning b { padding: 3px 6px; border-radius: 999px; background: white; color: var(--kingdom); font-size: 8px; }
+.timeRule { margin: 9px 16px 2px; padding: 11px 13px; display: grid; grid-template-columns: auto minmax(190px, 1.5fr) minmax(190px, 1fr) auto; align-items: center; gap: 12px; border: 1px solid color-mix(in srgb, var(--kingdom) 32%, transparent); border-radius: 15px; background: linear-gradient(135deg, color-mix(in srgb, var(--kingdom-soft) 68%, white), white); }
+.timeIcon { width: 47px; height: 47px; display: grid; place-items: center; border-radius: 14px; background: white; font-size: 25px; box-shadow: 0 3px 0 color-mix(in srgb, var(--kingdom) 17%, transparent); }
+.timeCopy { display: grid; gap: 1px; }
+.timeCopy > span, .timeExample small { color: var(--kingdom); font-size: 8px; font-weight: 900; text-transform: uppercase; letter-spacing: .08em; }
+.timeCopy > strong { font-family: "Fredoka", sans-serif; font-size: 15px; }
+.timeCopy p { margin: 2px 0 0; color: var(--muted); font-size: 9px; line-height: 1.25; }
+.markers { display: flex; flex-wrap: wrap; gap: 5px; }
+.markers span { padding: 4px 8px; border: 1px solid color-mix(in srgb, var(--kingdom) 45%, white); border-radius: 999px; background: white; color: var(--kingdom); font-size: 9px; font-weight: 800; }
+.timeExample { min-width: 145px; padding: 7px 10px; display: grid; gap: 2px; border-left: 1px dashed color-mix(in srgb, var(--kingdom) 35%, transparent); }
+.timeExample strong { font-size: 12px; white-space: nowrap; }
+.cards { padding: 12px 16px 16px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.card { min-width: 0; min-height: 190px; padding: 12px; display: grid; grid-template-columns: 86px minmax(0, 1fr); align-items: center; gap: 12px; border: 2px solid color-mix(in srgb, var(--kingdom) 78%, white); border-radius: 17px; background: white; box-shadow: 0 5px 0 color-mix(in srgb, var(--kingdom) 20%, transparent); }
+.hero { position: relative; min-height: 142px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.person { margin-bottom: 2px; color: var(--ink); font-family: "Fredoka", sans-serif; font-size: 18px; }
+.character { width: 90px; height: 90px; display: block; border-radius: 12px; background-image: url('/verb-rule-characters-kingdoms.webp'); background-repeat: no-repeat; background-size: 400% 600%; filter: drop-shadow(0 3px 1px rgba(41,59,62,.1)); }
+:global(.kingdom-ar) .character { background-position-x: 0; }
+:global(.kingdom-er) .character { background-position-x: 33.333%; }
+:global(.kingdom-ir) .character { background-position-x: 66.667%; }
+:global(.kingdom-irregular) .character { background-position-x: 100%; }
+.sprite0 { background-position-y: 0; }
+.sprite1 { background-position-y: 20%; }
+.sprite2 { background-position-y: 40%; }
+.sprite3 { background-position-y: 60%; }
+.sprite4 { background-position-y: 80%; }
+.sprite5 { background-position-y: 100%; }
+.ending { position: relative; z-index: 1; min-width: 54px; margin-top: -5px; padding: 4px 7px; border: 2px solid var(--kingdom); border-radius: 7px; background: white; color: var(--kingdom); text-align: center; font-family: "Fredoka", sans-serif; font-size: 16px; text-transform: uppercase; box-shadow: 0 3px 0 color-mix(in srgb, var(--kingdom) 22%, transparent); }
+.examples { min-width: 0; }
+.examples p { margin: 7px 0; display: grid; grid-template-columns: minmax(0, .7fr) auto minmax(0, 1.3fr); align-items: baseline; gap: 5px; font-size: 11px; }
+.examples p > span { color: var(--muted); }
+.examples b { color: var(--kingdom); font-size: 15px; }
+.examples strong { min-width: 0; overflow-wrap: anywhere; }
+.footer { min-height: 58px; padding: 8px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-top: 1px solid color-mix(in srgb, var(--kingdom) 22%, transparent); background: white; }
+.footer > span { color: var(--kingdom); font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: .05em; }
+.footer button { min-height: 39px; padding: 7px 16px; display: flex; align-items: center; gap: 13px; border: 0; border-radius: 999px; background: var(--kingdom); color: white; cursor: pointer; font-weight: 900; box-shadow: 0 4px 0 color-mix(in srgb, var(--kingdom) 58%, #233); }
+.footer button span { font-size: 22px; line-height: .7; }
+
+@media (max-width: 620px) {
+  .deck { border-width: 1px; border-radius: 16px; }
+  .header { min-height: 66px; padding: 6px 8px; grid-template-columns: auto 1fr; gap: 7px; }
+  .header > div:nth-child(2) { text-align: left; }
+  .kicker { font-size: 7px; }
+  .header h2 { font-size: 18px; }
+  .back { min-height: 30px; padding: 4px 8px; font-size: 0; }
+  .back span { font-size: 22px; }
+  .tense { grid-column: 1 / -1; grid-row: 2; width: 100%; display: grid; grid-template-columns: repeat(2, 1fr); padding: 2px; }
+  .tense button { min-height: 27px; padding: 4px 6px; font-size: 9px; }
+  .intro { padding: 8px 10px 2px; text-align: left; font-size: 10px; line-height: 1.25; }
+  .meaning { margin: 7px 10px 1px; padding: 7px 8px; grid-template-columns: 1fr; gap: 3px; }
+  .meaning > strong { font-size: 11px; }
+  .meaning > span { font-size: 8px; }
+  .meaning > div { margin-top: 2px; justify-content: flex-start; }
+  .meaning b { font-size: 7px; }
+  .timeRule { margin: 8px 10px 1px; padding: 9px; grid-template-columns: 40px minmax(0, 1fr); gap: 7px 9px; border-radius: 13px; }
+  .timeIcon { width: 40px; height: 40px; border-radius: 11px; font-size: 21px; }
+  .timeCopy > strong { font-size: 13px; }
+  .timeCopy p { font-size: 9px; }
+  .markers { grid-column: 1 / -1; gap: 4px; }
+  .markers span { flex: 1; padding: 3px 5px; text-align: center; font-size: 8px; }
+  .timeExample { grid-column: 1 / -1; min-width: 0; padding: 5px 7px; display: flex; align-items: baseline; gap: 7px; border-left: 0; border-top: 1px dashed color-mix(in srgb, var(--kingdom) 35%, transparent); }
+  .timeExample strong { font-size: 11px; }
+  .cards { padding: 9px 10px 13px; display: flex; gap: 9px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .cards::-webkit-scrollbar { display: none; }
+  .card { flex: 0 0 calc(100vw - 50px); min-height: 184px; padding: 10px; grid-template-columns: 84px minmax(0, 1fr); scroll-snap-align: center; }
+  .person { font-size: 17px; }
+  .character { width: 82px; height: 82px; border-radius: 10px; }
+  .examples p { margin: 8px 0; font-size: 11px; }
+  .footer { min-height: 52px; padding: 6px 9px; }
+  .footer > span { max-width: 48%; font-size: 8px; line-height: 1.2; }
+  .footer button { min-height: 38px; padding: 6px 12px; font-size: 10px; }
+}

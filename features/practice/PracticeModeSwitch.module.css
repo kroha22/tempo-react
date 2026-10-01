@@ -1,0 +1,58 @@
+.modeSwitch {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  padding: 4px;
+  background: #e9e5db;
+  border-radius: 11px;
+}
+
+.modeSwitch button {
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  border: 0;
+  background: transparent;
+  padding: 8px 12px;
+  border-radius: 8px;
+  color: var(--muted);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 12px;
+  transition: .2s;
+}
+
+.modeSwitch button span {
+  margin-right: 9px;
+  font-family: "Fredoka", sans-serif;
+  font-size: 22px;
+  line-height: 1;
+  opacity: .72;
+}
+
+.modeSwitch button.active {
+  background: var(--cream);
+  color: var(--ink);
+  box-shadow: 0 2px 10px rgba(36, 44, 40, .08);
+}
+
+.modeSwitch button.active span {
+  color: var(--kingdom, var(--sun-dark));
+  opacity: 1;
+}
+
+@media (max-width: 620px) {
+  .modeSwitch {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .modeSwitch button {
+    min-height: 38px;
+    flex: 1;
+    padding: 4px 12px;
+    font-size: 12px;
+  }
+
+  .modeSwitch button span {
+    font-size: 19px;
+  }
+}

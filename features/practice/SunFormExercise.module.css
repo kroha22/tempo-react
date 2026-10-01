@@ -1,0 +1,77 @@
+.layout { display: grid; grid-template-columns: 1fr; }
+.withBank { grid-template-columns: minmax(0, 1fr) 270px; }
+
+.card { min-width: 0; border: 1px solid var(--line); overflow: hidden; background: var(--cream); }
+.stage { position: relative; width: min(100%, 780px); aspect-ratio: 1.48; min-height: 510px; margin: 0 auto; overflow: hidden; }
+.stage::before { content: ""; position: absolute; inset: 9%; border: 1px dashed rgba(38,49,44,.12); border-radius: 50%; }
+.sunCore { position: absolute; z-index: 3; left: 50%; top: 50%; width: 176px; height: 176px; transform: translate(-50%,-50%); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background: var(--sun); border: 2px solid var(--sun-dark); box-shadow: 0 16px 36px rgba(212,132,19,.22), inset 0 0 0 8px rgba(255,255,255,.12); }
+.sunCore strong { font-family: "Fredoka", sans-serif; font-size: 34px; line-height: 1; text-transform: uppercase; letter-spacing: .01em; }
+.sunCore strong.longWord { max-width: 88%; font-size: 28px; letter-spacing: -.02em; }
+.sunCore > span:last-child { margin-top: 8px; font-size: 12px; }
+.sunMini { margin-bottom: 7px; text-transform: uppercase; letter-spacing: .15em; font-size: 9px; font-weight: 700; }
+.rayGroup { --angle: 0deg; position: absolute; inset: 0; pointer-events: none; }
+.ray { position: absolute; z-index: 1; left: 50%; top: 50%; width: 34%; height: 2px; background: linear-gradient(90deg, var(--sun-dark), var(--sun)); transform-origin: left center; transform: rotate(var(--angle)); }
+.personNode { position: absolute; z-index: 4; left: calc(50% + cos(var(--angle)) * 39%); top: calc(50% + sin(var(--angle)) * 39%); width: 128px; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; pointer-events: auto; }
+.pronoun { position: relative; z-index: 2; padding: 8px 12px; min-width: 76px; text-align: center; border: 1px solid rgba(38,49,44,.32); border-radius: 8px 8px 3px 3px; background: var(--cream); font-size: 13px; font-weight: 700; box-shadow: 0 3px 0 rgba(38,49,44,.08); }
+.answer, .dropZone { width: 112px; min-height: 39px; margin-top: -1px; display: grid; place-items: center; border: 1px dashed rgba(38,49,44,.25); border-radius: 3px 3px 18px 18px; background: #f1eee6; color: #9a9e99; font-size: 13px; transition: .25s; }
+.answer.shown, .dropZone.filled { border-style: solid; border-color: var(--sun-dark); background: #ffc94b; color: var(--ink); font-size: 16px; font-weight: 700; animation: pop .3s ease both; }
+.dropZone { cursor: pointer; }
+.dropZone:not(.filled) { color: #667976; font-size: 28px; font-weight: 900; line-height: .7; letter-spacing: 2px; }
+.dropZone:hover { border-color: var(--sun-dark); color: var(--sun-dark); background: #fff7df; }
+.dropZone.filled { cursor: default; }
+.shake { animation: shake .38s ease; }
+
+.footer { grid-column: 1 / -1; min-height: 82px; padding: 16px 24px; border: 1px solid var(--line); border-top: 0; border-radius: 0 0 22px 22px; display: flex; align-items: center; justify-content: space-between; gap: 20px; background: #f9f6ee; }
+.footer p { margin: 0; color: var(--muted); font-size: 13px; }
+.secondaryButton { border: 1px solid var(--line); border-radius: 999px; padding: 13px 20px; background: transparent; cursor: pointer; font-weight: 700; white-space: nowrap; transition: .2s; }
+.secondaryButton:hover { background: white; }
+
+.wordBank { border: 1px solid var(--line); border-left: 0; padding: 30px 24px 22px; background: var(--green); color: white; display: flex; flex-direction: column; }
+.wordBank h2 { margin: 7px 0 4px; font-family: "Fredoka", sans-serif; font-size: 32px; }
+.wordBank p { margin: 0; color: rgba(255,255,255,.64); font-size: 12px; }
+.bankNumber { color: #f6bd45; font-size: 9px; font-weight: 700; letter-spacing: .17em; }
+.chips { display: grid; gap: 9px; margin-top: 27px; }
+.wordChip { width: 100%; padding: 12px 14px; display: flex; align-items: center; gap: 14px; border: 1px solid rgba(255,255,255,.14); border-radius: 10px; background: rgba(255,255,255,.07); color: white; cursor: grab; text-align: left; font-weight: 700; transition: .2s; }
+.wordChip span { color: #f6bd45; font-size: 9px; font-weight: 600; }
+.wordChip:hover:not(:disabled), .wordChip.selected { background: #f6bd45; color: var(--ink); border-color: #f6bd45; transform: translateX(-3px); }
+.wordChip.selected span { color: var(--ink); }
+.wordChip:disabled { opacity: .22; text-decoration: line-through; cursor: default; }
+.successStamp { margin-top: auto; padding: 15px; border: 1px solid rgba(255,255,255,.3); border-radius: 10px; color: #f6bd45; text-align: center; font-family: "Fredoka", sans-serif; font-size: 20px; transform: rotate(-2deg); }
+
+:global(.kids-mode) .sunCore { background: color-mix(in srgb, var(--kingdom) 78%, white); border-color: var(--kingdom); }
+:global(.kids-mode) .ray { background: linear-gradient(90deg, var(--kingdom), color-mix(in srgb, var(--kingdom) 45%, white)); }
+:global(.kids-mode) .answer.shown,
+:global(.kids-mode) .dropZone.filled { border-color: var(--kingdom); background: var(--kingdom-soft); }
+:global(.kids-mode) .wordBank { background: color-mix(in srgb, var(--kingdom) 78%, #153c34); }
+
+@media (max-width: 860px) {
+  .withBank { grid-template-columns: 1fr; }
+  .wordBank { border-left: 1px solid var(--line); border-top: 0; }
+  .chips { grid-template-columns: repeat(3, 1fr); }
+  .successStamp { margin-top: 20px; }
+}
+
+@media (max-width: 620px) {
+  .stage { height: min(430px, 110vw); min-height: 0; aspect-ratio: auto; }
+  .stage::before { inset: 15% 2%; }
+  .sunCore { width: 112px; height: 112px; }
+  .sunCore strong { font-size: 21px; }
+  .sunCore strong.longWord { font-size: 17px; }
+  .ray { width: 37%; }
+  .personNode { left: calc(50% + cos(var(--angle)) * 42%); top: calc(50% + sin(var(--angle)) * 37%); width: 106px; }
+  .pronoun { min-width: 68px; padding: 7px 8px; font-size: 11px; }
+  .answer, .dropZone { width: 96px; font-size: 11px; }
+  .answer.shown, .dropZone.filled { font-size: 14px; }
+  .footer { min-height: 0; align-items: center; flex-direction: row; gap: 8px; padding: 8px 12px; }
+  .footer p { font-size: 11px; line-height: 1.3; }
+  .secondaryButton { padding: 8px 12px; font-size: 11px; }
+  .wordBank { padding: 9px 10px; }
+  .wordBank > div:first-child { display: none; }
+  .chips { grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 0; }
+  .wordChip { justify-content: center; gap: 0; padding: 9px 6px; font-size: 12px; }
+  .wordChip span { display: none; }
+  .successStamp { margin-top: 8px; padding: 7px; font-size: 15px; }
+}
+
+@keyframes pop { from { transform: scale(.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes shake { 25% { transform: translate(-56%,-50%); } 75% { transform: translate(-44%,-50%); } }

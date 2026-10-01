@@ -1,0 +1,28 @@
+.card { min-height: 510px; padding: 28px; border: 1px solid var(--line); border-radius: 0 0 22px 22px; background: var(--cream); display: grid; grid-template-rows: auto 1fr auto auto; gap: 22px; }
+.heading { display: flex; justify-content: space-between; color: var(--muted); font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .11em; }
+.prompt { align-self: center; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.context { margin-bottom: 12px; color: var(--sun-dark); font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .12em; }
+.prompt strong { min-width: 210px; padding: 20px 30px; border: 2px solid var(--sun-dark); border-radius: 999px; background: var(--sun); font-family: "Fredoka", sans-serif; font-size: 38px; line-height: 1; box-shadow: 0 12px 28px rgba(212,132,19,.17); }
+.prompt > span:last-child { margin-top: 12px; color: var(--muted); font-size: 13px; }
+.options { width: min(100%, 680px); margin: 0 auto; display: grid; gap: 10px; }
+.choose, .reverse { grid-template-columns: repeat(3, 1fr); }
+.options button { min-height: 54px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 14px; background: #f4f1e9; cursor: pointer; font-weight: 800; transition: .2s; }
+.options button:hover:not(:disabled) { border-color: var(--green); background: #eaf5ef; transform: translateY(-2px); }
+.options button.correct { border-color: #2b8068; background: #bce8d4; color: #174f40; }
+.options button.wrong { border-color: #cf6958; background: #ffd3c9; color: #84372d; }
+.footer { min-height: 46px; display: flex; align-items: center; justify-content: space-between; gap: 14px; border-top: 1px solid var(--line); padding-top: 14px; }
+.footer p { margin: 0; color: var(--muted); font-size: 13px; }
+.footer button { border: 0; border-radius: 999px; padding: 11px 17px; background: var(--green); color: white; cursor: pointer; font-weight: 800; }
+.footer button span { margin-left: 8px; font-size: 18px; }
+
+@media (max-width: 620px) {
+  .card { min-height: 430px; padding: 13px; gap: 12px; }
+  .prompt strong { min-width: 170px; padding: 15px 22px; font-size: 31px; }
+  .context { margin-bottom: 8px; }
+  .prompt > span:last-child { margin-top: 8px; font-size: 11px; }
+  .options { gap: 6px; }
+  .options button { min-height: 43px; padding: 7px 5px; border-radius: 10px; font-size: 12px; }
+  .footer { min-height: 38px; padding-top: 9px; }
+  .footer p { font-size: 11px; line-height: 1.25; }
+  .footer button { padding: 8px 12px; font-size: 11px; white-space: nowrap; }
+}

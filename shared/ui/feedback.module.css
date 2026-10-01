@@ -1,0 +1,14 @@
+.feedback {
+  margin-bottom: 16px;
+  padding: 10px 12px;
+  border: 1px solid var(--color-control-border);
+  border-radius: var(--radius-control);
+  color: var(--color-text);
+  background: var(--color-surface);
+  overflow-wrap: anywhere;
+  font-size: 14px;
+  line-height: 1.45;
+}
+.feedback[data-tone="error"] { border-inline-start: 4px solid var(--color-error); }
+.feedback p { margin: 0; }
+.feedback button { margin-top: 8px; }

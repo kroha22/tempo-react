@@ -1,0 +1,26 @@
+.group { display: grid; gap: 10px; }
+.choice {
+  min-height: 54px;
+  padding: 13px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 2px solid var(--color-control-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-weight: 800;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+.indicator { width: 20px; height: 20px; flex: 0 0 20px; border: 2px solid var(--color-control-border); border-radius: 50%; }
+.choice[data-selected] { border-color: var(--color-action); background: var(--color-selected-surface); }
+.choice[data-selected] .indicator { border: 6px solid var(--color-action); }
+.choice[data-focus-visible] { outline: 3px solid var(--color-focus); outline-offset: 3px; }
+.choice[data-disabled] { opacity: .55; cursor: not-allowed; }
+@media (forced-colors: active) {
+  .choice[data-selected], .choice[data-selected] .indicator { border-color: Highlight; }
+  .choice[data-focus-visible] { outline-color: Highlight; }
+  .choice[data-disabled] { color: GrayText; opacity: 1; }
+}

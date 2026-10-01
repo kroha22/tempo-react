@@ -1,0 +1,23 @@
+.screen { min-height: 100%; }
+
+:global(.practice-legacy) .screen {
+  min-height: auto;
+  background: transparent;
+}
+
+.workspace {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: clamp(28px, 4vw, 52px) clamp(14px, 3vw, 40px) 70px;
+}
+
+:global(.kids-mode) { --kingdom: #8551b6; --kingdom-soft: #ead9f7; }
+:global(.kids-mode.kingdom-ar) { --kingdom: #e54b43; --kingdom-soft: #ffd5cf; }
+:global(.kids-mode.kingdom-er) { --kingdom: #2f9b58; --kingdom-soft: #ccefd5; }
+:global(.kids-mode.kingdom-ir) { --kingdom: #258bd2; --kingdom-soft: #cceaff; }
+:global(.kids-mode.kingdom-irregular) { --kingdom: #8b55bd; --kingdom-soft: #ead8fa; }
+
+@media (max-width: 620px) {
+  .workspace { padding-top: 8px; padding-bottom: 26px; }
+  :global(.kids-mode) .workspace { padding-top: 6px; }
+}

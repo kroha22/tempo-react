@@ -1,0 +1,200 @@
+.topbar {
+  position: relative;
+  height: 78px;
+  padding: 0 clamp(22px, 5vw, 78px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  background: rgba(244, 241, 233, .86);
+  backdrop-filter: blur(12px);
+}
+
+.brand {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: .16em;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.brandMark {
+  display: grid;
+  place-items: center;
+  width: 33px;
+  height: 33px;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  font-family: "Fredoka", sans-serif;
+  font-size: 20px;
+  letter-spacing: 0;
+}
+
+.sectionNav {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: #e7e3d9;
+}
+
+.sectionNav button {
+  min-width: 112px;
+  padding: 8px 16px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 800;
+  transition: .2s;
+}
+
+.sectionNav button.active {
+  background: var(--cream);
+  color: var(--green);
+  box-shadow: 0 2px 9px rgba(41, 59, 62, .1);
+}
+
+.topActions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.kidsToggle {
+  min-width: 104px;
+  min-height: 38px;
+  padding: 7px 13px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--cream);
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 900;
+  white-space: nowrap;
+  transition: .2s;
+}
+
+.kidsToggle span {
+  color: var(--sun-dark);
+  font-size: 17px;
+  line-height: 1;
+}
+
+.kidsToggle:hover {
+  transform: translateY(-1px);
+  border-color: var(--sun-dark);
+}
+
+.kidsToggle.active {
+  border-color: #a65acb;
+  background: linear-gradient(135deg, #fff2a7, #ffd1f3);
+  color: #633679;
+  box-shadow: 0 4px 12px rgba(166, 90, 203, .16);
+}
+
+.lessonLabel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+}
+
+.lessonLabel span {
+  color: var(--sun-dark);
+  font-weight: 700;
+}
+
+:global(.kids-mode) .topbar {
+  background: rgba(255, 250, 229, .92);
+  border-bottom-color: color-mix(in srgb, var(--kingdom) 28%, transparent);
+}
+
+:global(.kids-mode) .brandMark {
+  border-color: var(--kingdom);
+  background: var(--kingdom-soft);
+  color: var(--kingdom);
+}
+
+:global(.practice-legacy) .sectionNav {
+  display: none;
+}
+
+:global(.practice-legacy) .topbar {
+  border: 1px solid var(--line);
+  border-radius: 18px 18px 0 0;
+}
+
+:global(.practice-legacy) .topActions .lessonLabel {
+  display: none;
+}
+
+@media (max-width: 860px) {
+  .lessonLabel {
+    display: none;
+  }
+
+  .topActions {
+    margin-left: auto;
+  }
+
+  .sectionNav {
+    position: static;
+    transform: none;
+  }
+}
+
+@media (max-width: 620px) {
+  .topbar {
+    height: 50px;
+  }
+
+  .brand > span:last-child {
+    display: none;
+  }
+
+  .sectionNav {
+    margin-left: auto;
+  }
+
+  .sectionNav button {
+    min-width: 0;
+    padding: 6px 10px;
+    font-size: 10px;
+  }
+
+  .topActions {
+    margin-left: 0;
+  }
+
+  .kidsToggle {
+    min-width: 86px;
+    min-height: 36px;
+    padding: 0 9px;
+    justify-content: center;
+    gap: 5px;
+    font-size: 10px;
+  }
+
+  .kidsToggle span {
+    font-size: 16px;
+  }
+}

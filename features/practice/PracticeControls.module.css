@@ -1,0 +1,292 @@
+.childLessonBar {
+  min-height: 38px;
+  padding: 4px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border: 1px solid color-mix(in srgb, var(--kingdom) 28%, transparent);
+  border-bottom: 0;
+  border-radius: 18px 18px 0 0;
+  background: color-mix(in srgb, var(--kingdom-soft) 42%, white);
+}
+
+.childLessonBar + .controls { border-radius: 0; }
+
+.childLessonBar button {
+  min-height: 29px;
+  padding: 4px 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border: 0;
+  border-radius: 999px;
+  background: white;
+  color: var(--kingdom);
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 900;
+  box-shadow: 0 2px 7px rgba(41, 59, 62, .1);
+}
+
+.childLessonBar button span { font-size: 20px; line-height: .7; }
+
+.chosenKingdom {
+  color: var(--kingdom);
+  font-family: "Fredoka", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.controls {
+  min-height: 88px;
+  padding: 12px 18px 12px 24px;
+  border: 1px solid var(--line);
+  border-bottom: 0;
+  border-radius: 22px 22px 0 0;
+  background: rgba(255, 253, 247, .78);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.controls.kids {
+  border-color: color-mix(in srgb, var(--kingdom) 28%, transparent);
+  background: color-mix(in srgb, var(--kingdom-soft) 34%, white);
+}
+
+.selectionPanel { display: grid; gap: 8px; }
+
+.filterRow { display: flex; align-items: center; gap: 8px; }
+
+.tenseSwitch,
+.groupSwitch {
+  display: flex;
+  padding: 3px;
+  border-radius: 9px;
+  background: #ebe7dd;
+}
+
+.tenseSwitch button,
+.groupSwitch button {
+  min-height: 28px;
+  padding: 5px 10px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 800;
+  transition: .2s;
+}
+
+.tenseSwitch button.active { background: var(--green); color: white; }
+.groupSwitch button.active { background: var(--sun); color: var(--ink); box-shadow: 0 2px 7px rgba(41, 59, 62, .1); }
+.kidsHidden { display: none !important; }
+
+.adultBeingEntry {
+  padding: 3px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  border: 1px solid #c9b7db;
+  border-radius: 9px;
+  background: #f3eafb;
+}
+
+.adultBeingEntry > span,
+.adultActionEntry > span {
+  padding: 0 5px;
+  font-size: 7px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.adultBeingEntry > span { color: #71429b; }
+
+.adultBeingEntry button {
+  min-height: 28px;
+  padding: 4px 8px;
+  border: 0;
+  border-radius: 7px;
+  background: white;
+  color: #71429b;
+  cursor: pointer;
+  font-family: "Fredoka", sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.adultBeingEntry button:nth-of-type(2) { color: #187e7e; }
+.adultBeingEntry button:nth-of-type(3) { color: #8a5b15; }
+
+.adultActionEntry {
+  padding: 3px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  border: 1px solid #e2bd68;
+  border-radius: 9px;
+  background: #fff3ce;
+}
+
+.adultActionEntry > span { color: #8c5b0d; }
+
+.adultActionEntry button {
+  min-height: 28px;
+  padding: 4px 8px;
+  border: 0;
+  border-radius: 7px;
+  background: white;
+  color: #8c5b0d;
+  cursor: pointer;
+  font-size: 9px;
+  font-weight: 900;
+}
+
+.adultActionEntry button:last-child { color: #187e7e; }
+
+.verbControl { display: flex; align-items: center; gap: 14px; }
+
+.controlLabel {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+}
+
+.verbPicker {
+  --verb-accent: var(--sun);
+  min-width: 330px;
+  min-height: 54px;
+  display: grid;
+  grid-template-columns: 48px minmax(180px, 1fr) 48px;
+  align-items: stretch;
+  border: 1px solid color-mix(in srgb, var(--verb-accent) 65%, var(--ink));
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--verb-accent);
+  box-shadow: 0 5px 16px color-mix(in srgb, var(--verb-accent) 30%, transparent);
+  transition: background-color .28s ease, border-color .28s ease, box-shadow .28s ease;
+}
+
+.kids .verbPicker {
+  --verb-accent: var(--kingdom-soft) !important;
+  border-color: var(--kingdom);
+  box-shadow: 0 5px 16px color-mix(in srgb, var(--kingdom) 22%, transparent);
+}
+
+.verbArrow {
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: var(--green);
+  cursor: pointer;
+  transition: .2s;
+}
+
+.kids .verbArrow { color: var(--kingdom); }
+
+.verbArrow::before {
+  content: "";
+  width: 0;
+  height: 0;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  transition: transform .2s ease;
+}
+
+.previous::before { border-right: 10px solid currentColor; }
+.next::before { border-left: 10px solid currentColor; }
+.verbArrow:first-child { border-right: 1px solid rgba(38, 49, 44, .18); }
+.verbArrow:last-child { border-left: 1px solid rgba(38, 49, 44, .18); }
+.verbArrow:hover { background: rgba(255, 255, 255, .3); color: var(--ink); }
+.verbArrow:hover::before { transform: scale(1.12); }
+
+.verbTag {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 9px;
+  padding: 10px 14px;
+  white-space: nowrap;
+}
+
+.verbTag strong {
+  font-family: "Fredoka", sans-serif;
+  font-size: 22px;
+  text-transform: uppercase;
+  letter-spacing: .01em;
+}
+
+.verbTag span {
+  color: color-mix(in srgb, var(--ink) 72%, transparent);
+  font-size: 11px;
+}
+
+@media (max-width: 1120px) {
+  .controls {
+    gap: 12px;
+  }
+
+  .selectionPanel,
+  .verbControl {
+    flex: 1 1 360px;
+  }
+
+  .controls > :last-child {
+    flex: 1 1 100%;
+  }
+}
+
+@media (max-width: 820px) {
+  .controls {
+    min-height: 0;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 6px;
+    padding: 8px;
+  }
+
+  .selectionPanel { gap: 5px; }
+  .filterRow { display: grid; gap: 5px; }
+
+  .tenseSwitch,
+  .groupSwitch { display: grid; padding: 2px; }
+
+  .tenseSwitch { grid-template-columns: repeat(2, 1fr); }
+  .groupSwitch { grid-template-columns: repeat(4, 1fr); }
+
+  .tenseSwitch button,
+  .groupSwitch button { min-height: 27px; padding: 4px 5px; font-size: 9px; }
+
+  .controlLabel { display: none; }
+  .verbControl { display: block; }
+
+  .verbPicker {
+    width: 100%;
+    min-width: 0;
+    min-height: 42px;
+    grid-template-columns: 40px minmax(0, 1fr) 40px;
+  }
+
+  .verbTag { gap: 6px; padding-inline: 8px; }
+  .verbTag strong { font-size: 17px; }
+  .verbTag span { max-width: 92px; overflow: hidden; text-overflow: ellipsis; }
+}
+
+@media (max-width: 520px) {
+  .childLessonBar { min-height: 34px; padding: 3px 7px; border-radius: 14px 14px 0 0; }
+  .childLessonBar button { min-height: 28px; padding: 3px 8px; font-size: 9px; }
+  .chosenKingdom { max-width: 58%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 10px; }
+  .adultBeingEntry { display: grid; grid-template-columns: auto repeat(3, 1fr); }
+  .adultBeingEntry > span { text-align: center; }
+  .adultActionEntry { display: grid; grid-template-columns: auto 1fr 1fr; }
+  .adultActionEntry > span { text-align: center; }
+}

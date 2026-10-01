@@ -1,0 +1,11 @@
+.primaryAction { margin-top: 26px; }
+.stepActions { margin: -6px 0 14px; display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 7px; }
+.stepActions button { font-size: 12px; }
+.stepActions > span { min-width: 100%; min-height: 14px; color: var(--color-text-muted); font-size: 12px; text-align: right; }
+.presentationSwitch { margin: 0 0 14px; display: flex; justify-content: flex-end; gap: 7px; }
+.presentationSwitch button { min-height: 40px; padding-inline: 14px; font-size: 12px; }
+@media (max-width: 600px) {
+  .stepActions { display: grid; grid-template-columns: 1fr 1fr; }
+  .stepActions > span { grid-column: 1 / -1; text-align: center; }
+  .presentationSwitch { display: grid; grid-template-columns: 1fr 1fr; }
+}

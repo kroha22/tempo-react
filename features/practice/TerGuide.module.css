@@ -1,0 +1,374 @@
+.guide {
+  --ter: #8a5b15;
+  --ter-soft: #fff0bd;
+  overflow: hidden;
+  border: 2px solid var(--ter);
+  border-radius: 24px;
+  background: #fffdf7;
+  box-shadow: 0 14px 34px color-mix(in srgb, var(--ter) 18%, transparent);
+}
+
+.adult,
+.kingdoms {}
+
+.header {
+  min-height: 78px;
+  padding: 10px 16px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 14px;
+  border-bottom: 1px solid color-mix(in srgb, var(--ter) 25%, transparent);
+  background: color-mix(in srgb, var(--ter-soft) 62%, white);
+}
+
+.header > div:nth-child(2) { text-align: center; }
+
+.back {
+  min-height: 34px;
+  padding: 6px 10px;
+  border: 1px solid color-mix(in srgb, var(--ter) 30%, transparent);
+  border-radius: 999px;
+  background: white;
+  color: var(--ter);
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.back span { margin-right: 5px; font-size: 18px; line-height: .7; }
+
+.kicker {
+  color: var(--ter);
+  font-size: 8px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+}
+
+.header h2 {
+  margin: 1px 0 0;
+  color: var(--ter);
+  font-family: "Fredoka", sans-serif;
+  font-size: 30px;
+  line-height: 1;
+}
+
+.badge {
+  justify-self: end;
+  min-height: 38px;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  border-radius: 999px;
+  background: white;
+  color: var(--ter);
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.badge span { font-size: 14px; }
+
+.heroGrid {
+  padding: 16px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, .95fr);
+  gap: 16px;
+}
+
+.illustration {
+  position: relative;
+  min-height: 0;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, transparent 52%, rgba(42, 30, 20, .76)),
+    url("/ter-guide-hero.webp") center / cover no-repeat;
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .32);
+}
+
+
+.illustration > span {
+  position: absolute;
+  left: 17px;
+  bottom: 14px;
+  padding: 6px 10px;
+  border: 1px solid rgba(255, 255, 255, .38);
+  border-radius: 999px;
+  background: rgba(42, 30, 20, .68);
+  color: white;
+  font-size: 9px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  backdrop-filter: blur(6px);
+}
+
+.explanation {
+  padding: 8px 5px 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.question {
+  color: var(--ter);
+  font-size: 9px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .11em;
+}
+
+.explanation h2 {
+  margin: 4px 0 6px;
+  font-family: "Fredoka", sans-serif;
+  font-size: 25px;
+  line-height: 1.05;
+}
+
+.explanation > p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.42;
+}
+
+.patternList { margin-top: 14px; display: grid; gap: 7px; }
+
+.patternList > div {
+  min-height: 59px;
+  padding: 8px 10px;
+  display: grid;
+  grid-template-columns: 35px 1fr;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid color-mix(in srgb, var(--ter) 28%, white);
+  border-radius: 13px;
+  background: color-mix(in srgb, var(--ter-soft) 34%, white);
+}
+
+.patternList > div > span {
+  width: 35px;
+  height: 35px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: white;
+  color: var(--ter);
+  font-size: 18px;
+  box-shadow: 0 3px 0 color-mix(in srgb, var(--ter) 18%, transparent);
+}
+
+.patternList p { margin: 0; display: grid; gap: 2px; }
+.patternList strong { font-size: 10px; }
+.patternList b { color: var(--ter); font-family: "Fredoka", sans-serif; font-size: 13px; }
+
+.memoryTip {
+  margin-top: 10px;
+  padding: 9px 11px;
+  border-left: 4px solid var(--ter);
+  border-radius: 0 11px 11px 0;
+  background: #f5f2ea;
+}
+
+.memoryTip strong { color: var(--ter); font-size: 9px; text-transform: uppercase; letter-spacing: .08em; }
+.memoryTip p { margin: 3px 0 0; color: #51605c; font-size: 9px; line-height: 1.3; }
+.memoryTip b { color: var(--ter); }
+
+.contrast,
+.sunLesson,
+.miniPractice {
+  margin: 0 16px 16px;
+  padding: 14px;
+  border: 1px solid color-mix(in srgb, var(--ter) 24%, white);
+  border-radius: 20px;
+  background: #fffaf0;
+}
+
+.contrast > div:first-child > span,
+.sunIntro > div:first-child > span,
+.miniPractice > div:first-child > span {
+  color: var(--ter);
+  font-size: 9px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .11em;
+}
+
+.contrast h2,
+.sunIntro h2,
+.miniPractice h2 {
+  margin: 3px 0 4px;
+  font-family: "Fredoka", sans-serif;
+  font-size: 22px;
+  line-height: 1.05;
+}
+
+.contrastCards {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 9px;
+}
+
+.contrastCards article {
+  min-height: 96px;
+  padding: 11px;
+  display: grid;
+  align-content: center;
+  gap: 3px;
+  border: 1px solid color-mix(in srgb, var(--ter) 22%, white);
+  border-radius: 14px;
+  background: white;
+}
+
+.contrastCards span {
+  color: var(--muted);
+  font-size: 8px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+.contrastCards strong {
+  color: var(--ter);
+  font-family: "Fredoka", sans-serif;
+  font-size: 24px;
+}
+
+.contrastCards p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.3;
+}
+
+.sunLesson {
+  background:
+    radial-gradient(circle at 18% 16%, color-mix(in srgb, var(--ter-soft) 72%, transparent), transparent 34%),
+    #fffaf0;
+}
+
+.sunIntro {
+  margin-bottom: 12px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 14px;
+}
+
+.sunIntro p,
+.miniPractice p {
+  max-width: 620px;
+  margin: 0;
+  color: #56635f;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.sunModeSwitch {
+  padding: 3px;
+  display: flex;
+  border-radius: 13px;
+  background: white;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ter) 16%, transparent);
+}
+
+.sunModeSwitch button {
+  min-height: 34px;
+  padding: 6px 12px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: #65726e;
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.sunModeSwitch button.active {
+  background: var(--ter);
+  color: white;
+  box-shadow: 0 4px 0 color-mix(in srgb, var(--ter) 42%, #233);
+}
+
+.miniPractice {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) minmax(260px, 1fr);
+  align-items: center;
+  gap: 12px;
+  background: color-mix(in srgb, var(--ter-soft) 38%, white);
+}
+
+.miniPractice p {
+  padding: 10px 12px;
+  border-radius: 13px;
+  background: white;
+}
+
+.miniPractice b { color: var(--ter); }
+
+.footer {
+  min-height: 62px;
+  padding: 9px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 9px;
+  border-top: 1px solid color-mix(in srgb, var(--ter) 22%, transparent);
+  background: white;
+}
+
+.footer button {
+  min-height: 39px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.practiceButton { border: 0; background: var(--ter); color: white; box-shadow: 0 4px 0 color-mix(in srgb, var(--ter) 58%, #233); }
+.practiceButton span { margin-left: 10px; font-size: 18px; line-height: .7; }
+
+@media (max-width: 760px) {
+  .guide { border-width: 1px; border-radius: 16px; }
+  .header { min-height: 66px; padding: 6px 8px; grid-template-columns: auto 1fr auto; gap: 7px; }
+  .header > div:nth-child(2) { text-align: left; }
+  .header h2 { font-size: 22px; }
+  .badge { min-height: 30px; padding: 4px 8px; font-size: 8px; }
+  .heroGrid { padding: 9px; grid-template-columns: 1fr; gap: 9px; }
+  .illustration { aspect-ratio: 4 / 3; border-radius: 13px; }
+  .illustration > span { left: 9px; bottom: 8px; padding: 4px 7px; font-size: 7px; }
+  .explanation { padding: 4px 2px 2px; }
+  .explanation h2 { font-size: 20px; }
+  .explanation > p { font-size: 10px; line-height: 1.35; }
+  .patternList { margin-top: 9px; gap: 5px; }
+  .patternList > div { min-height: 48px; padding: 6px 8px; grid-template-columns: 30px 1fr; gap: 7px; }
+  .patternList > div > span { width: 30px; height: 30px; font-size: 15px; }
+  .patternList strong { font-size: 9px; }
+  .patternList b { font-size: 11px; }
+  .memoryTip { margin-top: 7px; padding: 7px 8px; }
+  .contrast,
+  .sunLesson,
+  .miniPractice { margin: 0 9px 9px; padding: 9px; border-radius: 14px; }
+  .contrast h2,
+  .sunIntro h2,
+  .miniPractice h2 { font-size: 18px; }
+  .contrastCards { grid-template-columns: 1fr; gap: 7px; }
+  .contrastCards article { min-height: 70px; padding: 8px 10px; }
+  .contrastCards strong { font-size: 18px; }
+  .sunIntro { grid-template-columns: 1fr; align-items: stretch; gap: 8px; }
+  .sunIntro p,
+  .miniPractice p { font-size: 10px; }
+  .sunModeSwitch { display: grid; grid-template-columns: repeat(2, 1fr); }
+  .sunModeSwitch button { min-height: 32px; padding: 5px 7px; font-size: 9px; }
+  .miniPractice { grid-template-columns: 1fr; gap: 7px; }
+  .footer { min-height: 55px; padding: 7px 9px; gap: 6px; }
+  .footer button { min-height: 37px; padding: 6px 10px; font-size: 9px; }
+  .practiceButton { flex: 1; }
+}

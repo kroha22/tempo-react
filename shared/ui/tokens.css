@@ -1,0 +1,16 @@
+:root {
+  --color-text: #293b3e;
+  --color-text-muted: #586662;
+  --color-surface: #fffef9;
+  --color-action: #287765;
+  --color-on-action: #fff;
+  --color-action-hover: #175446;
+  --color-selected-surface: #eef8f2;
+  --color-control-border: #788880;
+  --color-error: #a1342d;
+  --color-focus: #245bba;
+  --font-heading: "Fredoka", sans-serif;
+  --control-min-height: 44px;
+  --radius-control: 16px;
+  --radius-pill: 999px;
+}
