@@ -20,7 +20,6 @@
     "test:smoke": "node --test tests/rendered-html.test.mjs",
     "test:integration": "node --test tests/progress-integration.test.mjs",
     "typecheck": "tsc --noEmit",
-    "types:generate": "npm run build && WRANGLER_LOG_PATH=.wrangler/wrangler.log wrangler types worker/worker-configuration.d.ts --config dist/server/wrangler.json --include-env false",
     "check": "npm run lint && npm run typecheck && npm test && npm run test:components && npm run test:server && npm run build",
     "content:validate": "node --experimental-strip-types scripts/validate-content.ts",
     "lint": "eslint . --max-warnings 0",

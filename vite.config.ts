@@ -4,9 +4,6 @@ import { defineConfig } from "vite";
 const LOCAL_ONLY_DATABASE_ID =
   "00000000-0000-4000-8000-000000000000";
 
-// macOS Seatbelt blocks FSEvents, so Codex previews need polling for HMR.
-const isCodexSeatbeltSandbox = process.env.CODEX_SANDBOX === "seatbelt";
-
 const localBindingConfig = {
   name: "tempo-react",
   main: "./worker/index.ts",
@@ -34,7 +31,6 @@ export default defineConfig(async () => {
   return {
     server: {
       host: "127.0.0.1",
-      ...(isCodexSeatbeltSandbox ? { watch: { useFsEvents: false, usePolling: true } } : {}),
     },
     plugins: [
       vinext(),
