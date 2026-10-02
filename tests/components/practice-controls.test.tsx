@@ -14,17 +14,6 @@ import { RulesDeck } from "@/features/practice/RulesDeck";
 
 describe("Practice composition controls", () => {
 
-  it("opens the themed vocabulary section from the main navigation", async () => {
-    const toggle = vi.fn();
-    const changeSection = vi.fn();
-    render(
-      <PracticeTopbar section="trainer" childMode={false} tense="present" onSectionChange={changeSection} onToggleChildMode={toggle} />,
-    );
-
-    await userEvent.setup().click(screen.getByRole("button", { name: "Слова" }));
-    expect(changeSection).toHaveBeenCalledWith("vocabulary");
-  });
-
   it("labels the presentation toggle by the next available mode", async () => {
     const toggle = vi.fn();
     const changeSection = vi.fn();

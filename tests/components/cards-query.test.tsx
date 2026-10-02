@@ -25,7 +25,12 @@ function deferred<T>() {
 function json(body: unknown, status = 200) {
   return new Response(JSON.stringify(body), { status, headers: { "content-type": "application/json" } });
 }
+async function openVerbDeck(user = userEvent.setup()) {
+  await user.click(screen.getByRole("button", { name: "Открыть колоду «1 000 глаголов»" }));
+}
 async function ready() {
+  const deckButton = screen.queryByRole("button", { name: "Открыть колоду «1 000 глаголов»" });
+  if (deckButton) await openVerbDeck();
   await waitFor(() => expect(screen.getByRole("button", { name: "Показать перевод" })).toBeEnabled());
 }
 async function refetch(scope: Scope) {
@@ -122,6 +127,7 @@ describe("Cards server cache and local session", () => {
     denied = true;
     await refetch(scope);
     await screen.findByText("Для загрузки сохранённых карточек нужно войти.");
+    await openVerbDeck(user);
     expect(scope).not.toBe(retired);
     expect(retired.client.getQueryCache().getAll()).toHaveLength(0);
     expect(retired.client.getMutationCache().getAll()).toHaveLength(0);
@@ -131,7 +137,7 @@ describe("Cards server cache and local session", () => {
     denied = false;
     await user.click(screen.getByRole("button", { name: "Загрузить ещё раз" }));
     await screen.findByText("1 карточек");
-    expect(fetchMock).toHaveBeenCalledTimes(6);
+    expect(fetchMock).toHaveBeenCalledTimes(5);
   });
 
   it("drops a rejected review when the write itself reports lost access", async () => {
@@ -146,6 +152,7 @@ describe("Cards server cache and local session", () => {
     const retired = scope;
     await user.click(screen.getByRole("button", { name: "Показать перевод" }));
     await user.click(screen.getByRole("button", { name: /^Помню/ }));
+    await openVerbDeck(user);
     await screen.findByRole("button", { name: "Загрузить ещё раз" });
     expect(scope.blocked).toBe(true);
     expect(retired.client.getMutationCache().getAll()).toHaveLength(0);

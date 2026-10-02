@@ -15,6 +15,11 @@ function json(body: unknown, status = 200) {
   return new Response(JSON.stringify(body), { status, headers: { "content-type": "application/json" } });
 }
 
+async function openVerbDeck(user = userEvent.setup()) {
+  await user.click(screen.getByRole("button", { name: "Открыть колоду «1 000 глаголов»" }));
+  return user;
+}
+
 describe("card review through the HTTP boundary", () => {
   it("waits for progress, exposes the word, and flips with the keyboard", async () => {
     const user = userEvent.setup();
@@ -22,13 +27,14 @@ describe("card review through the HTTP boundary", () => {
     const fetchMock = vi.fn().mockReturnValue(load.promise);
     vi.stubGlobal("fetch", fetchMock);
     render(<Flashcards />);
+    await openVerbDeck(user);
 
     expect(screen.getByRole("button", { name: "Показать перевод" })).toBeDisabled();
     await act(async () => { load.resolve(json({ progress: [] })); });
     const card = screen.getByRole("button", { name: "Показать перевод" });
     await waitFor(() => expect(card).toBeEnabled());
     expect(card).toHaveAccessibleDescription("tomar");
-    await user.tab();
+    card.focus();
     expect(card).toHaveFocus();
     await user.keyboard("{Enter}");
     expect(screen.getByRole("button", { name: "Показать португальское слово" })).toHaveAccessibleDescription(/брать; принимать/);
@@ -49,6 +55,7 @@ describe("card review through the HTTP boundary", () => {
       return writes.length === 1 ? Promise.resolve(json({ error: "unavailable" }, 503)) : saved.promise;
     }));
     render(<Flashcards />);
+    await openVerbDeck(user);
     await waitFor(() => expect(screen.getByRole("button", { name: "Показать перевод" })).toBeEnabled());
     await user.click(screen.getByRole("button", { name: "Показать перевод" }));
     await user.click(screen.getByRole("button", { name: /^Помню/ }));
@@ -78,6 +85,7 @@ describe("card review through the HTTP boundary", () => {
       return saved.promise;
     }));
     render(<Flashcards />);
+    await openVerbDeck(user);
     await waitFor(() => expect(screen.getByRole("button", { name: "Показать перевод" })).toBeEnabled());
     await user.click(screen.getByRole("button", { name: "Показать перевод" }));
     await user.dblClick(screen.getByRole("button", { name: /^Легко/ }));
@@ -92,6 +100,7 @@ describe("card review through the HTTP boundary", () => {
     const fetchMock = vi.fn().mockResolvedValueOnce(json({ error: "unauthorized" }, 401)).mockResolvedValueOnce(json({ progress: [] }));
     vi.stubGlobal("fetch", fetchMock);
     render(<Flashcards />);
+    await openVerbDeck(user);
     await screen.findByRole("alert");
     await user.click(screen.getByRole("button", { name: "Показать перевод" }));
     expect(screen.getByRole("button", { name: /^Помню/ })).toBeDisabled();
@@ -109,9 +118,11 @@ describe("card review through the HTTP boundary", () => {
     const fetchMock = vi.fn().mockReturnValueOnce(oldLoad.promise).mockReturnValueOnce(freshLoad.promise);
     vi.stubGlobal("fetch", fetchMock);
     const old = render(<Flashcards />);
+    await openVerbDeck();
     old.unmount();
     expect(fetchMock.mock.calls[0][1]?.signal?.aborted).toBe(true);
     render(<Flashcards />);
+    await openVerbDeck();
     await act(async () => { freshLoad.resolve(json({ progress: [] })); });
     await act(async () => { oldLoad.resolve(json({ error: "late failure" }, 500)); });
     expect(screen.queryByRole("alert")).not.toBeInTheDocument();
@@ -121,11 +132,31 @@ describe("card review through the HTTP boundary", () => {
   it("gives the cards page one main landmark, one h1 and review before the library", async () => {
     vi.stubGlobal("fetch", vi.fn((url: unknown) => Promise.resolve(String(url).includes("study-items") ? json({ items: [], sources: [] }) : json({ progress: [] }))));
     render(<CardsPage />);
+    await openVerbDeck();
     await waitFor(() => expect(screen.getByRole("button", { name: "Показать перевод" })).toBeEnabled());
     expect(screen.getAllByRole("main")).toHaveLength(1);
     expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
     const sections = screen.getAllByRole("region");
     expect(sections[0]).toHaveAccessibleName("Карточки для запоминания глаголов");
     expect(sections[1]).toHaveAccessibleName("Сохранённые из уроков");
+  });
+
+  it("offers a separate 351-word deck without loading verb progress", async () => {
+    const fetchMock = vi.fn();
+    vi.stubGlobal("fetch", fetchMock);
+    const user = userEvent.setup();
+    render(<Flashcards />);
+
+    expect(screen.getByRole("button", { name: "Открыть колоду «1 000 глаголов»" })).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Открыть колоду «351 слово»" }));
+    expect(screen.getByRole("region", { name: "Колода из 351 слова" })).toBeInTheDocument();
+    expect(screen.getByText("1 / 351")).toBeInTheDocument();
+    expect(screen.getByText("ter")).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Показать перевод слова" }));
+    expect(screen.getByText("иметь")).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Следующее →" }));
+    expect(screen.getByText("haver")).toBeInTheDocument();
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 });

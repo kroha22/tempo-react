@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useRef } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import {
   hasLowerPresentationPriority,
   intervalLabel,
@@ -11,6 +11,7 @@ import { verbCards } from "../data/verb-cards";
 import { useReviewSession } from "../hooks/use-review-session";
 import { EnsureCardsQueryScope } from "../query/CardsQueryBoundary";
 import { Feedback } from "@/shared/ui/Feedback";
+import { GeneralVocabularyDeck } from "./GeneralVocabularyDeck";
 
 const gradeLabels: Array<{ grade: ReviewGrade; label: string; className: string }> = [
   { grade: 0, label: "Не знаю", className: "again" },
@@ -20,10 +21,39 @@ const gradeLabels: Array<{ grade: ReviewGrade; label: string; className: string 
 ];
 
 export default function Flashcards() {
-  return <EnsureCardsQueryScope><ReviewCards /></EnsureCardsQueryScope>;
+  const [deck, setDeck] = useState<"verbs" | "words" | null>(null);
+  if (deck === "words") return <GeneralVocabularyDeck onBack={() => setDeck(null)} />;
+  if (deck === "verbs") return <EnsureCardsQueryScope><ReviewCards onBack={() => setDeck(null)} /></EnsureCardsQueryScope>;
+  return <DeckPicker onChoose={setDeck} />;
 }
 
-function ReviewCards() {
+function DeckPicker({ onChoose }: { onChoose: (deck: "verbs" | "words") => void }) {
+  return (
+    <section className="deck-library" id="cards" aria-label="Колоды карточек">
+      <div className="deck-library__heading">
+        <span className="deck-kicker">Карточки</span>
+        <h2>Выберите колоду</h2>
+        <p>Две независимые подборки: частотные глаголы и общая база слов.</p>
+      </div>
+      <div className="deck-library__grid">
+        <button type="button" onClick={() => onChoose("verbs")} aria-label="Открыть колоду «1 000 глаголов»">
+          <span className="deck-library__icon" aria-hidden="true">1000</span>
+          <strong>1 000 глаголов</strong>
+          <span>Частотная колода с интервальным повторением</span>
+          <small>Открыть колоду →</small>
+        </button>
+        <button type="button" onClick={() => onChoose("words")} aria-label="Открыть колоду «351 слово»">
+          <span className="deck-library__icon deck-library__icon--words" aria-hidden="true">351</span>
+          <strong>351 слово</strong>
+          <span>Глаголы, существительные, прилагательные и другие слова</span>
+          <small>Открыть колоду →</small>
+        </button>
+      </div>
+    </section>
+  );
+}
+
+function ReviewCards({ onBack }: { onBack: () => void }) {
   const faceId = useId();
   const cardButton = useRef<HTMLButtonElement>(null);
   const { card: currentCard, progress, flipped, status, sessionCount, stats, rate, retry, flip, refreshError, refreshing, refresh } = useReviewSession();
@@ -41,6 +71,7 @@ function ReviewCards() {
 
   return (
     <section className="cards-workspace" id="cards" aria-label="Карточки для запоминания глаголов">
+      <button type="button" className="deck-back" onClick={onBack}>← К выбору колоды</button>
       <div className="deck-heading">
         <div>
           <span className="deck-kicker">1000 глаголов · по частоте</span>

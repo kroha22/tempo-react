@@ -11,8 +11,8 @@ type PracticeTopbarProps = {
 };
 
 export function PracticeTopbar({ section, childMode, tense, onSectionChange, onToggleChildMode }: PracticeTopbarProps) {
-  const lessonNumber = section === "cards" ? "1000" : section === "vocabulary" ? "351" : section === "lessons" ? "13" : tense === "present" ? "01" : "02";
-  const lessonLabel = section === "cards" ? "verbos frequentes" : section === "vocabulary" ? "palavras e temas" : section === "lessons" ? "gramática prática" : tense === "present" ? "Presente do indicativo" : "Pretérito perfeito";
+  const lessonNumber = section === "cards" ? "02" : section === "lessons" ? "13" : tense === "present" ? "01" : "02";
+  const lessonLabel = section === "cards" ? "duas coleções" : section === "lessons" ? "gramática prática" : tense === "present" ? "Presente do indicativo" : "Pretérito perfeito";
 
   return (
     <header className={styles.topbar}>
@@ -23,7 +23,6 @@ export function PracticeTopbar({ section, childMode, tense, onSectionChange, onT
       <nav className={styles.sectionNav} aria-label="Разделы занятий">
         <button className={section === "trainer" ? styles.active : ""} onClick={() => onSectionChange("trainer")}>Спряжение</button>
         <button className={section === "lessons" ? styles.active : ""} onClick={() => onSectionChange("lessons")}>Уроки</button>
-        <button className={section === "vocabulary" ? styles.active : ""} onClick={() => onSectionChange("vocabulary")}>Слова</button>
         <button className={section === "cards" ? styles.active : ""} onClick={() => onSectionChange("cards")}>Карточки</button>
       </nav>
       <div className={styles.topActions}>
