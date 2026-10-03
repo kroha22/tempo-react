@@ -34,14 +34,14 @@ describe("Practice composition controls", () => {
   it("opens the child map for free child practice and keeps deep-linked verbs on the sun", () => {
     const mapRender = render(<PracticeScreen initialChildMode initialChildStep="kingdom" />);
 
-    expect(screen.getByRole("group", { name: "Королевства глаголов" })).toBeInTheDocument();
+    expect(screen.getByRole("group", { name: "Группы глаголов" })).toBeInTheDocument();
     expect(screen.queryByText("FAZER")).not.toBeInTheDocument();
 
     mapRender.unmount();
     render(<PracticeScreen initialChildMode initialChildStep="exercise" initialVerbKey="fazer" />);
 
     expect(screen.getByText("faço")).toBeInTheDocument();
-    expect(screen.queryByRole("group", { name: "Королевства глаголов" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("group", { name: "Группы глаголов" })).not.toBeInTheDocument();
   });
 
   it("keeps the practice presentation URL in sync with the toggle", async () => {
@@ -53,7 +53,25 @@ describe("Practice composition controls", () => {
     expect(window.location.search).toBe("?verb=fazer&tense=present");
 
     await user.click(screen.getByRole("button", { name: /Для детей/ }));
-    expect(window.location.search).toBe("?verb=fazer&tense=present&mode=kingdoms");
+    expect(window.location.search).toBe("?verb=fazer&tense=present&mode=child");
+  });
+
+  it("keeps the child presentation active across every practice section", async () => {
+    render(<PracticeScreen initialChildMode initialChildStep="exercise" />);
+    const user = userEvent.setup();
+
+    await user.click(screen.getByRole("button", { name: "Уроки" }));
+    expect(screen.getByRole("complementary", { name: "Включено детское оформление" })).toHaveTextContent("Разберём правило по шагам");
+    expect(screen.getByRole("button", { name: /Взрослый/ })).toHaveAttribute("aria-pressed", "true");
+
+    await user.click(screen.getByRole("button", { name: "Слова" }));
+    expect(screen.getByRole("complementary", { name: "Включено детское оформление" })).toHaveTextContent("играй со словами");
+
+    await user.click(screen.getByRole("button", { name: "Карточки" }));
+    expect(screen.getByRole("complementary", { name: "Включено детское оформление" })).toHaveTextContent("Повторяй в своём темпе");
+
+    await user.click(screen.getByRole("button", { name: /Взрослый/ }));
+    expect(screen.queryByRole("complementary", { name: "Включено детское оформление" })).not.toBeInTheDocument();
   });
 
   it("keeps the child kingdom map as a callback-only view", async () => {
@@ -331,7 +349,7 @@ describe("Practice composition controls", () => {
     );
 
     const user = userEvent.setup();
-    await user.click(screen.getByRole("button", { name: /Другой замок/ }));
+    await user.click(screen.getByRole("button", { name: /Другая группа/ }));
     await user.click(screen.getByRole("button", { name: "Раньше" }));
     await user.click(screen.getByRole("button", { name: /К глаголам/ }));
 

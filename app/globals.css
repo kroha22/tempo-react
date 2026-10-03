@@ -104,6 +104,15 @@ button { color: inherit; }
 .deck-library__grid strong { margin-top: 6px; font: 700 25px/1.1 "Fredoka",sans-serif; }
 .deck-library__grid span:not(.deck-library__icon) { max-width: 320px; color: var(--muted); line-height: 1.45; }
 .deck-library__grid small { margin-top: 10px; color: var(--green); font-weight: 900; }
+.kids-mode .deck-library__heading, .kids-mode .deck-heading { padding: 18px 20px; border: 2px solid #efd270; border-radius: 22px; background: linear-gradient(120deg,#fff7c9,#e4f5e5 68%,#eee4fa); }
+.kids-mode .deck-library__grid > button { border: 2px solid #d3e4ca; background: #fffdf5; box-shadow: 0 8px 0 #e2ead8,0 16px 30px rgba(68,111,78,.09); }
+.kids-mode .deck-library__grid > button:first-child { background: linear-gradient(145deg,#fff9dc,#fffdf5); }
+.kids-mode .deck-library__grid > button:last-child { background: linear-gradient(145deg,#e8f7e9,#fffdf5); }
+.kids-mode .study-area { border: 2px solid #d3e4ca; background: rgba(255,253,246,.94); }
+.kids-mode .deck-stats { border-color: #b9d3b3; background: #fffdf5; }
+.kids-mode .rating-panel { opacity: .58; }
+.kids-mode .rating-panel.visible { opacity: 1; }
+.kids-mode .rating-buttons button { border-color: #aebfa8; background: #fffdf5; color: #294b3e; }
 .deck-back { min-height: 42px; margin: 0 0 10px; padding: 6px 0; border: 0; background: transparent; color: var(--green); cursor: pointer; font-weight: 900; }
 .deck-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 30px; }
 .deck-kicker { color: var(--sun-dark); font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: .15em; }

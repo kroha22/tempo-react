@@ -14,20 +14,20 @@ type KingdomMapProps = {
 
 export function KingdomMap({ group, worldName, worldPrompt, irregularPlaceName, onChooseKingdom, onOpenBeingGuide, onOpenActionGuide, onOpenTerGuide }: KingdomMapProps) {
   return (
-    <div className={styles.kingdomMap} role="group" aria-label="Королевства глаголов">
+    <div className={styles.kingdomMap} role="group" aria-label="Группы глаголов">
       <div className={styles.title}>
         <span aria-hidden="true">✦</span>
         <strong>{worldName}</strong>
         <small>{worldPrompt}</small>
       </div>
       <button className={`${styles.kingdomButton} ${styles.ar} ${group === "ar" ? styles.active : ""}`} onClick={() => onChooseKingdom("ar")}>
-        <strong>-AR</strong><span>Красный замок</span>
+        <strong>-AR</strong><span>Красная группа</span>
       </button>
       <button className={`${styles.kingdomButton} ${styles.er} ${group === "er" ? styles.active : ""}`} onClick={() => onChooseKingdom("er")}>
-        <strong>-ER</strong><span>Зелёный замок</span>
+        <strong>-ER</strong><span>Зелёная группа</span>
       </button>
       <button className={`${styles.kingdomButton} ${styles.ir} ${group === "ir" ? styles.active : ""}`} onClick={() => onChooseKingdom("ir")}>
-        <strong>-IR</strong><span>Синий замок</span>
+        <strong>-IR</strong><span>Синяя группа</span>
       </button>
       <button
         className={`${styles.magicKingdom} ${group === "irregular" ? styles.active : ""}`}

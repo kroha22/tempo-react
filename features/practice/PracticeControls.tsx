@@ -42,7 +42,7 @@ export function PracticeControls({
         <div className={styles.childLessonBar}>
           <button onClick={onReturnToChildRules}><span aria-hidden="true">‹</span> Правила</button>
           <span className={styles.chosenKingdom}>
-            {group === "ar" ? "Красное королевство · -AR" : group === "er" ? "Зелёное королевство · -ER" : group === "ir" ? "Синее королевство · -IR" : `${irregularPlaceName} · неправильные глаголы`}
+            {group === "ar" ? "Красная группа · -AR" : group === "er" ? "Зелёная группа · -ER" : group === "ir" ? "Синяя группа · -IR" : `${irregularPlaceName} · неправильные глаголы`}
           </span>
         </div>
       )}

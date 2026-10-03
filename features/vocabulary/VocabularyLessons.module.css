@@ -147,6 +147,22 @@
 .summaryActions { display: flex; gap: 10px; margin-top: 14px; }
 .summaryActions .primaryAction { color: #fff; }
 
+:global(.kids-mode) .hero { padding: 18px 20px; border: 2px solid #efd270; border-radius: 22px; background: linear-gradient(120deg,#fff7ca,#e6f5e4); }
+:global(.kids-mode) .summary { border-color: #b9d3b3; background: #fffdf6; }
+:global(.kids-mode) .viewTabs { border: 1px solid #cee1c6; background: #e4f0dd; }
+:global(.kids-mode) .viewTabs .activeTab, :global(.kids-mode) .filters .activeFilter { background: #fffdf5; color: #2d704c; }
+:global(.kids-mode) .topicCard { border-width: 2px; border-color: #d7e6ce; background: #fffdf6; box-shadow: 0 7px 0 #e1ead7; }
+:global(.kids-mode) .topicCard:nth-child(3n + 1) .topicIcon { background: #ffd96d; }
+:global(.kids-mode) .topicCard:nth-child(3n + 2) .topicIcon { background: #bfe8d0; }
+:global(.kids-mode) .topicCard:nth-child(3n) .topicIcon { background: #d9c8ef; }
+:global(.kids-mode) .catalog, :global(.kids-mode) .lessonSummary { border: 2px solid #d4e5ca; background: rgba(255,253,246,.94); }
+:global(.kids-mode) .wordRow, :global(.kids-mode) .lessonWords article { border-color: #d5e5cc; background: #fffef9; }
+:global(.kids-mode) .canDo { border: 2px solid #75aa89; background: #e2f3e5; color: #173d2d; }
+:global(.kids-mode) .canDo > span { color: #765a10; }
+:global(.kids-mode) .canDo p { color: #425f51; }
+:global(.kids-mode) .flashcard { border: 3px solid #e0b83f; background: linear-gradient(145deg,#fff6bf,#fffdf1); box-shadow: 0 10px 0 #e8d181,0 20px 34px rgba(93,89,45,.13); }
+:global(.kids-mode) .quizOptions button, :global(.kids-mode) .ratingActions button { border-color: #b9cfb5; background: #fffdf6; }
+
 @media (max-width: 720px) {
   .shell { width: min(100% - 24px, 1040px); padding-top: 24px; }
   .hero { align-items: flex-start; }

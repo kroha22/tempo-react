@@ -1,4 +1,12 @@
 .house-activity { max-width: 1000px; margin: auto; color: var(--ink); }
+.kids-mode .house-activity { padding: 18px; border: 2px solid #d5e6cb; border-radius: 24px; background: rgba(255,253,246,.9); box-shadow: 0 12px 28px rgba(68,111,78,.08); }
+.kids-mode .house-activity .pair-topic { border-width: 2px; border-color: #d4e4ca; background: #fffdf5; box-shadow: 0 6px 0 #e5ecd9; }
+.kids-mode .house-activity .pair-topic:nth-child(3n + 1) { background: #fff7cf; }
+.kids-mode .house-activity .pair-topic:nth-child(3n + 2) { background: #e9f7e8; }
+.kids-mode .house-activity .pair-topic:nth-child(3n) { background: #f1e8fa; }
+.kids-mode .vocabulary-modes button, .kids-mode .house-step-nav button, .kids-mode .house-topic-nav button { border-color: #aacbb3; background: #fffdf7; color: #315f48; }
+.kids-mode .vocabulary-modes button[aria-pressed=true], .kids-mode .house-step-nav button[aria-current], .kids-mode .house-topic-nav button[aria-pressed=true] { border-color: #2f744f; background: #3c855b; color: #fff; }
+.kids-mode .house-activity .vocabulary-flashcard, .kids-mode .house-activity .house-pair-column .house-pair, .kids-mode .house-activity .house-word-entry { border-color: #c9dcbc; background: #fffdf5; }
 .word-search { max-width: 660px; }.word-search h1 { font-size: 28px; }
 .word-search-grid { display: grid; width: min(100%, 480px); margin: 12px auto; border: 1px solid #b7c7b3; border-radius: 8px; overflow: hidden; }
 .word-search .word-search-grid button { min-height: 0; padding: 0; aspect-ratio: 1; border: 1px solid #d6dfd0; border-radius: 0; background: #fffdf2; color: #233c32; font-size: clamp(13px, 4vw, 20px); font-weight: 800; }

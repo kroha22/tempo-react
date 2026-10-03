@@ -95,6 +95,29 @@
 .adult-lesson-controls button:disabled { opacity: .35; cursor: default; }
 .adult-lesson-group button:focus-visible, .adult-check-options button:focus-visible, .adult-lesson-controls button:focus-visible { outline: 3px solid #f0c83f; outline-offset: 2px; }
 
+.kids-mode .adult-lessons-intro {
+  position: relative;
+  overflow: hidden;
+  border: 2px solid #efd270;
+  background: linear-gradient(135deg, #fff7c9, #eaf7e8 62%, #efe4fa);
+  box-shadow: 0 14px 32px rgba(68, 111, 78, .11);
+}
+.kids-mode .adult-lessons-intro::after { content: "✦"; position: absolute; right: 20%; top: 14px; color: #9b68b4; font-size: 22px; transform: rotate(12deg); }
+.kids-mode .adult-kicker, .kids-mode .adult-lesson-heading span, .kids-mode .adult-rule > span, .kids-mode .adult-check > span, .kids-mode .adult-lesson-group > span { color: #7d5f13; }
+.kids-mode .adult-lesson-nav { border: 1px solid #d5e6cb; background: rgba(241, 248, 231, .94); }
+.kids-mode .adult-lesson-group button { color: #365b48; }
+.kids-mode .adult-lesson-group button:hover { background: #fffdf5; }
+.kids-mode .adult-lesson-group button.active { background: #3c855b; color: #fff; box-shadow: 0 7px 0 #276944, 0 12px 22px rgba(45, 114, 82, .16); }
+.kids-mode .adult-lesson-card { border: 2px solid #d5e6cb; background: #fffef8; }
+.kids-mode .adult-lesson-heading { background: linear-gradient(120deg, #dff3df, #fff2ba); }
+.kids-mode .adult-rule code, .kids-mode .adult-past-panel { background: #f1f9ed; }
+.kids-mode .adult-examples p { border-left-color: #e8bd36; background: #fff8d9; }
+.kids-mode .adult-check { border: 2px solid #347553; background: #e3f4e5; color: #173d2d; }
+.kids-mode .adult-check > span { color: #765a10; }
+.kids-mode .adult-check-feedback { color: #405f51; }
+.kids-mode .adult-check-options button { border-color: #9cbfaa; background: #fff; color: #173d2d; }
+.kids-mode .adult-lesson-controls button { border-color: #a9cbb5; background: #f2faef; }
+
 @media (max-width: 760px) {
   .adult-lessons { width: min(100% - 20px, 600px); margin-top: 18px; }
   .adult-lessons-intro { align-items: start; padding: 22px; border-radius: 22px; }

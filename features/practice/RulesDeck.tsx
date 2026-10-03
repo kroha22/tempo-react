@@ -25,9 +25,9 @@ export function RulesDeck({ group, tense, onBack, onChangeTense, onStartPractice
   return (
     <section className={styles.deck} aria-labelledby="rules-title">
       <header className={styles.header}>
-        <button className={styles.back} onClick={onBack}><span aria-hidden="true">‹</span> Другой замок</button>
+        <button className={styles.back} onClick={onBack}><span aria-hidden="true">‹</span> Другая группа</button>
         <div>
-          <span className={styles.kicker}>Шпаргалка королевства</span>
+          <span className={styles.kicker}>Шпаргалка по группе</span>
           <h2 id="rules-title">{group === "irregular" ? "Неправильные глаголы" : `Правила -${group.toUpperCase()}`}</h2>
         </div>
         <div className={`tense-switch ${styles.tense}`} role="group" aria-label="Время в правилах">
@@ -36,7 +36,7 @@ export function RulesDeck({ group, tense, onBack, onChangeTense, onStartPractice
         </div>
       </header>
       <p className={styles.intro}>
-        {group === "irregular" ? "У этих глаголов нет одного окончания — знакомимся с каждой особой формой." : `Убираем -${group.toUpperCase()} и добавляем окончание героя.`}
+        {group === "irregular" ? "У этих глаголов нет одного окончания — знакомимся с каждой особой формой." : `Убираем -${group.toUpperCase()} и добавляем нужное окончание.`}
         <span> Листай карточки →</span>
       </p>
       <div className={styles.meaning}>

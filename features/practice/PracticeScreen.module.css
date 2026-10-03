@@ -1,4 +1,14 @@
-.screen { min-height: 100%; }
+.screen {
+  min-height: 100%;
+  transition: background-color .2s ease;
+}
+
+:global(.kids-mode).screen {
+  background:
+    radial-gradient(circle at 8% 18%, rgba(255, 219, 92, .24) 0 62px, transparent 63px),
+    radial-gradient(circle at 92% 34%, rgba(134, 210, 238, .22) 0 78px, transparent 79px),
+    linear-gradient(180deg, #fffaf0 0%, #f4fbf2 52%, #fffdf6 100%);
+}
 
 :global(.practice-legacy) .screen {
   min-height: auto;
@@ -17,7 +27,33 @@
 :global(.kids-mode.kingdom-ir) { --kingdom: #258bd2; --kingdom-soft: #cceaff; }
 :global(.kids-mode.kingdom-irregular) { --kingdom: #8b55bd; --kingdom-soft: #ead8fa; }
 
+.childAccent {
+  position: relative;
+  width: min(1120px, calc(100% - 32px));
+  min-height: 74px;
+  margin: 22px auto 0;
+  padding: 13px 70px 13px 74px;
+  display: flex;
+  align-items: center;
+  border: 2px solid #efd270;
+  border-radius: 24px;
+  background: linear-gradient(110deg, #fff4bb, #f4eafe 58%, #daf3e4);
+  color: #294b3e;
+  box-shadow: 0 10px 24px rgba(80, 104, 70, .1);
+}
+
+.childAccent > span:nth-child(2) { display: grid; gap: 2px; }
+.childAccent strong { font: 700 18px/1.2 "Fredoka", sans-serif; }
+.childAccent small { color: #536b61; font-size: 12px; }
+.childMascot { position: absolute; left: 17px; bottom: 7px; font-size: 43px; line-height: 1; transform: rotate(-4deg); }
+.childStars { position: absolute; right: 20px; color: #8a5a9f; font-size: 17px; letter-spacing: .14em; }
+
 @media (max-width: 620px) {
   .workspace { padding-top: 8px; padding-bottom: 26px; }
   :global(.kids-mode) .workspace { padding-top: 6px; }
+  .childAccent { width: calc(100% - 20px); min-height: 62px; margin-top: 12px; padding: 10px 36px 10px 58px; border-radius: 18px; }
+  .childAccent strong { font-size: 15px; }
+  .childAccent small { font-size: 10px; line-height: 1.25; }
+  .childMascot { left: 12px; bottom: 8px; font-size: 34px; }
+  .childStars { right: 10px; font-size: 12px; }
 }

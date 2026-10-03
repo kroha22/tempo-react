@@ -126,7 +126,7 @@ http://127.0.0.1:3101/learning
 ```text
 npm run check
 # domain tests: 57 passed
-# component tests: 68 passed
+# component tests: 69 passed
 # server tests: 16 passed
 # build: passed
 ```
@@ -149,13 +149,10 @@ Tempo использует тёплую визуальную систему: з�
 
 Ближайший план развития:
 
-1. **Распространить детское оформление**
-   Применить единый детский визуальный режим к урокам, словам и карточкам без изменения данных, ответов и сложности упражнений.
-
-2. **Расширить shared UI**
+1. **Расширить shared UI**
    Добавить `SegmentedControl`, `Surface/Card`, `PageHeader` и единый `IconButton`. React Aria использовать только там, где нужен сложный accessibility behavior, а не ради каждой кнопки.
 
-3. **Добавить ещё один meaning-specific lesson**
+2. **Добавить ещё один meaning-specific lesson**
    После SER/ESTAR, Action и TER хороший следующий кандидат — `HÁ` как безличное “есть в комнате”, с явным контрастом к TER possession. `dar` оставить как отдельный irregular drill, когда появится понятная мини-ситуация.
 
 4. **Добавить browser regression tests**

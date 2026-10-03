@@ -7,6 +7,9 @@ import "@/features/practice/house.css";
 import "./pages.css";
 
 function Demo() {
+  const presentation = new URLSearchParams(window.location.search).get("mode");
+  const initialChildMode = presentation === "child" || presentation === "kingdoms";
+
   return (
     <div className="github-pages-demo">
       <header className="demo-intro">
@@ -15,7 +18,7 @@ function Demo() {
         <p>Откройте урок, потренируйте формы или выберите одну из двух колод: 1 000 частотных глаголов и 351 португальское слово. Прогресс интервального повторения сохраняется только в этом браузере.</p>
         <a href="https://github.com/kroha22/tempo-react">Исходный код на GitHub →</a>
       </header>
-      <PracticeScreen />
+      <PracticeScreen initialChildMode={initialChildMode} />
     </div>
   );
 }

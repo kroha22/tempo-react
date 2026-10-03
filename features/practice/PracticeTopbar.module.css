@@ -134,6 +134,21 @@
   color: var(--kingdom);
 }
 
+:global(.kids-mode) .sectionNav {
+  border: 1px solid rgba(79, 128, 92, .15);
+  background: rgba(226, 240, 219, .9);
+}
+
+:global(.kids-mode) .sectionNav button {
+  color: #52685d;
+}
+
+:global(.kids-mode) .sectionNav button.active {
+  background: #fffdf4;
+  color: #2f744f;
+  box-shadow: 0 3px 10px rgba(48, 102, 72, .13);
+}
+
 :global(.practice-legacy) .sectionNav {
   display: none;
 }

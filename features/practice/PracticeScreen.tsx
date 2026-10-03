@@ -79,19 +79,19 @@ export default function PracticeScreen({ initialVerbKey = "fazer", initialTense 
     const uniqueForms = Array.from(new Set(Object.values(activeVerb.forms[tense])));
     return shuffle([correct, ...shuffle(uniqueForms.filter((form) => form !== correct)).slice(0, 2)]);
   }, [verbKey, round, tense]);
-  const childWorldName = "Королевство глаголов";
-  const childWorldPrompt = "Выбери замок";
-  const irregularPlaceName = "Волшебный замок";
+  const childWorldName = "Группы глаголов";
+  const childWorldPrompt = "Выбери группу";
+  const irregularPlaceName = "Особые глаголы";
   const beingGuideKicker = childMode
-    ? "Зал волшебных правил"
+    ? "Понятное правило"
     : "Правила SER и ESTAR";
   const beingIllustrationTitle = childMode
-    ? beingVerb === "ser" ? "Зал личности" : "Башня состояний"
+    ? beingVerb === "ser" ? "Кто или что" : "Как или где"
     : beingVerb === "ser" ? "Идентичность и определение" : "Состояние и место";
   const actionLessonKicker = childMode
-    ? "Мастерская времени"
+    ? "Два способа говорить о настоящем"
     : "Один урок · два способа говорить о настоящем";
-  const terLessonKicker = childMode ? "Сокровищница TER" : "Неправильный паттерн · TER";
+  const terLessonKicker = childMode ? "TER · особые формы" : "Неправильный паттерн · TER";
 
   function shuffledChips() {
     return shuffle(people.map((person) => person.key));
@@ -159,7 +159,7 @@ export default function PracticeScreen({ initialVerbKey = "fazer", initialTense 
   function syncChildModeUrl(nextChildMode: boolean) {
     if (typeof window === "undefined") return;
     const url = new URL(window.location.href);
-    if (nextChildMode) url.searchParams.set("mode", "kingdoms");
+    if (nextChildMode) url.searchParams.set("mode", "child");
     else url.searchParams.delete("mode");
     window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
   }
@@ -183,7 +183,7 @@ export default function PracticeScreen({ initialVerbKey = "fazer", initialTense 
   }
 
   return (
-    <div className={`${styles.screen} practice-screen ${section === "trainer" && childMode ? "kids-mode kids-theme-kingdoms" : ""} kingdom-${group}`}>
+    <div className={`${styles.screen} practice-screen ${childMode ? "kids-mode kids-theme" : ""} kingdom-${group}`}>
       <PracticeTopbar
         section={section}
         childMode={childMode}
@@ -191,6 +191,17 @@ export default function PracticeScreen({ initialVerbKey = "fazer", initialTense 
         onSectionChange={(nextSection) => dispatch({ type: "sectionChanged", section: nextSection })}
         onToggleChildMode={toggleChildMode}
       />
+
+      {childMode && section !== "trainer" && (
+        <aside className={styles.childAccent} aria-label="Включено детское оформление">
+          <span className={styles.childMascot} aria-hidden="true">🦉</span>
+          <span>
+            <strong>{section === "lessons" ? "Разберём правило по шагам" : section === "vocabulary" ? "Выбирай тему и играй со словами" : "Повторяй в своём темпе"}</strong>
+            <small>Задания и ответы такие же, меняется только оформление.</small>
+          </span>
+          <span className={styles.childStars} aria-hidden="true">✦ · ✦</span>
+        </aside>
+      )}
 
       {section === "trainer" ? <section className={styles.workspace} id="trainer" aria-label="Тренажёр спряжения глаголов">
         {childMode && childStep === "kingdom" && (

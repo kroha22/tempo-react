@@ -27,9 +27,9 @@ export function PracticeTopbar({ section, childMode, tense, onSectionChange, onT
         <button className={section === "cards" ? styles.active : ""} onClick={() => onSectionChange("cards")}>Карточки</button>
       </nav>
       <div className={styles.topActions}>
-        {section === "trainer" && <button className={`${styles.kidsToggle} ${childMode ? styles.active : ""}`} aria-pressed={childMode} onClick={onToggleChildMode}>
+        <button className={`${styles.kidsToggle} ${childMode ? styles.active : ""}`} aria-pressed={childMode} onClick={onToggleChildMode}>
           <span aria-hidden="true">✦</span> {childMode ? "Взрослый" : "Для детей"}
-        </button>}
+        </button>
         <div className={styles.lessonLabel}><span>{lessonNumber}</span> {lessonLabel}</div>
       </div>
     </header>
