@@ -4,6 +4,7 @@ import { firstVerticalSliceContentPack as pack } from "./manifest.ts";
 import { verbs, allVerbKeys, type VerbKey, type Tense } from "../conjugation/data.ts";
 import { verbCards } from "../cards/data/verb-cards.ts";
 import { sceneImageActivities } from "./picture-scenes.ts";
+import { clothingImageActivity } from "./clothing.ts";
 import { houseImageActivity } from "./house.ts";
 import { searchWords } from "../practice/word-search.ts";
 import { generalVocabulary } from "./general-vocabulary.ts";
@@ -171,7 +172,7 @@ const usageModules: UsageModule[] = [{
     { id: "usage-link:school-present", label: "Формы настоящего времени", href: "/learning/conjugation", kind: "grammar" },
   ],
 }];
-const scenes=[houseImageActivity,...sceneImageActivities].map(image=>({id:image.id,title:image.title,image:{src:image.image.src,width:image.image.width,height:image.image.height},targets:image.spots.map(spot=>({id:spot.id,meaningIds:spot.acceptedWordIds.map(id=>meaningByLegacy.get(id)!),anchor:{x:spot.x/image.image.width,y:spot.y/image.image.height}}))}));
+const scenes=[houseImageActivity,clothingImageActivity,...sceneImageActivities].map(image=>({id:image.id,title:image.title,image:{src:image.image.src,width:image.image.width,height:image.image.height},targets:image.spots.map(spot=>({id:spot.id,meaningIds:spot.acceptedWordIds.map(id=>meaningByLegacy.get(id)!),anchor:{x:spot.x/image.image.width,y:spot.y/image.image.height}}))}));
 const activities:ActivityBinding[]=collections.filter(c=>c.source.legacySetId).flatMap(c=>{
   const sourceIds=new Set(c.meaningIds.flatMap(id=>meaningMap.get(id)!.legacyWordIds));
   const searchable=searchWords(pairVocabulary.filter(word=>sourceIds.has(word.id))).length>0;

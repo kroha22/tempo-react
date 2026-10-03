@@ -18,4 +18,16 @@ describe("VocabularyHub", () => {
     await user.click(screen.getByRole("button", { name: "Вся подборка · 351" }));
     expect(screen.getByText("Найдено: 351")).toBeInTheDocument();
   });
+
+  it("opens the illustrated clothing activity", async () => {
+    render(<VocabularyHub onOpenCards={vi.fn()} />);
+    const user = userEvent.setup();
+
+    await user.click(screen.getByRole("button", { name: /Одежда/ }));
+    await user.click(screen.getByRole("button", { name: "Картинка" }));
+
+    expect(screen.getByRole("img", { name: "Открытый гардероб с одеждой, пижамой, шарфом и туфлями" })).toHaveAttribute("src", "/images/scenes/clothing.webp");
+    expect(screen.getByRole("group", { name: "Слова для расстановки" })).toHaveTextContent("a camisola");
+    expect(screen.getByRole("group", { name: "Слова для расстановки" })).toHaveTextContent("os sapatos");
+  });
 });

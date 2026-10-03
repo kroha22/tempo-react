@@ -4,6 +4,7 @@ import { studyVocabularyGroups, pairVocabulary } from "../features/content/vocab
 import { checkVocabularyAnswer, vocabularySets } from "../features/content/vocabulary-model.ts";
 import { checkImageAnswers, placeImageWord, type ImageMatchingDefinition } from "../features/practice/image-matching.ts";
 import { houseImageActivity } from "../features/content/house.ts";
+import { clothingImageActivity, clothingWords } from "../features/content/clothing.ts";
 
 test("shared activity groups resolve their sets, category answers and reviewed distractors", () => {
   const words = new Set(pairVocabulary.map(word => word.id));
@@ -33,5 +34,12 @@ test("image matching accepts configured answers independent of hotspot IDs", () 
     assert.ok(spot.x >= 0 && spot.x <= houseImageActivity.image.width);
     assert.ok(spot.y >= 0 && spot.y <= houseImageActivity.image.height);
     assert.ok(spot.acceptedWordIds.every(id => houseImageActivity.wordIds.includes(id)));
+  }
+  assert.deepEqual(clothingImageActivity.wordIds, clothingWords.map(word => word.id));
+  assert.equal(new Set(clothingImageActivity.spots.map(spot => spot.id)).size, clothingWords.length);
+  for (const spot of clothingImageActivity.spots) {
+    assert.ok(spot.x >= 0 && spot.x <= clothingImageActivity.image.width);
+    assert.ok(spot.y >= 0 && spot.y <= clothingImageActivity.image.height);
+    assert.deepEqual(spot.acceptedWordIds, [spot.id]);
   }
 });

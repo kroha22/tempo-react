@@ -53,7 +53,7 @@ export function ImageMatchingExercise({ definition, words }: { definition: Image
     </div></div>
     <label className="house-toggle"><input type="checkbox" role="switch" checked={instant} onChange={event => { setInstant(event.target.checked); setChecked(false); setHint(null); }} />Показывать ошибки сразу</label>
     <label className="house-toggle"><input type="checkbox" role="switch" checked={alwaysHints} onChange={event => { setAlwaysHints(event.target.checked); setHint(null); }} />Всегда показывать кнопки перевода ⓘ</label>
-    <div className="house-words" aria-label="Слова для расстановки">
+    <div className="house-words" role="group" aria-label="Слова для расстановки">
       {houseWords.map(word => {
         const spot = Object.keys(answers).find(key => answers[key] === word.id);
         const result = (checked || instant) && spot ? (results.find(result => result.id === spot)?.status ?? "") : "";

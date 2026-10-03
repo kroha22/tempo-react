@@ -13,10 +13,11 @@ import { WordSearch } from "./WordSearch";
 import { UsagePractice } from "./UsagePractice";
 import { searchWords } from "./word-search";
 import { sceneImageActivities } from "../content/picture-scenes";
+import { clothingImageActivity } from "../content/clothing";
 
 type Mode = "cards" | "pairs" | "odd" | "common" | "image" | "search" | "usage";
 const modeLabels: Record<Mode, string> = { cards: "Карточки", pairs: "Пары", odd: "Найди лишнее", common: "Что общего?", image: "Картинка", search: "Поиск слов", usage: "Фразы" };
-const images = [houseImageActivity, ...sceneImageActivities];
+const images = [houseImageActivity, clothingImageActivity, ...sceneImageActivities];
 
 export function VocabularyStudy({ onOpenCards }: { onOpenCards?: () => void } = {}) {
   const [groupId, setGroupId] = useState<string | null>(null);

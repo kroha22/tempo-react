@@ -126,7 +126,7 @@ http://127.0.0.1:3101/learning
 ```text
 npm run check
 # domain tests: 57 passed
-# component tests: 74 passed
+# component tests: 75 passed
 # server tests: 16 passed
 # build: passed
 ```

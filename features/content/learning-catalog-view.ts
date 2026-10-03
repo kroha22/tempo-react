@@ -3,12 +3,13 @@ import { pairVocabulary, studyVocabularyGroups } from "./vocabulary-catalog.ts";
 import { vocabularySets, type VocabularyGroup } from "./vocabulary-model.ts";
 import { houseImageActivity } from "./house.ts";
 import { sceneImageActivities } from "./picture-scenes.ts";
+import { clothingImageActivity } from "./clothing.ts";
 
 // Compatibility boundary: exercises continue to receive their original word IDs.
 const wordsById = new Map(pairVocabulary.map(word => [word.id, word]));
 const representative = new Map(learningCatalog.meanings.map(meaning => [meaning.id, meaning.legacyWordIds[0]]));
 const legacySets = new Map(studyVocabularyGroups.flatMap(vocabularySets).map(set => [set.id, set]));
-const imageDefinitions = [houseImageActivity, ...sceneImageActivities];
+const imageDefinitions = [houseImageActivity, clothingImageActivity, ...sceneImageActivities];
 export const catalogWords = pairVocabulary;
 export const catalogGroups: VocabularyGroup[] = learningCatalog.topics.flatMap(topic => {
   const collections = learningCatalog.collections.filter(collection => collection.topicIds.includes(topic.id) && collection.source.legacySetId && collection.meaningIds.every(id => representative.get(id)));
