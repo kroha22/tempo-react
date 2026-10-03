@@ -5,6 +5,7 @@
   padding: 42px 0 64px;
   color: var(--ink);
 }
+.embedded { width: 100%; min-height: 0; padding: 8px 0 0; }
 
 .hero, .lessonHeading, .catalogIntro {
   display: flex;

@@ -36,7 +36,7 @@ function quizOptions(lesson: VocabularyLesson, index: number): string[] {
   return [...options.slice(offset), ...options.slice(0, offset)];
 }
 
-export default function VocabularyLessons() {
+export default function VocabularyLessons({ embedded = false }: { embedded?: boolean }) {
   const [view, setView] = useState<View>("topics");
   const [lessonId, setLessonId] = useState(vocabularyLessons[0].id);
   const [stage, setStage] = useState<LessonStage>("overview");
@@ -109,8 +109,9 @@ export default function VocabularyLessons() {
     setVisibleCount(48);
   }
 
+  const Root = embedded ? "section" : "main";
   return (
-    <main className={styles.shell} aria-label="Изучение слов">
+    <Root className={`${styles.shell} ${embedded ? styles.embedded : ""}`} aria-label="Изучение слов">
       <header className={styles.hero}>
         <div>
           <p className={styles.kicker}>Palavras · 351</p>
@@ -288,6 +289,6 @@ export default function VocabularyLessons() {
           )}
         </section>
       )}
-    </main>
+    </Root>
   );
 }

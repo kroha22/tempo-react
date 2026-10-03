@@ -1,5 +1,6 @@
 import type { VocabularyGroup, VocabularyWord } from "./vocabulary-model";
 import type { ImageMatchingDefinition } from "../practice/image-matching";
+import { publicAssetPath } from "./public-asset.ts";
 
 // Positions are percentages of the full illustration; each source scene has its own targets.
 type Target = [label: string, translation: string, x: number, y: number];
@@ -20,7 +21,7 @@ const wordId = (label: string) => `scene-word:${label.normalize("NFD").replace(/
 export const sceneWords: VocabularyWord[] = [...new Map(pictureScenes.flatMap(scene => scene.targets.map(([label, translation]) => [wordId(label), { id: wordId(label), label, translation }] as const))).values()];
 export const sceneImageActivities: ImageMatchingDefinition[] = pictureScenes.map(scene => ({
   id: `image-${scene.id}`, title: scene.title, titleLang: "ru",
-  image: { src: `/images/scenes/${scene.id}.png`, alt: `Иллюстрация к заданию «${scene.title}»`, width: 1448, height: 1086, crop: { x: 0, y: 0, width: 1448, height: 1086 } },
+  image: { src: publicAssetPath(`/images/scenes/${scene.id}.webp`), alt: `Иллюстрация к заданию «${scene.title}»`, width: 1448, height: 1086, crop: { x: 0, y: 0, width: 1448, height: 1086 } },
   wordIds: scene.targets.map(([label]) => wordId(label)),
   spots: scene.targets.map(([label,,x,y], index) => ({ id: `${scene.id}-${index}`, x: x * 14.48, y: y * 10.86, acceptedWordIds: [wordId(label)] })),
 }));

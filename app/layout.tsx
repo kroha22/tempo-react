@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import "@/features/practice/adult-lessons.css";
+import "@/features/practice/house.css";
 
 export const metadata: Metadata = {
   title: "Tempo — европейский португальский",

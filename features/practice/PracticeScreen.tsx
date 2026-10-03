@@ -13,6 +13,7 @@ import { QuizExercise } from "@/features/practice/QuizExercise";
 import { RulesDeck } from "@/features/practice/RulesDeck";
 import { SunFormExercise } from "@/features/practice/SunFormExercise";
 import { TerGuide } from "@/features/practice/TerGuide";
+import { VocabularyHub } from "@/features/practice/VocabularyHub";
 
 import { people, verbs, type PersonKey, type Tense, type VerbGroup, type VerbKey } from "@/features/conjugation/data";
 import { createPracticeSession, practiceSessionReducer } from "./practice-session";
@@ -333,9 +334,9 @@ export default function PracticeScreen({ initialVerbKey = "fazer", initialTense 
           />
         )}
         </>}
-      </section> : section === "lessons" ? <AdultLessons /> : <Flashcards />}
+      </section> : section === "lessons" ? <AdultLessons /> : section === "vocabulary" ? <VocabularyHub onOpenCards={() => dispatch({ type: "sectionChanged", section: "cards" })} /> : <Flashcards />}
 
-      <footer><span>{section === "cards" ? "Две колоды: общие слова и частотные глаголы" : section === "lessons" ? "Коротко о форме — сразу в живом примере" : "Учи форму вместе с местоимением"}</span><span>Português · A1–B2</span></footer>
+      <footer><span>{section === "cards" ? "Две колоды: общие слова и частотные глаголы" : section === "vocabulary" ? "Темы, карточки, пары и задания на смысл" : section === "lessons" ? "Коротко о форме — сразу в живом примере" : "Учи форму вместе с местоимением"}</span><span>Português · A1–B2</span></footer>
     </div>
   );
 }

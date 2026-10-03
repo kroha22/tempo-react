@@ -1,5 +1,6 @@
 import type { NounStudyItem } from "./types";
 import { checkImageAnswers, placeImageWord, type ImageMatchingDefinition } from "../practice/image-matching.ts";
+import { publicAssetPath } from "./public-asset.ts";
 
 // User-supplied worksheet. Stable semantic IDs do not depend on numbering.
 type HouseWord = {
@@ -47,7 +48,7 @@ export const houseWords: readonly HouseWord[] = entries.map(([slug, article, lem
   translation, example, exampleTranslation, point: [x, y],
 }));
 
-export const houseDeck = { id: "house-a-casa", title: "Дом — A casa", source: "/learning/house", image: "/house-illustration-v3.png" } as const;
+export const houseDeck = { id: "house-a-casa", title: "Дом — A casa", source: "/learning/house", image: publicAssetPath("/house-illustration-v3.webp") } as const;
 
 // The revised illustration has its own geometry. Original worksheet points above
 // are retained as provenance; language identities and correct answers are unchanged.

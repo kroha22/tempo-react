@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import PracticeScreen from "@/features/practice/PracticeScreen";
 import "@/app/globals.css";
 import "@/features/practice/adult-lessons.css";
+import "@/features/practice/house.css";
 import "./pages.css";
 
 function Demo() {

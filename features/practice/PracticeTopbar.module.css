@@ -164,7 +164,10 @@
 
 @media (max-width: 620px) {
   .topbar {
-    height: 50px;
+    height: auto;
+    min-height: 94px;
+    padding: 8px 12px;
+    flex-wrap: wrap;
   }
 
   .brand > span:last-child {
@@ -172,12 +175,16 @@
   }
 
   .sectionNav {
-    margin-left: auto;
+    order: 3;
+    width: 100%;
+    margin-left: 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   .sectionNav button {
     min-width: 0;
-    padding: 6px 8px;
+    padding: 7px 5px;
     font-size: 9.5px;
   }
 
