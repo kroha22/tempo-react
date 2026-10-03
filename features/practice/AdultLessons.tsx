@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import type { LessonPracticeTarget } from "./practice-types";
 
 type Example = { pt: string; ru: string };
 type FormRow = { label: string; value: string };
@@ -14,6 +15,7 @@ type Lesson = {
   markers?: string[];
   forms?: FormRow[];
   examples: Example[];
+  practice?: LessonPracticeTarget;
   quiz: { prompt: string; options: string[]; answer: number; explanation: string };
 };
 
@@ -31,6 +33,7 @@ const lessons: Lesson[] = [
       { pt: "Somos de Braga.", ru: "Мы из Браги." },
       { pt: "A mesa é de madeira.", ru: "Стол деревянный." },
     ],
+    practice: { kind: "being", beingVerb: "ser" },
     quiz: { prompt: "O Rui ___ português.", options: ["é", "está", "tem"], answer: 0, explanation: "Говорим о происхождении — нужна форма é от SER." },
   },
   {
@@ -46,6 +49,7 @@ const lessons: Lesson[] = [
       { pt: "As chaves estão na mochila.", ru: "Ключи в рюкзаке." },
       { pt: "A janela está aberta.", ru: "Окно открыто." },
     ],
+    practice: { kind: "being", beingVerb: "estar" },
     quiz: { prompt: "Nós ___ no centro.", options: ["somos", "estamos", "temos"], answer: 1, explanation: "Местоположение выражаем ESTAR: estamos." },
   },
   {
@@ -57,6 +61,7 @@ const lessons: Lesson[] = [
       { pt: "Hoje a Marta está alegre.", ru: "Сегодня Марта в хорошем настроении." },
       { pt: "O café é bom, mas está frio.", ru: "Кофе хороший, но он остыл." },
     ],
+    practice: { kind: "being", beingVerb: "ser" },
     quiz: { prompt: "A sopa ___ quente agora.", options: ["é", "está", "são"], answer: 1, explanation: "Температура в данный момент — está." },
   },
   {
@@ -74,6 +79,7 @@ const lessons: Lesson[] = [
       { pt: "O que estás a fazer?", ru: "Что ты сейчас делаешь?" },
       { pt: "Eles estão a falar baixo.", ru: "Они сейчас тихо разговаривают." },
     ],
+    practice: { kind: "action", actionUse: "now" },
     quiz: { prompt: "A Ana ___ um livro neste momento.", options: ["lê", "está a ler", "é a ler"], answer: 1, explanation: "Действие идёт neste momento: está a ler." },
   },
   {
@@ -89,6 +95,7 @@ const lessons: Lesson[] = [
       { pt: "Falamos português na aula.", ru: "На уроке мы говорим по-португальски." },
       { pt: "A Leonor estuda música.", ru: "Леонор изучает музыку." },
     ],
+    practice: { kind: "group", group: "ar", tense: "present" },
     quiz: { prompt: "Nós ___ no Porto.", options: ["moro", "moramos", "moram"], answer: 1, explanation: "С nós у правильного -AR окончание -amos: moramos." },
   },
   {
@@ -104,6 +111,7 @@ const lessons: Lesson[] = [
       { pt: "Aprendemos depressa.", ru: "Мы быстро учимся." },
       { pt: "Os miúdos comem cedo.", ru: "Дети едят рано." },
     ],
+    practice: { kind: "group", group: "er", tense: "present" },
     quiz: { prompt: "Tu ___ muito bem.", options: ["corres", "corre", "corremos"], answer: 0, explanation: "С tu у правильного -ER окончание -es: corres." },
   },
   {
@@ -119,6 +127,7 @@ const lessons: Lesson[] = [
       { pt: "Queres vir connosco?", ru: "Хочешь пойти с нами?" },
       { pt: "Não posso ficar hoje.", ru: "Я не могу сегодня остаться." },
     ],
+    practice: { kind: "verb", verbKey: "fazer", tense: "present" },
     quiz: { prompt: "Eu ___ a verdade.", options: ["dizo", "digo", "diz"], answer: 1, explanation: "Форма eu от dizer — digo." },
   },
   {
@@ -133,6 +142,7 @@ const lessons: Lesson[] = [
       { pt: "Sirvo o almoço ao meio-dia.", ru: "Я подаю обед в полдень." },
       { pt: "O bebé dorme bem.", ru: "Малыш хорошо спит." },
     ],
+    practice: { kind: "group", group: "ir", tense: "present" },
     quiz: { prompt: "Nós ___ a porta.", options: ["abrimos", "abremos", "abrem"], answer: 0, explanation: "С nós у abrir форма abrimos." },
   },
   {
@@ -148,6 +158,7 @@ const lessons: Lesson[] = [
       { pt: "Ouve-se música na rua.", ru: "На улице слышна музыка." },
       { pt: "Eles constroem casas pequenas.", ru: "Они строят небольшие дома." },
     ],
+    practice: { kind: "verb", verbKey: "ir", tense: "present" },
     quiz: { prompt: "Eu ___ ajuda quando preciso.", options: ["pedo", "peço", "pido"], answer: 1, explanation: "Форма eu от pedir — peço." },
   },
   {
@@ -159,6 +170,7 @@ const lessons: Lesson[] = [
       { pt: "Estou a ler uma mensagem agora.", ru: "Я сейчас читаю сообщение." },
       { pt: "Trabalha em Lisboa, mas hoje está a trabalhar em casa.", ru: "Он работает в Лиссабоне, но сегодня работает из дома." },
     ],
+    practice: { kind: "action", actionUse: "habit" },
     quiz: { prompt: "Silêncio! O bebé ___ agora.", options: ["dorme", "está a dormir", "dormiu"], answer: 1, explanation: "Agora и действие в процессе: está a dormir." },
   },
   {
@@ -174,6 +186,7 @@ const lessons: Lesson[] = [
       { pt: "Temos dois bilhetes.", ru: "У нас два билета." },
       { pt: "As crianças têm fome.", ru: "Дети хотят есть." },
     ],
+    practice: { kind: "ter" },
     quiz: { prompt: "A Joana ___ vinte anos.", options: ["é", "está", "tem"], answer: 2, explanation: "Возраст выражаем с TER: tem vinte anos." },
   },
   {
@@ -199,6 +212,7 @@ const lessons: Lesson[] = [
       { pt: "Fazia frio, por isso fechámos a janela.", ru: "Было холодно, поэтому мы закрыли окно." },
       { pt: "Enquanto dormiam, começou a chover.", ru: "Пока они спали, начался дождь." },
     ],
+    practice: { kind: "group", group: "ar", tense: "past" },
     quiz: { prompt: "Eu ___ quando a Ana chegou.", options: ["cozinhei", "cozinhava", "cozinho"], answer: 1, explanation: "Длительный фон для события chegou — cozinhava." },
   },
 ];
@@ -240,15 +254,22 @@ const pastPanels = {
   },
 };
 
-export default function AdultLessons() {
-  const [activeIndex, setActiveIndex] = useState(0);
+type AdultLessonsProps = {
+  activeLessonId: string;
+  onLessonChange: (lessonId: string) => void;
+  onOpenPractice: (target: LessonPracticeTarget) => void;
+  onOpenConjugationOverview: () => void;
+};
+
+export default function AdultLessons({ activeLessonId, onLessonChange, onOpenPractice, onOpenConjugationOverview }: AdultLessonsProps) {
+  const activeIndex = Math.max(0, lessons.findIndex((item) => item.id === activeLessonId));
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [pastMode, setPastMode] = useState<keyof typeof pastPanels>("pps");
   const lesson = lessons[activeIndex];
   const chapters = Array.from(new Set(lessons.map((item) => item.chapter)));
 
   const openLesson = (index: number) => {
-    setActiveIndex(index);
+    onLessonChange(lessons[index].id);
     setSelectedAnswer(null);
   };
 
@@ -260,8 +281,11 @@ export default function AdultLessons() {
           <h1 id="adult-lessons-title">{lessons.length} коротких уроков</h1>
           <p>Правило, опорные формы, живые примеры и один вопрос для самопроверки.</p>
         </div>
-        <div className="adult-progress" aria-label={`Урок ${activeIndex + 1} из ${lessons.length}`}>
-          <strong>{String(activeIndex + 1).padStart(2, "0")}</strong><span>/ {lessons.length}</span>
+        <div className="adult-intro-actions">
+          <button onClick={onOpenConjugationOverview}>Все спряжения <span aria-hidden="true">→</span></button>
+          <div className="adult-progress" aria-label={`Урок ${activeIndex + 1} из ${lessons.length}`}>
+            <strong>{String(activeIndex + 1).padStart(2, "0")}</strong><span>/ {lessons.length}</span>
+          </div>
         </div>
       </header>
 
@@ -348,6 +372,11 @@ export default function AdultLessons() {
               {selectedAnswer === null ? "Выбери подходящий вариант." : selectedAnswer === lesson.quiz.answer ? `Верно. ${lesson.quiz.explanation}` : `Не совсем. ${lesson.quiz.explanation}`}
             </p>
           </section>
+
+          {lesson.practice && <aside className="adult-practice-bridge" aria-label="Практика этого урока">
+            <div><span>Связано с уроком</span><strong>Закрепи это правило на тех же формах</strong></div>
+            <button onClick={() => onOpenPractice(lesson.practice!)}>Потренировать формы <span aria-hidden="true">→</span></button>
+          </aside>}
 
           <footer className="adult-lesson-controls">
             <button disabled={activeIndex === 0} onClick={() => openLesson(activeIndex - 1)}>← Предыдущий</button>

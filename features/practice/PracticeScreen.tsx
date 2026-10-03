@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useReducer } from "react";
+import { useMemo, useReducer, useState } from "react";
 import Flashcards from "@/features/cards/components/Flashcards";
 import AdultLessons from "@/features/practice/AdultLessons";
 import { ActionGuide } from "@/features/practice/ActionGuide";
@@ -17,7 +17,7 @@ import { VocabularyHub } from "@/features/practice/VocabularyHub";
 
 import { people, verbs, type PersonKey, type Tense, type VerbGroup, type VerbKey } from "@/features/conjugation/data";
 import { createPracticeSession, practiceSessionReducer } from "./practice-session";
-import type { ActionUse, BeingVerb, ChildStep, PracticeMode } from "./practice-types";
+import type { ActionUse, BeingVerb, ChildStep, LessonPracticeTarget, PracticeMode, PracticeSection } from "./practice-types";
 import styles from "./PracticeScreen.module.css";
 
 
@@ -35,12 +35,15 @@ type PracticeClientProps = {
   initialTense?: Tense;
   initialChildMode?: boolean;
   initialChildStep?: ChildStep;
+  initialSection?: PracticeSection;
 };
 
-export default function PracticeScreen({ initialVerbKey = "fazer", initialTense = "present", initialChildMode = false, initialChildStep }: PracticeClientProps) {
+export default function PracticeScreen({ initialVerbKey = "fazer", initialTense = "present", initialChildMode = false, initialChildStep, initialSection = "trainer" }: PracticeClientProps) {
+  const [lessonPracticeOpen, setLessonPracticeOpen] = useState(false);
+  const [activeLessonId, setActiveLessonId] = useState("ser");
   const [session, dispatch] = useReducer(
     practiceSessionReducer,
-    { initialVerbKey, initialTense, initialChildMode, initialChildStep },
+    { initialVerbKey, initialTense, initialChildMode, initialChildStep, initialSection },
     createPracticeSession,
   );
   const {
@@ -170,6 +173,26 @@ export default function PracticeScreen({ initialVerbKey = "fazer", initialTense 
     dispatch({ type: "childModeChanged", childMode: nextChildMode });
   }
 
+  function changeSection(nextSection: PracticeSection) {
+    setLessonPracticeOpen(false);
+    dispatch({ type: "sectionChanged", section: nextSection });
+  }
+
+  function openLessonPractice(target: LessonPracticeTarget) {
+    setLessonPracticeOpen(true);
+    dispatch({ type: "lessonPracticeOpened", target, chips: shuffledChips() });
+  }
+
+  function returnToLessons() {
+    setLessonPracticeOpen(false);
+    dispatch({ type: "sectionChanged", section: "lessons" });
+  }
+
+  function openConjugationOverview() {
+    setLessonPracticeOpen(true);
+    dispatch({ type: "conjugationOverviewOpened" });
+  }
+
   function changeTense(nextTense: Tense) {
     dispatch({ type: "tenseChanged", tense: nextTense, chips: shuffledChips() });
   }
@@ -188,7 +211,7 @@ export default function PracticeScreen({ initialVerbKey = "fazer", initialTense 
         section={section}
         childMode={childMode}
         tense={tense}
-        onSectionChange={(nextSection) => dispatch({ type: "sectionChanged", section: nextSection })}
+        onSectionChange={changeSection}
         onToggleChildMode={toggleChildMode}
       />
 
@@ -204,6 +227,7 @@ export default function PracticeScreen({ initialVerbKey = "fazer", initialTense 
       )}
 
       {section === "trainer" ? <section className={styles.workspace} id="trainer" aria-label="Тренажёр спряжения глаголов">
+        {lessonPracticeOpen && <button className={styles.lessonBack} onClick={returnToLessons}>← К урокам</button>}
         {childMode && childStep === "kingdom" && (
           <KingdomMap
             group={group}
@@ -345,7 +369,7 @@ export default function PracticeScreen({ initialVerbKey = "fazer", initialTense 
           />
         )}
         </>}
-      </section> : section === "lessons" ? <AdultLessons /> : section === "vocabulary" ? <VocabularyHub onOpenCards={() => dispatch({ type: "sectionChanged", section: "cards" })} /> : <Flashcards />}
+      </section> : section === "lessons" ? <AdultLessons activeLessonId={activeLessonId} onLessonChange={setActiveLessonId} onOpenPractice={openLessonPractice} onOpenConjugationOverview={openConjugationOverview} /> : section === "vocabulary" ? <VocabularyHub onOpenCards={() => changeSection("cards")} /> : <Flashcards />}
 
       <footer><span>{section === "cards" ? "Две колоды: общие слова и частотные глаголы" : section === "vocabulary" ? "Темы, карточки, пары и задания на смысл" : section === "lessons" ? "Коротко о форме — сразу в живом примере" : "Учи форму вместе с местоимением"}</span><span>Português · A1–B2</span></footer>
     </div>

@@ -18,7 +18,7 @@ function Demo() {
         <p>Откройте урок, потренируйте формы или выберите одну из двух колод: 1 000 частотных глаголов и 351 португальское слово. Прогресс интервального повторения сохраняется только в этом браузере.</p>
         <a href="https://github.com/kroha22/tempo-react">Исходный код на GitHub →</a>
       </header>
-      <PracticeScreen initialChildMode={initialChildMode} />
+      <PracticeScreen initialChildMode={initialChildMode} initialSection="lessons" />
     </div>
   );
 }

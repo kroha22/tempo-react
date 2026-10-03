@@ -1,6 +1,6 @@
 import { people, verbs, type PersonKey, type Tense, type VerbGroup, type VerbKey } from "@/features/conjugation/data";
 import { verbKeysForGroup } from "@/features/conjugation/resolver";
-import type { ActionUse, BeingVerb, ChildStep, PracticeMode, PracticeSection, QuizResult } from "./practice-types";
+import type { ActionUse, BeingVerb, ChildStep, LessonPracticeTarget, PracticeMode, PracticeSection, QuizResult } from "./practice-types";
 
 export type PracticeSession = {
   section: PracticeSection;
@@ -33,6 +33,8 @@ type ResetPayload = {
 
 export type PracticeSessionAction =
   | { type: "sectionChanged"; section: PracticeSection }
+  | { type: "conjugationOverviewOpened" }
+  | { type: "lessonPracticeOpened"; target: LessonPracticeTarget; chips: PersonKey[] }
   | { type: "childModeChanged"; childMode: boolean }
   | { type: "childStepChanged"; childStep: ChildStep }
   | { type: "exerciseReset"; payload: ResetPayload }
@@ -64,6 +66,7 @@ export type CreatePracticeSessionOptions = {
   initialTense: Tense;
   initialChildMode: boolean;
   initialChildStep?: ChildStep;
+  initialSection?: PracticeSection;
 };
 
 export function createPracticeSession({
@@ -71,9 +74,10 @@ export function createPracticeSession({
   initialTense,
   initialChildMode,
   initialChildStep,
+  initialSection = "trainer",
 }: CreatePracticeSessionOptions): PracticeSession {
   return {
-    section: "trainer",
+    section: initialSection,
     childMode: initialChildMode,
     childStep: initialChildMode ? initialChildStep ?? "exercise" : "kingdom",
     beingVerb: "ser",
@@ -135,6 +139,55 @@ export function practiceSessionReducer(state: PracticeSession, action: PracticeS
   switch (action.type) {
     case "sectionChanged":
       return { ...state, section: action.section };
+    case "conjugationOverviewOpened":
+      return {
+        ...state,
+        section: "trainer",
+        childStep: "kingdom",
+        adultBeingGuide: null,
+        adultActionGuide: null,
+        adultTerGuide: false,
+      };
+    case "lessonPracticeOpened": {
+      const base = {
+        ...state,
+        section: "trainer" as const,
+        childStep: "exercise" as const,
+        adultBeingGuide: null,
+        adultActionGuide: null,
+        adultTerGuide: false,
+      };
+      if (action.target.kind === "being") {
+        const next = prepareBeingLesson(base, action.target.beingVerb, action.chips);
+        return state.childMode
+          ? { ...next, childStep: "special" }
+          : { ...next, adultBeingGuide: action.target.beingVerb };
+      }
+      if (action.target.kind === "action") {
+        const next = prepareActionLesson(base, action.target.actionUse, action.chips);
+        return state.childMode
+          ? { ...next, childStep: "action" }
+          : { ...next, adultActionGuide: action.target.actionUse };
+      }
+      if (action.target.kind === "ter") {
+        const next = prepareTerLesson(base, action.chips);
+        return state.childMode
+          ? { ...next, childStep: "ter" }
+          : { ...next, adultTerGuide: true };
+      }
+      if (action.target.kind === "verb") {
+        const targetVerb = verbs[action.target.verbKey];
+        return resetExercise(
+          { ...base, group: targetVerb.group, tense: action.target.tense },
+          { mode: "practice", verbKey: action.target.verbKey, chips: action.chips },
+        );
+      }
+      const verbKey = verbKeysForGroup(action.target.group)[0] ?? state.verbKey;
+      return resetExercise(
+        { ...base, group: action.target.group, tense: action.target.tense },
+        { mode: "practice", verbKey, chips: action.chips },
+      );
+    }
     case "childModeChanged":
       return {
         ...state,

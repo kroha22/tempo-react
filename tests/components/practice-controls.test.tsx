@@ -74,6 +74,46 @@ describe("Practice composition controls", () => {
     expect(screen.queryByRole("complementary", { name: "Включено детское оформление" })).not.toBeInTheDocument();
   });
 
+  it("opens conjugation practice from its lesson and returns to the lesson catalog", async () => {
+    render(<PracticeScreen initialSection="lessons" />);
+    const user = userEvent.setup();
+
+    expect(screen.queryByRole("button", { name: "Спряжение" })).not.toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: /Правильные -AR/ }));
+    await user.click(screen.getByRole("button", { name: /Потренировать формы/ }));
+
+    expect(screen.getByRole("button", { name: /К урокам/ })).toBeInTheDocument();
+    expect(screen.getAllByText("falar").length).toBeGreaterThan(0);
+    expect(screen.getByRole("button", { name: "Уроки" }).className).toContain("active");
+
+    await user.click(screen.getByRole("button", { name: /К урокам/ }));
+    expect(screen.getByRole("heading", { name: /коротких уроков/ })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Правильные -AR" })).toBeInTheDocument();
+  });
+
+  it("connects a child lesson directly to the shared solar exercise", async () => {
+    render(<PracticeScreen initialSection="lessons" initialChildMode />);
+    const user = userEvent.setup();
+
+    await user.click(screen.getByRole("button", { name: /Правильные -AR/ }));
+    await user.click(screen.getByRole("button", { name: /Потренировать формы/ }));
+
+    expect(screen.getAllByText("falar").length).toBeGreaterThan(0);
+    expect(screen.getByRole("complementary", { name: "Формы глагола для расстановки" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /К урокам/ })).toBeInTheDocument();
+  });
+
+  it("keeps the child castle map as the shared conjugation overview inside lessons", async () => {
+    render(<PracticeScreen initialSection="lessons" initialChildMode />);
+    const user = userEvent.setup();
+
+    await user.click(screen.getByRole("button", { name: /Все спряжения/ }));
+
+    expect(screen.getByRole("group", { name: "Замки спряжений" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /К урокам/ })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Уроки" }).className).toContain("active");
+  });
+
   it("keeps the child kingdom map as a callback-only view", async () => {
     const choose = vi.fn();
     const openBeing = vi.fn();

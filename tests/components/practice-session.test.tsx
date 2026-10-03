@@ -13,6 +13,45 @@ function adultSession() {
 }
 
 describe("Practice session reducer", () => {
+  it("opens the exact practice target owned by a lesson", () => {
+    const initial = createPracticeSession({
+      initialVerbKey: "fazer",
+      initialTense: "present",
+      initialChildMode: false,
+      initialSection: "lessons",
+    });
+    const practice = practiceSessionReducer(initial, {
+      type: "lessonPracticeOpened",
+      target: { kind: "group", group: "ar", tense: "past" },
+      chips,
+    });
+
+    expect(practice).toMatchObject({
+      section: "trainer",
+      group: "ar",
+      tense: "past",
+      verbKey: "falar",
+      mode: "practice",
+    });
+  });
+
+  it("opens a clean conjugation overview from the lesson catalog", () => {
+    const guided = practiceSessionReducer(adultSession(), {
+      type: "beingGuideOpened",
+      beingVerb: "ser",
+      chips,
+    });
+    const overview = practiceSessionReducer(guided, { type: "conjugationOverviewOpened" });
+
+    expect(overview).toMatchObject({
+      section: "trainer",
+      childStep: "kingdom",
+      adultBeingGuide: null,
+      adultActionGuide: null,
+      adultTerGuide: false,
+    });
+  });
+
   it("opens one adult guide at a time and prepares its conjugation session", () => {
     const action = practiceSessionReducer(adultSession(), {
       type: "actionGuideOpened",

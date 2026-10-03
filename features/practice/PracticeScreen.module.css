@@ -21,6 +21,22 @@
   padding: clamp(28px, 4vw, 52px) clamp(14px, 3vw, 40px) 70px;
 }
 
+.lessonBack {
+  min-height: 42px;
+  margin: 0 0 14px;
+  padding: 7px 14px;
+  border: 1px solid color-mix(in srgb, var(--green) 38%, transparent);
+  border-radius: 999px;
+  background: #fffef8;
+  color: var(--green);
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+:global(.kids-mode) .lessonBack { border-color: #dfbd48; background: #fff5bd; color: #6b5114; }
+
 :global(.kids-mode) { --kingdom: #8551b6; --kingdom-soft: #ead9f7; }
 :global(.kids-mode.kingdom-ar) { --kingdom: #e54b43; --kingdom-soft: #ffd5cf; }
 :global(.kids-mode.kingdom-er) { --kingdom: #2f9b58; --kingdom-soft: #ccefd5; }

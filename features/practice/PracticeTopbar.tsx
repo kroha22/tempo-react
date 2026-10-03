@@ -11,13 +11,14 @@ type PracticeTopbarProps = {
 };
 
 export function PracticeTopbar({ section, childMode, tense, onSectionChange, onToggleChildMode }: PracticeTopbarProps) {
+  const navigationSection = section === "trainer" ? "lessons" : section;
   const lessonNumber = section === "cards" ? "02" : section === "vocabulary" ? "35" : section === "lessons" ? "13" : tense === "present" ? "01" : "02";
   const lessonLabel = section === "cards" ? "duas coleções" : section === "vocabulary" ? "temas e jogos" : section === "lessons" ? "gramática prática" : tense === "present" ? "Presente do indicativo" : "Pretérito perfeito";
 
   return (
     <header className={styles.topbar}>
       <div className={styles.brandCluster}>
-        <button className={styles.brand} onClick={() => onSectionChange("trainer")} aria-label="Tempo — тренажёр португальского">
+        <button className={styles.brand} onClick={() => onSectionChange("lessons")} aria-label="Tempo — уроки португальского">
           <span className={styles.brandMark} aria-hidden="true">t</span>
           <span>TEMPO</span>
         </button>
@@ -32,10 +33,9 @@ export function PracticeTopbar({ section, childMode, tense, onSectionChange, onT
         </button>
       </div>
       <nav className={styles.sectionNav} aria-label="Разделы занятий">
-        <button className={section === "trainer" ? styles.active : ""} onClick={() => onSectionChange("trainer")}>Спряжение</button>
-        <button className={section === "lessons" ? styles.active : ""} onClick={() => onSectionChange("lessons")}>Уроки</button>
-        <button className={section === "vocabulary" ? styles.active : ""} onClick={() => onSectionChange("vocabulary")}>Слова</button>
-        <button className={section === "cards" ? styles.active : ""} onClick={() => onSectionChange("cards")}>Карточки</button>
+        <button className={navigationSection === "lessons" ? styles.active : ""} onClick={() => onSectionChange("lessons")}>Уроки</button>
+        <button className={navigationSection === "vocabulary" ? styles.active : ""} onClick={() => onSectionChange("vocabulary")}>Слова</button>
+        <button className={navigationSection === "cards" ? styles.active : ""} onClick={() => onSectionChange("cards")}>Карточки</button>
       </nav>
       <div className={styles.topActions}>
         <div className={styles.lessonLabel}><span>{lessonNumber}</span> {lessonLabel}</div>
