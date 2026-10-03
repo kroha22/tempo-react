@@ -16,10 +16,21 @@ export function PracticeTopbar({ section, childMode, tense, onSectionChange, onT
 
   return (
     <header className={styles.topbar}>
-      <button className={styles.brand} onClick={() => onSectionChange("trainer")} aria-label="Tempo — тренажёр португальского">
-        <span className={styles.brandMark} aria-hidden="true">t</span>
-        <span>TEMPO</span>
-      </button>
+      <div className={styles.brandCluster}>
+        <button className={styles.brand} onClick={() => onSectionChange("trainer")} aria-label="Tempo — тренажёр португальского">
+          <span className={styles.brandMark} aria-hidden="true">t</span>
+          <span>TEMPO</span>
+        </button>
+        <button
+          className={`${styles.kidsToggle} ${childMode ? styles.active : ""}`}
+          aria-label={childMode ? "Переключить на взрослый режим" : "Переключить на детский режим"}
+          aria-pressed={childMode}
+          title={childMode ? "Взрослый режим" : "Детский режим"}
+          onClick={onToggleChildMode}
+        >
+          <span aria-hidden="true">{childMode ? "A" : "✦"}</span>
+        </button>
+      </div>
       <nav className={styles.sectionNav} aria-label="Разделы занятий">
         <button className={section === "trainer" ? styles.active : ""} onClick={() => onSectionChange("trainer")}>Спряжение</button>
         <button className={section === "lessons" ? styles.active : ""} onClick={() => onSectionChange("lessons")}>Уроки</button>
@@ -27,9 +38,6 @@ export function PracticeTopbar({ section, childMode, tense, onSectionChange, onT
         <button className={section === "cards" ? styles.active : ""} onClick={() => onSectionChange("cards")}>Карточки</button>
       </nav>
       <div className={styles.topActions}>
-        <button className={`${styles.kidsToggle} ${childMode ? styles.active : ""}`} aria-pressed={childMode} onClick={onToggleChildMode}>
-          <span aria-hidden="true">✦</span> {childMode ? "Взрослый" : "Для детей"}
-        </button>
         <div className={styles.lessonLabel}><span>{lessonNumber}</span> {lessonLabel}</div>
       </div>
     </header>

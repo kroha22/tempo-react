@@ -7,11 +7,7 @@
   overflow: hidden;
   border: 3px solid #f0c858;
   border-radius: 26px;
-  background:
-    radial-gradient(circle at 10% 18%, #ffe46b 0 35px, rgba(255, 228, 107, .24) 36px 52px, transparent 53px),
-    radial-gradient(ellipse at 18% 112%, #a8d994 0 34%, transparent 35%),
-    radial-gradient(ellipse at 82% 116%, #7fc793 0 38%, transparent 39%),
-    linear-gradient(180deg, #bde9f7 0%, #e9f7df 72%, #d9edbd 100%);
+  background: #93dff6 url('/verb-kingdoms.webp') center 48% / cover no-repeat;
   box-shadow: 0 13px 28px rgba(59, 116, 104, .16), inset 0 0 0 4px rgba(255, 255, 255, .55);
 }
 
@@ -140,7 +136,7 @@
 .actionGateway span { margin-top: 2px; font-size: 7px; font-weight: 900; }
 
 @media (max-width: 620px) {
-  .kingdomMap { height: min(270px, 52vh); min-height: 230px; aspect-ratio: auto; margin-bottom: 8px; border-width: 2px; border-radius: 18px; }
+  .kingdomMap { height: min(270px, 52vh); min-height: 230px; aspect-ratio: auto; margin-bottom: 8px; border-width: 2px; border-radius: 18px; background-position: center 42%; }
   .title { top: 7px; padding: 4px 9px; gap: 4px; }
   .title > span { font-size: 14px; }
   .title strong { font-size: 13px; }

@@ -25,7 +25,7 @@ export function RulesDeck({ group, tense, onBack, onChangeTense, onStartPractice
   return (
     <section className={styles.deck} aria-labelledby="rules-title">
       <header className={styles.header}>
-        <button className={styles.back} onClick={onBack}><span aria-hidden="true">‹</span> Другая группа</button>
+        <button className={styles.back} onClick={onBack}><span aria-hidden="true">‹</span> К замкам</button>
         <div>
           <span className={styles.kicker}>Шпаргалка по группе</span>
           <h2 id="rules-title">{group === "irregular" ? "Неправильные глаголы" : `Правила -${group.toUpperCase()}`}</h2>

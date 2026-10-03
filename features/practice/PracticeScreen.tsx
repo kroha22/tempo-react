@@ -79,9 +79,9 @@ export default function PracticeScreen({ initialVerbKey = "fazer", initialTense 
     const uniqueForms = Array.from(new Set(Object.values(activeVerb.forms[tense])));
     return shuffle([correct, ...shuffle(uniqueForms.filter((form) => form !== correct)).slice(0, 2)]);
   }, [verbKey, round, tense]);
-  const childWorldName = "Группы глаголов";
-  const childWorldPrompt = "Выбери группу";
-  const irregularPlaceName = "Особые глаголы";
+  const childWorldName = "Замки спряжений";
+  const childWorldPrompt = "Выбери замок";
+  const irregularPlaceName = "Волшебный замок";
   const beingGuideKicker = childMode
     ? "Понятное правило"
     : "Правила SER и ESTAR";

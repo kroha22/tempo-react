@@ -22,26 +22,26 @@ describe("Practice composition controls", () => {
       <PracticeTopbar section="trainer" childMode={false} tense="present" onSectionChange={changeSection} onToggleChildMode={toggle} />,
     );
 
-    expect(screen.getByRole("button", { name: /Для детей/ })).toHaveAttribute("aria-pressed", "false");
-    await userEvent.setup().click(screen.getByRole("button", { name: /Для детей/ }));
+    expect(screen.getByRole("button", { name: /Переключить на детский режим/ })).toHaveAttribute("aria-pressed", "false");
+    await userEvent.setup().click(screen.getByRole("button", { name: /Переключить на детский режим/ }));
     expect(toggle).toHaveBeenCalledOnce();
 
     rerender(<PracticeTopbar section="trainer" childMode tense="present" onSectionChange={changeSection} onToggleChildMode={toggle} />);
 
-    expect(screen.getByRole("button", { name: /Взрослый/ })).toHaveAttribute("aria-pressed", "true");
+    expect(screen.getByRole("button", { name: /Переключить на взрослый режим/ })).toHaveAttribute("aria-pressed", "true");
   });
 
   it("opens the child map for free child practice and keeps deep-linked verbs on the sun", () => {
     const mapRender = render(<PracticeScreen initialChildMode initialChildStep="kingdom" />);
 
-    expect(screen.getByRole("group", { name: "Группы глаголов" })).toBeInTheDocument();
+    expect(screen.getByRole("group", { name: "Замки спряжений" })).toBeInTheDocument();
     expect(screen.queryByText("FAZER")).not.toBeInTheDocument();
 
     mapRender.unmount();
     render(<PracticeScreen initialChildMode initialChildStep="exercise" initialVerbKey="fazer" />);
 
     expect(screen.getByText("faço")).toBeInTheDocument();
-    expect(screen.queryByRole("group", { name: "Группы глаголов" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("group", { name: "Замки спряжений" })).not.toBeInTheDocument();
   });
 
   it("keeps the practice presentation URL in sync with the toggle", async () => {
@@ -49,10 +49,10 @@ describe("Practice composition controls", () => {
     render(<PracticeScreen initialChildMode initialChildStep="exercise" initialVerbKey="fazer" />);
 
     const user = userEvent.setup();
-    await user.click(screen.getByRole("button", { name: /Взрослый/ }));
+    await user.click(screen.getByRole("button", { name: /Переключить на взрослый режим/ }));
     expect(window.location.search).toBe("?verb=fazer&tense=present");
 
-    await user.click(screen.getByRole("button", { name: /Для детей/ }));
+    await user.click(screen.getByRole("button", { name: /Переключить на детский режим/ }));
     expect(window.location.search).toBe("?verb=fazer&tense=present&mode=child");
   });
 
@@ -62,7 +62,7 @@ describe("Practice composition controls", () => {
 
     await user.click(screen.getByRole("button", { name: "Уроки" }));
     expect(screen.getByRole("complementary", { name: "Включено детское оформление" })).toHaveTextContent("Разберём правило по шагам");
-    expect(screen.getByRole("button", { name: /Взрослый/ })).toHaveAttribute("aria-pressed", "true");
+    expect(screen.getByRole("button", { name: /Переключить на взрослый режим/ })).toHaveAttribute("aria-pressed", "true");
 
     await user.click(screen.getByRole("button", { name: "Слова" }));
     expect(screen.getByRole("complementary", { name: "Включено детское оформление" })).toHaveTextContent("играй со словами");
@@ -70,7 +70,7 @@ describe("Practice composition controls", () => {
     await user.click(screen.getByRole("button", { name: "Карточки" }));
     expect(screen.getByRole("complementary", { name: "Включено детское оформление" })).toHaveTextContent("Повторяй в своём темпе");
 
-    await user.click(screen.getByRole("button", { name: /Взрослый/ }));
+    await user.click(screen.getByRole("button", { name: /Переключить на взрослый режим/ }));
     expect(screen.queryByRole("complementary", { name: "Включено детское оформление" })).not.toBeInTheDocument();
   });
 
@@ -349,7 +349,7 @@ describe("Practice composition controls", () => {
     );
 
     const user = userEvent.setup();
-    await user.click(screen.getByRole("button", { name: /Другая группа/ }));
+    await user.click(screen.getByRole("button", { name: /К замкам/ }));
     await user.click(screen.getByRole("button", { name: "Раньше" }));
     await user.click(screen.getByRole("button", { name: /К глаголам/ }));
 
