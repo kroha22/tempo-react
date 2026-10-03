@@ -141,15 +141,15 @@ describe("card review through the HTTP boundary", () => {
     expect(sections[1]).toHaveAccessibleName("Сохранённые из уроков");
   });
 
-  it("offers a separate 351-word deck without loading verb progress", async () => {
+  it("offers the separate basic-word deck without loading verb progress", async () => {
     const fetchMock = vi.fn();
     vi.stubGlobal("fetch", fetchMock);
     const user = userEvent.setup();
     render(<Flashcards />);
 
     expect(screen.getByRole("button", { name: "Открыть колоду «1 000 глаголов»" })).toBeInTheDocument();
-    await user.click(screen.getByRole("button", { name: "Открыть колоду «351 слово»" }));
-    expect(screen.getByRole("region", { name: "Колода из 351 слова" })).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Открыть колоду «351 базовое слово»" }));
+    expect(screen.getByRole("region", { name: "Колода «351 базовое слово»" })).toBeInTheDocument();
     expect(screen.getByText("1 / 351")).toBeInTheDocument();
     expect(screen.getByText("ter")).toBeInTheDocument();
 

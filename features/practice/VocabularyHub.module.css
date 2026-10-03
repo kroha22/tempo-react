@@ -3,15 +3,9 @@
 .header span { color: var(--sun-dark); font-size: 12px; font-weight: 900; letter-spacing: .13em; text-transform: uppercase; }
 .header h1 { margin: 5px 0 8px; font-family: var(--font-heading); font-size: clamp(32px,6vw,54px); line-height: 1; }
 .header p { max-width: 720px; margin: 0; color: var(--muted); font-size: 16px; line-height: 1.55; }
-.header > button,.tabs button { min-height: 44px; border: 1px solid #b7c7b3; border-radius: 999px; background: white; color: var(--green); font: inherit; font-weight: 900; cursor: pointer; }
+.header > button { min-height: 44px; border: 1px solid #b7c7b3; border-radius: 999px; background: white; color: var(--green); font: inherit; font-weight: 900; cursor: pointer; }
 .header > button { flex: 0 0 auto; padding: 9px 16px; }
-.tabs { display: flex; gap: 8px; margin: 20px 0; padding: 5px; border-radius: 18px; background: #e7e3d9; }
-.tabs button { flex: 1; padding: 8px 14px; background: transparent; border-color: transparent; }
-.tabs button[aria-pressed="true"] { background: var(--cream); color: var(--green); box-shadow: 0 2px 9px rgba(41,59,62,.1); }
-.header button:focus-visible,.tabs button:focus-visible { outline: 3px solid #7856ae; outline-offset: 3px; }
+.header button:focus-visible { outline: 3px solid #7856ae; outline-offset: 3px; }
 :global(.kids-mode) .header { padding: 18px 20px; border: 2px solid #efd270; border-radius: 24px; background: linear-gradient(120deg,#fff7c9,#e4f5e5 70%,#eee4fa); box-shadow: 0 12px 28px rgba(68,111,78,.1); }
 :global(.kids-mode) .header > button { border-color: #78aa87; background: #fffdf5; color: #286447; }
-:global(.kids-mode) .tabs { border: 1px solid #d0e3c7; background: #e4f0dd; }
-:global(.kids-mode) .tabs button { color: #53685e; }
-:global(.kids-mode) .tabs button[aria-pressed="true"] { background: #fffdf5; color: #2f744f; }
-@media(max-width:620px){.shell{padding-top:16px}.header{align-items:stretch;flex-direction:column;gap:14px}.header p{font-size:15px}.header>button{align-self:flex-start}.tabs{position:sticky;top:0;z-index:20}.tabs button{padding-inline:8px}}
+@media(max-width:620px){.shell{padding-top:16px}.header{align-items:stretch;flex-direction:column;gap:14px}.header p{font-size:15px}.header>button{align-self:flex-start}}

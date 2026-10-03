@@ -93,6 +93,11 @@ for (const [id,title,sceneIds] of semanticTopics) {
   topics.push({id:`topic:${id}`,title,parentIds:[]});
   collections.forEach(collection=>{if(sceneIds.some(scene=>collection.source.legacySetId===`scene-set-${scene}`))collection.topicIds.push(`topic:${id}`);});
 }
+topics.push(
+  {id:"topic:work",title:"Работа и встречи",parentIds:[]},
+  {id:"topic:health",title:"Здоровье и самочувствие",parentIds:[]},
+  {id:"topic:people",title:"Люди и состояния",parentIds:[]},
+);
 const everyday = collections.find(c=>c.id === "collection:basic-verbs")!;
 collections.filter(c=>["scene-set-breakfast","scene-set-school"].includes(c.source.legacySetId??"")).forEach(c=>c.topicIds.push("topic:everyday"));
 // Link food verbs into Food without cloning their meanings.
@@ -116,8 +121,18 @@ collections.push({id:"collection:general-vocabulary:all",title:"Все 351 сл�
 for(const partOfSpeech of ["verb","noun","adjective","adverb-or-other"] as const){
   collections.push({id:`collection:general-vocabulary:${partOfSpeech}`,title:topics.find(topic=>topic.id===generalTopicIds[partOfSpeech])!.title,topicIds:[generalTopicIds[partOfSpeech]],meaningIds:generalVocabulary.filter(source=>source.partOfSpeech===partOfSpeech).map(source=>meaningBySource.get(source.id)!),source:{kind:"vocabulary"}});
 }
+const vocabularyLessonTopics: Record<string, string> = {
+  "vocabulary-lesson:home": "topic:vocabulary-house",
+  "vocabulary-lesson:work": "topic:work",
+  "vocabulary-lesson:city": "topic:city",
+  "vocabulary-lesson:cooking": "topic:food",
+  "vocabulary-lesson:health": "topic:health",
+  "vocabulary-lesson:people": "topic:people",
+  "vocabulary-lesson:communication": "topic:vocabulary-verbs",
+  "vocabulary-lesson:movement": "topic:vocabulary-verbs",
+};
 for(const lesson of vocabularyLessons){
-  collections.push({id:`collection:${lesson.id}`,title:lesson.title,topicIds:["topic:short-vocabulary-lessons"],meaningIds:lesson.items.map(item=>meaningBySource.get(item.sourceEntryId)!),source:{kind:"lesson"}});
+  collections.push({id:`collection:${lesson.id}`,title:lesson.title,topicIds:["topic:short-vocabulary-lessons",vocabularyLessonTopics[lesson.id]],meaningIds:lesson.items.map(item=>meaningBySource.get(item.sourceEntryId)!),source:{kind:"lesson"}});
 }
 const meaningId = (legacyWordId: string) => {
   const id = meaningByLegacy.get(legacyWordId);

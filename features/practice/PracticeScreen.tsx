@@ -371,7 +371,7 @@ export default function PracticeScreen({ initialVerbKey = "fazer", initialTense 
         </>}
       </section> : section === "lessons" ? <AdultLessons activeLessonId={activeLessonId} onLessonChange={setActiveLessonId} onOpenPractice={openLessonPractice} onOpenConjugationOverview={openConjugationOverview} /> : section === "vocabulary" ? <VocabularyHub onOpenCards={() => changeSection("cards")} /> : <Flashcards />}
 
-      <footer><span>{section === "cards" ? "Две колоды: общие слова и частотные глаголы" : section === "vocabulary" ? "Темы, карточки, пары и задания на смысл" : section === "lessons" ? "Коротко о форме — сразу в живом примере" : "Учи форму вместе с местоимением"}</span><span>Português · A1–B2</span></footer>
+      <footer><span>{section === "cards" ? "Две колоды: базовые слова и частотные глаголы" : section === "vocabulary" ? "Темы, карточки, пары и задания на смысл" : section === "lessons" ? "Коротко о форме — сразу в живом примере" : "Учи форму вместе с местоимением"}</span><span>Português · A1–B2</span></footer>
     </div>
   );
 }

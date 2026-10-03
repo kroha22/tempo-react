@@ -33,7 +33,7 @@ function DeckPicker({ onChoose }: { onChoose: (deck: "verbs" | "words") => void 
       <div className="deck-library__heading">
         <span className="deck-kicker">Карточки</span>
         <h2>Выберите колоду</h2>
-        <p>Две независимые подборки: частотные глаголы и общая база слов.</p>
+        <p>Две независимые подборки: частотные глаголы и базовая лексика.</p>
       </div>
       <div className="deck-library__grid">
         <button type="button" onClick={() => onChoose("verbs")} aria-label="Открыть колоду «1 000 глаголов»">
@@ -42,9 +42,9 @@ function DeckPicker({ onChoose }: { onChoose: (deck: "verbs" | "words") => void 
           <span>Частотная колода с интервальным повторением</span>
           <small>Открыть колоду →</small>
         </button>
-        <button type="button" onClick={() => onChoose("words")} aria-label="Открыть колоду «351 слово»">
+        <button type="button" onClick={() => onChoose("words")} aria-label="Открыть колоду «351 базовое слово»">
           <span className="deck-library__icon deck-library__icon--words" aria-hidden="true">351</span>
-          <strong>351 слово</strong>
+          <strong>351 базовое слово</strong>
           <span>Глаголы, существительные, прилагательные и другие слова</span>
           <small>Открыть колоду →</small>
         </button>

@@ -30,13 +30,13 @@ export function GeneralVocabularyDeck({ onBack }: { onBack: () => void }) {
   }
 
   return (
-    <section className="cards-workspace" id="cards" aria-label="Колода из 351 слова">
+    <section className="cards-workspace" id="cards" aria-label="Колода «351 базовое слово»">
       <button type="button" className="deck-back" onClick={onBack}>← К выбору колоды</button>
       <div className="deck-heading">
         <div>
-          <span className="deck-kicker">351 слово · общая подборка</span>
-          <h2>Португальские слова</h2>
-          <p>Существительные, глаголы, прилагательные и другие полезные слова из общей базы.</p>
+          <span className="deck-kicker">351 слово · базовая лексика</span>
+          <h2>Базовые португальские слова</h2>
+          <p>Существительные, глаголы, прилагательные и другие полезные слова для повторения.</p>
         </div>
         <div className="deck-position" aria-label="Позиция в колоде"><strong>{index + 1}</strong><span>из {generalVocabulary.length}</span></div>
       </div>

@@ -5,6 +5,7 @@ import { learningCatalog, meaningForLegacyWord, meaningForSourceEntry } from "..
 import { pairVocabulary } from "../features/content/vocabulary-catalog.ts";
 import { vocabularyLessons } from "../features/content/vocabulary-lessons.ts";
 import { validateLearningCatalog } from "../features/content/learning-model.ts";
+import { catalogGroups, catalogWords } from "../features/content/learning-catalog-view.ts";
 
 test("the unified learning catalog has no broken identities or references", () => {
   assert.deepEqual(validateLearningCatalog(learningCatalog), []);
@@ -41,4 +42,19 @@ test("legacy vocabulary IDs remain available to the existing mechanics", () => {
   for (const word of pairVocabulary) assert.ok(meaningForLegacyWord(word.id), word.id);
   const activityCollections = new Set(learningCatalog.activities.flatMap(activity => activity.target.kind === "vocabulary" ? [activity.target.collectionId] : []));
   assert.ok([...activityCollections].every(id => learningCatalog.collections.find(collection => collection.id === id)?.source.legacySetId));
+});
+
+test("the Words catalog integrates only missing reviewed words into semantic topics", () => {
+  const labels = new Map(catalogWords.map(word => [word.id, word.label]));
+  const integratedSets = catalogGroups.flatMap(group => group.subgroups
+    .filter(subgroup => subgroup.id.startsWith("collection:vocabulary-lesson:"))
+    .map(subgroup => ({ group: group.title, title: subgroup.title, words: subgroup.sets[0].words.map(id => labels.get(id)) })));
+
+  assert.equal(integratedSets.flatMap(set => set.words).length, 35);
+  assert.deepEqual(integratedSets.find(set => set.title === "Дом и вещи")?.words, ["o apartamento", "a chave", "o objeto"]);
+  assert.deepEqual(integratedSets.find(set => set.title === "Город и дорога")?.words, ["a praça", "a avenida", "a ponte", "a estação"]);
+  assert.deepEqual(integratedSets.find(set => set.title === "Разговор и понимание")?.words, ["dizer", "conversar", "contar"]);
+  assert.deepEqual(integratedSets.find(set => set.title === "Движение и поездки")?.words, ["caminhar"]);
+  assert.ok(integratedSets.every(set => !set.words.includes(undefined)));
+  assert.ok(!catalogGroups.some(group => ["Вся подборка", "Короткие уроки"].includes(group.title)));
 });
