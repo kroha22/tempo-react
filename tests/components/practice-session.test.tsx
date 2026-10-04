@@ -83,6 +83,24 @@ describe("Practice session reducer", () => {
       group: "irregular",
       tense: "present",
     });
+
+    const ir = practiceSessionReducer(being, {
+      type: "lessonPracticeOpened",
+      target: { kind: "ir" },
+      chips,
+    });
+
+    expect(ir).toMatchObject({
+      adultBeingGuide: null,
+      adultActionGuide: null,
+      adultTerGuide: false,
+      adultIrGuide: true,
+      verbKey: "ir",
+      group: "irregular",
+      tense: "present",
+      mode: "learn",
+      irQuizChoice: null,
+    });
   });
 
   it("keeps wrong placement feedback local and accepts equivalent forms once", () => {

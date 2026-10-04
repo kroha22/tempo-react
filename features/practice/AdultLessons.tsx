@@ -162,6 +162,23 @@ const lessons: Lesson[] = [
     quiz: { prompt: "Eu ___ ajuda quando preciso.", options: ["pedo", "peço", "pido"], answer: 1, explanation: "Форма eu от pedir — peço." },
   },
   {
+    id: "ir-plans", chapter: "Основные глаголы", title: "IR: идти и планировать", subtitle: "Куда идём и что собираемся делать",
+    rule: "IR обозначает движение, а вместе с инфинитивом помогает говорить о планах. В конструкции будущего изменяется только IR, а смысловой глагол остаётся в начальной форме.",
+    formula: "форма IR + infinitivo",
+    markers: ["движение: vou ao mercado / vamos para casa", "план: vou trabalhar / vamos viajar", "подсказки: amanhã, logo, no fim de semana"],
+    forms: [
+      { label: "eu", value: "vou" }, { label: "tu", value: "vais" }, { label: "ele / ela / você", value: "vai" },
+      { label: "nós", value: "vamos" }, { label: "vocês", value: "vão" }, { label: "eles / elas", value: "vão" },
+    ],
+    examples: [
+      { pt: "Vou ao mercado.", ru: "Я иду на рынок." },
+      { pt: "Vamos estudar português amanhã.", ru: "Завтра мы будем учить португальский." },
+      { pt: "A Marta vai comprar pão.", ru: "Марта собирается купить хлеб." },
+    ],
+    practice: { kind: "ir" },
+    quiz: { prompt: "Amanhã nós ___ visitar o Porto.", options: ["vamos", "vão", "estamos a"], answer: 0, explanation: "План на завтра строится через IR + infinitivo: vamos visitar." },
+  },
+  {
     id: "habit-now", chapter: "Настоящее", title: "Обычно или сейчас?", subtitle: "Presente и ESTAR A",
     rule: "Простое настоящее описывает привычку или факт. ESTAR A + infinitivo показывает действие, которое уже началось и идёт в этот момент.",
     markers: ["обычно: sempre, muitas vezes, todos os dias", "сейчас: agora, neste momento"],

@@ -11,7 +11,9 @@ export type PracticeSession = {
   actionUse: ActionUse;
   adultActionGuide: ActionUse | null;
   adultTerGuide: boolean;
+  adultIrGuide: boolean;
   actionQuizChoice: string | null;
+  irQuizChoice: string | null;
   verbKey: VerbKey;
   tense: Tense;
   group: VerbGroup;
@@ -56,6 +58,10 @@ export type PracticeSessionAction =
   | { type: "terGuideOpened"; chips: PersonKey[] }
   | { type: "terSunModeChanged"; mode: Extract<PracticeMode, "learn" | "practice">; chips: PersonKey[] }
   | { type: "terGuideClosed" }
+  | { type: "irGuideOpened"; chips: PersonKey[] }
+  | { type: "irSunModeChanged"; mode: Extract<PracticeMode, "learn" | "practice">; chips: PersonKey[] }
+  | { type: "irQuizAnswered"; choice: string }
+  | { type: "irGuideClosed" }
   | { type: "childRulesRequested" }
   | { type: "tenseChanged"; tense: Tense; chips: PersonKey[] }
   | { type: "quizAnswered"; selection: string; correct: boolean }
@@ -85,7 +91,9 @@ export function createPracticeSession({
     actionUse: "habit",
     adultActionGuide: null,
     adultTerGuide: false,
+    adultIrGuide: false,
     actionQuizChoice: null,
+    irQuizChoice: null,
     verbKey: initialVerbKey,
     tense: initialTense,
     group: verbs[initialVerbKey].group,
@@ -135,6 +143,10 @@ function prepareTerLesson(state: PracticeSession, chips: PersonKey[]): PracticeS
   return resetExercise({ ...state, group: "irregular", tense: "present" }, { mode: "learn", verbKey: "ter", chips });
 }
 
+function prepareIrLesson(state: PracticeSession, chips: PersonKey[]): PracticeSession {
+  return resetExercise({ ...state, group: "irregular", tense: "present", irQuizChoice: null }, { mode: "learn", verbKey: "ir", chips });
+}
+
 export function practiceSessionReducer(state: PracticeSession, action: PracticeSessionAction): PracticeSession {
   switch (action.type) {
     case "sectionChanged":
@@ -147,6 +159,7 @@ export function practiceSessionReducer(state: PracticeSession, action: PracticeS
         adultBeingGuide: null,
         adultActionGuide: null,
         adultTerGuide: false,
+        adultIrGuide: false,
       };
     case "lessonPracticeOpened": {
       const base = {
@@ -156,6 +169,7 @@ export function practiceSessionReducer(state: PracticeSession, action: PracticeS
         adultBeingGuide: null,
         adultActionGuide: null,
         adultTerGuide: false,
+        adultIrGuide: false,
       };
       if (action.target.kind === "being") {
         const next = prepareBeingLesson(base, action.target.beingVerb, action.chips);
@@ -174,6 +188,12 @@ export function practiceSessionReducer(state: PracticeSession, action: PracticeS
         return state.childMode
           ? { ...next, childStep: "ter" }
           : { ...next, adultTerGuide: true };
+      }
+      if (action.target.kind === "ir") {
+        const next = prepareIrLesson(base, action.chips);
+        return state.childMode
+          ? { ...next, childStep: "ir" }
+          : { ...next, adultIrGuide: true };
       }
       if (action.target.kind === "verb") {
         const targetVerb = verbs[action.target.verbKey];
@@ -196,6 +216,7 @@ export function practiceSessionReducer(state: PracticeSession, action: PracticeS
         adultBeingGuide: null,
         adultActionGuide: null,
         adultTerGuide: false,
+        adultIrGuide: false,
       };
     case "childStepChanged":
       return { ...state, childStep: action.childStep };
@@ -233,7 +254,7 @@ export function practiceSessionReducer(state: PracticeSession, action: PracticeS
       const next = prepareBeingLesson(state, action.beingVerb, action.chips);
       return state.childMode
         ? { ...next, childStep: "special" }
-        : { ...next, adultBeingGuide: action.beingVerb, adultActionGuide: null, adultTerGuide: false };
+        : { ...next, adultBeingGuide: action.beingVerb, adultActionGuide: null, adultTerGuide: false, adultIrGuide: false };
     }
     case "beingVerbChanged": {
       const next = prepareBeingLesson(state, action.beingVerb, action.chips);
@@ -247,7 +268,7 @@ export function practiceSessionReducer(state: PracticeSession, action: PracticeS
       const next = prepareActionLesson(state, action.actionUse, action.chips);
       return state.childMode
         ? { ...next, childStep: "action" }
-        : { ...next, adultBeingGuide: null, adultActionGuide: action.actionUse, adultTerGuide: false };
+        : { ...next, adultBeingGuide: null, adultActionGuide: action.actionUse, adultTerGuide: false, adultIrGuide: false };
     }
     case "actionUseChanged": {
       const next = prepareActionLesson(state, action.actionUse, action.chips);
@@ -263,12 +284,24 @@ export function practiceSessionReducer(state: PracticeSession, action: PracticeS
       const next = prepareTerLesson(state, action.chips);
       return state.childMode
         ? { ...next, childStep: "ter" }
-        : { ...next, adultBeingGuide: null, adultActionGuide: null, adultTerGuide: true };
+        : { ...next, adultBeingGuide: null, adultActionGuide: null, adultTerGuide: true, adultIrGuide: false };
     }
     case "terSunModeChanged":
       return resetExercise(state, { mode: action.mode, verbKey: "ter", chips: action.chips });
     case "terGuideClosed":
       return state.childMode ? { ...state, childStep: "kingdom" } : { ...state, adultTerGuide: false };
+    case "irGuideOpened": {
+      const next = prepareIrLesson(state, action.chips);
+      return state.childMode
+        ? { ...next, childStep: "ir" }
+        : { ...next, adultBeingGuide: null, adultActionGuide: null, adultTerGuide: false, adultIrGuide: true };
+    }
+    case "irSunModeChanged":
+      return resetExercise(state, { mode: action.mode, verbKey: "ir", chips: action.chips });
+    case "irQuizAnswered":
+      return state.irQuizChoice === null ? { ...state, irQuizChoice: action.choice } : state;
+    case "irGuideClosed":
+      return state.childMode ? { ...state, childStep: "kingdom" } : { ...state, adultIrGuide: false };
     case "childRulesRequested":
       return state.verbKey === "ser" || state.verbKey === "estar"
         ? { ...state, beingVerb: state.verbKey, childStep: "special" }

@@ -1,9 +1,10 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { people, verbs } from "@/features/conjugation/data";
 import { ActionGuide } from "@/features/practice/ActionGuide";
 import { BeingGuide } from "@/features/practice/BeingGuide";
+import { IrGuide } from "@/features/practice/IrGuide";
 import { KingdomMap } from "@/features/practice/KingdomMap";
 import { PracticeControls } from "@/features/practice/PracticeControls";
 import { TerGuide } from "@/features/practice/TerGuide";
@@ -370,6 +371,60 @@ describe("Practice composition controls", () => {
 
     await user.click(screen.getByRole("button", { name: /Потренировать здесь/ }));
 
+    expect(screen.getByRole("complementary", { name: "Формы глагола для расстановки" })).toBeInTheDocument();
+  });
+
+  it("keeps the IR lesson answer and solar practice transitions parent-owned", async () => {
+    const back = vi.fn();
+    const modeChange = vi.fn();
+    const choose = vi.fn();
+
+    render(
+      <IrGuide
+        childMode={false}
+        verb={verbs.ir}
+        forms={verbs.ir.forms.present}
+        sunMode="learn"
+        quizChoice={null}
+        chips={people.map((person) => person.key)}
+        placed={{}}
+        placedChipKeys={[]}
+        selectedChip={null}
+        mistake={null}
+        completed={false}
+        onBack={back}
+        onSunModeChange={modeChange}
+        onChooseQuizAnswer={choose}
+        onPlace={() => {}}
+        onSelectChip={() => {}}
+        onRestartPractice={() => {}}
+      />,
+    );
+
+    expect(screen.getByText("IR в настоящем времени")).toBeInTheDocument();
+    expect(screen.getByText("IR + infinitivo")).toBeInTheDocument();
+    expect(screen.getAllByText("vou").length).toBeGreaterThan(0);
+
+    const user = userEvent.setup();
+    await user.click(screen.getByRole("button", { name: "vamos" }));
+    await user.click(within(screen.getByRole("group", { name: "Режим солнечного урока" })).getByRole("button", { name: "Расставить формы" }));
+
+    expect(choose).toHaveBeenCalledWith("vamos");
+    expect(modeChange).toHaveBeenCalledWith("practice");
+  });
+
+  it("opens the complete IR guide from its lesson", async () => {
+    render(<PracticeScreen initialSection="lessons" />);
+    const user = userEvent.setup();
+
+    await user.click(screen.getByRole("button", { name: /IR: идти и планировать/ }));
+    await user.click(screen.getByRole("button", { name: /Потренировать формы/ }));
+
+    expect(screen.getByRole("heading", { name: "IR" })).toBeInTheDocument();
+    expect(screen.getByText("IR + infinitivo")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /Amanhã nós/ })).toBeInTheDocument();
+
+    await user.click(within(screen.getByRole("group", { name: "Режим солнечного урока" })).getByRole("button", { name: "Расставить формы" }));
     expect(screen.getByRole("complementary", { name: "Формы глагола для расстановки" })).toBeInTheDocument();
   });
 

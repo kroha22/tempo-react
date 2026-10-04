@@ -7,6 +7,7 @@ import { ActionGuide } from "@/features/practice/ActionGuide";
 import { AdultRulePanel } from "@/features/practice/AdultRulePanel";
 import { BeingGuide } from "@/features/practice/BeingGuide";
 import { KingdomMap } from "@/features/practice/KingdomMap";
+import { IrGuide } from "@/features/practice/IrGuide";
 import { PracticeControls } from "@/features/practice/PracticeControls";
 import { PracticeTopbar } from "@/features/practice/PracticeTopbar";
 import { QuizExercise } from "@/features/practice/QuizExercise";
@@ -55,7 +56,9 @@ export default function PracticeScreen({ initialVerbKey = "fazer", initialTense 
     actionUse,
     adultActionGuide,
     adultTerGuide,
+    adultIrGuide,
     actionQuizChoice,
+    irQuizChoice,
     verbKey,
     tense,
     group,
@@ -153,6 +156,10 @@ export default function PracticeScreen({ initialVerbKey = "fazer", initialTense 
 
   function changeTerSunMode(nextMode: Extract<PracticeMode, "learn" | "practice">) {
     dispatch({ type: "terSunModeChanged", mode: nextMode, chips: shuffledChips() });
+  }
+
+  function changeIrSunMode(nextMode: Extract<PracticeMode, "learn" | "practice">) {
+    dispatch({ type: "irSunModeChanged", mode: nextMode, chips: shuffledChips() });
   }
 
   function returnToChildRules() {
@@ -308,6 +315,27 @@ export default function PracticeScreen({ initialVerbKey = "fazer", initialTense 
             onRestartPractice={() => reset("practice", "ter")}
           />
         )}
+        {((childMode && childStep === "ir") || (!childMode && adultIrGuide)) && (
+          <IrGuide
+            childMode={childMode}
+            verb={verbs.ir}
+            forms={verbs.ir.forms.present}
+            sunMode={mode === "practice" ? "practice" : "learn"}
+            quizChoice={irQuizChoice}
+            chips={chips}
+            placed={placed}
+            placedChipKeys={placedChipKeys}
+            selectedChip={selectedChip}
+            mistake={mistake}
+            completed={completed}
+            onBack={() => dispatch({ type: "irGuideClosed" })}
+            onSunModeChange={changeIrSunMode}
+            onChooseQuizAnswer={(choice) => dispatch({ type: "irQuizAnswered", choice })}
+            onPlace={tryPlace}
+            onSelectChip={(chip) => dispatch({ type: "chipSelected", chip })}
+            onRestartPractice={() => reset("practice", "ir")}
+          />
+        )}
         {childMode && childStep === "rules" && (
           <RulesDeck
             group={group}
@@ -317,7 +345,7 @@ export default function PracticeScreen({ initialVerbKey = "fazer", initialTense 
             onStartPractice={() => dispatch({ type: "childStepChanged", childStep: "exercise" })}
           />
         )}
-        {((!childMode && !adultBeingGuide && !adultActionGuide && !adultTerGuide) || (childMode && childStep === "exercise")) && <>
+        {((!childMode && !adultBeingGuide && !adultActionGuide && !adultTerGuide && !adultIrGuide) || (childMode && childStep === "exercise")) && <>
         <PracticeControls
           childMode={childMode}
           group={group}
