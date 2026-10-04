@@ -406,8 +406,10 @@ describe("Practice composition controls", () => {
     expect(screen.getAllByText("vou").length).toBeGreaterThan(0);
 
     const user = userEvent.setup();
-    await user.click(screen.getByRole("button", { name: "vamos" }));
+    await user.click(screen.getByRole("button", { name: "Шаг 3: Формы" }));
     await user.click(within(screen.getByRole("group", { name: "Режим солнечного урока" })).getByRole("button", { name: "Расставить формы" }));
+    await user.click(screen.getByRole("button", { name: "Шаг 4: Проверка" }));
+    await user.click(screen.getByRole("button", { name: "vamos" }));
 
     expect(choose).toHaveBeenCalledWith("vamos");
     expect(modeChange).toHaveBeenCalledWith("practice");
@@ -422,10 +424,13 @@ describe("Practice composition controls", () => {
 
     expect(screen.getByRole("heading", { name: "IR" })).toBeInTheDocument();
     expect(screen.getByText("IR + infinitivo")).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: /Amanhã nós/ })).toBeInTheDocument();
 
+    await user.click(screen.getByRole("button", { name: "Шаг 3: Формы" }));
     await user.click(within(screen.getByRole("group", { name: "Режим солнечного урока" })).getByRole("button", { name: "Расставить формы" }));
     expect(screen.getByRole("complementary", { name: "Формы глагола для расстановки" })).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Шаг 4: Проверка" }));
+    expect(screen.getByRole("heading", { name: /Amanhã nós/ })).toBeInTheDocument();
   });
 
 
