@@ -8,9 +8,9 @@
 .kids-mode .vocabulary-modes button[aria-pressed=true], .kids-mode .house-step-nav button[aria-current], .kids-mode .house-topic-nav button[aria-pressed=true] { border-color: #2f744f; background: #3c855b; color: #fff; }
 .kids-mode .house-activity .vocabulary-flashcard, .kids-mode .house-activity .house-pair-column .house-pair, .kids-mode .house-activity .house-word-entry { border-color: #c9dcbc; background: #fffdf5; }
 .word-search { max-width: 660px; }.word-search h1 { font-size: 28px; }
-.word-search-grid { display: grid; width: min(100%, 480px); margin: 12px auto; border: 1px solid #b7c7b3; border-radius: 8px; overflow: hidden; }
+.word-search-grid { display: grid; width: min(100%, 480px); margin: 12px auto; border: 1px solid #b7c7b3; border-radius: 8px; overflow: hidden; touch-action: none; user-select: none; }
 .word-search .word-search-grid button { min-height: 0; padding: 0; aspect-ratio: 1; border: 1px solid #d6dfd0; border-radius: 0; background: #fffdf2; color: #233c32; font-size: clamp(13px, 4vw, 20px); font-weight: 800; }
-.word-search .word-search-grid button.is-found { background: #deefd4; text-decoration: underline; }.word-search .word-search-grid button.is-start { background: #ffe39a; box-shadow: inset 0 0 0 3px #806022; }.word-search .word-search-grid button:focus-visible { outline: 3px solid #704d96; outline-offset: -3px; }
+.word-search .word-search-grid button.is-found { background: #deefd4; text-decoration: underline; }.word-search .word-search-grid button.is-selected { position: relative; z-index: 1; background: #ffe39a; box-shadow: inset 0 0 0 3px #806022; }.word-search .word-search-grid button:focus-visible { outline: 3px solid #704d96; outline-offset: -3px; }
 .word-search-status { min-height: 44px; }.word-search-list { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; }.word-search-label { display: block; padding: 12px 32px 12px 10px; font-weight: 700; overflow-wrap: anywhere; }.word-search-list .is-placed .word-search-label { text-decoration: line-through; }
 .clock-lesson { max-width: 700px; }.clock-lesson h1 { font: 34px Fredoka, sans-serif; margin: 12px 0; }.clock-lesson h2 { margin: 10px 0; font-size: 23px; }
 .learning-clock { position: relative; width: min(100%, 280px); margin: 12px auto; aspect-ratio: 1; }.learning-clock svg { display: block; width: 100%; height: 100%; }

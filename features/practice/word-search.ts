@@ -23,6 +23,17 @@ export function findSearchWord(board: SearchBoard, path: readonly number[]): Sea
   const text=path.map(index=>board.cells[index]).join("");
   return board.words.find(word=>word.letters===text||word.letters===[...text].reverse().join(""));
 }
+export function searchPathText(board: SearchBoard, path: readonly number[]): string {
+  return path.map(index => board.cells[index] ?? "").join("");
+}
+export function extendSearchPath(size: number, current: readonly number[], next: number): readonly number[] {
+  if (!current.length) return searchPath(size, next, next);
+  const existingIndex = current.indexOf(next);
+  if (existingIndex >= 0) return current.slice(0, existingIndex + 1);
+  const extended = searchPath(size, current[0], next);
+  if (!extended.length || extended.length <= current.length) return [];
+  return current.every((index, position) => extended[position] === index) ? extended : [];
+}
 export function makeSearchBoard(words: readonly SearchWord[], seed: number): SearchBoard {
   if (!words.length || words.length>10) throw new Error("Word search requires 1–10 words");
   let state=seed>>>0;const random=()=>{state=(Math.imul(state,1664525)+1013904223)>>>0;return state/2**32;};
