@@ -5,42 +5,36 @@ body {
 .github-pages-demo {
   width: min(1180px, calc(100% - 28px));
   margin: 0 auto;
-  padding: 28px 0 48px;
+  padding: 12px 0 40px;
 }
 
 .demo-intro {
-  max-width: 760px;
-  margin: 0 auto 24px;
-  padding: 8px 4px;
-}
-
-.demo-intro > span {
-  color: var(--sun-dark);
-  font-size: 12px;
-  font-weight: 900;
-  letter-spacing: .13em;
-  text-transform: uppercase;
-}
-
-.demo-intro h1 {
-  margin: 8px 0 12px;
-  font-family: var(--font-heading);
-  font-size: clamp(36px, 7vw, 64px);
-  line-height: .98;
-}
-
-.demo-intro p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 17px;
-  line-height: 1.55;
-}
-
-.demo-intro a {
-  display: inline-flex;
+  position: relative;
   min-height: 44px;
-  margin-top: 18px;
+  margin: 0 0 10px;
+  padding: 4px 8px;
+  display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.demo-intro > div { min-width: 0; display: flex; align-items: baseline; gap: 10px; }
+
+.demo-intro > div > span {
+  color: var(--sun-dark);
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.demo-intro > div > strong { min-width: 0; overflow: hidden; color: var(--ink); font-size: 13px; text-overflow: ellipsis; white-space: nowrap; }
+.demo-info summary { width: 40px; height: 40px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; background: var(--cream); color: var(--green); cursor: pointer; font-weight: 900; list-style: none; }
+.demo-info summary::-webkit-details-marker { display: none; }
+.demo-info[open] summary { border-color: var(--green); background: #edf7ee; }
+.demo-info > div { position: absolute; z-index: 20; top: 48px; right: 4px; width: min(330px, calc(100vw - 32px)); padding: 16px; border: 1px solid var(--line); border-radius: 16px; background: #fffef9; box-shadow: 0 16px 38px rgba(41,59,62,.18); }
+.demo-info p { margin: 7px 0 10px; color: var(--muted); font-size: 14px; line-height: 1.45; }
+.demo-info a {
   color: var(--green);
   font-weight: 900;
   text-decoration: none;
@@ -49,18 +43,11 @@ body {
 @media (max-width: 620px) {
   .github-pages-demo {
     width: min(100% - 16px, 1180px);
-    padding-top: 18px;
+    padding-top: 4px;
   }
 
   .demo-intro {
-    margin-bottom: 12px;
-  }
-
-  .demo-intro h1 {
-    font-size: 38px;
-  }
-
-  .demo-intro p {
-    font-size: 15px;
+    min-height: 42px;
+    margin-bottom: 4px;
   }
 }

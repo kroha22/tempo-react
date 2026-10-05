@@ -170,17 +170,17 @@ button { color: inherit; }
 footer { max-width: 1240px; margin: 0 auto; padding: 26px clamp(22px,5vw,56px) 44px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .11em; }
 
 @media (max-width: 620px) {
-  .deck-library { padding-top: 12px; }
+  .deck-library { padding-top: 2px; }
   .deck-library__heading h2 { font-size: 30px; }
   .deck-library__grid { grid-template-columns: 1fr; gap: 11px; }
-  .deck-library__grid > button { min-height: 170px; padding: 18px; grid-template-columns: 58px 1fr; column-gap: 13px; }
-  .deck-library__icon { width: 58px; height: 58px; grid-row: 1/5; border-radius: 18px; font-size: 18px; }
+  .deck-library__grid > button { min-height: 138px; padding: 15px; grid-template-columns: 52px 1fr; column-gap: 12px; }
+  .deck-library__icon { width: 52px; height: 52px; grid-row: 1/5; border-radius: 16px; font-size: 17px; }
   .deck-library__grid strong { margin-top: 2px; font-size: 22px; }
   .deck-library__grid small { margin-top: 4px; }
-  .cards-workspace { padding-top: 14px; padding-bottom: 26px; }
+  .cards-workspace { padding-top: 5px; padding-bottom: 26px; }
   .deck-heading { display: block; }
   .deck-heading h2 { font-size: 25px; }
-  .deck-heading p { font-size: 14px; line-height: 1.4; }
+  .deck-heading p { display: none; }
   .deck-stats { margin-top: 12px; grid-template-columns: repeat(3, 1fr); }
   .deck-stats div { padding: 7px 5px; }
   .deck-stats strong { font-size: 19px; }

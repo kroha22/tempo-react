@@ -131,22 +131,22 @@
 .kids-mode .adult-lesson-controls button { border-color: #a9cbb5; background: #f2faef; }
 
 @media (max-width: 760px) {
-  .adult-lessons { width: min(100% - 20px, 600px); margin-top: 18px; }
-  .adult-lessons-intro { align-items: start; padding: 22px; border-radius: 22px; }
-  .adult-lessons-intro p { font-size: 14px; }
+  .adult-lessons { width: min(100% - 20px, 600px); margin-top: 10px; }
+  .adult-lessons-intro { align-items: center; padding: 15px 17px; border-radius: 19px; }
+  .adult-lessons-intro p { display: none; }
   .adult-intro-actions { align-items: flex-end; flex-direction: column-reverse; gap: 9px; }
   .adult-intro-actions > button { min-height: 40px; padding: 7px 11px; font-size: 10px; }
-  .adult-progress strong { font-size: 38px; }
-  .adult-lessons-layout { display: block; margin-top: 14px; }
-  .adult-lesson-nav { position: static; display: flex; max-height: none; overflow-x: auto; gap: 8px; padding: 8px; border-radius: 18px; scroll-snap-type: x proximity; }
+  .adult-progress strong { font-size: 32px; }
+  .adult-lessons-layout { display: block; margin-top: 9px; }
+  .adult-lesson-nav { position: static; display: flex; max-height: none; overflow-x: auto; gap: 6px; padding: 6px; border-radius: 16px; scroll-snap-type: x proximity; }
   .adult-lesson-group { display: contents; }
   .adult-lesson-group + .adult-lesson-group { margin: 0; }
   .adult-lesson-group > span { display: none; }
-  .adult-lesson-group button { flex: 0 0 auto; width: auto; min-height: 42px; grid-template-columns: auto auto; padding: 7px 11px; scroll-snap-align: start; }
-  .adult-lesson-card { margin-top: 14px; border-radius: 22px; }
-  .adult-lesson-heading { padding: 25px 21px 21px; }
+  .adult-lesson-group button { flex: 0 0 auto; width: auto; min-height: 44px; grid-template-columns: auto auto; padding: 7px 11px; scroll-snap-align: start; }
+  .adult-lesson-card { margin-top: 9px; border-radius: 20px; }
+  .adult-lesson-heading { padding: 18px 17px 15px; }
   .adult-lesson-heading p { font-size: 16px; }
-  .adult-rule, .adult-forms, .adult-examples, .adult-check { margin: 22px 20px 0; }
+  .adult-rule, .adult-forms, .adult-examples, .adult-check { margin: 17px 16px 0; }
   .adult-rule p { font-size: 16px; }
   .adult-markers { margin: 16px 20px 0; }
   .adult-past { margin: 20px 20px 0; }
@@ -163,7 +163,7 @@
   .adult-practice-bridge { margin: 16px 20px 0; padding: 15px; align-items: stretch; flex-direction: column; gap: 12px; }
   .adult-practice-bridge button { width: 100%; }
   .adult-check-options button { flex: 1 1 100px; }
-  .adult-lesson-controls { padding: 20px; }
+  .adult-lesson-controls { padding: 16px; }
 }
 
 @media (max-width: 430px) {

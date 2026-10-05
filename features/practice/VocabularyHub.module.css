@@ -9,3 +9,15 @@
 :global(.kids-mode) .header { padding: 18px 20px; border: 2px solid #efd270; border-radius: 24px; background: linear-gradient(120deg,#fff7c9,#e4f5e5 70%,#eee4fa); box-shadow: 0 12px 28px rgba(68,111,78,.1); }
 :global(.kids-mode) .header > button { border-color: #78aa87; background: #fffdf5; color: #286447; }
 @media(max-width:620px){.shell{padding-top:16px}.header{align-items:stretch;flex-direction:column;gap:14px}.header p{font-size:15px}.header>button{align-self:flex-start}}
+
+.shell:has(:global(.pair-back)) { padding-top: 18px; }
+.shell:has(:global(.pair-back)) .header { display: none; }
+
+@media(max-width:620px){
+  .shell{padding-top:12px;padding-bottom:28px}
+  .header{gap:8px;margin-bottom:12px}
+  .header h1{font-size:32px}
+  .header p{display:none}
+  .header>button{min-height:40px;padding:7px 13px}
+  .shell:has(:global(.pair-back)){padding-top:10px}
+}

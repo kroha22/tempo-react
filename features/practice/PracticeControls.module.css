@@ -264,7 +264,7 @@
   .groupSwitch { grid-template-columns: repeat(4, 1fr); }
 
   .tenseSwitch button,
-  .groupSwitch button { min-height: 27px; padding: 4px 5px; font-size: 9px; }
+  .groupSwitch button { min-height: 40px; padding: 6px 5px; font-size: 10px; }
 
   .controlLabel { display: none; }
   .verbControl { display: block; }
@@ -272,7 +272,7 @@
   .verbPicker {
     width: 100%;
     min-width: 0;
-    min-height: 42px;
+    min-height: 48px;
     grid-template-columns: 40px minmax(0, 1fr) 40px;
   }
 
@@ -287,6 +287,8 @@
   .chosenKingdom { max-width: 58%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 10px; }
   .adultBeingEntry { display: grid; grid-template-columns: auto repeat(3, 1fr); }
   .adultBeingEntry > span { text-align: center; }
+  .adultBeingEntry button { min-height: 40px; padding: 6px 8px; font-size: 10px; }
   .adultActionEntry { display: grid; grid-template-columns: auto 1fr 1fr; }
   .adultActionEntry > span { text-align: center; }
+  .adultActionEntry button { min-height: 40px; padding: 6px 8px; font-size: 10px; }
 }

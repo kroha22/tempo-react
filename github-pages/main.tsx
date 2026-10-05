@@ -13,10 +13,18 @@ function Demo() {
   return (
     <div className="github-pages-demo">
       <header className="demo-intro">
-        <span>Интерактивное демо</span>
-        <h1>Европейский португальский — коротко и на практике</h1>
-        <p>Откройте урок, потренируйте формы или выберите одну из двух колод: 1 000 частотных глаголов и «351 базовое слово». Прогресс интервального повторения сохраняется только в этом браузере.</p>
-        <a href="https://github.com/kroha22/tempo-react">Исходный код на GitHub →</a>
+        <div>
+          <span>Tempo</span>
+          <strong>Европейский португальский</strong>
+        </div>
+        <details className="demo-info">
+          <summary aria-label="О демо-версии">i</summary>
+          <div>
+            <strong>Интерактивное демо</strong>
+            <p>Короткие уроки, тренировка форм и две колоды карточек. Прогресс сохраняется только в этом браузере.</p>
+            <a href="https://github.com/kroha22/tempo-react">Исходный код на GitHub →</a>
+          </div>
+        </details>
       </header>
       <PracticeScreen initialChildMode={initialChildMode} initialSection="lessons" />
     </div>

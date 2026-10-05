@@ -26,7 +26,11 @@ export function VocabularyStudy({ onOpenCards }: { onOpenCards?: () => void } = 
   const [imageId, setImageId] = useState<string | null>(null);
   const [usageId, setUsageId] = useState<string | null>(null);
   const group = studyVocabularyGroups.find(group => group.id === groupId);
-  if (!group) return <section className="house-activity vocabulary-study"><span className="tempo-kicker">Изучение слов</span><h1>Выбери тему</h1><p>Карточки, пары и задания на смысл — с одними и теми же словами.</p><div className="pair-catalog-grid">{studyVocabularyGroups.map(group => <button type="button" className="pair-topic" key={group.id} onClick={() => setGroupId(group.id)}><strong>{group.title}</strong><span>{group.subgroups.map(subgroup => subgroup.title).join(" · ")}</span></button>)}</div>{onOpenCards && <p><button type="button" onClick={onOpenCards}>Мои карточки и повторение</button></p>}</section>;
+  if (!group) return <section className="house-activity vocabulary-study"><span className="tempo-kicker">Изучение слов</span><h1>Выбери тему</h1><p>Карточки, пары и задания на смысл — с одними и теми же словами.</p><div className="pair-catalog-grid">{studyVocabularyGroups.map(group => {
+    const wordCount = new Set(group.subgroups.flatMap(subgroup => subgroup.sets.flatMap(set => set.words))).size;
+    const examples = group.subgroups.slice(0, 2).map(subgroup => subgroup.title).join(" · ");
+    return <button type="button" className="pair-topic" key={group.id} onClick={() => setGroupId(group.id)}><strong>{group.title}</strong><span>{wordCount} слов{examples ? ` · ${examples}` : ""}</span></button>;
+  })}</div>{onOpenCards && <p><button type="button" onClick={onOpenCards}>Мои карточки и повторение</button></p>}</section>;
   const allSets = vocabularySets(group);
   const sets = setId ? allSets.filter(set => set.id === setId) : allSets;
   const ids = new Set(sets.flatMap(set => set.words));
@@ -40,10 +44,10 @@ export function VocabularyStudy({ onOpenCards }: { onOpenCards?: () => void } = 
   const modes: Mode[] = ["cards", "pairs", ...(usageModules.length ? ["usage"] as const : []), ...(hasSearch ? ["search"] as const : []), ...(oddSets.length ? ["odd", "common"] as const : []), ...(availableImages.length ? ["image"] as const : [])];
   return <section className="house-activity vocabulary-study">
     <button type="button" className="pair-back" onClick={() => { setGroupId(null); setSetId(null); setMode(null); setUsageId(null); }}>← Все темы</button>
-    <h1>{group.title}</h1>
+    <div className="vocabulary-topic-heading"><div><span className="tempo-kicker">Тема слов</span><h1>{group.title}</h1></div><span>{words.length} слов</span></div>
     <label className="vocabulary-set-label">Набор слов<select aria-label="Набор слов" value={setId ?? ""} onChange={event => { setSetId(event.target.value || null); setMode(null); setUsageId(null); }}><option value="">Все наборы темы</option>{group.subgroups.map(subgroup => <optgroup key={subgroup.id} label={subgroup.title}>{subgroup.sets.map(set => <option key={set.id} value={set.id}>{set.title} · {set.words.length}</option>)}</optgroup>)}</select></label>
     <nav className="vocabulary-modes" aria-label="Способ изучения">{modes.map(value => <button type="button" key={value} aria-pressed={mode === value} onClick={() => setMode(value)}>{modeLabels[value]}</button>)}</nav>
-    {!mode && <p>Выбери способ изучения. В теме {words.length} слов и выражений.</p>}
+    {!mode && <p className="vocabulary-mode-prompt">Выбери способ изучения.</p>}
     {/* Keep each visited mechanic mounted while switching modes in this theme. */}
     <div hidden={mode !== "cards"}><VocabularyCards key={`cards-${setId}`} words={words} /></div>
     {hasSearch && <div hidden={mode !== "search"}><WordSearch key={`search-${setId}`} words={words} /></div>}

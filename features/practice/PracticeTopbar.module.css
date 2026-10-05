@@ -196,6 +196,8 @@
     display: none;
   }
 
+  .brand { min-height: 40px; }
+
   .sectionNav {
     order: 3;
     width: 100%;
@@ -206,8 +208,9 @@
 
   .sectionNav button {
     min-width: 0;
-    padding: 7px 5px;
-    font-size: 9.5px;
+    min-height: 40px;
+    padding: 8px 5px;
+    font-size: 11px;
   }
 
   .topActions {
@@ -215,9 +218,9 @@
   }
 
   .kidsToggle {
-    width: 36px;
-    height: 36px;
-    flex-basis: 36px;
+    width: 40px;
+    height: 40px;
+    flex-basis: 40px;
   }
 
   .kidsToggle span {
