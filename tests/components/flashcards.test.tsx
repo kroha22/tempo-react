@@ -155,8 +155,14 @@ describe("card review through the HTTP boundary", () => {
 
     await user.click(screen.getByRole("button", { name: "Показать перевод слова" }));
     expect(screen.getByText("иметь")).toBeInTheDocument();
-    await user.click(screen.getByRole("button", { name: "Следующее →" }));
+    expect(screen.getByRole("button", { name: "Не знаю" })).toBeEnabled();
+    expect(screen.getByRole("button", { name: "Сложно" })).toBeEnabled();
+    expect(screen.getByRole("button", { name: "Помню" })).toBeEnabled();
+    expect(screen.getByRole("button", { name: "Легко" })).toBeEnabled();
+    await user.click(screen.getByRole("button", { name: "Помню" }));
     expect(screen.getByText("haver")).toBeInTheDocument();
+    expect(screen.getByLabelText("Прогресс карточек в этой сессии")).toHaveTextContent(/1\s*встречалось/);
+    expect(screen.getByLabelText("Прогресс карточек в этой сессии")).toHaveTextContent(/1\s*запомнено/);
     expect(fetchMock).not.toHaveBeenCalled();
   });
 });
