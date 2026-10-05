@@ -16,8 +16,8 @@ export function PracticeTopbar({ section, childMode, tense, onSectionChange, onT
   const lessonLabel = section === "cards" ? "duas coleções" : section === "vocabulary" ? "temas e jogos" : section === "lessons" ? "gramática prática" : tense === "present" ? "Presente do indicativo" : "Pretérito perfeito";
 
   return (
-    <header className={styles.topbar}>
-      <div className={styles.brandCluster}>
+    <header className={`${styles.topbar} practice-topbar`}>
+      <div className={`${styles.brandCluster} practice-brand-cluster`}>
         <button className={styles.brand} onClick={() => onSectionChange("lessons")} aria-label="Tempo — уроки португальского">
           <span className={styles.brandMark} aria-hidden="true">t</span>
           <span>TEMPO</span>

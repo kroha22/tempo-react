@@ -3,6 +3,7 @@ body {
 }
 
 .github-pages-demo {
+  position: relative;
   width: min(1180px, calc(100% - 28px));
   margin: 0 auto;
   padding: 12px 0 40px;
@@ -12,7 +13,7 @@ body {
   position: relative;
   min-height: 44px;
   margin: 0 0 10px;
-  padding: 4px 8px;
+  padding: 4px 138px 4px 8px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -48,6 +49,48 @@ body {
 
   .demo-intro {
     min-height: 42px;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
+    padding-right: 132px;
   }
+
+  .demo-intro > div > strong { font-size: 12px; }
+  .demo-info { position: absolute; right: 2px; top: 4px; }
+  .demo-info summary { width: 38px; height: 38px; }
+  .demo-info > div { top: 42px; right: 0; }
+
+  .github-pages-demo .practice-topbar {
+    position: static;
+    min-height: 44px;
+    padding: 3px 8px 5px;
+  }
+
+  .github-pages-demo .practice-brand-cluster {
+    position: absolute;
+    z-index: 2;
+    top: -43px;
+    right: 48px;
+    gap: 6px;
+  }
+
+  .github-pages-demo .practice-brand-cluster button {
+    width: 38px;
+    min-width: 38px;
+    height: 38px;
+    min-height: 38px;
+  }
+
+  .github-pages-demo .practice-brand-cluster button:first-child > span:first-child {
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+  }
+
+  .github-pages-demo .practice-topbar nav { padding: 3px; }
+  .github-pages-demo .practice-topbar nav button { min-height: 34px; padding-block: 5px; font-size: 10.5px; }
+
+  .adult-lessons-intro h1 { font-size: 27px; }
+  .adult-lesson-heading h2 { font-size: 30px; }
+  .house-activity h1 { font-size: 28px; }
+  .deck-library__heading h2 { font-size: 27px; }
+  .deck-heading h2 { font-size: 23px; }
 }
