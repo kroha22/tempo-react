@@ -29,7 +29,7 @@ export function VocabularyStudy({ onOpenCards }: { onOpenCards?: () => void } = 
   if (!group) return <section className="house-activity vocabulary-study"><span className="tempo-kicker">Изучение слов</span><h1>Выбери тему</h1><p>Карточки, пары и задания на смысл — с одними и теми же словами.</p><div className="pair-catalog-grid">{studyVocabularyGroups.map(group => {
     const wordCount = new Set(group.subgroups.flatMap(subgroup => subgroup.sets.flatMap(set => set.words))).size;
     const examples = group.subgroups.slice(0, 2).map(subgroup => subgroup.title).join(" · ");
-    return <button type="button" className="pair-topic" key={group.id} onClick={() => setGroupId(group.id)}><strong>{group.title}</strong><span>{wordCount} слов{examples ? ` · ${examples}` : ""}</span></button>;
+    return <button type="button" className="pair-topic" key={group.id} onClick={() => { setGroupId(group.id); setMode("cards"); }}><strong>{group.title}</strong><span>{wordCount} слов{examples ? ` · ${examples}` : ""}</span></button>;
   })}</div>{onOpenCards && <p><button type="button" onClick={onOpenCards}>Мои карточки и повторение</button></p>}</section>;
   const allSets = vocabularySets(group);
   const sets = setId ? allSets.filter(set => set.id === setId) : allSets;
@@ -45,7 +45,7 @@ export function VocabularyStudy({ onOpenCards }: { onOpenCards?: () => void } = 
   return <section className="house-activity vocabulary-study">
     <button type="button" className="pair-back" onClick={() => { setGroupId(null); setSetId(null); setMode(null); setUsageId(null); }}>← Все темы</button>
     <div className="vocabulary-topic-heading"><div><span className="tempo-kicker">Тема слов</span><h1>{group.title}</h1></div><span>{words.length} слов</span></div>
-    <label className="vocabulary-set-label">Набор слов<select aria-label="Набор слов" value={setId ?? ""} onChange={event => { setSetId(event.target.value || null); setMode(null); setUsageId(null); }}><option value="">Все наборы темы</option>{group.subgroups.map(subgroup => <optgroup key={subgroup.id} label={subgroup.title}>{subgroup.sets.map(set => <option key={set.id} value={set.id}>{set.title} · {set.words.length}</option>)}</optgroup>)}</select></label>
+    <label className="vocabulary-set-label">Набор слов<select aria-label="Набор слов" value={setId ?? ""} onChange={event => { setSetId(event.target.value || null); setMode("cards"); setUsageId(null); }}><option value="">Все наборы темы</option>{group.subgroups.map(subgroup => <optgroup key={subgroup.id} label={subgroup.title}>{subgroup.sets.map(set => <option key={set.id} value={set.id}>{set.title} · {set.words.length}</option>)}</optgroup>)}</select></label>
     <nav className="vocabulary-modes" aria-label="Способ изучения">{modes.map(value => <button type="button" key={value} aria-pressed={mode === value} onClick={() => setMode(value)}>{modeLabels[value]}</button>)}</nav>
     {!mode && <p className="vocabulary-mode-prompt">Выбери способ изучения.</p>}
     {/* Keep each visited mechanic mounted while switching modes in this theme. */}
