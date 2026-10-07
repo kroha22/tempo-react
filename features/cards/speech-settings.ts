@@ -39,9 +39,11 @@ export function speechVoiceKey(voice: Pick<SpeechSynthesisVoice, "lang" | "name"
 }
 
 export function chooseSpeechVoice<T extends Pick<SpeechSynthesisVoice, "lang" | "name" | "voiceURI">>(voices: T[], language: string, preferred: string): T | undefined {
-  const candidates = voices.filter((voice) => speechLanguage(voice.lang) === speechLanguage(language));
+  const selectedLanguage = speechLanguage(language);
+  const candidates = voices.filter((voice) => selectedLanguage === "pt" ? speechLanguage(voice.lang).startsWith("pt-") : speechLanguage(voice.lang) === selectedLanguage);
   if (preferred) return candidates.find((voice) => speechVoiceKey(voice) === preferred);
-  return candidates.find((voice) => voice.name.toLowerCase() === "joana") ?? candidates[0];
+  const defaults = selectedLanguage === "pt" ? candidates.filter((voice) => speechLanguage(voice.lang) === "pt-pt") : candidates;
+  return defaults.find((voice) => voice.name.toLowerCase() === "joana") ?? defaults[0];
 }
 
 /** Safari supports an explicit language span in SSML; other engines receive plain text. */

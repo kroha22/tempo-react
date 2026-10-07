@@ -24,6 +24,13 @@ test("another language is used only when explicitly selected", () => {
   assert.equal(chooseSpeechVoice([joana, english], "en-gb", ""), english);
 });
 
+test("Portuguese includes Brazilian voices only through explicit voice selection", () => {
+  const brazilian = { name: "Luciana", lang: "pt-BR", voiceURI: "luciana" };
+  assert.equal(chooseSpeechVoice([brazilian, joana], "pt", ""), joana);
+  assert.equal(chooseSpeechVoice([brazilian, joana], "pt", speechVoiceKey(brazilian)), brazilian);
+  assert.equal(chooseSpeechVoice([brazilian], "pt", ""), undefined);
+});
+
 test("WebKit explicitly marks the spoken language and escapes study text", () => {
   const result = cardSpeechText('a < b & "c"', "pt-PT", "AppleWebKit/605.1.15 Safari/605.1.15");
   assert(result.includes('<lang xml:lang="pt-PT">'));

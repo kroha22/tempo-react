@@ -9,6 +9,7 @@ export function CardSpeechButton({ text, label = "Послушать", disabled 
   const settings = JSON.parse(useSyncExternalStore(subscribeSpeechSettings, speechSettingsSnapshot, () => defaultSpeechSettings)) as { language: string; voice: string };
   const voice = chooseSpeechVoice(voices, settings.language, settings.voice);
   const language = speechLanguage(settings.language);
+  const languageGroup = language === "pt" || language.startsWith("pt-") ? "pt" : language;
   const voiceKey = voice ? speechVoiceKey(voice) : "";
   const playbackKey = `${text}|${language}|${voiceKey}`;
   const [speaking, setSpeaking] = useState("");
@@ -77,8 +78,10 @@ export function CardSpeechButton({ text, label = "Послушать", disabled 
     }
   }
 
-  const languages = Array.from(new Set([language, ...voices.map((item) => speechLanguage(item.lang))])).sort((a, b) => a === "pt-pt" ? -1 : b === "pt-pt" ? 1 : a.localeCompare(b));
-  const languageVoices = voices.filter((item) => speechLanguage(item.lang) === language);
+  const groupLanguage = (value: string) => value === "pt" || value.startsWith("pt-") ? "pt" : value;
+  const languages = Array.from(new Set([languageGroup, ...voices.map((item) => groupLanguage(speechLanguage(item.lang)))])).sort((a, b) => a === "pt" ? -1 : b === "pt" ? 1 : a.localeCompare(b));
+  const languageVoices = voices.filter((item) => groupLanguage(speechLanguage(item.lang)) === languageGroup);
+  const displayedLanguage = voice ? speechLanguage(voice.lang) : language;
   function languageLabel(value: string) {
     try { return `${new Intl.DisplayNames(["ru"], { type: "language" }).of(value)} · ${value}`; } catch { return value; }
   }
@@ -92,14 +95,14 @@ export function CardSpeechButton({ text, label = "Послушать", disabled 
       <span aria-hidden="true">🔊</span> {speaking === playbackKey ? "Послушать ещё раз" : label}
     </button>
     <details className={styles.settings}>
-      <summary>Голос: {voice?.name ?? "не выбран"} · {language}</summary>
+      <summary>Голос: {voice?.name ?? "не выбран"} · {displayedLanguage}</summary>
       <div className={styles.fields}>
-        <label>Язык<select aria-label={`Язык озвучки: ${text}`} value={language} onChange={(event) => changeSettings(event.target.value, "")}>
+        <label>Язык<select aria-label={`Язык озвучки: ${text}`} value={languageGroup} onChange={(event) => changeSettings(event.target.value, "")}>
           {languages.map((value) => <option key={value} value={value}>{languageLabel(value)}</option>)}
         </select></label>
-        <label>Голос<select aria-label={`Голос озвучки: ${text}`} value={voiceKey} disabled={!languageVoices.length} onChange={(event) => changeSettings(language, event.target.value)}>
+        <label>Голос<select aria-label={`Голос озвучки: ${text}`} value={voiceKey} disabled={!languageVoices.length} onChange={(event) => changeSettings(languageGroup, event.target.value)}>
           {!voice && <option value="">{languageVoices.length ? "Выберите голос" : "Нет доступных голосов"}</option>}
-          {languageVoices.map((item) => <option key={speechVoiceKey(item)} value={speechVoiceKey(item)}>{item.name}</option>)}
+          {languageVoices.map((item) => <option key={speechVoiceKey(item)} value={speechVoiceKey(item)}>{item.name}{languageGroup === "pt" ? ` — ${speechLanguage(item.lang) === "pt-pt" ? "Португалия" : speechLanguage(item.lang) === "pt-br" ? "Бразилия" : item.lang}` : ""}</option>)}
         </select></label>
       </div>
       <button type="button" className={styles.button} disabled={!voice} onClick={() => speak("Olá! Estou a falar português de Portugal.")}>Проверить голос</button>
