@@ -4,6 +4,7 @@ import { vocabularySets, type VocabularyGroup } from "./vocabulary-model.ts";
 import { verbCards } from "../cards/data/verb-cards.ts";
 import { clothingWords, clothingGroup } from "./clothing.ts";
 import { sceneWords, scenesGroup } from "./picture-scenes.ts";
+import { schoolInstructionCards, schoolInstructionWordIds } from "./school-content.ts";
 import type { PairBlock, PairWord } from "../practice/word-pairs.ts";
 
 // IDs reference existing content. This registry does not own translations or review state.
@@ -37,6 +38,14 @@ function verbId(infinitive: string): string {
   return word.id;
 }
 const verbBlocks: PairBlock[] = verbThemes.map(([slug, title, infinitives]) => ({ id: `pairs-verbs-${slug}`, title, words: infinitives.split(" ").map(verbId), group: "Глаголы на каждый день", sourceLabel: "Из колоды глаголов", sourceHref: "/cards#cards" }));
+const schoolInstructionBlock: PairBlock = {
+  id: "pairs-school-instructions",
+  title: "Инструкции на уроке",
+  words: schoolInstructionWordIds,
+  group: "Школа",
+  sourceLabel: "Колода школьных инструкций",
+  sourceHref: "/cards#cards",
+};
 const selectedVerbs = new Set(verbBlocks.flatMap(block => block.words));
 
 export const pairVocabulary: readonly PairWord[] = [
@@ -44,12 +53,14 @@ export const pairVocabulary: readonly PairWord[] = [
   ...clothingWords,
   ...lessonWords,
   ...housePracticeWords.map(word => ({ ...word, acceptedAnswers: housePlaces.find(place => place.id === word.id) })),
-  ...verbCards.filter(word => selectedVerbs.has(word.id)).map(word => ({ id: word.id, label: word.pt, translation: word.ru })),
+  ...schoolInstructionCards,
+  ...verbCards.filter(word => selectedVerbs.has(word.id) && !schoolInstructionWordIds.includes(word.id)).map(word => ({ id: word.id, label: word.pt, translation: word.ru })),
 ];
 export const vocabularyGroups: readonly VocabularyGroup[] = [
   scenesGroup,
   clothingGroup,
   { id: "vocabulary-lessons", title: "Из уроков", subgroups: lessonBlocks.map(block => ({ id: block.id, title: block.title, sets: [block] })) },
+  { id: "vocabulary-school", title: "Школа", subgroups: [{ id: "school-instructions", title: "На уроке", sets: [schoolInstructionBlock] }] },
   { ...houseVocabularyGroup, imageActivityIds: ["image-house"], subgroups: houseVocabularyGroup.subgroups.map(subgroup => ({ ...subgroup, sets: subgroup.sets.map(set => ({ ...set, sourceLabel: "Задания про дом", sourceHref: "/learning/house" })) })) },
   { id: "vocabulary-verbs", title: "Глаголы на каждый день", subgroups: verbBlocks.map(block => ({ id: block.id, title: block.title, sets: [block] })) },
 ];

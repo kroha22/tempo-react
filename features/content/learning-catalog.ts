@@ -93,6 +93,7 @@ for (const [id,title,sceneIds] of semanticTopics) {
   topics.push({id:`topic:${id}`,title,parentIds:[]});
   collections.forEach(collection=>{if(sceneIds.some(scene=>collection.source.legacySetId===`scene-set-${scene}`))collection.topicIds.push(`topic:${id}`);});
 }
+collections.find(collection => collection.source.legacySetId === "pairs-school-instructions")?.topicIds.push("topic:school");
 topics.push(
   {id:"topic:work",title:"Работа и встречи",parentIds:[]},
   {id:"topic:health",title:"Здоровье и самочувствие",parentIds:[]},

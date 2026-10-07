@@ -12,6 +12,7 @@ import { useReviewSession } from "../hooks/use-review-session";
 import { EnsureCardsQueryScope } from "../query/CardsQueryBoundary";
 import { Feedback } from "@/shared/ui/Feedback";
 import { GeneralVocabularyDeck } from "./GeneralVocabularyDeck";
+import { SchoolInstructionsDeck } from "./SchoolInstructionsDeck";
 
 const gradeLabels: Array<{ grade: ReviewGrade; label: string; className: string }> = [
   { grade: 0, label: "Не знаю", className: "again" },
@@ -21,19 +22,20 @@ const gradeLabels: Array<{ grade: ReviewGrade; label: string; className: string 
 ];
 
 export default function Flashcards() {
-  const [deck, setDeck] = useState<"verbs" | "words" | null>(null);
+  const [deck, setDeck] = useState<"verbs" | "words" | "school" | null>(null);
   if (deck === "words") return <GeneralVocabularyDeck onBack={() => setDeck(null)} />;
+  if (deck === "school") return <SchoolInstructionsDeck onBack={() => setDeck(null)} />;
   if (deck === "verbs") return <EnsureCardsQueryScope><ReviewCards onBack={() => setDeck(null)} /></EnsureCardsQueryScope>;
   return <DeckPicker onChoose={setDeck} />;
 }
 
-function DeckPicker({ onChoose }: { onChoose: (deck: "verbs" | "words") => void }) {
+function DeckPicker({ onChoose }: { onChoose: (deck: "verbs" | "words" | "school") => void }) {
   return (
     <section className="deck-library" id="cards" aria-label="Колоды карточек">
       <div className="deck-library__heading">
         <span className="deck-kicker">Карточки</span>
         <h2>Выберите колоду</h2>
-        <p>Две независимые подборки: частотные глаголы и базовая лексика.</p>
+        <p>Частотные глаголы, базовая лексика и короткие тематические наборы.</p>
       </div>
       <div className="deck-library__grid">
         <button type="button" onClick={() => onChoose("verbs")} aria-label="Открыть колоду «1 000 глаголов»">
@@ -46,6 +48,12 @@ function DeckPicker({ onChoose }: { onChoose: (deck: "verbs" | "words") => void 
           <span className="deck-library__icon deck-library__icon--words" aria-hidden="true">351</span>
           <strong>351 базовое слово</strong>
           <span>Глаголы, существительные, прилагательные и другие слова</span>
+          <small>Открыть колоду →</small>
+        </button>
+        <button type="button" onClick={() => onChoose("school")} aria-label="Открыть колоду «Инструкции на уроке»">
+          <span className="deck-library__icon deck-library__icon--school" aria-hidden="true">A+?</span>
+          <strong>Инструкции на уроке</strong>
+          <span>8 знакомых глаголов в школьных фразах</span>
           <small>Открыть колоду →</small>
         </button>
       </div>

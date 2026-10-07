@@ -101,6 +101,7 @@ button { color: inherit; }
 .deck-library__grid > button:hover { transform: translateY(-3px); border-color: var(--green); box-shadow: 0 17px 34px rgba(41,59,62,.12); }
 .deck-library__icon { width: 70px; height: 70px; display: grid; place-items: center; border-radius: 21px; background: #ffd064; color: #684718; font: 800 20px/1 "Fredoka",sans-serif; }
 .deck-library__icon--words { background: #b9e6d3; color: #245e4f; }
+.deck-library__icon--school { background: #d9d0f3; color: #4e3b7d; font-size: 16px; }
 .deck-library__grid strong { margin-top: 6px; font: 700 25px/1.1 "Fredoka",sans-serif; }
 .deck-library__grid span:not(.deck-library__icon) { max-width: 320px; color: var(--muted); line-height: 1.45; }
 .deck-library__grid small { margin-top: 10px; color: var(--green); font-weight: 900; }
