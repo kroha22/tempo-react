@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { generalVocabulary } from "@/features/content/general-vocabulary";
 import type { GeneralVocabularyPartOfSpeech } from "@/features/content/general-vocabulary-types";
 import { vocabularyLessons } from "@/features/content/vocabulary-lessons";
+import { CardSpeechButton } from "./CardSpeechButton";
 
 type Confidence = "again" | "hard" | "good" | "easy";
 
@@ -89,6 +90,7 @@ export function GeneralVocabularyDeck({ onBack }: { onBack: () => void }) {
             <em>{showTranslation ? portuguese : "Нажми, чтобы перевернуть"}</em>
           </span>
         </button>
+        <CardSpeechButton key={card.id} text={portuguese} />
         <div className={`rating-panel ${flipped ? "visible" : ""}`} aria-hidden={!flipped}>
           <p>Насколько хорошо вспомнилось?</p>
           <div className="rating-buttons">

@@ -1,0 +1,109 @@
+"use client";
+
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { cardSpeechText, chooseSpeechVoice, defaultSpeechSettings, saveSpeechSettings, speechLanguage, speechSettingsSnapshot, speechVoiceKey, subscribeSpeechSettings } from "../speech-settings";
+import styles from "./card-speech.module.css";
+
+export function CardSpeechButton({ text, label = "Послушать", disabled = false }: { text: string; label?: string; disabled?: boolean }) {
+  const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
+  const settings = JSON.parse(useSyncExternalStore(subscribeSpeechSettings, speechSettingsSnapshot, () => defaultSpeechSettings)) as { language: string; voice: string };
+  const voice = chooseSpeechVoice(voices, settings.language, settings.voice);
+  const language = speechLanguage(settings.language);
+  const voiceKey = voice ? speechVoiceKey(voice) : "";
+  const playbackKey = `${text}|${language}|${voiceKey}`;
+  const [speaking, setSpeaking] = useState("");
+  const [message, setMessage] = useState("");
+  const utterance = useRef<SpeechSynthesisUtterance | null>(null);
+
+  useEffect(() => {
+    if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
+      const timer = setTimeout(() => setMessage("Этот браузер не поддерживает озвучку."), 0);
+      return () => clearTimeout(timer);
+    }
+    const synth = window.speechSynthesis;
+    const refresh = () => {
+      setVoices(Array.from(new Map(synth.getVoices().map((item) => [speechVoiceKey(item), item])).values()));
+    };
+    const timer = window.setTimeout(refresh, 0);
+    synth.addEventListener("voiceschanged", refresh);
+    return () => {
+      window.clearTimeout(timer);
+      synth.removeEventListener("voiceschanged", refresh);
+    };
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (utterance.current) {
+        // Invalidate callbacks before cancellation or moving to another card.
+        utterance.current = null;
+        window.speechSynthesis.cancel();
+        setSpeaking("");
+      }
+    };
+  }, [text, language, voiceKey]);
+
+  function speak(spokenText = text) {
+    const synth = window.speechSynthesis;
+    const currentVoice = chooseSpeechVoice(synth.getVoices(), settings.language, settings.voice);
+    if (!currentVoice) {
+      setMessage("Выбранный голос недоступен. Выберите другой голос или язык.");
+      return;
+    }
+    utterance.current = null;
+    synth.cancel();
+    const next = new SpeechSynthesisUtterance(cardSpeechText(spokenText, currentVoice.lang.replaceAll("_", "-"), navigator.userAgent));
+    next.voice = currentVoice;
+    next.lang = currentVoice.lang.replaceAll("_", "-");
+    next.rate = 0.9;
+    utterance.current = next;
+    setMessage("");
+    setSpeaking(playbackKey);
+    next.onend = () => {
+      if (utterance.current !== next) return;
+      utterance.current = null;
+      setSpeaking("");
+    };
+    next.onerror = (event) => {
+      if (utterance.current !== next) return;
+      utterance.current = null;
+      setSpeaking("");
+      if (event.error !== "interrupted" && event.error !== "canceled") setMessage("Не удалось воспроизвести звук. Попробуйте ещё раз.");
+    };
+    try { synth.speak(next); } catch {
+      utterance.current = null;
+      setSpeaking("");
+      setMessage("Не удалось воспроизвести звук. Попробуйте ещё раз.");
+    }
+  }
+
+  const languages = Array.from(new Set([language, ...voices.map((item) => speechLanguage(item.lang))])).sort((a, b) => a === "pt-pt" ? -1 : b === "pt-pt" ? 1 : a.localeCompare(b));
+  const languageVoices = voices.filter((item) => speechLanguage(item.lang) === language);
+  function languageLabel(value: string) {
+    try { return `${new Intl.DisplayNames(["ru"], { type: "language" }).of(value)} · ${value}`; } catch { return value; }
+  }
+  function changeSettings(nextLanguage: string, nextVoice: string) {
+    setMessage("");
+    saveSpeechSettings(nextLanguage, nextVoice);
+  }
+
+  return <div className={styles.control}>
+    <button type="button" className={styles.button} disabled={disabled || !voice} onClick={() => speak()} aria-label={`${label}: ${text}`}>
+      <span aria-hidden="true">🔊</span> {speaking === playbackKey ? "Послушать ещё раз" : label}
+    </button>
+    <details className={styles.settings}>
+      <summary>Голос: {voice?.name ?? "не выбран"} · {language}</summary>
+      <div className={styles.fields}>
+        <label>Язык<select aria-label={`Язык озвучки: ${text}`} value={language} onChange={(event) => changeSettings(event.target.value, "")}>
+          {languages.map((value) => <option key={value} value={value}>{languageLabel(value)}</option>)}
+        </select></label>
+        <label>Голос<select aria-label={`Голос озвучки: ${text}`} value={voiceKey} disabled={!languageVoices.length} onChange={(event) => changeSettings(language, event.target.value)}>
+          {!voice && <option value="">{languageVoices.length ? "Выберите голос" : "Нет доступных голосов"}</option>}
+          {languageVoices.map((item) => <option key={speechVoiceKey(item)} value={speechVoiceKey(item)}>{item.name}</option>)}
+        </select></label>
+      </div>
+      <button type="button" className={styles.button} disabled={!voice} onClick={() => speak("Olá! Estou a falar português de Portugal.")}>Проверить голос</button>
+    </details>
+    <span className={styles.message} role="status">{message || (!voice && "Нет доступного голоса для выбранного языка. Выберите голос в настройках озвучки.")}</span>
+  </div>;
+}

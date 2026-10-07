@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { schoolInstructionCards } from "@/features/content/school-content";
+import { CardSpeechButton } from "./CardSpeechButton";
 
 type Confidence = "again" | "hard" | "good" | "easy";
 
@@ -63,6 +64,8 @@ export function SchoolInstructionsDeck({ onBack }: { onBack: () => void }) {
           <em lang={showTranslation ? "pt-PT" : "ru"}>{showTranslation ? card.examplePt : card.exampleRu}</em>
         </span>
       </button>
+      <CardSpeechButton key={card.id} text={card.infinitive} />
+      {flipped && <CardSpeechButton key={`${card.id}-example`} text={card.examplePt} label="Послушать пример" />}
       <div className={`rating-panel ${flipped ? "visible" : ""}`} aria-hidden={!flipped}>
         <p>Насколько хорошо вспомнилось?</p>
         <div className="rating-buttons">{confidenceOptions.map((option) => <button type="button" key={option.value} className={option.value} disabled={!flipped} onClick={() => rate(option.value)}><strong>{option.label}</strong></button>)}</div>

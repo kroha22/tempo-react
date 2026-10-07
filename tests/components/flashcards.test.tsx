@@ -66,7 +66,7 @@ describe("card review through the HTTP boundary", () => {
     await user.click(screen.getByRole("button", { name: "Повторить сохранение" }));
     expect(writes).toHaveLength(2);
     expect(writes[1]).toEqual(writes[0]);
-    expect(screen.getByRole("status")).toHaveTextContent("Сохраняем оценку");
+    expect(screen.getByText("Сохраняем оценку…")).toHaveAttribute("role", "status");
     expect(screen.getByText("Сегодня: 0")).toBeInTheDocument();
     await act(async () => { saved.resolve(json({ progress: writes[1] })); });
     expect(await screen.findByText("Сегодня: 1")).toBeInTheDocument();
