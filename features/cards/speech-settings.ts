@@ -45,10 +45,3 @@ export function chooseSpeechVoice<T extends Pick<SpeechSynthesisVoice, "lang" | 
   const defaults = selectedLanguage === "pt" ? candidates.filter((voice) => speechLanguage(voice.lang) === "pt-pt") : candidates;
   return defaults.find((voice) => voice.name.toLowerCase() === "joana") ?? defaults[0];
 }
-
-/** Safari supports an explicit language span in SSML; other engines receive plain text. */
-export function cardSpeechText(text: string, language: string, userAgent: string): string {
-  if (!/AppleWebKit/i.test(userAgent) || /Chrome|Chromium|CriOS|Edg|OPR|Android/i.test(userAgent)) return text;
-  const escapeXml = (value: string) => value.replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&apos;" })[character]!);
-  return `<speak xmlns="http://www.w3.org/2001/10/synthesis" version="1.0"><lang xml:lang="${escapeXml(language)}">${escapeXml(text)}</lang></speak>`;
-}

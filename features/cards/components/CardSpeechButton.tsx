@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { cardSpeechText, chooseSpeechVoice, defaultSpeechSettings, saveSpeechSettings, speechLanguage, speechSettingsSnapshot, speechVoiceKey, subscribeSpeechSettings } from "../speech-settings";
+import { chooseSpeechVoice, defaultSpeechSettings, saveSpeechSettings, speechLanguage, speechSettingsSnapshot, speechVoiceKey, subscribeSpeechSettings } from "../speech-settings";
 import styles from "./card-speech.module.css";
+import { finishCardSpeech, startCardSpeech, stopCardSpeech } from "../speech-playback";
 
 export function CardSpeechButton({ text, label = "Послушать", disabled = false }: { text: string; label?: string; disabled?: boolean }) {
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
@@ -37,8 +38,9 @@ export function CardSpeechButton({ text, label = "Послушать", disabled 
     return () => {
       if (utterance.current) {
         // Invalidate callbacks before cancellation or moving to another card.
+        const previous = utterance.current;
         utterance.current = null;
-        window.speechSynthesis.cancel();
+        stopCardSpeech(window.speechSynthesis, previous);
         setSpeaking("");
       }
     };
@@ -52,8 +54,7 @@ export function CardSpeechButton({ text, label = "Послушать", disabled 
       return;
     }
     utterance.current = null;
-    synth.cancel();
-    const next = new SpeechSynthesisUtterance(cardSpeechText(spokenText, currentVoice.lang.replaceAll("_", "-"), navigator.userAgent));
+    const next = new SpeechSynthesisUtterance(spokenText);
     next.voice = currentVoice;
     next.lang = currentVoice.lang.replaceAll("_", "-");
     next.rate = 0.9;
@@ -61,17 +62,20 @@ export function CardSpeechButton({ text, label = "Послушать", disabled 
     setMessage("");
     setSpeaking(playbackKey);
     next.onend = () => {
+      finishCardSpeech(next);
       if (utterance.current !== next) return;
       utterance.current = null;
       setSpeaking("");
     };
     next.onerror = (event) => {
+      finishCardSpeech(next);
       if (utterance.current !== next) return;
       utterance.current = null;
       setSpeaking("");
       if (event.error !== "interrupted" && event.error !== "canceled") setMessage("Не удалось воспроизвести звук. Попробуйте ещё раз.");
     };
-    try { synth.speak(next); } catch {
+    try { startCardSpeech(synth, next); } catch {
+      finishCardSpeech(next);
       utterance.current = null;
       setSpeaking("");
       setMessage("Не удалось воспроизвести звук. Попробуйте ещё раз.");
@@ -106,6 +110,7 @@ export function CardSpeechButton({ text, label = "Послушать", disabled 
         </select></label>
       </div>
       <button type="button" className={styles.button} disabled={!voice} onClick={() => speak("Olá! Estou a falar português de Portugal.")}>Проверить голос</button>
+      <p className={styles.message}>Если язык сбивается при повторном прослушивании, попробуйте голос с языком в скобках в названии, например Eddy. Вариант страны указан в списке.</p>
     </details>
     <span className={styles.message} role="status">{message || (!voice && "Нет доступного голоса для выбранного языка. Выберите голос в настройках озвучки.")}</span>
   </div>;

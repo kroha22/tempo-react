@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { cardSpeechText, chooseSpeechVoice, speechVoiceKey } from "../features/cards/speech-settings.ts";
+import { chooseSpeechVoice, speechVoiceKey } from "../features/cards/speech-settings.ts";
 
 const joana = { name: "Joana", lang: "pt-PT", voiceURI: "joana" };
 const other = { name: "Outro", lang: "pt_PT", voiceURI: "other" };
@@ -29,16 +29,4 @@ test("Portuguese includes Brazilian voices only through explicit voice selection
   assert.equal(chooseSpeechVoice([brazilian, joana], "pt", ""), joana);
   assert.equal(chooseSpeechVoice([brazilian, joana], "pt", speechVoiceKey(brazilian)), brazilian);
   assert.equal(chooseSpeechVoice([brazilian], "pt", ""), undefined);
-});
-
-test("WebKit explicitly marks the spoken language and escapes study text", () => {
-  const result = cardSpeechText('a < b & "c"', "pt-PT", "AppleWebKit/605.1.15 Safari/605.1.15");
-  assert(result.includes('<lang xml:lang="pt-PT">'));
-  assert(result.includes("a &lt; b &amp; &quot;c&quot;"));
-});
-
-test("Chromium and Firefox never receive spoken XML markup", () => {
-  for (const userAgent of ["AppleWebKit/537.36 Chrome/140", "Firefox/140"]) {
-    assert.equal(cardSpeechText("eleger", "pt-PT", userAgent), "eleger");
-  }
 });

@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { beforeEach, expect, test, vi } from "vitest";
 import { CardSpeechButton } from "@/features/cards/components/CardSpeechButton";
 
@@ -38,9 +38,38 @@ test("card playback sends the explicitly selected voice and its language", async
   const button = screen.getByRole("button", { name: "Послушать: eleger" });
   await waitFor(() => expect(button).toBeEnabled());
   fireEvent.click(button);
-  expect(speak.mock.lastCall?.[0]).toMatchObject({ voice: joana, lang: "pt-PT" });
+  expect(speak.mock.lastCall?.[0]).toMatchObject({ text: "eleger", voice: joana, lang: "pt-PT" });
   unmount();
   expect(cancel).toHaveBeenCalled();
+});
+
+test("three completed repetitions retain voice and language without resetting the engine", async () => {
+  render(<CardSpeechButton text="eleger" />);
+  const button = screen.getByRole("button", { name: "Послушать: eleger" });
+  await waitFor(() => expect(button).toBeEnabled());
+  for (let index = 0; index < 3; index += 1) {
+    fireEvent.click(button);
+    const utterance = speak.mock.lastCall?.[0];
+    expect(utterance).toMatchObject({ voice: joana, lang: "pt-PT" });
+    act(() => utterance.onend());
+  }
+  expect(cancel).not.toHaveBeenCalled();
+});
+
+test("a new card cancels active playback once, and old cleanup cannot stop the new voice", async () => {
+  const first = render(<CardSpeechButton text="eleger" />);
+  const second = render(<CardSpeechButton text="falar" />);
+  const firstButton = screen.getByRole("button", { name: "Послушать: eleger" });
+  const secondButton = screen.getByRole("button", { name: "Послушать: falar" });
+  await waitFor(() => expect(firstButton).toBeEnabled());
+  await waitFor(() => expect(secondButton).toBeEnabled());
+  fireEvent.click(firstButton);
+  fireEvent.click(secondButton);
+  expect(cancel).toHaveBeenCalledTimes(1);
+  first.unmount();
+  expect(cancel).toHaveBeenCalledTimes(1);
+  second.unmount();
+  expect(cancel).toHaveBeenCalledTimes(2);
 });
 
 test("language choice updates every card and reload preserves the selected voice", async () => {
