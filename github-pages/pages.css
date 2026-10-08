@@ -7,7 +7,13 @@ body {
 .github-pages-demo .cards-workspace .deck-heading { gap: 12px; }
 .github-pages-demo .cards-workspace .deck-heading p { margin-top: 4px; font-size: 12px; }
 .github-pages-demo .cards-workspace .deck-stats div { padding: 6px; }
-.github-pages-demo .cards-workspace .rating-panel { min-height: 0; margin-top: 16px; }
+.github-pages-demo .cards-workspace .rating-panel { min-height: 0; margin-top: 12px; }
+.github-pages-demo .cards-workspace .rating-buttons button { min-height: 44px; padding: 5px 3px; gap: 1px; align-content: center; justify-items: center; text-align: center; }
+.github-pages-demo .cards-workspace .rating-buttons strong { font-size: 13px; line-height: 1.2; }
+.github-pages-demo .cards-workspace .rating-buttons span { font-size: 10px; line-height: 1.2; }
+.github-pages-demo .cards-workspace .deck-card-frame .flashcard { height: 200px; padding-block: 28px 16px; }
+.github-pages-demo .cards-workspace .deck-card-frame .card-face small { margin-bottom: 6px; }
+.github-pages-demo .cards-workspace .deck-card-frame .card-face em { margin-top: 8px; }
 .github-pages-demo .cards-workspace .rating-panel:not(.visible) { display: none; }
 .github-pages-demo .cards-workspace .deck-note { margin-top: 12px; font-size: 11px; }
 @media (max-width: 620px) {
@@ -19,7 +25,7 @@ body {
   .github-pages-demo .cards-workspace .deck-back { margin-bottom: 4px; min-height: 36px; }
   .github-pages-demo .cards-workspace .deck-stats strong { font-size: 18px; }
   .github-pages-demo .cards-workspace .deck-direction { margin-bottom: 4px; min-height: 30px; }
-  .github-pages-demo .cards-workspace .deck-card-frame .flashcard { height: 190px; min-height: 190px; }
+  .github-pages-demo .cards-workspace .deck-card-frame .flashcard { height: 175px; min-height: 175px; }
 }
 
 .related-lesson { padding-block: 12px; }
