@@ -100,7 +100,7 @@
 .house-activity .pair-back { margin-bottom: 12px; }
 .vocabulary-topic-heading { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
 .vocabulary-topic-heading > div { flex: 1; min-width: 0; }
-.vocabulary-topic-heading .pair-back { margin: 0; min-width: 44px; padding: 8px; }
+.house-activity .vocabulary-topic-heading .pair-back { display: grid; place-items: center; margin: 0; min-width: 44px; padding: 8px; border: 0; background: transparent; color: #008b99; }
 .vocabulary-topic-heading h1 { margin: 2px 0 0; }
 .vocabulary-topic-heading > span { padding: 6px 9px; border-radius: 999px; background: #e4f1e7; color: #285940; font-size: 12px; font-weight: 900; white-space: nowrap; }
 .vocabulary-mode-prompt { margin: 10px 0 0; color: #53645b; }
@@ -160,6 +160,20 @@
 .house-heading h1 { font-family: Fredoka, sans-serif; font-size: clamp(25px, 4vw, 38px); margin: 6px 0; }
 .house-activity a { color: var(--green); font-weight: 800; }
 .house-activity button { font: inherit; cursor: pointer; min-height: 44px; padding: 8px 12px; border: 1px solid #b7c7b3; border-radius: 10px; background: white; color: inherit; }
+.vocabulary-card-counter { margin: 10px 0 8px 50px; font-size: 13px; font-weight: 800; color: #456c60; }
+.vocabulary-cards { max-width: 660px; }
+.kids-mode .house-activity.vocabulary-cards { padding: 0; border: 0; background: transparent; box-shadow: none; }
+.vocabulary-card-carousel { display: grid; grid-template-columns: 44px minmax(0,1fr) 44px; gap: 6px; align-items: stretch; }
+.house-activity .vocabulary-page-arrow { display: grid; place-items: center; padding: 0; border: 0; border-radius: 18px; background: #d9eeea80; color: #008b99; }
+.vocabulary-page-arrow svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.house-activity .vocabulary-page-arrow:disabled { opacity: .3; cursor: default; }
+.vocabulary-card-glass { position: relative; min-width: 0; border: 1px solid #ffffffb3; border-radius: 24px; background: linear-gradient(135deg,#c5efe5cc,#d5e8f6aa 58%,#eae1ffb3); box-shadow: inset 0 1px 0 #fff, 0 8px 24px #315f4814; backdrop-filter: blur(16px); }
+.vocabulary-card-glass[data-tone="1"] { background: linear-gradient(135deg,#ffe6aacc,#f7edc2aa 55%,#cbeee5b3); }
+.vocabulary-card-glass[data-tone="2"] { background: linear-gradient(135deg,#e4d7ffcc,#d7e8fbaa 55%,#c8eee7b3); }
+.house-activity .vocabulary-card-glass .vocabulary-flashcard { min-height: 240px; padding: 42px 14px 24px; border: 0; border-radius: 24px; background: transparent; gap: 22px; }
+.vocabulary-card-speaker { position: absolute; top: 5px; right: 5px; }
+.vocabulary-flashcard .vocabulary-tap-hint { display: flex; align-items: center; justify-content: center; gap: 6px; color: #456c60; font-size: 12px; line-height: 1.35; }
+.vocabulary-tap-hint svg { width: 26px; height: 30px; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .house-activity button:focus-visible, .house-toggle input:focus-visible { outline: 3px solid #7856ae; outline-offset: 3px; }
 .house-status { min-height: 48px; margin: 8px 0; font-size: 16px; }
 .house-tools { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 12px 0; }
