@@ -38,9 +38,45 @@ test("card playback sends the explicitly selected voice and its language", async
   const button = screen.getByRole("button", { name: "Послушать: eleger" });
   await waitFor(() => expect(button).toBeEnabled());
   fireEvent.click(button);
-  expect(speak.mock.lastCall?.[0]).toMatchObject({ text: "eleger", voice: joana, lang: "pt-PT" });
+  expect(speak.mock.lastCall?.[0]).toMatchObject({ text: "eleger", voice: joana, lang: "pt-PT", rate: 1, pitch: 1, volume: 1 });
   unmount();
   expect(cancel).toHaveBeenCalled();
+});
+
+test("voices that arrive without voiceschanged become available through bounded retries", async () => {
+  vi.useFakeTimers();
+  let available: typeof joana[] = [];
+  vi.stubGlobal("speechSynthesis", {
+    getVoices: () => available, speak, cancel,
+    addEventListener: vi.fn(), removeEventListener: vi.fn(),
+  });
+  const view = render(<CardSpeechButton text="eleger" />);
+  try {
+    await act(async () => { await vi.advanceTimersByTimeAsync(0); });
+    expect(screen.getByRole("status")).toHaveTextContent("Загружаем голоса");
+    expect(screen.getByRole("button", { name: "Послушать: eleger" })).toBeDisabled();
+    available = [joana];
+    await act(async () => { await vi.advanceTimersByTimeAsync(100); });
+    fireEvent.click(screen.getByRole("button", { name: "Послушать: eleger" }));
+    expect(speak.mock.lastCall?.[0]).toMatchObject({ voice: joana, lang: "pt-PT" });
+  } finally {
+    view.unmount();
+    vi.useRealTimers();
+  }
+});
+
+test("a paused engine resumes before the selected utterance is spoken", async () => {
+  const resume = vi.fn();
+  vi.stubGlobal("speechSynthesis", {
+    getVoices: () => [joana], speak, cancel, paused: true, resume,
+    addEventListener: vi.fn(), removeEventListener: vi.fn(),
+  });
+  render(<CardSpeechButton text="eleger" />);
+  const button = screen.getByRole("button", { name: "Послушать: eleger" });
+  await waitFor(() => expect(button).toBeEnabled());
+  fireEvent.click(button);
+  expect(resume).toHaveBeenCalledTimes(1);
+  expect(resume.mock.invocationCallOrder[0]).toBeLessThan(speak.mock.invocationCallOrder[0]);
 });
 
 test("three completed repetitions retain voice and language without resetting the engine", async () => {

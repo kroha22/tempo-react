@@ -1,10 +1,16 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { chooseSpeechVoice, speechVoiceKey } from "../features/cards/speech-settings.ts";
+import { chooseSpeechVoice, speechLocale, speechVoiceKey } from "../features/cards/speech-settings.ts";
 
 const joana = { name: "Joana", lang: "pt-PT", voiceURI: "joana" };
 const other = { name: "Outro", lang: "pt_PT", voiceURI: "other" };
 const english = { name: "Daniel", lang: "en-GB", voiceURI: "daniel" };
+
+test("speech locales normalize platform underscores and region casing", () => {
+  assert.equal(speechLocale("pt_PT"), "pt-PT");
+  assert.equal(speechLocale("pt-br"), "pt-BR");
+  assert.equal(speechLocale("sv-se"), "sv-SE");
+});
 
 test("Portugal defaults to Joana regardless of voice list order", () => {
   assert.equal(chooseSpeechVoice([english, other, joana], "pt-PT", ""), joana);

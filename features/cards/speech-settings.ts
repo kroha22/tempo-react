@@ -31,7 +31,12 @@ export function saveSpeechSettings(language: string, voice: string) {
 }
 
 export function speechLanguage(language: string): string {
-  return language.replaceAll("_", "-").toLowerCase();
+  return language.replaceAll("_", "-").trim().toLowerCase();
+}
+
+export function speechLocale(language: string): string {
+  const normalized = language.replaceAll("_", "-").trim();
+  try { return Intl.getCanonicalLocales(normalized)[0] ?? normalized; } catch { return normalized; }
 }
 
 export function speechVoiceKey(voice: Pick<SpeechSynthesisVoice, "lang" | "name" | "voiceURI">): string {

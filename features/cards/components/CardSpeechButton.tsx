@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { chooseSpeechVoice, defaultSpeechSettings, saveSpeechSettings, speechLanguage, speechSettingsSnapshot, speechVoiceKey, subscribeSpeechSettings } from "../speech-settings";
+import { chooseSpeechVoice, defaultSpeechSettings, saveSpeechSettings, speechLanguage, speechLocale, speechSettingsSnapshot, speechVoiceKey, subscribeSpeechSettings } from "../speech-settings";
 import styles from "./card-speech.module.css";
 import { finishCardSpeech, startCardSpeech, stopCardSpeech } from "../speech-playback";
 
 export function CardSpeechButton({ text, label = "Послушать", disabled = false }: { text: string; label?: string; disabled?: boolean }) {
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
+  const [catalogueStatus, setCatalogueStatus] = useState<"loading" | "ready" | "unsupported">("loading");
   const settings = JSON.parse(useSyncExternalStore(subscribeSpeechSettings, speechSettingsSnapshot, () => defaultSpeechSettings)) as { language: string; voice: string };
   const voice = chooseSpeechVoice(voices, settings.language, settings.voice);
   const language = speechLanguage(settings.language);
@@ -19,18 +20,29 @@ export function CardSpeechButton({ text, label = "Послушать", disabled 
 
   useEffect(() => {
     if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
-      const timer = setTimeout(() => setMessage("Этот браузер не поддерживает озвучку."), 0);
+      const timer = setTimeout(() => {
+        setCatalogueStatus("unsupported");
+        setMessage("Этот браузер не поддерживает озвучку.");
+      }, 0);
       return () => clearTimeout(timer);
     }
     const synth = window.speechSynthesis;
-    const refresh = () => {
-      setVoices(Array.from(new Map(synth.getVoices().map((item) => [speechVoiceKey(item), item])).values()));
+    const timers: number[] = [];
+    const refresh = (finalAttempt = false) => {
+      const available = Array.from(new Map(synth.getVoices().map((item) => [speechVoiceKey(item), item])).values());
+      setVoices(available);
+      if (available.length || finalAttempt) setCatalogueStatus("ready");
+      if (available.length) timers.forEach(window.clearTimeout);
     };
-    const timer = window.setTimeout(refresh, 0);
-    synth.addEventListener("voiceschanged", refresh);
+    // Some browsers populate voices late without reliably dispatching voiceschanged.
+    [0, 100, 300, 1000, 3000].forEach((delay, index) => {
+      timers.push(window.setTimeout(() => refresh(index === 4), delay));
+    });
+    const onVoicesChanged = () => refresh();
+    synth.addEventListener("voiceschanged", onVoicesChanged);
     return () => {
-      window.clearTimeout(timer);
-      synth.removeEventListener("voiceschanged", refresh);
+      timers.forEach(window.clearTimeout);
+      synth.removeEventListener("voiceschanged", onVoicesChanged);
     };
   }, []);
 
@@ -56,8 +68,10 @@ export function CardSpeechButton({ text, label = "Послушать", disabled 
     utterance.current = null;
     const next = new SpeechSynthesisUtterance(spokenText);
     next.voice = currentVoice;
-    next.lang = currentVoice.lang.replaceAll("_", "-");
-    next.rate = 0.9;
+    next.lang = speechLocale(currentVoice.lang);
+    next.rate = 1;
+    next.pitch = 1;
+    next.volume = 1;
     utterance.current = next;
     setMessage("");
     setSpeaking(playbackKey);
@@ -109,9 +123,9 @@ export function CardSpeechButton({ text, label = "Послушать", disabled 
           {languageVoices.map((item) => <option key={speechVoiceKey(item)} value={speechVoiceKey(item)}>{item.name}{languageGroup === "pt" ? ` — ${speechLanguage(item.lang) === "pt-pt" ? "Португалия" : speechLanguage(item.lang) === "pt-br" ? "Бразилия" : item.lang}` : ""}</option>)}
         </select></label>
       </div>
-      <button type="button" className={styles.button} disabled={!voice} onClick={() => speak("Olá! Estou a falar português de Portugal.")}>Проверить голос</button>
-      <p className={styles.message}>Если язык сбивается при повторном прослушивании, попробуйте голос с языком в скобках в названии, например Eddy. Вариант страны указан в списке.</p>
+      <button type="button" className={styles.button} disabled={!voice} onClick={() => speak("Olá! Esta é a voz escolhida para ler as palavras.")}>Проверить голос</button>
+      <p className={styles.message}>Если язык сбивается при повторном прослушивании, попробуйте Grandpa (дедушка) как запасной голос. Вариант страны указан в списке.</p>
     </details>
-    <span className={styles.message} role="status">{message || (!voice && "Нет доступного голоса для выбранного языка. Выберите голос в настройках озвучки.")}</span>
+    <span className={styles.message} role="status">{message || (catalogueStatus === "loading" ? "Загружаем голоса устройства…" : !voice && "Нет доступного голоса для выбранного языка. Выберите голос в настройках озвучки.")}</span>
   </div>;
 }

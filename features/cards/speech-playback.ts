@@ -6,6 +6,7 @@ export function startCardSpeech(synth: SpeechSynthesis, utterance: SpeechSynthes
     activeUtterance = null;
     synth.cancel();
   }
+  if (synth.paused) synth.resume();
   activeUtterance = utterance;
   synth.speak(utterance);
 }
