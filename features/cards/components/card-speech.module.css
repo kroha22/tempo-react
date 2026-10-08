@@ -8,8 +8,10 @@
 .settings::backdrop { background: #173b3655; }
 .dialogHeader { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 .dialogHeader h2 { margin: 0; font-size: 20px; }
-.icon { display: inline-flex; align-items: center; justify-content: center; width: 44px; min-width: 44px; padding: 10px; border: 0; background: transparent; touch-action: manipulation; user-select: none; -webkit-touch-callout: none; }
-.icon[aria-busy="true"] { background: #e4f1e7; }
+.control .button.icon { display: inline-flex; align-items: center; justify-content: center; width: 44px; min-width: 44px; padding: 8px; border: 0; background: transparent; box-shadow: none; color: #008b99; touch-action: manipulation; user-select: none; -webkit-touch-callout: none; }
+.icon svg { width: 28px; height: 28px; stroke-width: 2.6; }
+.control .button.icon:hover, .control .button.icon[aria-busy="true"] { color: #006975; background: transparent; }
+.control .button.icon:disabled { color: #718b8b; }
 .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 6px 0; }
 .fields label { min-width: 0; display: grid; gap: 4px; font-weight: 700; }
 .fields select { width: 100%; min-width: 0; min-height: 44px; padding: 6px; border: 1px solid #247563; border-radius: 10px; background: #fffbe9; color: #174c41; font: inherit; }
