@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { chooseSpeechVoice, speechLocale, speechVoiceKey } from "../features/cards/speech-settings.ts";
+import { chooseSpeechVoice, migrateSpeechSettings, speechLocale, speechVoiceKey } from "../features/cards/speech-settings.ts";
 
 const joana = { name: "Joana", lang: "pt-PT", voiceURI: "joana" };
 const other = { name: "Outro", lang: "pt_PT", voiceURI: "other" };
@@ -30,9 +30,19 @@ test("another language is used only when explicitly selected", () => {
   assert.equal(chooseSpeechVoice([joana, english], "en-gb", ""), english);
 });
 
-test("Portuguese includes Brazilian voices only through explicit voice selection", () => {
+test("Portuguese regions and French use exactly the same locale filtering", () => {
   const brazilian = { name: "Luciana", lang: "pt-BR", voiceURI: "luciana" };
-  assert.equal(chooseSpeechVoice([brazilian, joana], "pt", ""), joana);
-  assert.equal(chooseSpeechVoice([brazilian, joana], "pt", speechVoiceKey(brazilian)), brazilian);
-  assert.equal(chooseSpeechVoice([brazilian], "pt", ""), undefined);
+  const french = { name: "Thomas", lang: "fr-FR", voiceURI: "thomas" };
+  const voices = [brazilian, french, joana];
+  for (const voice of voices) {
+    assert.equal(chooseSpeechVoice(voices, voice.lang, speechVoiceKey(voice)), voice);
+    assert.equal(chooseSpeechVoice(voices.filter((candidate) => candidate !== voice), voice.lang, ""), undefined);
+  }
+  assert.equal(chooseSpeechVoice(voices, "pt", ""), undefined);
+});
+
+test("legacy grouped preferences retain the user's selected regional voice", () => {
+  const voice = "pt-br|grandpa|Grandpa";
+  assert.deepEqual(JSON.parse(migrateSpeechSettings(JSON.stringify({ language: "pt", voice }))), { language: "pt-BR", voice });
+  assert.deepEqual(JSON.parse(migrateSpeechSettings('{"language":"pt","voice":""}')), { language: "pt-PT", voice: "" });
 });

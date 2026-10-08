@@ -5,13 +5,14 @@ import { CardSpeechButton } from "@/features/cards/components/CardSpeechButton";
 const joana = { name: "Joana", lang: "pt-PT", voiceURI: "joana" };
 const english = { name: "Daniel", lang: "en-GB", voiceURI: "daniel" };
 const brazilian = { name: "Luciana", lang: "pt-BR", voiceURI: "luciana" };
+const french = { name: "Thomas", lang: "fr-FR", voiceURI: "thomas" };
 const speak = vi.fn();
 const cancel = vi.fn();
 
 beforeEach(() => {
   localStorage.clear();
   vi.stubGlobal("speechSynthesis", {
-    getVoices: () => [english, brazilian, joana], speak, cancel,
+    getVoices: () => [english, brazilian, french, joana], speak, cancel,
     addEventListener: vi.fn(), removeEventListener: vi.fn(),
   });
   vi.stubGlobal("SpeechSynthesisUtterance", class {
@@ -20,17 +21,31 @@ beforeEach(() => {
   });
 });
 
-test("Portuguese voice picker includes both accents and uses the explicitly selected locale", async () => {
+test("an existing grouped Brazilian preference is preserved after locales are separated", async () => {
+  localStorage.setItem("tempo-card-speech-settings", JSON.stringify({ language: "pt", voice: "pt-br|luciana|Luciana" }));
+  render(<CardSpeechButton text="falar" />);
+  const button = screen.getByRole("button", { name: "Послушать: falar" });
+  await waitFor(() => expect(button).toBeEnabled());
+  expect(screen.getByLabelText("Язык озвучки: falar")).toHaveValue("pt-br");
+  expect(screen.getByLabelText("Голос озвучки: falar")).toHaveValue("pt-br|luciana|Luciana");
+  fireEvent.click(button);
+  expect(speak.mock.lastCall?.[0]).toMatchObject({ voice: brazilian, lang: "pt-BR" });
+});
+
+test("Portugal and Brazil have separate voice lists and keep the explicit locale", async () => {
   render(<CardSpeechButton text="falar" />);
   const button = screen.getByRole("button", { name: "Послушать: falar" });
   await waitFor(() => expect(button).toBeEnabled());
   const voices = screen.getByLabelText("Голос озвучки: falar");
-  expect(voices).toHaveTextContent("Joana — Португалия");
-  expect(voices).toHaveTextContent("Luciana — Бразилия");
+  expect(voices).toHaveTextContent("Joana");
+  expect(voices).not.toHaveTextContent("Luciana");
+  fireEvent.change(screen.getByLabelText("Язык озвучки: falar"), { target: { value: "pt-br" } });
+  expect(voices).toHaveTextContent("Luciana");
+  expect(voices).not.toHaveTextContent("Joana");
   fireEvent.change(voices, { target: { value: "pt-br|luciana|Luciana" } });
   fireEvent.click(button);
   expect(speak.mock.lastCall?.[0]).toMatchObject({ voice: brazilian, lang: "pt-BR" });
-  fireEvent.change(voices, { target: { value: "pt-pt|joana|Joana" } });
+  fireEvent.change(screen.getByLabelText("Язык озвучки: falar"), { target: { value: "pt-pt" } });
 });
 
 test("card playback sends the explicitly selected voice and its language", async () => {
@@ -118,8 +133,25 @@ test("language choice updates every card and reload preserves the selected voice
   render(<CardSpeechButton text="eleger" />);
   await waitFor(() => expect(screen.getByRole("button", { name: "Послушать: eleger" })).toBeEnabled());
   expect(screen.getByLabelText("Язык озвучки: eleger")).toHaveValue("en-gb");
-  fireEvent.change(screen.getByLabelText("Язык озвучки: eleger"), { target: { value: "pt" } });
+  fireEvent.change(screen.getByLabelText("Язык озвучки: eleger"), { target: { value: "pt-pt" } });
   expect(screen.getByRole("button", { name: "Послушать: eleger" })).toHaveTextContent("Послушать");
   fireEvent.click(screen.getByRole("button", { name: "Послушать: eleger" }));
   expect(speak.mock.lastCall?.[0]).toMatchObject({ voice: joana, lang: "pt-PT" });
+});
+
+test.each([joana, brazilian, french])("$name follows the same explicit voice/language path on repeated playback", async (voice) => {
+  render(<CardSpeechButton text="palavra" />);
+  const button = screen.getByRole("button", { name: "Послушать: palavra" });
+  await waitFor(() => expect(button).toBeEnabled());
+  fireEvent.change(screen.getByLabelText("Язык озвучки: palavra"), { target: { value: voice.lang.toLowerCase() } });
+  fireEvent.change(screen.getByLabelText("Голос озвучки: palavra"), { target: { value: `${voice.lang.toLowerCase()}|${voice.voiceURI}|${voice.name}` } });
+  for (let index = 0; index < 3; index += 1) {
+    fireEvent.click(button);
+    const utterance = speak.mock.lastCall?.[0];
+    expect(utterance).toMatchObject({ text: "palavra", voice, lang: voice.lang, rate: 1, pitch: 1, volume: 1 });
+    act(() => utterance.onend());
+  }
+  expect(cancel).not.toHaveBeenCalled();
+  fireEvent.click(screen.getByText("Проверить голос"));
+  expect(speak.mock.lastCall?.[0]).toMatchObject({ text: "palavra", voice, lang: voice.lang });
 });

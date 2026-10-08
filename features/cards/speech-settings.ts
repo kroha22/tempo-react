@@ -7,10 +7,18 @@ export function speechSettingsSnapshot(): string {
     const value = window.localStorage.getItem(storageKey);
     if (value) {
       const parsed = JSON.parse(value);
-      if (typeof parsed.language === "string" && typeof parsed.voice === "string") return value;
+      if (typeof parsed.language === "string" && typeof parsed.voice === "string") return migrateSpeechSettings(value);
     }
   } catch { /* Storage may be unavailable in a private browser. */ }
   return fallbackSettings;
+}
+
+export function migrateSpeechSettings(value: string): string {
+  const settings = JSON.parse(value) as { language: string; voice: string };
+  if (speechLanguage(settings.language) !== "pt") return value;
+  // Resolve the former grouped locale once, preserving the user's chosen voice.
+  const voiceLanguage = settings.voice.split("|")[0];
+  return JSON.stringify({ language: /^pt-[a-z0-9-]+$/i.test(voiceLanguage) ? speechLocale(voiceLanguage) : "pt-PT", voice: settings.voice });
 }
 
 let fallbackSettings = defaultSpeechSettings;
@@ -45,8 +53,7 @@ export function speechVoiceKey(voice: Pick<SpeechSynthesisVoice, "lang" | "name"
 
 export function chooseSpeechVoice<T extends Pick<SpeechSynthesisVoice, "lang" | "name" | "voiceURI">>(voices: T[], language: string, preferred: string): T | undefined {
   const selectedLanguage = speechLanguage(language);
-  const candidates = voices.filter((voice) => selectedLanguage === "pt" ? speechLanguage(voice.lang).startsWith("pt-") : speechLanguage(voice.lang) === selectedLanguage);
+  const candidates = voices.filter((voice) => speechLanguage(voice.lang) === selectedLanguage);
   if (preferred) return candidates.find((voice) => speechVoiceKey(voice) === preferred);
-  const defaults = selectedLanguage === "pt" ? candidates.filter((voice) => speechLanguage(voice.lang) === "pt-pt") : candidates;
-  return defaults.find((voice) => voice.name.toLowerCase() === "joana") ?? defaults[0];
+  return (selectedLanguage === "pt-pt" ? candidates.find((voice) => voice.name.toLowerCase() === "joana") : undefined) ?? candidates[0];
 }
