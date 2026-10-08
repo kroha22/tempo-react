@@ -5,7 +5,7 @@ import { cardSpeechLocales, chooseSpeechVoice, defaultSpeechSettings, saveSpeech
 import styles from "./card-speech.module.css";
 import { finishCardSpeech, startCardSpeech, stopCardSpeech } from "../speech-playback";
 
-export function CardSpeechButton({ text, label = "Послушать", disabled = false }: { text: string; label?: string; disabled?: boolean }) {
+export function CardSpeechButton({ text, label = "Послушать", disabled = false, showSettings = true }: { text: string; label?: string; disabled?: boolean; showSettings?: boolean }) {
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
   const [catalogueStatus, setCatalogueStatus] = useState<"loading" | "ready" | "unsupported">("loading");
   const storedSettings = JSON.parse(useSyncExternalStore(subscribeSpeechSettings, speechSettingsSnapshot, () => defaultSpeechSettings)) as { language: string; voice: string };
@@ -56,7 +56,7 @@ export function CardSpeechButton({ text, label = "Послушать", disabled 
         setSpeaking("");
       }
     };
-  }, [text, language, voiceKey]);
+  }, [text, language, voiceKey, disabled]);
 
   function speak(spokenText = text) {
     const synth = window.speechSynthesis;
@@ -111,7 +111,7 @@ export function CardSpeechButton({ text, label = "Послушать", disabled 
     <button type="button" className={styles.button} disabled={disabled || !voice} onClick={() => speak()} aria-label={`${label}: ${text}`}>
       <span aria-hidden="true">🔊</span> {speaking === playbackKey ? "Послушать ещё раз" : label}
     </button>
-    <details className={styles.settings}>
+    {showSettings && <details className={styles.settings}>
       <summary>Голос: {voice?.name ?? "не выбран"} · {displayedLanguage}</summary>
       <div className={styles.fields}>
         <label>Язык<select aria-label={`Язык озвучки: ${text}`} value={language} onChange={(event) => changeSettings(event.target.value, "")}>
@@ -122,9 +122,9 @@ export function CardSpeechButton({ text, label = "Послушать", disabled 
           {languageVoices.map((item) => <option key={speechVoiceKey(item)} value={speechVoiceKey(item)}>{item.name}</option>)}
         </select></label>
       </div>
-      <button type="button" className={styles.button} disabled={!voice} onClick={() => speak()}>Проверить голос</button>
+      <button type="button" className={styles.button} disabled={disabled || !voice} onClick={() => speak()}>Проверить голос</button>
       <p className={styles.message}>Если язык сбивается при повторном прослушивании, попробуйте Grandpa (дедушка) как запасной голос. Вариант страны указан в списке.</p>
-    </details>
+    </details>}
     <span className={styles.message} role="status">{message || (catalogueStatus === "loading" ? "Загружаем голоса устройства…" : !voice && "Нет доступного голоса для выбранного языка. Выберите голос в настройках озвучки.")}</span>
   </div>;
 }

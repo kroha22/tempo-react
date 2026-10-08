@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import type { UsageModule } from "../content/learning-model";
+import { CardSpeechButton } from "../cards/components/CardSpeechButton";
 
-export function UsagePractice({ module }: { module: UsageModule }) {
+export function UsagePractice({ module, active = true }: { module: UsageModule; active?: boolean }) {
   const [step, setStep] = useState(0);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [checked, setChecked] = useState(false);
@@ -25,6 +26,7 @@ export function UsagePractice({ module }: { module: UsageModule }) {
   </section>;
 
   const correct = selectedId === exercise.correctOptionId;
+  const correctSentence = `${exercise.before}${exercise.options.find(option => option.id === exercise.correctOptionId)?.text ?? ""}${exercise.after}`;
   return <section className="usage-practice">
     <header>
       <span className="tempo-kicker">Слова в контексте</span>
@@ -33,9 +35,10 @@ export function UsagePractice({ module }: { module: UsageModule }) {
     </header>
 
     <div className="usage-examples" aria-label="Примеры фраз">
-      {module.examples.map(example => <article key={example.id}>
+      {module.examples.map((example, index) => <article key={example.id}>
         <strong lang="pt-PT">{example.portuguese}</strong>
         <span>{example.translation}</span>
+        <CardSpeechButton text={example.portuguese} disabled={!active} showSettings={index === 0} />
       </article>)}
     </div>
 
@@ -55,6 +58,7 @@ export function UsagePractice({ module }: { module: UsageModule }) {
       {!checked ? <button className="usage-check" type="button" disabled={!selectedId} onClick={() => setChecked(true)}>Проверить</button> : <div className={`usage-feedback ${correct ? "is-correct" : "is-wrong"}`} role="status">
         <strong>{correct ? "Верно" : "Посмотри на правильный вариант"}</strong>
         <p>{exercise.feedback}</p>
+        <CardSpeechButton key={exercise.id} text={correctSentence} label="Послушать фразу" disabled={!active} showSettings={false} />
         <button type="button" onClick={() => { setStep(current => current + 1); setSelectedId(null); setChecked(false); }}>{step + 1 === module.exercises.length ? "Завершить" : "Следующая фраза →"}</button>
       </div>}
     </div>

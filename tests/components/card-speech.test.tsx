@@ -21,13 +21,13 @@ beforeEach(() => {
   });
 });
 
-test("only the four comparison locales are offered and removed preferences return to Joana", async () => {
+test("only the two Portuguese locales are offered and removed preferences return to Joana", async () => {
   localStorage.setItem("tempo-card-speech-settings", JSON.stringify({ language: "en-GB", voice: "en-gb|daniel|Daniel" }));
   render(<CardSpeechButton text="falar" />);
   const button = screen.getByRole("button", { name: "Послушать: falar" });
   await waitFor(() => expect(button).toBeEnabled());
   const language = screen.getByLabelText("Язык озвучки: falar") as HTMLSelectElement;
-  expect(Array.from(language.options, (option) => option.value)).toEqual(["pt-pt", "pt-br", "es-es", "fr-fr"]);
+  expect(Array.from(language.options, (option) => option.value)).toEqual(["pt-pt", "pt-br"]);
   expect(language).toHaveValue("pt-pt");
   fireEvent.click(button);
   expect(speak.mock.lastCall?.[0]).toMatchObject({ voice: joana, lang: "pt-PT" });
@@ -138,20 +138,20 @@ test("a new card cancels active playback once, and old cleanup cannot stop the n
 test("language choice updates every card and reload preserves the selected voice", async () => {
   const { unmount } = render(<><CardSpeechButton text="eleger" /><CardSpeechButton text="falar" /></>);
   await waitFor(() => expect(screen.getByRole("button", { name: "Послушать: eleger" })).toBeEnabled());
-  fireEvent.change(screen.getByLabelText("Язык озвучки: eleger"), { target: { value: "fr-fr" } });
+  fireEvent.change(screen.getByLabelText("Язык озвучки: eleger"), { target: { value: "pt-br" } });
   fireEvent.click(screen.getByRole("button", { name: "Послушать: falar" }));
-  expect(speak.mock.lastCall?.[0]).toMatchObject({ voice: french, lang: "fr-FR" });
+  expect(speak.mock.lastCall?.[0]).toMatchObject({ voice: brazilian, lang: "pt-BR" });
   unmount();
   render(<CardSpeechButton text="eleger" />);
   await waitFor(() => expect(screen.getByRole("button", { name: "Послушать: eleger" })).toBeEnabled());
-  expect(screen.getByLabelText("Язык озвучки: eleger")).toHaveValue("fr-fr");
+  expect(screen.getByLabelText("Язык озвучки: eleger")).toHaveValue("pt-br");
   fireEvent.change(screen.getByLabelText("Язык озвучки: eleger"), { target: { value: "pt-pt" } });
   expect(screen.getByRole("button", { name: "Послушать: eleger" })).toHaveTextContent("Послушать");
   fireEvent.click(screen.getByRole("button", { name: "Послушать: eleger" }));
   expect(speak.mock.lastCall?.[0]).toMatchObject({ voice: joana, lang: "pt-PT" });
 });
 
-test.each([joana, brazilian, french])("$name follows the same explicit voice/language path on repeated playback", async (voice) => {
+test.each([joana, brazilian])("$name follows the same explicit voice/language path on repeated playback", async (voice) => {
   render(<CardSpeechButton text="palavra" />);
   const button = screen.getByRole("button", { name: "Послушать: palavra" });
   await waitFor(() => expect(button).toBeEnabled());
