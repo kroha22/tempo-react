@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { generalVocabulary } from "@/features/content/general-vocabulary";
 import type { GeneralVocabularyPartOfSpeech } from "@/features/content/general-vocabulary-types";
 import { vocabularyLessons } from "@/features/content/vocabulary-lessons";
-import { CardSpeechButton } from "./CardSpeechButton";
+import { DeckCardFrame } from "./DeckCardFrame";
 
 type Confidence = "again" | "hard" | "good" | "easy";
 
@@ -76,7 +76,7 @@ export function GeneralVocabularyDeck({ onBack }: { onBack: () => void }) {
           <span>{index + 1} / {generalVocabulary.length}</span>
         </div>
         <label className="deck-direction"><input type="checkbox" checked={reverse} onChange={(event) => { setReverse(event.target.checked); setFlipped(false); }} />Сначала по-русски</label>
-        <button
+        <DeckCardFrame text={portuguese} onPrevious={() => move(-1)} onNext={() => move(1)}><button
           type="button"
           className={`flashcard general-vocabulary-card ${flipped ? "flipped" : ""}`}
           onClick={() => setFlipped((value) => !value)}
@@ -89,8 +89,7 @@ export function GeneralVocabularyDeck({ onBack }: { onBack: () => void }) {
             <strong lang={showTranslation ? "ru" : "pt-PT"}>{showTranslation ? card.translation : portuguese}</strong>
             <em>{showTranslation ? portuguese : "Нажми, чтобы перевернуть"}</em>
           </span>
-        </button>
-        <CardSpeechButton key={card.id} text={portuguese} />
+        </button></DeckCardFrame>
         <div className={`rating-panel ${flipped ? "visible" : ""}`} aria-hidden={!flipped}>
           <p>Насколько хорошо вспомнилось?</p>
           <div className="rating-buttons">
@@ -104,10 +103,6 @@ export function GeneralVocabularyDeck({ onBack }: { onBack: () => void }) {
               ><strong>{option.label}</strong></button>
             ))}
           </div>
-        </div>
-        <div className="deck-step-actions">
-          <button type="button" onClick={() => move(-1)}>← Предыдущее</button>
-          <button type="button" className="primary-button" onClick={() => move(1)}>Следующее →</button>
         </div>
       </div>
       <p className="deck-note">Эта демонстрационная колода сохраняет исходный порядок подборки. Проверенные формы с артиклем и множественным числом показываются там, где они уже подготовлены.</p>

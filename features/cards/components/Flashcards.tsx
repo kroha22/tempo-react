@@ -13,7 +13,7 @@ import { EnsureCardsQueryScope } from "../query/CardsQueryBoundary";
 import { Feedback } from "@/shared/ui/Feedback";
 import { GeneralVocabularyDeck } from "./GeneralVocabularyDeck";
 import { SchoolInstructionsDeck } from "./SchoolInstructionsDeck";
-import { CardSpeechButton } from "./CardSpeechButton";
+import { DeckCardFrame } from "./DeckCardFrame";
 
 const gradeLabels: Array<{ grade: ReviewGrade; label: string; className: string }> = [
   { grade: 0, label: "Не знаю", className: "again" },
@@ -110,7 +110,7 @@ function ReviewCards({ onBack }: { onBack: () => void }) {
           <span>№ {currentCard.rank} по частоте</span>
         </div>
 
-        <button
+        <DeckCardFrame text={currentCard.pt} disabled={loading}><button
           type="button"
           className={`flashcard ${flipped ? "flipped" : ""}`}
           ref={cardButton}
@@ -136,9 +136,7 @@ function ReviewCards({ onBack }: { onBack: () => void }) {
               <em>Нажми, чтобы перевернуть</em>
             </span>
           )}
-        </button>
-
-        <CardSpeechButton key={currentCard.id} text={currentCard.pt} disabled={loading} />
+        </button></DeckCardFrame>
 
         {!flipped && canFlip && (
           <button type="button" className="unknown-card-button" onClick={flip}>

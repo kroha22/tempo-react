@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { schoolInstructionCards } from "@/features/content/school-content";
-import { CardSpeechButton } from "./CardSpeechButton";
+import { DeckCardFrame } from "./DeckCardFrame";
 
 type Confidence = "again" | "hard" | "good" | "easy";
 
@@ -56,21 +56,18 @@ export function SchoolInstructionsDeck({ onBack }: { onBack: () => void }) {
     <div className="study-area">
       <div className="study-meta"><span>инфинитив: <span lang="pt-PT">{card.infinitive}</span></span><span>{index + 1} / {schoolInstructionCards.length}</span></div>
       <label className="deck-direction"><input type="checkbox" checked={reverse} onChange={(event) => { setReverse(event.target.checked); setFlipped(false); }} />Сначала по-русски</label>
-      <button type="button" className={`flashcard general-vocabulary-card ${flipped ? "flipped" : ""}`} onClick={() => setFlipped((value) => !value)} aria-pressed={flipped} aria-label={showTranslation ? "Показать португальский глагол" : "Показать перевод глагола"}>
+      <DeckCardFrame text={card.infinitive} exampleText={flipped ? card.examplePt : undefined} onPrevious={() => move(-1)} onNext={() => move(1)}><button type="button" className={`flashcard general-vocabulary-card ${flipped ? "flipped" : ""}`} onClick={() => setFlipped((value) => !value)} aria-pressed={flipped} aria-label={showTranslation ? "Показать португальский глагол" : "Показать перевод глагола"}>
         <span className="card-corner">{showTranslation ? "русский" : "português"}</span>
         <span className={`card-face ${showTranslation ? "card-back" : "card-front"}`}>
           <small>{showTranslation ? "перевод" : "глагол"}</small>
           <strong lang={showTranslation ? "ru" : "pt-PT"}>{showTranslation ? card.translation : card.label}</strong>
           <em lang={showTranslation ? "pt-PT" : "ru"}>{showTranslation ? card.examplePt : card.exampleRu}</em>
         </span>
-      </button>
-      <CardSpeechButton key={card.id} text={card.infinitive} />
-      {flipped && <CardSpeechButton key={`${card.id}-example`} text={card.examplePt} label="Послушать пример" />}
+      </button></DeckCardFrame>
       <div className={`rating-panel ${flipped ? "visible" : ""}`} aria-hidden={!flipped}>
         <p>Насколько хорошо вспомнилось?</p>
         <div className="rating-buttons">{confidenceOptions.map((option) => <button type="button" key={option.value} className={option.value} disabled={!flipped} onClick={() => rate(option.value)}><strong>{option.label}</strong></button>)}</div>
       </div>
-      <div className="deck-step-actions"><button type="button" onClick={() => move(-1)}>← Предыдущее</button><button type="button" className="primary-button" onClick={() => move(1)}>Следующее →</button></div>
     </div>
     <p className="deck-note">Форма в примере помогает распознать школьную инструкцию; карточка остаётся связана с тем же инфинитивом из колоды 1 000 глаголов.</p>
   </section>;
