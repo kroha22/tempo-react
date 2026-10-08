@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import type { UsageModule } from "../content/learning-model";
 import { CardSpeechButton } from "../cards/components/CardSpeechButton";
+import { RelatedLearningNavigation } from "./RelatedLearningNavigation";
 
 export function UsagePractice({ module, active = true }: { module: UsageModule; active?: boolean }) {
   const [step, setStep] = useState(0);
@@ -69,8 +70,9 @@ export function UsagePractice({ module, active = true }: { module: UsageModule; 
 }
 
 function RelatedLinks({ module }: { module: UsageModule }) {
+  const navigate = useContext(RelatedLearningNavigation);
   return <aside className="usage-related" aria-label="Связанные уроки и практика">
     <span>Связано с этой темой</span>
-    <div>{module.relatedLinks.map(link => <a key={link.id} href={link.href}>{link.label} →</a>)}</div>
+    <div>{module.relatedLinks.map(link => <a key={link.id} href={navigate ? `#${link.href}` : link.href} onClick={navigate ? (event) => { if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return; event.preventDefault(); navigate(link.href); } : undefined}>{link.label} →</a>)}</div>
   </aside>;
 }

@@ -2,6 +2,18 @@ body {
   min-width: 320px;
 }
 
+.related-lesson { padding-block: 12px; }
+.github-pages-demo button.tempo-back { min-height: 44px; padding: 8px 12px; border: 1px solid #b7c7b3; border-radius: 10px; background: #fffdf5; color: #285940; font: inherit; cursor: pointer; }
+.github-pages-demo button.tempo-back:focus-visible { outline: 3px solid #7856ae; outline-offset: 3px; }
+.related-lesson > .tempo-kicker { display: block; margin-top: 16px; }
+.related-lesson h1 { font-size: clamp(26px, 5vw, 38px); margin: 8px 0; }
+.related-lesson h2 { font-size: 22px; margin: 18px 0 10px; }
+.related-lesson-vocabulary { display: grid; gap: 8px; }
+.related-lesson-vocabulary > div { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 10px; border-bottom: 1px solid #cddcc7; }
+.related-lesson-vocabulary dt { font-weight: 800; }
+.related-lesson-vocabulary dd { margin: 0; }
+.related-lesson-vocabulary small { display: block; }
+
 .github-pages-demo {
   position: relative;
   width: min(1180px, calc(100% - 28px));
