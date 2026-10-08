@@ -1,12 +1,17 @@
-.control { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px 12px; margin: 14px 0 8px; }
+.control { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 6px; margin: 0; }
 .button { min-height: 44px; padding: 8px 16px; border: 2px solid #247563; border-radius: 14px; background: #fffbe9; color: #174c41; font: inherit; font-weight: 800; cursor: pointer; }
 .button:focus-visible { outline: 3px solid #174c41; outline-offset: 3px; }
 .button:disabled { cursor: default; border-color: #707c74; color: #536158; }
 .message { flex-basis: 100%; max-width: 520px; color: #536158; font-size: 12px; line-height: 1.4; text-align: center; }
 .message:empty { display: none; }
-.settings { flex-basis: 100%; width: 100%; max-width: 520px; min-width: 0; color: #174c41; font-size: 12px; }
-.settings summary { min-height: 32px; padding: 6px; text-align: center; cursor: pointer; overflow-wrap: anywhere; }
+.settings { width: min(440px, calc(100vw - 32px)); max-height: calc(100dvh - 40px); box-sizing: border-box; padding: 20px; border: 1px solid #b7c7b3; border-radius: 20px; background: #fffdf5; color: #174c41; font: inherit; box-shadow: 0 12px 60px #174c4133; }
+.settings::backdrop { background: #173b3655; }
+.dialogHeader { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.dialogHeader h2 { margin: 0; font-size: 20px; }
+.icon { display: inline-flex; align-items: center; justify-content: center; width: 44px; min-width: 44px; padding: 10px; border: 0; background: transparent; touch-action: manipulation; user-select: none; -webkit-touch-callout: none; }
+.icon[aria-busy="true"] { background: #e4f1e7; }
 .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 6px 0; }
 .fields label { min-width: 0; display: grid; gap: 4px; font-weight: 700; }
 .fields select { width: 100%; min-width: 0; min-height: 44px; padding: 6px; border: 1px solid #247563; border-radius: 10px; background: #fffbe9; color: #174c41; font: inherit; }
-.fields select:focus-visible, .settings summary:focus-visible { outline: 3px solid #174c41; outline-offset: 2px; }
+.fields select:focus-visible { outline: 3px solid #174c41; outline-offset: 2px; }
+@media (max-width: 480px) { .fields { grid-template-columns: 1fr; } }

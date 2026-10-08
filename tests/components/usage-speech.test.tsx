@@ -21,7 +21,7 @@ test("phrase examples speak Portuguese with the shared voice and do not expose t
   fireEvent.click(example);
   expect(speak.mock.lastCall?.[0]).toMatchObject({ text: phraseModule.examples[0].portuguese, voice: joana, lang: "pt-PT" });
   expect(screen.queryByRole("button", { name: /^Послушать фразу:/ })).not.toBeInTheDocument();
-  expect(screen.getAllByText(/^Голос:/)).toHaveLength(1);
+  expect(screen.queryByText(/^Голос:/)).not.toBeInTheDocument();
 });
 
 test("after a wrong answer the full correct sentence is playable and hiding the mode stops speech", async () => {

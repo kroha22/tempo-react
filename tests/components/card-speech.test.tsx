@@ -10,6 +10,8 @@ const speak = vi.fn();
 const cancel = vi.fn();
 
 beforeEach(() => {
+  HTMLDialogElement.prototype.showModal = function () { this.setAttribute("open", ""); };
+  HTMLDialogElement.prototype.close = function () { this.removeAttribute("open"); };
   localStorage.clear();
   vi.stubGlobal("speechSynthesis", {
     getVoices: () => [english, brazilian, french, joana], speak, cancel,
@@ -19,6 +21,24 @@ beforeEach(() => {
     text: string;
     constructor(text: string) { this.text = text; }
   });
+});
+
+test("holding opens voice settings without speaking, while keyboard offers the same dialog", async () => {
+  render(<CardSpeechButton text="casa" />);
+  const button = screen.getByRole("button", { name: "Послушать: casa" });
+  await waitFor(() => expect(button).toBeEnabled());
+  expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  vi.useFakeTimers();
+  fireEvent.pointerDown(button, { button: 0 });
+  await act(async () => { await vi.advanceTimersByTimeAsync(550); });
+  fireEvent.pointerUp(button);
+  fireEvent.click(button);
+  expect(speak).not.toHaveBeenCalled();
+  expect(screen.getByRole("dialog", { name: "Настройки озвучки" })).toBeVisible();
+  fireEvent.click(screen.getByRole("button", { name: "Закрыть настройки озвучки" }));
+  fireEvent.keyDown(button, { key: "Enter", shiftKey: true });
+  expect(screen.getByRole("dialog")).toBeVisible();
+  vi.useRealTimers();
 });
 
 test("only the two Portuguese locales are offered and removed preferences return to Joana", async () => {
@@ -146,7 +166,7 @@ test("language choice updates every card and reload preserves the selected voice
   await waitFor(() => expect(screen.getByRole("button", { name: "Послушать: eleger" })).toBeEnabled());
   expect(screen.getByLabelText("Язык озвучки: eleger")).toHaveValue("pt-br");
   fireEvent.change(screen.getByLabelText("Язык озвучки: eleger"), { target: { value: "pt-pt" } });
-  expect(screen.getByRole("button", { name: "Послушать: eleger" })).toHaveTextContent("Послушать");
+  expect(screen.getByRole("button", { name: "Послушать: eleger" })).toHaveAttribute("aria-busy", "false");
   fireEvent.click(screen.getByRole("button", { name: "Послушать: eleger" }));
   expect(speak.mock.lastCall?.[0]).toMatchObject({ voice: joana, lang: "pt-PT" });
 });

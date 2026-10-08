@@ -35,10 +35,12 @@ export function UsagePractice({ module, active = true }: { module: UsageModule; 
     </header>
 
     <div className="usage-examples" aria-label="Примеры фраз">
-      {module.examples.map((example, index) => <article key={example.id}>
+      {module.examples.map(example => <article key={example.id}>
+        <div className="usage-example-copy">
         <strong lang="pt-PT">{example.portuguese}</strong>
         <span>{example.translation}</span>
-        <CardSpeechButton text={example.portuguese} disabled={!active} showSettings={index === 0} />
+        </div>
+        <CardSpeechButton text={example.portuguese} disabled={!active} />
       </article>)}
     </div>
 
@@ -57,8 +59,7 @@ export function UsagePractice({ module, active = true }: { module: UsageModule; 
       </div>
       {!checked ? <button className="usage-check" type="button" disabled={!selectedId} onClick={() => setChecked(true)}>Проверить</button> : <div className={`usage-feedback ${correct ? "is-correct" : "is-wrong"}`} role="status">
         <strong>{correct ? "Верно" : "Посмотри на правильный вариант"}</strong>
-        <p>{exercise.feedback}</p>
-        <CardSpeechButton key={exercise.id} text={correctSentence} label="Послушать фразу" disabled={!active} showSettings={false} />
+        <div className="usage-answer-audio"><p>{exercise.feedback}</p><CardSpeechButton key={exercise.id} text={correctSentence} label="Послушать фразу" disabled={!active} /></div>
         <button type="button" onClick={() => { setStep(current => current + 1); setSelectedId(null); setChecked(false); }}>{step + 1 === module.exercises.length ? "Завершить" : "Следующая фраза →"}</button>
       </div>}
     </div>

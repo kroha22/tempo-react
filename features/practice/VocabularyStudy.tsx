@@ -43,8 +43,7 @@ export function VocabularyStudy({ onOpenCards }: { onOpenCards?: () => void } = 
   const hasSearch = searchWords(words).length > 0;
   const modes: Mode[] = ["cards", "pairs", ...(usageModules.length ? ["usage"] as const : []), ...(hasSearch ? ["search"] as const : []), ...(oddSets.length ? ["odd", "common"] as const : []), ...(availableImages.length ? ["image"] as const : [])];
   return <section className="house-activity vocabulary-study">
-    <button type="button" className="pair-back" onClick={() => { setGroupId(null); setSetId(null); setMode(null); setUsageId(null); }}>← Все темы</button>
-    <div className="vocabulary-topic-heading"><div><span className="tempo-kicker">Тема слов</span><h1>{group.title}</h1></div><span>{words.length} слов</span></div>
+    <div className="vocabulary-topic-heading"><button type="button" className="pair-back" aria-label="Назад ко всем темам" onClick={() => { setGroupId(null); setSetId(null); setMode(null); setUsageId(null); }}>←</button><div><span className="tempo-kicker">Слова</span><h1>{group.title}</h1></div><span>{words.length} слов</span></div>
     <label className="vocabulary-set-label">Набор слов<select aria-label="Набор слов" value={setId ?? ""} onChange={event => { setSetId(event.target.value || null); setMode("cards"); setUsageId(null); }}><option value="">Все наборы темы</option>{group.subgroups.map(subgroup => <optgroup key={subgroup.id} label={subgroup.title}>{subgroup.sets.map(set => <option key={set.id} value={set.id}>{set.title} · {set.words.length}</option>)}</optgroup>)}</select></label>
     <nav className="vocabulary-modes" aria-label="Способ изучения">{modes.map(value => <button type="button" key={value} aria-pressed={mode === value} onClick={() => setMode(value)}>{modeLabels[value]}</button>)}</nav>
     {!mode && <p className="vocabulary-mode-prompt">Выбери способ изучения.</p>}
