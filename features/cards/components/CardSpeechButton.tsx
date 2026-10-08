@@ -1,14 +1,15 @@
 "use client";
 
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { chooseSpeechVoice, defaultSpeechSettings, saveSpeechSettings, speechLanguage, speechLocale, speechSettingsSnapshot, speechVoiceKey, subscribeSpeechSettings } from "../speech-settings";
+import { cardSpeechLocales, chooseSpeechVoice, defaultSpeechSettings, saveSpeechSettings, speechLanguage, speechLocale, speechSettingsSnapshot, speechVoiceKey, subscribeSpeechSettings } from "../speech-settings";
 import styles from "./card-speech.module.css";
 import { finishCardSpeech, startCardSpeech, stopCardSpeech } from "../speech-playback";
 
 export function CardSpeechButton({ text, label = "Послушать", disabled = false }: { text: string; label?: string; disabled?: boolean }) {
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
   const [catalogueStatus, setCatalogueStatus] = useState<"loading" | "ready" | "unsupported">("loading");
-  const settings = JSON.parse(useSyncExternalStore(subscribeSpeechSettings, speechSettingsSnapshot, () => defaultSpeechSettings)) as { language: string; voice: string };
+  const storedSettings = JSON.parse(useSyncExternalStore(subscribeSpeechSettings, speechSettingsSnapshot, () => defaultSpeechSettings)) as { language: string; voice: string };
+  const settings = cardSpeechLocales.some((locale) => speechLanguage(locale) === speechLanguage(storedSettings.language)) ? storedSettings : JSON.parse(defaultSpeechSettings) as { language: string; voice: string };
   const voice = chooseSpeechVoice(voices, settings.language, settings.voice);
   const language = speechLanguage(settings.language);
   const voiceKey = voice ? speechVoiceKey(voice) : "";
@@ -95,7 +96,7 @@ export function CardSpeechButton({ text, label = "Послушать", disabled 
     }
   }
 
-  const languages = Array.from(new Set([language, ...voices.map((item) => speechLanguage(item.lang))])).sort();
+  const languages = cardSpeechLocales.map(speechLanguage);
   const languageVoices = voices.filter((item) => speechLanguage(item.lang) === language);
   const displayedLanguage = voice ? speechLanguage(voice.lang) : language;
   function languageLabel(value: string) {

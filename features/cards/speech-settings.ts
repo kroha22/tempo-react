@@ -1,4 +1,5 @@
 export const defaultSpeechSettings = '{"language":"pt-PT","voice":""}';
+export const cardSpeechLocales = ["pt-PT", "pt-BR", "es-ES", "fr-FR"] as const;
 const storageKey = "tempo-card-speech-settings";
 const changeEvent = "tempo-card-speech-settings-changed";
 
