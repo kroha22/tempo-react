@@ -2,7 +2,7 @@
 
 Six phrase collections contain 48 newly written European Portuguese/Russian pairs: social interaction, transport, café, shopping, home and study. Each collection contains eight expressions around one practical situation. These are free practice collections, not a new sequential course or a claim of a particular CEFR level.
 
-Eight form collections split the existing conjugation data by the four verb groups and the two supported tenses: Presente and Pretérito perfeito. They contain 300 drills (25 verbs × six pronouns × two tenses). Conjugated forms remain drills; the canonical verb infinitives and original 1,000-verb card IDs are unchanged. Pronunciation uses the existing device voice at rate 0.9.
+Eight form collections split the existing conjugation data by the four verb groups and the two supported tenses: Presente and Pretérito perfeito. They contain 300 drills (25 verbs × six pronouns × two tenses). Conjugated forms remain drills; the canonical verb infinitives and original 1,000-verb card IDs are unchanged. Pronunciation uses the existing device voice at neutral rate 1.
 
 Anki decks were inspected as examples of flashcard formats. No downloaded card records, English translations, recorded audio, images, HTML templates or source-deck arrangement are bundled. The phrase material was written afresh for Tempo, and forms come from the application's existing language model. This is not a rewritten export of the source decks.
 

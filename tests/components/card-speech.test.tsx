@@ -85,7 +85,7 @@ test("card playback sends the explicitly selected voice and its language", async
   const button = screen.getByRole("button", { name: "Послушать: eleger" });
   await waitFor(() => expect(button).toBeEnabled());
   fireEvent.click(button);
-  expect(speak.mock.lastCall?.[0]).toMatchObject({ text: "eleger", voice: joana, lang: "pt-PT", rate: 0.9, pitch: 1, volume: 1 });
+  expect(speak.mock.lastCall?.[0]).toMatchObject({ text: "eleger", voice: joana, lang: "pt-PT", rate: 1, pitch: 1, volume: 1 });
   unmount();
   expect(cancel).toHaveBeenCalled();
 });
@@ -180,7 +180,7 @@ test.each([joana, brazilian])("$name follows the same explicit voice/language pa
   for (let index = 0; index < 3; index += 1) {
     fireEvent.click(button);
     const utterance = speak.mock.lastCall?.[0];
-    expect(utterance).toMatchObject({ text: "palavra", voice, lang: voice.lang, rate: 0.9, pitch: 1, volume: 1 });
+    expect(utterance).toMatchObject({ text: "palavra", voice, lang: voice.lang, rate: 1, pitch: 1, volume: 1 });
     act(() => utterance.onend());
   }
   expect(cancel).not.toHaveBeenCalled();
