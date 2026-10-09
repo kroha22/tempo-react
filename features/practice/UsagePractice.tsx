@@ -3,6 +3,7 @@
 import { useContext, useState } from "react";
 import type { UsageModule } from "../content/learning-model";
 import { CardSpeechButton } from "../cards/components/CardSpeechButton";
+import { SpeechHelpButton } from "../cards/components/SpeechHelpButton";
 import { RelatedLearningNavigation } from "./RelatedLearningNavigation";
 
 export function UsagePractice({ module, active = true }: { module: UsageModule; active?: boolean }) {
@@ -29,7 +30,8 @@ export function UsagePractice({ module, active = true }: { module: UsageModule; 
   const correct = selectedId === exercise.correctOptionId;
   const correctSentence = `${exercise.before}${exercise.options.find(option => option.id === exercise.correctOptionId)?.text ?? ""}${exercise.after}`;
   return <section className="usage-practice">
-    <header>
+    <header className="speech-help-zone">
+      <div className="speech-help-group"><SpeechHelpButton /></div>
       <span className="tempo-kicker">Слова в контексте</span>
       <h2>{module.title}</h2>
       <p>{module.situation}</p>
