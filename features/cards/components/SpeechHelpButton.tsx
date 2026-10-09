@@ -10,7 +10,7 @@ export function SpeechHelpButton() {
   const backup = speechLanguage(settings.language) === "pt-br";
   function switchVoice() {
     const voice = (window.speechSynthesis?.getVoices() ?? []).find(item => speechLanguage(item.lang) === (backup ? "pt-pt" : "pt-br") && (backup ? /^joana$/i : /^grandpa(?:\s|$)/i).test(item.name));
-    if (!voice) { setMessage(backup ? "Joana недоступна на этом устройстве. Текущий голос сохранён." : "Запасной голос Grandpa недоступен на этом устройстве. Текущий голос сохранён."); return; }
+    if (!voice) { setMessage(backup ? "Joana недоступна на этом устройстве. Текущий голос сохранён." : "Запасной голос недоступен на этом устройстве. Текущий голос сохранён."); return; }
     saveSpeechSettings(voice.lang, speechVoiceKey(voice));
     dialog.current?.close();
   }
@@ -20,7 +20,7 @@ export function SpeechHelpButton() {
     </button>
     <dialog ref={dialog} className={styles.settings} aria-label="Помощь с озвучкой" onClick={event => {if(event.target === event.currentTarget) dialog.current?.close();}}>
       <h2>{backup ? "Включён запасной голос" : "Голос звучит неправильно?"}</h2>
-      <p>{backup ? "Сейчас используется бразильский вариант португальского. Можно вернуться к европейскому голосу Joana." : "Если голос читает по-английски, попробуйте запасной голос Grandpa. Он использует бразильский вариант португальского."}</p>
+      <p>{backup ? "Сейчас используется бразильский вариант португальского. Можно вернуться к европейскому голосу Joana." : "Если голос звучит неправильно, попробуйте запасной. Доступен бразильский вариант португальского."}</p>
       <p className={styles.message} role="status">{message}</p>
       <div className={styles.actions}><button type="button" className={styles.button} onClick={switchVoice}>{backup ? "Вернуться к Joana" : "Включить запасной"}</button><button type="button" className={styles.button} onClick={() => dialog.current?.close()}>Отмена</button></div>
     </dialog>

@@ -29,7 +29,7 @@ test("backup is shared, persisted and reversible without playing or flipping", a
 });
 test("missing backup preserves existing settings and explains why", () => {
   voices=[joana]; render(<SpeechHelpButton/>);help();fireEvent.click(screen.getByRole("button",{name:"Включить запасной"}));
-  expect(screen.getByRole("status")).toHaveTextContent("Grandpa недоступен");
+  expect(screen.getByRole("status")).toHaveTextContent("Запасной голос недоступен");
   expect(localStorage.getItem("tempo-card-speech-settings")).toBeNull();
 });
 test("cancel leaves voice unchanged and speaker no longer has a voice picker", async () => {
