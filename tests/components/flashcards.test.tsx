@@ -148,9 +148,9 @@ describe("card review through the HTTP boundary", () => {
     render(<Flashcards />);
 
     expect(screen.getByRole("button", { name: "Открыть колоду «1 000 глаголов»" })).toBeInTheDocument();
-    await user.click(screen.getByRole("button", { name: "Открыть колоду «351 базовое слово»" }));
-    expect(screen.getByRole("region", { name: "Колода «351 базовое слово»" })).toBeInTheDocument();
-    expect(screen.getByText("1 / 351")).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Открыть колоду «357 базовых слов»" }));
+    expect(screen.getByRole("region", { name: "Колода «357 базовых слов»" })).toBeInTheDocument();
+    expect(screen.getByText("1 / 357")).toBeInTheDocument();
     expect(screen.getByText("ter")).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: "Показать перевод слова" }));

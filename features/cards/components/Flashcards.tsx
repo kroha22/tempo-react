@@ -1,4 +1,5 @@
 "use client";
+import { basicWordCards } from "../data/basic-word-cards";
 
 import { useEffect, useId, useRef, useState } from "react";
 import {
@@ -45,6 +46,12 @@ function DeckPicker({ onChoose, category, onCategoryChange }: { onChoose: (deck:
       </div>
       <nav className="vocabulary-modes" aria-label="Тип колод">{([['main', 'Основные'], ['phrases', 'Фразы'], ['forms', 'Спряжения']] as const).map(([id, label]) => <button type="button" key={id} aria-pressed={category === id} onClick={() => onCategoryChange(id)}>{label}</button>)}</nav>
       {category !== "main" && <section className="tempo-deck-category"><h3>{category === "phrases" ? "Разговорные фразы" : "Спряжения по группам"}</h3><div className="deck-library__grid">{tempoPracticeDecks.filter(item => item.category === category).map(item => <button type="button" key={item.id} data-group={item.group} onClick={() => onChoose(item.id)} aria-label={`Открыть колоду «${item.title}»`}><span className="deck-library__icon" aria-hidden="true">{item.group ? item.group === "irregular" ? "★" : `-${item.group.toUpperCase()}` : "PT"}</span><strong>{item.title}</strong><span>{item.description}</span><small>{item.cards.length} карточек · открыть →</small></button>)}</div></section>}
+      {category === "phrases" && <div className="deck-library__grid">        <button type="button" onClick={() => onChoose("school")} aria-label="Открыть колоду «Инструкции на уроке»">
+          <span className="deck-library__icon deck-library__icon--school" aria-hidden="true">A+?</span>
+          <strong>Инструкции на уроке</strong>
+          <span>8 коротких школьных инструкций</span>
+          <small>Открыть колоду →</small>
+        </button></div>}
       {category === "main" && <div className="deck-library__grid">
         <button type="button" onClick={() => onChoose("verbs")} aria-label="Открыть колоду «1 000 глаголов»">
           <span className="deck-library__icon" aria-hidden="true">1000</span>
@@ -52,18 +59,13 @@ function DeckPicker({ onChoose, category, onCategoryChange }: { onChoose: (deck:
           <span>Частотная колода с интервальным повторением</span>
           <small>Открыть колоду →</small>
         </button>
-        <button type="button" onClick={() => onChoose("words")} aria-label="Открыть колоду «351 базовое слово»">
-          <span className="deck-library__icon deck-library__icon--words" aria-hidden="true">351</span>
-          <strong>351 базовое слово</strong>
+        <button type="button" onClick={() => onChoose("words")} aria-label={`Открыть колоду «${basicWordCards.length} базовых слов»`}>
+          <span className="deck-library__icon deck-library__icon--words" aria-hidden="true">{basicWordCards.length}</span>
+          <strong>{basicWordCards.length} базовых слов</strong>
           <span>Глаголы, существительные, прилагательные и другие слова</span>
           <small>Открыть колоду →</small>
         </button>
-        <button type="button" onClick={() => onChoose("school")} aria-label="Открыть колоду «Инструкции на уроке»">
-          <span className="deck-library__icon deck-library__icon--school" aria-hidden="true">A+?</span>
-          <strong>Инструкции на уроке</strong>
-          <span>8 знакомых глаголов в школьных фразах</span>
-          <small>Открыть колоду →</small>
-        </button>
+
       </div>}
     </section>
   );

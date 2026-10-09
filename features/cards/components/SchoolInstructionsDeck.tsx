@@ -40,9 +40,9 @@ export function SchoolInstructionsDeck({ onBack }: { onBack: () => void }) {
     <button type="button" className="deck-back" onClick={onBack}>← К выбору колоды</button>
     <div className="deck-heading">
       <div>
-        <span className="deck-kicker">Школа · 8 глаголов</span>
+        <span className="deck-kicker">Школа · 8 фраз</span>
         <h2>Инструкции на уроке</h2>
-        <p>Сначала вспомни глагол, затем посмотри, как он звучит в короткой учебной фразе.</p>
+        <p>Повторяй короткие инструкции, которые звучат на уроке.</p>
       </div>
       <div className="deck-stats" aria-label="Прогресс карточек в этой сессии">
         <div><strong>{counts.again + counts.hard}</strong><span>повторить</span></div>
@@ -56,12 +56,12 @@ export function SchoolInstructionsDeck({ onBack }: { onBack: () => void }) {
     <div className="study-area">
       <div className="study-meta"><span>инфинитив: <span lang="pt-PT">{card.infinitive}</span></span><span>{index + 1} / {schoolInstructionCards.length}</span></div>
       <label className="deck-direction"><input type="checkbox" checked={reverse} onChange={(event) => { setReverse(event.target.checked); setFlipped(false); }} />Сначала по-русски</label>
-      <DeckCardFrame text={card.infinitive} exampleText={flipped ? card.examplePt : undefined} onPrevious={() => move(-1)} onNext={() => move(1)}><button type="button" className={`flashcard general-vocabulary-card ${flipped ? "flipped" : ""}`} onClick={() => setFlipped((value) => !value)} aria-pressed={flipped} aria-label={showTranslation ? "Показать португальский глагол" : "Показать перевод глагола"}>
+      <DeckCardFrame text={card.examplePt} onPrevious={() => move(-1)} onNext={() => move(1)}><button type="button" className={`flashcard general-vocabulary-card ${flipped ? "flipped" : ""}`} onClick={() => setFlipped((value) => !value)} aria-pressed={flipped} aria-label={showTranslation ? "Показать португальскую фразу" : "Показать перевод фразы"}>
         <span className="card-corner">{showTranslation ? "русский" : "português"}</span>
         <span className={`card-face ${showTranslation ? "card-back" : "card-front"}`}>
-          <small>{showTranslation ? "перевод" : "глагол"}</small>
-          <strong lang={showTranslation ? "ru" : "pt-PT"}>{showTranslation ? card.translation : card.label}</strong>
-          <em lang={showTranslation ? "pt-PT" : "ru"}>{showTranslation ? card.examplePt : card.exampleRu}</em>
+          <small>{showTranslation ? "перевод" : "инструкция"}</small>
+          <strong lang={showTranslation ? "ru" : "pt-PT"}>{showTranslation ? card.exampleRu : card.examplePt}</strong>
+          <em lang={showTranslation ? "pt-PT" : "ru"}>{showTranslation ? card.infinitive : "Нажми, чтобы перевернуть"}</em>
         </span>
       </button></DeckCardFrame>
       <div className={`rating-panel ${flipped ? "visible" : ""}`} aria-hidden={!flipped}>
@@ -69,6 +69,6 @@ export function SchoolInstructionsDeck({ onBack }: { onBack: () => void }) {
         <div className="rating-buttons">{confidenceOptions.map((option) => <button type="button" key={option.value} className={option.value} disabled={!flipped} onClick={() => rate(option.value)}><strong>{option.label}</strong></button>)}</div>
       </div>
     </div>
-    <p className="deck-note">Форма в примере помогает распознать школьную инструкцию; карточка остаётся связана с тем же инфинитивом из колоды 1 000 глаголов.</p>
+    <p className="deck-note">Глаголы этих инструкций также доступны в базовой колоде слов.</p>
   </section>;
 }

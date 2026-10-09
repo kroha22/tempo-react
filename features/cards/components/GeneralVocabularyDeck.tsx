@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { generalVocabulary } from "@/features/content/general-vocabulary";
+import { basicWordCards as generalVocabulary } from "../data/basic-word-cards";
 import type { GeneralVocabularyPartOfSpeech } from "@/features/content/general-vocabulary-types";
 import { vocabularyLessons } from "@/features/content/vocabulary-lessons";
 import { DeckCardFrame } from "./DeckCardFrame";
@@ -51,11 +51,11 @@ export function GeneralVocabularyDeck({ onBack }: { onBack: () => void }) {
   }
 
   return (
-    <section className="cards-workspace" id="cards" aria-label="Колода «351 базовое слово»">
+    <section className="cards-workspace" id="cards" aria-label={`Колода «${generalVocabulary.length} базовых слов»`}>
       <button type="button" className="deck-back" onClick={onBack}>← К выбору колоды</button>
       <div className="deck-heading">
         <div>
-          <span className="deck-kicker">351 слово · базовая лексика</span>
+          <span className="deck-kicker">{generalVocabulary.length} слов · базовая лексика</span>
           <h2>Базовые португальские слова</h2>
           <p>Существительные, глаголы, прилагательные и другие полезные слова для повторения.</p>
         </div>
