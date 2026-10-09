@@ -1,6 +1,6 @@
 import { allVerbKeys, people, verbs, type Tense, type VerbGroup } from "../../conjugation/data.ts";
 
-export type TempoPracticeCard = { id: string; portuguese: string; spokenPortuguese: string; russian: string; prompt: string; hint: string; kind: "expression" | "form" };
+export type TempoPracticeCard = { id: string; portuguese: string; spokenPortuguese: string; russian: string; prompt: string; hint: string; kind: "expression" | "form"; form?: { infinitive: string; pronoun: string; personTranslation: string; verbTranslation: string } };
 export type TempoPracticeDeck = { id: string; title: string; description: string; category: "phrases" | "forms"; cards: readonly TempoPracticeCard[]; group?: VerbGroup };
 
 const phrasePacks: { id: string; title: string; description: string; phrases: readonly (readonly [string, string, string])[] }[] = [
@@ -74,11 +74,12 @@ const groupNames: Record<VerbGroup, string> = { ar: "-AR", er: "-ER", ir: "-IR",
 const personNames = { eu: "я", tu: "ты", ele: "он / она", nos: "мы", voces: "вы", eles: "они" };
 const pronouns = { eu: "eu", tu: "tu", ele: "ele / ela", nos: "nós", voces: "vocês", eles: "eles / elas" };
 const formDecks: TempoPracticeDeck[] = (["ar", "er", "ir", "irregular"] as const).flatMap(group => (["present", "past"] as readonly Tense[]).map(tense => ({
-  id: `tempo:deck:forms:${group}:${tense}`, title: `${groupNames[group]} · ${tense === "present" ? "Настоящее" : "Прошедшее"}`,
+  id: `tempo:deck:forms:${group}:${tense}`, title: `${groupNames[group]} · ${tense === "present" ? "Presente (настоящее)" : "Pretérito perfeito (прошедшее)"}`,
   description: tense === "present" ? "Presente: вспомни форму для местоимения" : "Pretérito perfeito: завершённое действие", category: "forms", group,
   cards: allVerbKeys.filter(key => verbs[key].group === group).flatMap(key => people.map(person => ({
     id: `tempo:form:${key}:${tense}:${person.key}`, portuguese: `${pronouns[person.key]} ${verbs[key].forms[tense][person.key]}`,
-    spokenPortuguese: verbs[key].forms[tense][person.key],
+    spokenPortuguese: `${pronouns[person.key].split(" / ")[0]} ${verbs[key].forms[tense][person.key]}`,
+    form: { infinitive: verbs[key].infinitive, pronoun: pronouns[person.key], personTranslation: personNames[person.key], verbTranslation: verbs[key].translation },
     russian: `${personNames[person.key]} · ${verbs[key].translation}`, prompt: `${personNames[person.key]} · ${verbs[key].translation}`,
     hint: `${verbs[key].infinitive} · ${tense === "present" ? "Presente" : "Pretérito perfeito"}`, kind: "form" as const,
   }))),

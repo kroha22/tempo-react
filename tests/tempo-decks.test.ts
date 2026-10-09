@@ -13,5 +13,5 @@ test("original phrase packs and form drills have stable unique IDs and complete 
   assert.ok(cards.every(card => !Object.values(card).some(value => typeof value === "string" && /\[sound:|data:audio|<script/i.test(value))));
   const past = cards.find(card => card.id === "tempo:form:falar:past:nos");
   assert.equal(past?.portuguese, "nós falámos");
-  assert.equal(past?.spokenPortuguese, "falámos");
+  assert.equal(past?.spokenPortuguese, "nós falámos");
 });
