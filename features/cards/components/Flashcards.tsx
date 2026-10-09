@@ -14,6 +14,8 @@ import { Feedback } from "@/shared/ui/Feedback";
 import { GeneralVocabularyDeck } from "./GeneralVocabularyDeck";
 import { SchoolInstructionsDeck } from "./SchoolInstructionsDeck";
 import { DeckCardFrame } from "./DeckCardFrame";
+import { tempoPracticeDecks } from "../data/tempo-decks";
+import { TempoPracticeDeck } from "./TempoPracticeDeck";
 
 const gradeLabels: Array<{ grade: ReviewGrade; label: string; className: string }> = [
   { grade: 0, label: "Не знаю", className: "again" },
@@ -23,14 +25,17 @@ const gradeLabels: Array<{ grade: ReviewGrade; label: string; className: string 
 ];
 
 export default function Flashcards() {
-  const [deck, setDeck] = useState<"verbs" | "words" | "school" | null>(null);
+  const [deck, setDeck] = useState<string | null>(null);
+  const [category, setCategory] = useState<"main" | "phrases" | "forms">("main");
   if (deck === "words") return <GeneralVocabularyDeck onBack={() => setDeck(null)} />;
   if (deck === "school") return <SchoolInstructionsDeck onBack={() => setDeck(null)} />;
   if (deck === "verbs") return <EnsureCardsQueryScope><ReviewCards onBack={() => setDeck(null)} /></EnsureCardsQueryScope>;
-  return <DeckPicker onChoose={setDeck} />;
+  const practiceDeck = tempoPracticeDecks.find(item => item.id === deck);
+  if (practiceDeck) return <TempoPracticeDeck key={practiceDeck.id} deck={practiceDeck} onBack={() => setDeck(null)} />;
+  return <DeckPicker onChoose={setDeck} category={category} onCategoryChange={setCategory} />;
 }
 
-function DeckPicker({ onChoose }: { onChoose: (deck: "verbs" | "words" | "school") => void }) {
+function DeckPicker({ onChoose, category, onCategoryChange }: { onChoose: (deck: string) => void; category: "main" | "phrases" | "forms"; onCategoryChange: (category: "main" | "phrases" | "forms") => void }) {
   return (
     <section className="deck-library" id="cards" aria-label="Колоды карточек">
       <div className="deck-library__heading">
@@ -38,7 +43,9 @@ function DeckPicker({ onChoose }: { onChoose: (deck: "verbs" | "words" | "school
         <h2>Выберите колоду</h2>
         <p>Частотные глаголы, базовая лексика и короткие тематические наборы.</p>
       </div>
-      <div className="deck-library__grid">
+      <nav className="vocabulary-modes" aria-label="Тип колод">{([['main', 'Основные'], ['phrases', 'Фразы'], ['forms', 'Спряжения']] as const).map(([id, label]) => <button type="button" key={id} aria-pressed={category === id} onClick={() => onCategoryChange(id)}>{label}</button>)}</nav>
+      {category !== "main" && <section className="tempo-deck-category"><h3>{category === "phrases" ? "Разговорные фразы" : "Спряжения по группам"}</h3><div className="deck-library__grid">{tempoPracticeDecks.filter(item => item.category === category).map(item => <button type="button" key={item.id} data-group={item.group} onClick={() => onChoose(item.id)} aria-label={`Открыть колоду «${item.title}»`}><span className="deck-library__icon" aria-hidden="true">{item.group ? item.group === "irregular" ? "★" : `-${item.group.toUpperCase()}` : "PT"}</span><strong>{item.title}</strong><span>{item.description}</span><small>{item.cards.length} карточек · открыть →</small></button>)}</div></section>}
+      {category === "main" && <div className="deck-library__grid">
         <button type="button" onClick={() => onChoose("verbs")} aria-label="Открыть колоду «1 000 глаголов»">
           <span className="deck-library__icon" aria-hidden="true">1000</span>
           <strong>1 000 глаголов</strong>
@@ -57,7 +64,7 @@ function DeckPicker({ onChoose }: { onChoose: (deck: "verbs" | "words" | "school
           <span>8 знакомых глаголов в школьных фразах</span>
           <small>Открыть колоду →</small>
         </button>
-      </div>
+      </div>}
     </section>
   );
 }

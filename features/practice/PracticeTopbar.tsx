@@ -13,7 +13,7 @@ type PracticeTopbarProps = {
 export function PracticeTopbar({ section, childMode, tense, onSectionChange, onToggleChildMode }: PracticeTopbarProps) {
   const navigationSection = section === "trainer" ? "lessons" : section;
   const lessonNumber = section === "cards" ? "02" : section === "vocabulary" ? "35" : section === "lessons" ? "14" : tense === "present" ? "01" : "02";
-  const lessonLabel = section === "cards" ? "duas coleções" : section === "vocabulary" ? "temas e jogos" : section === "lessons" ? "gramática prática" : tense === "present" ? "Presente do indicativo" : "Pretérito perfeito";
+  const lessonLabel = section === "cards" ? "coleções e frases" : section === "vocabulary" ? "temas e jogos" : section === "lessons" ? "gramática prática" : tense === "present" ? "Presente do indicativo" : "Pretérito perfeito";
 
   return (
     <header className={`${styles.topbar} practice-topbar`}>
