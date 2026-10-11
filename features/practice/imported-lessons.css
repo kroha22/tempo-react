@@ -1,0 +1,26 @@
+.clock-lesson { max-width: 700px; }.clock-lesson h1 { font: 34px Fredoka, sans-serif; margin: 12px 0; }.clock-lesson h2 { margin: 10px 0; font-size: 23px; }
+.learning-clock { position: relative; width: min(100%, 280px); margin: 12px auto; aspect-ratio: 1; }.learning-clock svg { display: block; width: 100%; height: 100%; }
+.learning-clock .clock-dial-hit { position: absolute; transform: translate(-50%,-50%); width: 44px; height: 44px; padding: 0; border: 0; background: transparent; border-radius: 50%; cursor: pointer; }.learning-clock .clock-dial-hit:focus-visible { outline: 3px solid #704d96; background: #f7d86666; }
+.clock-example { display: grid; gap: 8px; text-align: center; margin: 12px 0; }.clock-example strong { font-size: 22px; }.clock-example-buttons { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }.clock-example-buttons button { min-height: 44px; padding: 8px 12px; border: 1px solid #b7c7b3; border-radius: 10px; background: white; color: var(--ink); font: inherit; cursor: pointer; }.clock-example-buttons button[aria-pressed=true] { background: #fff1bd; outline: 2px solid #bb9c3e; }
+.clock-selects { display: flex; gap: 16px; }.clock-selects label { flex: 1; display: grid; gap: 4px; }.clock-selects select { min-height: 44px; border: 1px solid #b7c7b3; border-radius: 10px; font: inherit; padding: 8px; background: white; color: var(--ink); }.clock-lesson .house-tools button[aria-pressed=true] { outline: 3px solid #704d96; }.clock-progress { margin: 6px 0; text-align: right; }.clock-instruction { font-size: 14px; }
+.future-lesson { max-width: 760px; }.future-lesson h1 { font-family: Fredoka, sans-serif; margin: 10px 0; font-size: clamp(28px, 5vw, 40px); }
+.future-formula { display: grid; gap: 10px; padding: 20px; border-radius: 18px; background: #fff1bd; font-size: 24px; }.future-formula b { color: #704d96; }.future-formula small { font-size: 16px; }
+.future-forms { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }.future-forms div { display: grid; gap: 6px; padding: 12px; border: 1px solid #c9b0df; border-radius: 12px; background: #fcf8ff; }.future-forms b { color: #704d96; font-size: 22px; }
+.future-sentence { font-size: 22px; line-height: 1.6; }.future-sentence b { color: #704d96; }
+.future-options { border: 0; padding: 0; margin: 16px 0; display: flex; flex-wrap: wrap; gap: 8px; }.future-options legend { font-weight: 800; margin-bottom: 8px; }.future-options button { flex: 1; min-height: 46px; padding: 10px; border: 1px solid #b7c7b3; border-radius: 12px; background: white; color: #285940; font: inherit; cursor: pointer; }.future-options button[aria-pressed=true] { background: #285940; color: white; box-shadow: inset 0 0 0 2px #285940; }.future-options button:focus-visible { outline: 3px solid #7856ae; outline-offset: 3px; }.future-time { flex-direction: column; }.future-time button { display: grid; gap: 4px; text-align: left; }
+.future-lesson details summary { min-height: 44px; cursor: pointer; }.future-lesson li { margin-bottom: 16px; }
+.tense-examples { margin: 20px 0; padding: 16px; border: 1px solid #b7cab9; border-radius: 20px; background: #f8faf0; color: #293f40; }
+.tense-examples summary { cursor: pointer; font-weight: 800; min-height: 28px; }
+.tense-examples h2 { font-size: 22px; line-height: 1.25; }
+.tense-example-cues { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+.tense-examples button { font: inherit; color: inherit; cursor: pointer; min-height: 44px; padding: 8px 12px; border: 1px solid #a8bbaa; border-radius: 14px; background: white; }
+.tense-examples button[aria-pressed="true"] { background: #f7dfa2; border: 2px solid #795c19; }
+.tense-examples button:focus-visible, .tense-examples summary:focus-visible { outline: 3px solid #725796; outline-offset: 3px; }
+.tense-example-card { padding: 16px; border-radius: 18px; background: white; border-left: 5px solid #6c9674; }
+.tense-example-card > p { font-size: 21px; line-height: 1.45; }
+.tense-example-translation { margin-top: 12px; }
+.tense-example-prompt { font-size: 14px; }
+.learning-clock .clock-hand-grip { position: absolute; z-index: 3; transform: translate(-50%, -50%); width: 30px; height: 30px; min-height: 30px; padding: 0; border: 2px solid white; border-radius: 50%; background: #704d96; color: white; font-size: 20px; line-height: 1; touch-action: none; user-select: none; cursor: grab; }
+.learning-clock .clock-hand-grip.minute { background: #a44424; }
+.learning-clock .clock-hand-grip:active { cursor: grabbing; }
+.learning-clock .clock-hand-grip:focus-visible { outline: 3px solid #233c32; outline-offset: 3px; }
