@@ -20,6 +20,6 @@ export function TempoPracticeDeck({ deck, onBack }: { deck: PracticeDeck; onBack
         {!flipped ? <><strong className="conjugation-infinitive" lang="pt-PT">{card.form.infinitive}</strong><span className="conjugation-prompt" lang="pt-PT">{card.form.pronoun} …</span><small>Вспомни значение и форму</small></> : <><strong className="conjugation-answer" lang="pt-PT">{card.portuguese}</strong><span className="conjugation-meaning" lang="ru">{card.form.infinitive} — {card.form.verbTranslation}</span><small lang="ru">{card.form.pronoun} — {card.form.personTranslation}</small></>}
       </span> : <span className="card-face"><small>{card.hint}</small><strong lang={flipped ? "ru" : "pt-PT"}>{flipped ? card.russian : card.prompt}</strong><em lang={flipped ? "pt-PT" : "ru"}>{flipped ? card.portuguese : "Нажми, чтобы перевернуть"}</em></span>}</button></DeckCardFrame>
       {flipped && <div className="rating-panel visible"><p>Насколько хорошо вспомнилось?</p><div className="rating-buttons">{["Не знаю", "Сложно", "Помню", "Легко"].map((label, grade) => <button type="button" className={["again", "hard", "good", "easy"][grade]} key={label} onClick={() => { setRatings(previous => ({ ...previous, [card.id]: grade })); move(1); }}><strong>{label}</strong></button>)}</div></div>}
-    </div><p className="deck-note">Оценки показаны для текущей сессии. Можно листать карточки стрелками и повторять колоду.</p>
+    </div>
   </section>;
 }

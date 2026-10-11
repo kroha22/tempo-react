@@ -39,7 +39,7 @@ test("group lookup and endings support the existing trainer", () => {
 });
 
 test("every trainer verb resolves every active person and tense", () => {
-  assert.equal(allVerbKeys.length, 25);
+  assert.equal(allVerbKeys.length, 26);
   for (const verb of allVerbKeys) {
     for (const tense of ["present", "past"] as const) {
       for (const person of people) {

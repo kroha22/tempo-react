@@ -2,6 +2,7 @@
 
 import { useMemo, useReducer, useState } from "react";
 import Flashcards from "@/features/cards/components/Flashcards";
+import { AdditionalLessons } from "./AdditionalLessons";
 import AdultLessons from "@/features/practice/AdultLessons";
 import { ActionGuide } from "@/features/practice/ActionGuide";
 import { AdultRulePanel } from "@/features/practice/AdultRulePanel";
@@ -397,7 +398,7 @@ export default function PracticeScreen({ initialVerbKey = "fazer", initialTense 
           />
         )}
         </>}
-      </section> : section === "lessons" ? <AdultLessons activeLessonId={activeLessonId} onLessonChange={setActiveLessonId} onOpenPractice={openLessonPractice} onOpenConjugationOverview={openConjugationOverview} /> : section === "vocabulary" ? <VocabularyHub onOpenCards={() => changeSection("cards")} /> : <Flashcards />}
+      </section> : section === "lessons" ? <><AdultLessons activeLessonId={activeLessonId} onLessonChange={setActiveLessonId} onOpenPractice={openLessonPractice} onOpenConjugationOverview={openConjugationOverview} /><AdditionalLessons /></> : section === "vocabulary" ? <VocabularyHub onOpenCards={() => changeSection("cards")} /> : <Flashcards />}
 
       <footer><span>{section === "cards" ? "Колоды: базовые слова, глаголы и тематические наборы" : section === "vocabulary" ? "Темы, карточки, пары и задания на смысл" : section === "lessons" ? "Коротко о форме — сразу в живом примере" : "Учи форму вместе с местоимением"}</span><span>Português · A1–B2</span></footer>
     </div>

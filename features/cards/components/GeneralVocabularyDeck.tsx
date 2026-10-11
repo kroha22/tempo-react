@@ -25,7 +25,6 @@ const partOfSpeechLabels: Record<GeneralVocabularyPartOfSpeech, string> = {
 export function GeneralVocabularyDeck({ onBack }: { onBack: () => void }) {
   const [index, setIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
-  const [reverse, setReverse] = useState(false);
   const [confidenceByCard, setConfidenceByCard] = useState<Record<string, Confidence>>({});
   const reviewedDisplays = useMemo(
     () => new Map(vocabularyLessons.flatMap((lesson) => lesson.items.map((item) => [item.sourceEntryId, item.display] as const))),
@@ -33,7 +32,7 @@ export function GeneralVocabularyDeck({ onBack }: { onBack: () => void }) {
   );
   const card = generalVocabulary[index];
   const portuguese = reviewedDisplays.get(card.id) ?? card.portuguese;
-  const showTranslation = reverse !== flipped;
+  const showTranslation = flipped;
   const confidenceCounts = useMemo(() => {
     const counts: Record<Confidence, number> = { again: 0, hard: 0, good: 0, easy: 0 };
     Object.values(confidenceByCard).forEach((value) => { counts[value] += 1; });
@@ -75,7 +74,6 @@ export function GeneralVocabularyDeck({ onBack }: { onBack: () => void }) {
           <span>{partOfSpeechLabels[card.partOfSpeech]}</span>
           <span>{index + 1} / {generalVocabulary.length}</span>
         </div>
-        <label className="deck-direction"><input type="checkbox" checked={reverse} onChange={(event) => { setReverse(event.target.checked); setFlipped(false); }} />Сначала по-русски</label>
         <DeckCardFrame text={portuguese} onPrevious={() => move(-1)} onNext={() => move(1)}><button
           type="button"
           className={`flashcard general-vocabulary-card ${flipped ? "flipped" : ""}`}
@@ -105,7 +103,7 @@ export function GeneralVocabularyDeck({ onBack }: { onBack: () => void }) {
           </div>
         </div>
       </div>
-      <p className="deck-note">Эта демонстрационная колода сохраняет исходный порядок подборки. Проверенные формы с артиклем и множественным числом показываются там, где они уже подготовлены.</p>
+
     </section>
   );
 }

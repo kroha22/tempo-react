@@ -2,6 +2,11 @@ import { useState } from "react";
 import { routeLessonExperiences } from "@/features/content/first-vertical-slice/route-extension";
 import { CardSpeechButton } from "@/features/cards/components/CardSpeechButton";
 import PracticeScreen from "@/features/practice/PracticeScreen";
+import { ClockLesson } from "@/features/practice/ClockLesson";
+import { FutureLesson } from "@/features/practice/FutureLesson";
+import { PastSuns } from "@/features/practice/PastSuns";
+import { TrazerLesson } from "@/features/practice/TrazerLesson";
+import { verbs, type VerbKey } from "@/features/conjugation/data";
 
 export function relatedDestination(href: string) {
   if (href === "/learning/conjugation") return { kind: "conjugation" as const };
@@ -17,6 +22,10 @@ export function RelatedLearning({ href, onBack }: { href: string; onBack: () => 
   const destination = relatedDestination(href);
   const [selected, setSelected] = useState<string | null>(null);
   const [checked, setChecked] = useState(false);
+  const practiceParams = href.startsWith("/learning/practice?") ? new URLSearchParams(href.split("?")[1]) : null;
+  const requestedVerb = practiceParams?.get("verb") ?? "fazer";
+  const extra = practiceParams ? <PracticeScreen initialSection="trainer" initialVerbKey={requestedVerb in verbs ? requestedVerb as VerbKey : "fazer"} initialTense={practiceParams.get("tense") === "past" ? "past" : "present"} /> : href === "/learning/time" ? <ClockLesson /> : href === "/learning/future" ? <FutureLesson /> : href === "/learning/past-suns" ? <PastSuns /> : href === "/learning/trazer" ? <TrazerLesson /> : null;
+  if (extra) return <section><button type="button" className="tempo-back" onClick={onBack}>← К урокам</button>{extra}</section>;
   if (!destination) return <section><button type="button" onClick={onBack}>← Вернуться к фразам</button><h1>Урок не найден</h1></section>;
   if (destination.kind === "conjugation") return <section aria-label="Формы настоящего времени">
     <button type="button" className="tempo-back" onClick={onBack}>← Вернуться к фразам</button>

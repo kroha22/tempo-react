@@ -1,0 +1,2 @@
+import { LegacyLessonLink } from "./LegacyLessonLink";
+export function AdditionalLessons() { return <section className="house-activity"><h2>Ещё уроки</h2><div className="house-tools">{[["/learning/time","Часы: Que horas são?"],["/learning/future","Будущее: IR + infinitivo"],["/learning/past-suns","Прошедшее: FAZER, DIZER, IR, TRAZER"]].map(([href,title])=><LegacyLessonLink key={href} href={href} className="pair-back">{title}</LegacyLessonLink>)}</div></section>; }

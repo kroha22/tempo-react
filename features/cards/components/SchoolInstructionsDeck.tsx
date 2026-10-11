@@ -16,10 +16,9 @@ const confidenceOptions: Array<{ value: Confidence; label: string }> = [
 export function SchoolInstructionsDeck({ onBack }: { onBack: () => void }) {
   const [index, setIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
-  const [reverse, setReverse] = useState(false);
   const [confidenceByCard, setConfidenceByCard] = useState<Record<string, Confidence>>({});
   const card = schoolInstructionCards[index];
-  const showTranslation = reverse !== flipped;
+  const showTranslation = flipped;
   const counts = useMemo(() => {
     const next: Record<Confidence, number> = { again: 0, hard: 0, good: 0, easy: 0 };
     Object.values(confidenceByCard).forEach((value) => { next[value] += 1; });
@@ -55,7 +54,6 @@ export function SchoolInstructionsDeck({ onBack }: { onBack: () => void }) {
     </div>
     <div className="study-area">
       <div className="study-meta"><span>инфинитив: <span lang="pt-PT">{card.infinitive}</span></span><span>{index + 1} / {schoolInstructionCards.length}</span></div>
-      <label className="deck-direction"><input type="checkbox" checked={reverse} onChange={(event) => { setReverse(event.target.checked); setFlipped(false); }} />Сначала по-русски</label>
       <DeckCardFrame text={card.examplePt} onPrevious={() => move(-1)} onNext={() => move(1)}><button type="button" className={`flashcard general-vocabulary-card ${flipped ? "flipped" : ""}`} onClick={() => setFlipped((value) => !value)} aria-pressed={flipped} aria-label={showTranslation ? "Показать португальскую фразу" : "Показать перевод фразы"}>
         <span className="card-corner">{showTranslation ? "русский" : "português"}</span>
         <span className={`card-face ${showTranslation ? "card-back" : "card-front"}`}>
@@ -69,6 +67,6 @@ export function SchoolInstructionsDeck({ onBack }: { onBack: () => void }) {
         <div className="rating-buttons">{confidenceOptions.map((option) => <button type="button" key={option.value} className={option.value} disabled={!flipped} onClick={() => rate(option.value)}><strong>{option.label}</strong></button>)}</div>
       </div>
     </div>
-    <p className="deck-note">Глаголы этих инструкций также доступны в базовой колоде слов.</p>
+
   </section>;
 }

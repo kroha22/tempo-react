@@ -4,6 +4,7 @@ import { Demo } from "./Demo";
 import "@/app/globals.css";
 import "@/features/practice/adult-lessons.css";
 import "@/features/practice/house.css";
+import "@/features/practice/imported-lessons.css";
 import "./pages.css";
 
 createRoot(document.getElementById("root")!).render(

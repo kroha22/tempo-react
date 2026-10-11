@@ -109,6 +109,10 @@ export const verbs = {
     present: { eu: "digo", tu: "dizes", ele: "diz", nos: "dizemos", voces: "dizem", eles: "dizem" },
     past: { eu: "disse", tu: "disseste", ele: "disse", nos: "dissemos", voces: "disseram", eles: "disseram" },
   }),
+  trazer: irregularVerb("trazer", "приносить; привозить", "#b884d6", {
+    present: { eu: "trago", tu: "trazes", ele: "traz", nos: "trazemos", voces: "trazem", eles: "trazem" },
+    past: { eu: "trouxe", tu: "trouxeste", ele: "trouxe", nos: "trouxemos", voces: "trouxeram", eles: "trouxeram" },
+  }),
   ser: irregularVerb("ser", "быть: кто или что", "#b884d6", {
     present: { eu: "sou", tu: "és", ele: "é", nos: "somos", voces: "são", eles: "são" },
     past: { eu: "fui", tu: "foste", ele: "foi", nos: "fomos", voces: "foram", eles: "foram" },
