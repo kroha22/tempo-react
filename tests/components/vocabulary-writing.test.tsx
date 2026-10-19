@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 import { VocabularyWriting } from "@/features/practice/VocabularyWriting";
@@ -20,14 +20,35 @@ describe("VocabularyWriting", () => {
     await user.click(screen.getByRole("button", { name: "Завершить" }));
     expect(screen.getByText("Вспомнилось: 2 из 2")).toBeInTheDocument();
   });
-  it("does not count revealed answers as recalled and resets on restart", async () => {
+  it("keeps typing and checking available after a hint, without counting it as recalled", async () => {
     const user = userEvent.setup();
     render(<VocabularyWriting words={words.slice(0, 1)} />);
-    await user.click(screen.getByRole("button", { name: "Показать ответ" }));
-    expect(screen.getByRole("status", { name: "Результат проверки" })).toHaveTextContent("Правильный ответ: a escola");
+    await user.click(screen.getByRole("button", { name: "Подсказка" }));
+    expect(screen.getByRole("status", { name: "Результат проверки" })).toHaveTextContent("Подсказка: a escola");
+    expect(screen.getByLabelText("Твой ответ")).toHaveFocus();
+    expect(screen.getByLabelText("Твой ответ")).not.toHaveAttribute("readonly");
+    expect(screen.getByLabelText("Твой ответ")).toHaveValue("");
+    await user.type(screen.getByLabelText("Твой ответ"), "escola{Enter}");
     await user.click(screen.getByRole("button", { name: "Завершить" }));
     expect(screen.getByText("Вспомнилось: 0 из 1")).toBeInTheDocument();
     await user.click(screen.getByRole("button", { name: "Повторить набор" }));
     expect(screen.getByLabelText("Твой ответ")).toHaveValue("");
+    expect(screen.queryByText("Подсказка:")).not.toBeInTheDocument();
+  });
+  it("inserts accented letters at the cursor and replaces a selection", async () => {
+    const user = userEvent.setup();
+    render(<VocabularyWriting words={words} />);
+    const field = screen.getByLabelText("Твой ответ") as HTMLInputElement;
+    await user.type(field, "po{ArrowLeft}");
+    await user.click(screen.getByRole("button", { name: "Вставить ã" }));
+    await waitFor(() => expect(field.selectionStart).toBe(2));
+    expect(field).toHaveValue("pão");
+    expect(field).toHaveFocus();
+    field.setSelectionRange(1, 2);
+    await user.click(screen.getByRole("button", { name: "Вставить á" }));
+    await waitFor(() => expect(field).toHaveValue("páo"));
+    await waitFor(() => expect(field.selectionStart).toBe(2));
+    await user.keyboard("x");
+    expect(field).toHaveValue("páxo");
   });
 });

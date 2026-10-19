@@ -9,4 +9,6 @@
 .feedback { min-height: 48px; flex-wrap: wrap; }
 .panel button { min-height: 44px; }
 .actions { flex-wrap: wrap; }
+.letters { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px; }
+.letters button { min-width: 0; padding: 4px; font-size: 20px; line-height: 1; border: 1px solid #9cbbaa; border-radius: 8px; color: #245944; background: #ffffffb8; }
 .panel :focus-visible { outline: 3px solid #146a96; outline-offset: 3px; }
