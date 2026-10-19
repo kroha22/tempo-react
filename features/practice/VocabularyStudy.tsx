@@ -7,6 +7,7 @@ import { vocabularySets } from "../content/vocabulary-model";
 import { houseImageActivity } from "../content/house";
 import { WordPairs } from "./WordPairs";
 import { VocabularyCards } from "./VocabularyCards";
+import { VocabularyWriting } from "./VocabularyWriting";
 import { OddWordExercise } from "./OddWordExercise";
 import { ImageMatchingExercise } from "./ImageMatchingExercise";
 import { WordSearch } from "./WordSearch";
@@ -15,8 +16,8 @@ import { searchWords } from "./word-search";
 import { sceneImageActivities } from "../content/picture-scenes";
 import { clothingImageActivity } from "../content/clothing";
 
-type Mode = "cards" | "pairs" | "odd" | "common" | "image" | "search" | "usage";
-const modeLabels: Record<Mode, string> = { cards: "Карточки", pairs: "Пары", odd: "Найди лишнее", common: "Что общего?", image: "Картинка", search: "Поиск слов", usage: "Фразы" };
+type Mode = "cards" | "writing" | "pairs" | "odd" | "common" | "image" | "search" | "usage";
+const modeLabels: Record<Mode, string> = { cards: "Карточки", writing: "Напиши слово", pairs: "Пары", odd: "Найди лишнее", common: "Что общего?", image: "Картинка", search: "Поиск слов", usage: "Фразы" };
 const images = [houseImageActivity, clothingImageActivity, ...sceneImageActivities];
 
 export function VocabularyStudy({ onOpenCards }: { onOpenCards?: () => void } = {}) {
@@ -41,7 +42,7 @@ export function VocabularyStudy({ onOpenCards }: { onOpenCards?: () => void } = 
   const usageModules = learningCatalog.usageModules.filter(module => module.collectionIds.some(id => sets.some(set => set.id === id)));
   const activeUsage = usageModules.find(module => module.id === usageId) ?? usageModules[0];
   const hasSearch = searchWords(words).length > 0;
-  const modes: Mode[] = ["cards", "pairs", ...(usageModules.length ? ["usage"] as const : []), ...(hasSearch ? ["search"] as const : []), ...(oddSets.length ? ["odd", "common"] as const : []), ...(availableImages.length ? ["image"] as const : [])];
+  const modes: Mode[] = ["cards", "writing", "pairs", ...(usageModules.length ? ["usage"] as const : []), ...(hasSearch ? ["search"] as const : []), ...(oddSets.length ? ["odd", "common"] as const : []), ...(availableImages.length ? ["image"] as const : [])];
   return <section className="house-activity vocabulary-study">
     <div className="vocabulary-topic-heading"><button type="button" className="pair-back" aria-label="Назад ко всем темам" onClick={() => { setGroupId(null); setSetId(null); setMode(null); setUsageId(null); }}><svg aria-hidden="true" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="m15 6-6 6 6 6" /></svg></button><div><span className="tempo-kicker">Слова</span><h1>{group.title}</h1></div><span>{words.length} слов</span></div>
     <label className="vocabulary-set-label">Набор слов<select aria-label="Набор слов" value={setId ?? ""} onChange={event => { setSetId(event.target.value || null); setMode("cards"); setUsageId(null); }}><option value="">Все наборы темы</option>{group.subgroups.map(subgroup => <optgroup key={subgroup.id} label={subgroup.title}>{subgroup.sets.map(set => <option key={set.id} value={set.id}>{set.title} · {set.words.length}</option>)}</optgroup>)}</select></label>
@@ -49,6 +50,7 @@ export function VocabularyStudy({ onOpenCards }: { onOpenCards?: () => void } = 
     {!mode && <p className="vocabulary-mode-prompt">Выбери способ изучения.</p>}
     {/* Keep each visited mechanic mounted while switching modes in this theme. */}
     <div hidden={mode !== "cards"}><VocabularyCards key={`cards-${setId}`} words={words} active={mode === "cards"} /></div>
+    <div hidden={mode !== "writing"}><VocabularyWriting key={`writing-${setId}`} words={words} active={mode === "writing"} /></div>
     {hasSearch && <div hidden={mode !== "search"}><WordSearch key={`search-${setId}`} words={words} /></div>}
     <div hidden={mode !== "pairs"}><WordPairs key={`pairs-${setId}`} words={pairVocabulary} blocks={sets} onComplete={() => setMode(null)} completionLabel="Выбрать способ изучения" /></div>
     {activeUsage && <div hidden={mode !== "usage"}>{usageModules.length > 1 && <label className="vocabulary-set-label">Блок фраз<select aria-label="Блок фраз" value={activeUsage.id} onChange={event => setUsageId(event.target.value)}>{usageModules.map(module => <option key={module.id} value={module.id}>{module.title}</option>)}</select></label>}<UsagePractice key={activeUsage.id} module={activeUsage} active={mode === "usage"} /></div>}
