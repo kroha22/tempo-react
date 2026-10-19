@@ -40,3 +40,17 @@ test("the forms destination uses the existing present-tense trainer", () => {
   expect(screen.getByRole("heading", { name: "Формы настоящего времени" })).toBeVisible();
   expect(screen.getByRole("region", { name: "Тренажёр спряжения глаголов" })).toBeVisible();
 });
+
+test("food phrases open the preference builder and return to the same selected answer",()=>{
+  render(<Demo/>);
+  fireEvent.click(screen.getByRole("button",{name:"Слова"}));
+  fireEvent.click(screen.getByRole("button",{name:/^Еда и покупки/}));
+  fireEvent.click(screen.getByRole("button",{name:"Фразы"}));
+  fireEvent.click(screen.getByRole("button",{name:"morangos"}));
+  fireEvent.click(screen.getByRole("link",{name:"Мне нравится: собери фразу →"}));
+  expect(screen.getByRole("heading",{name:"Мне нравится · GOSTAR DE"})).toHaveFocus();
+  expect(screen.getByText("Eu gosto de maçãs.")).toBeVisible();
+  fireEvent.click(screen.getByRole("button",{name:"← Назад"}));
+  expect(screen.getByRole("heading",{name:"Что мне нравится есть"})).toBeVisible();
+  expect(screen.getByRole("button",{name:"morangos"})).toHaveAttribute("aria-pressed","true");
+});

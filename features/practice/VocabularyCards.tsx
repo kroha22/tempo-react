@@ -4,6 +4,7 @@ import { useState } from "react";
 import type { VocabularyWord } from "../content/vocabulary-model";
 import { CardSpeechButton } from "../cards/components/CardSpeechButton";
 import { SpeechHelpButton } from "../cards/components/SpeechHelpButton";
+import styles from "./VocabularyCards.module.css";
 
 export function VocabularyCards({ words, active = true }: { words: readonly VocabularyWord[]; active?: boolean }) {
   const [index, setIndex] = useState(0);
@@ -22,5 +23,6 @@ export function VocabularyCards({ words, active = true }: { words: readonly Voca
       </div>
       <button type="button" className="vocabulary-page-arrow" aria-label={index === words.length - 1 ? "Повторить набор" : "Следующая карточка"} onClick={() => move((index + 1) % words.length)}><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" /></svg></button>
     </div>
+    {word.noun && <div className={styles.details}><span lang="pt-PT">{word.noun.article} {word.noun.lemma} → {word.noun.pluralArticle} {word.noun.plural}</span>{flipped && word.example && <><strong lang="pt-PT">{word.example.pt}</strong><span>{word.example.ru}</span></>}</div>}
   </section>;
 }

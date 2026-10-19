@@ -6,9 +6,11 @@ import { ClockLesson } from "@/features/practice/ClockLesson";
 import { FutureLesson } from "@/features/practice/FutureLesson";
 import { PastSuns } from "@/features/practice/PastSuns";
 import { TrazerLesson } from "@/features/practice/TrazerLesson";
+import { EverydayLesson } from "@/features/practice/EverydayLesson";
 import { verbs, type VerbKey } from "@/features/conjugation/data";
 
 export function relatedDestination(href: string) {
+  if (href === "/learning/everyday/likes" || href === "/learning/everyday/body") return {kind:"everyday" as const,lessonId:href.endsWith("likes")?"likes" as const:"body" as const};
   if (href === "/learning/conjugation") return { kind: "conjugation" as const };
   const prefix = "/learning/lessons/";
   if (!href.startsWith(prefix)) return null;
@@ -24,6 +26,7 @@ export function RelatedLearning({ href, onBack }: { href: string; onBack: () => 
   const [checked, setChecked] = useState(false);
   const practiceParams = href.startsWith("/learning/practice?") ? new URLSearchParams(href.split("?")[1]) : null;
   const requestedVerb = practiceParams?.get("verb") ?? "fazer";
+  if (destination?.kind === "everyday") return <section><button type="button" className="tempo-back" onClick={onBack}>← Назад</button><EverydayLesson key={href} lessonId={destination.lessonId}/></section>;
   const extra = practiceParams ? <PracticeScreen initialSection="trainer" initialVerbKey={requestedVerb in verbs ? requestedVerb as VerbKey : "fazer"} initialTense={practiceParams.get("tense") === "past" ? "past" : "present"} /> : href === "/learning/time" ? <ClockLesson /> : href === "/learning/future" ? <FutureLesson /> : href === "/learning/past-suns" ? <PastSuns /> : href === "/learning/trazer" ? <TrazerLesson /> : null;
   if (extra) return <section><button type="button" className="tempo-back" onClick={onBack}>← К урокам</button>{extra}</section>;
   if (!destination) return <section><button type="button" onClick={onBack}>← Вернуться к фразам</button><h1>Урок не найден</h1></section>;

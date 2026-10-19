@@ -1,4 +1,4 @@
-import { pairVocabulary, studyVocabularyGroups } from "./vocabulary-catalog.ts";
+import { pairVocabulary, studyVocabularyGroups, topicExpansion } from "./vocabulary-catalog.ts";
 import { vocabularySets } from "./vocabulary-model.ts";
 import { firstVerticalSliceContentPack as pack } from "./manifest.ts";
 import { verbs, allVerbKeys, type VerbKey, type Tense } from "../conjugation/data.ts";
@@ -9,6 +9,7 @@ import { houseImageActivity } from "./house.ts";
 import { searchWords } from "../practice/word-search.ts";
 import { generalVocabulary } from "./general-vocabulary.ts";
 import { vocabularyLessons } from "./vocabulary-lessons.ts";
+import { bodyFunctions, topicWord } from "./everyday-lessons.ts";
 import type { GeneralVocabularyPartOfSpeech } from "./general-vocabulary-types.ts";
 import type { LearningCatalog, LexicalEntry, LearningMeaning, LearningTopic, LearningCollection, GrammarTopic, VerbPattern, ActivityBinding, UsageModule } from "./learning-model.ts";
 
@@ -30,20 +31,20 @@ for (const word of ordered) {
   const noun=item?.display.type==="noun"?item.display:undefined;
   const lemma=infinitive??noun?.lemma??word.label.replace(/^(o|a|os|as) /,"");
   const partOfSpeech:LexicalEntry["partOfSpeech"]=infinitive?"verb":noun||/^(o|a|os|as) /.test(word.label)?"noun":"expression";
-  const entryId=entryIdFor(partOfSpeech,lemma,word.id);
+  const entryId=word.noun && word.id.startsWith("vocabulary:noun:") ? `lexeme:noun:${word.id.slice("vocabulary:noun:".length)}` : entryIdFor(partOfSpeech,lemma,word.id);
   const existing=equivalentLabels.has(word.label)?owner.get(word.label):undefined;
   const meaningId=existing??`meaning:${word.id}`;
   meaningByLegacy.set(word.id,meaningId);
-  if(existing){const m=meaningMap.get(existing)!;m.legacyWordIds=[...m.legacyWordIds,word.id];continue;}
+  if(existing){const m=meaningMap.get(existing)!;m.legacyWordIds=[...m.legacyWordIds,word.id];if(word.noun){const entry=entryMap.get(m.entryId)!;entryMap.set(m.entryId,{...entry,morphology:{article:word.noun.article,plural:word.noun.plural,pluralArticle:word.noun.pluralArticle,gender:word.noun.article==="o"?"masculine":"feminine"}});m.status="source-backed";}continue;}
   owner.set(word.label,meaningId);
   const previousEntry=entryMap.get(entryId);
-  entryMap.set(entryId, {id:entryId,lemma,partOfSpeech,...previousEntry,...(key?{conjugationKey:key}:{}),...(noun?{morphology:{article:noun.definiteArticle,plural:noun.plural,pluralArticle:noun.pluralDefiniteArticle,gender:noun.definiteArticle==="o"?"masculine" as const:"feminine" as const}}:{})});
-  meaningMap.set(meaningId,{id:meaningId,entryId,translation:word.translation,legacyWordIds:[word.id],status:item?"source-backed":"needs-review",...(item?{canonicalTarget:item.target}:{})});
+  entryMap.set(entryId, {id:entryId,lemma,partOfSpeech,...previousEntry,...(key?{conjugationKey:key}:{}),...(noun?{morphology:{article:noun.definiteArticle,plural:noun.plural,pluralArticle:noun.pluralDefiniteArticle,gender:noun.definiteArticle==="o"?"masculine" as const:"feminine" as const}}:{}),...(word.noun?{morphology:{...word.noun,gender:word.noun.article==="o"?"masculine" as const:"feminine" as const}}:{})});
+  meaningMap.set(meaningId,{id:meaningId,entryId,translation:word.translation,legacyWordIds:[word.id],status:item||word.noun?"source-backed":"needs-review",...(item?{canonicalTarget:item.target}:{})});
 }
 // Add supported trainer verbs without minting/changing card identities.
 for(const key of allVerbKeys){const id=entryIdFor("verb",verbs[key].infinitive);if(!entryMap.has(id))entryMap.set(id,{id,lemma:verbs[key].infinitive,partOfSpeech:"verb",conjugationKey:key});}
 
-const reviewedSourceIds = new Set(vocabularyLessons.flatMap(lesson=>lesson.items.map(item=>item.sourceEntryId)));
+const reviewedSourceIds = new Set([...vocabularyLessons.flatMap(lesson=>lesson.items.map(item=>item.sourceEntryId)), ...[...topicExpansion.byKey.values()].map(word=>word.id)]);
 const lessonItemBySourceId = new Map(vocabularyLessons.flatMap(lesson=>lesson.items.map(item=>[item.sourceEntryId,item] as const)));
 const meaningBySource = new Map<string,string>();
 for(const source of generalVocabulary){
@@ -61,9 +62,11 @@ for(const source of generalVocabulary){
   });
   const meaningId=`meaning:${source.id}`;
   meaningBySource.set(source.id,meaningId);
-  meaningMap.set(meaningId,{id:meaningId,entryId,translation:source.translation,legacyWordIds:[],sourceEntryIds:[source.id],status:reviewedSourceIds.has(source.id)?"source-backed":"needs-review"});
+  meaningMap.set(meaningId,{id:meaningId,entryId,translation:source.translation,legacyWordIds:meaningMap.get(meaningId)?.legacyWordIds??[],sourceEntryIds:[source.id],status:reviewedSourceIds.has(source.id)?"source-backed":"needs-review"});
 }
 const grammar: GrammarTopic[] = [
+  {id:"grammar:likes",title:"Мне нравится: gostar de",prerequisiteIds:["grammar:present"],destination:{status:"available",href:"/learning/everyday/likes"}},
+  {id:"grammar:body-actions",title:"Тело и действия",prerequisiteIds:[],destination:{status:"available",href:"/learning/everyday/body"}},
   {id:"grammar:present",title:"Настоящее время",prerequisiteIds:[],destination:{status:"available",href:"/learning/conjugation"}},
   {id:"grammar:past",title:"Pretérito Perfeito",prerequisiteIds:[],destination:{status:"available",href:"/learning/past-suns"}},
   {id:"grammar:future-ir",title:"Будущее: ir + infinitivo",prerequisiteIds:["grammar:present"],destination:{status:"available",href:"/learning/future"}},
@@ -94,6 +97,7 @@ for (const [id,title,sceneIds] of semanticTopics) {
   collections.forEach(collection=>{if(sceneIds.some(scene=>collection.source.legacySetId===`scene-set-${scene}`))collection.topicIds.push(`topic:${id}`);});
 }
 collections.find(collection => collection.source.legacySetId === "pairs-school-instructions")?.topicIds.push("topic:school");
+collections.filter(collection=>collection.source.legacySetId?.startsWith("expansion-food-")).forEach(collection=>collection.topicIds.push("topic:food"));
 topics.push(
   {id:"topic:work",title:"Работа и встречи",parentIds:[]},
   {id:"topic:health",title:"Здоровье и самочувствие",parentIds:[]},
@@ -188,6 +192,25 @@ const usageModules: UsageModule[] = [{
     { id: "usage-link:school-present", label: "Формы настоящего времени", href: "/learning/conjugation", kind: "grammar" },
   ],
 }];
+const expansionMeaning = (key:string) => meaningId(topicWord(key).id);
+usageModules.push({
+  id:"usage:family",title:"Моя семья во фразах",situation:"Назови близких и посмотри, как слова работают в предложениях. O meu — мой, a minha — моя.",collectionIds:["collection:expansion-family-close"],newMeaningIds:[],reviewedMeaningIds:["mae","pai","irmao","irma","avo-f","avo-m"].map(expansionMeaning),recognitionOnly:["meu","minha","está","em casa"],
+  examples:["mae","pai","irmao","irma"].map(key=>({id:`example:family:${key}`,portuguese:topicWord(key).example!.pt,translation:topicWord(key).example!.ru,meaningIds:[expansionMeaning(key)],grammarTopicIds:["grammar:present"]})),
+  exercises:[
+    {id:"cloze:family-mae",prompt:"Как сказать «моя мама»?",before:"",after:"",correctOptionId:"family-mae",feedback:"A minha mãe — моя мама. Mãe — женского рода.",options:[{id:"family-mae",text:"a minha mãe",meaningId:expansionMeaning("mae")},{id:"family-pai",text:"o meu pai",meaningId:expansionMeaning("pai")},{id:"family-irma",text:"a minha irmã",meaningId:expansionMeaning("irma")}]},
+    {id:"cloze:family-avo",prompt:"Мой дедушка в саду. Выбери слово с правильным ударением.",before:"O meu ",after:" está no jardim.",correctOptionId:"family-avo-m",feedback:"Avô — дедушка, avó — бабушка. Здесь знак ударения меняет значение.",options:[{id:"family-avo-m",text:"avô",meaningId:expansionMeaning("avo-m")},{id:"family-avo-f",text:"avó",meaningId:expansionMeaning("avo-f")},{id:"family-irmao",text:"irmão",meaningId:expansionMeaning("irmao")}]},
+  ],relatedLinks:[{id:"family-ter",label:"У меня есть / здесь есть",href:"/learning/lessons/lesson%3Aa1-1%3Apossession-and-presence",kind:"lesson"}],
+},{
+  id:"usage:food-likes",title:"Что мне нравится есть",situation:"Повтори знакомые продукты во фразах. Для предпочтений используем GOSTAR + DE.",collectionIds:["collection:expansion-food-fruit","collection:expansion-food-meals"],newMeaningIds:[],reviewedMeaningIds:["maca","morango","pera","queijo","leite","arroz"].map(expansionMeaning),recognitionOnly:["gosto","gostas","não","de"],
+  examples:[{id:"example:likes-morango",portuguese:"Gosto de morangos.",translation:"Я люблю клубнику.",meaningIds:[expansionMeaning("morango")],grammarTopicIds:["grammar:likes"]},{id:"example:likes-leite",portuguese:"Não gosto de leite.",translation:"Я не люблю молоко.",meaningIds:[expansionMeaning("leite")],grammarTopicIds:["grammar:likes"]},{id:"example:likes-queijo",portuguese:"Gostas de queijo?",translation:"Ты любишь сыр?",meaningIds:[expansionMeaning("queijo")],grammarTopicIds:["grammar:likes"]}],
+  exercises:[{id:"cloze:likes-fruit",prompt:"Я люблю клубнику. Дополни фразу.",before:"Gosto de ",after:".",correctOptionId:"likes-morango",feedback:"Gosto de morangos. — Я люблю клубнику.",options:[{id:"likes-morango",text:"morangos",meaningId:expansionMeaning("morango")},{id:"likes-pera",text:"peras",meaningId:expansionMeaning("pera")},{id:"likes-maca",text:"maçãs",meaningId:expansionMeaning("maca")}]},{id:"cloze:likes-cheese",prompt:"Ты любишь сыр? Дополни вопрос.",before:"Gostas de ",after:"?",correctOptionId:"likes-queijo",feedback:"Gostas de queijo? — Ты любишь сыр?",options:[{id:"likes-queijo",text:"queijo",meaningId:expansionMeaning("queijo")},{id:"likes-leite",text:"leite",meaningId:expansionMeaning("leite")},{id:"likes-arroz",text:"arroz",meaningId:expansionMeaning("arroz")}]}],
+  relatedLinks:[{id:"likes-lesson",label:"Мне нравится: собери фразу",href:"/learning/everyday/likes",kind:"lesson"}],
+},{
+  id:"usage:body-actions",title:"Что помогает видеть, слышать и чувствовать",situation:"Свяжи знакомые части тела с действиями. COM означает «с помощью».",collectionIds:["collection:expansion-body-face"],newMeaningIds:[],reviewedMeaningIds:bodyFunctions.map(item=>expansionMeaning(item.key)),recognitionOnly:["vejo","ouço","cheiro","sinto","toco","com"],
+  examples:bodyFunctions.slice(0,4).map(item=>({id:`example:body:${item.key}`,portuguese:item.pt,translation:item.ru,meaningIds:[expansionMeaning(item.key)],grammarTopicIds:["grammar:body-actions"]})),
+  exercises:bodyFunctions.slice(0,2).map((item,index)=>({id:`cloze:body:${item.key}`,prompt:item.question,before:index===0?"Vejo com ":"Ouço com ",after:".",correctOptionId:`body-option:${item.key}`,feedback:`${item.pt} — ${item.ru}`,options:bodyFunctions.slice(0,3).map(option=>({id:`body-option:${option.key}`,text:option.part,meaningId:expansionMeaning(option.key)}))})),
+  relatedLinks:[{id:"body-lesson",label:"Тело и действия: интерактивный урок",href:"/learning/everyday/body",kind:"lesson"}],
+});
 const scenes=[houseImageActivity,clothingImageActivity,...sceneImageActivities].map(image=>({id:image.id,title:image.title,image:{src:image.image.src,width:image.image.width,height:image.image.height},targets:image.spots.map(spot=>({id:spot.id,meaningIds:spot.acceptedWordIds.map(id=>meaningByLegacy.get(id)!),anchor:{x:spot.x/image.image.width,y:spot.y/image.image.height}}))}));
 const activities:ActivityBinding[]=collections.filter(c=>c.source.legacySetId).flatMap(c=>{
   const sourceIds=new Set(c.meaningIds.flatMap(id=>meaningMap.get(id)!.legacyWordIds));

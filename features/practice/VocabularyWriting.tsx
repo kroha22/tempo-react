@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { checkVocabularyAnswer, type VocabularyWord } from "../content/vocabulary-model";
+import { checkVocabularyWritingAnswer, type VocabularyWord } from "../content/vocabulary-model";
 import { CardSpeechButton } from "../cards/components/CardSpeechButton";
 import { SpeechHelpButton } from "../cards/components/SpeechHelpButton";
 import styles from "./VocabularyWriting.module.css";
@@ -9,7 +9,7 @@ import styles from "./VocabularyWriting.module.css";
 export function VocabularyWriting({ words, active = true }: { words: readonly VocabularyWord[]; active?: boolean }) {
   const [index, setIndex] = useState(0);
   const [answer, setAnswer] = useState("");
-  const [result, setResult] = useState<"correct" | "wrong" | null>(null);
+  const [result, setResult] = useState<"correct" | "wrong" | "accent" | null>(null);
   const [hint, setHint] = useState(false);
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
@@ -40,16 +40,18 @@ export function VocabularyWriting({ words, active = true }: { words: readonly Vo
       event.preventDefault();
       if (resolved) { next(); return; }
       if (!answer.trim()) return;
-      const correct = checkVocabularyAnswer(word, answer) === "pt";
-      setResult(correct ? "correct" : "wrong");
+      const outcome = checkVocabularyWritingAnswer(word, answer, words);
+      const correct = outcome === "correct";
+      setResult(outcome);
       if (correct && !hint) setScore(score + 1);
     }}>
       <label htmlFor="vocabulary-writing-answer">Твой ответ</label>
       <input id="vocabulary-writing-answer" ref={input} lang="pt-PT" value={answer} onChange={event => { setAnswer(event.target.value); if (!resolved) setResult(null); }} readOnly={resolved} autoComplete="off" autoCapitalize="none" spellCheck={false} placeholder="Напиши слово…" aria-describedby="vocabulary-writing-feedback" />
       <div className={styles.letters} role="group" aria-label="Португальские буквы">{["á", "à", "â", "ã", "é", "ê", "í", "ó", "ô", "õ", "ú", "ç"].map(letter => <button type="button" key={letter} lang="pt-PT" aria-label={`Вставить ${letter}`} disabled={resolved} onPointerDown={event => event.preventDefault()} onClick={() => insertLetter(letter)}>{letter}</button>)}</div>
-      <small>Можно без артикля и знаков ударения.</small>
+      <small>Можно без артикля. Знаки ударения важны, если меняют значение слова.</small>
       <div id="vocabulary-writing-feedback" className={styles.feedback} role="status" aria-label="Результат проверки">
         {result === "wrong" && "Пока не так. Попробуй ещё раз или открой подсказку."}
+        {result === "accent" && "Здесь знак ударения отличает одно слово от другого. Выбери нужную букву под полем или открой подсказку."}
         {(resolved || hint) && <><span>{resolved ? "Верно!" : "Подсказка:"} <strong lang="pt-PT">{word.label}</strong></span><CardSpeechButton text={word.label} disabled={!active} /></>}
       </div>
       <div className={styles.actions}><button type="submit" disabled={!resolved && !answer.trim()}>{resolved ? index === words.length - 1 ? "Завершить" : "Дальше" : "Проверить"}</button>{!resolved && <button type="button" aria-pressed={hint} onClick={() => { setHint(true); input.current?.focus(); }}>Подсказка</button>}</div>

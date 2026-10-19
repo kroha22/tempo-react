@@ -20,7 +20,7 @@ const imageDefinitions = [houseImageActivity, clothingImageActivity, ...sceneIma
 export const catalogGroups: VocabularyGroup[] = learningCatalog.topics.flatMap(topic => {
   // The source group exists to register the instruction collection. The
   // semantic School topic is the single visible home for it and the backpack scene.
-  if (topic.id === "topic:short-vocabulary-lessons" || topic.id === "topic:vocabulary-school" || topic.id.startsWith("topic:general-vocabulary")) return [];
+  if (topic.id === "topic:short-vocabulary-lessons" || topic.id === "topic:vocabulary-school" || topic.id === "topic:vocabulary-food-more" || topic.id.startsWith("topic:general-vocabulary")) return [];
   const collections = learningCatalog.collections.filter(collection => collection.topicIds.includes(topic.id) && (collection.source.kind === "lesson" || legacySets.has(collection.source.legacySetId ?? "")) && collection.meaningIds.every(id => representative.get(id)));
   if (!collections.length) return [];
   const baseEntryIds = new Set(collections.filter(collection => collection.source.kind !== "lesson").flatMap(collection => collection.meaningIds.map(id => learningCatalog.meanings.find(meaning => meaning.id === id)!.entryId)));

@@ -6,6 +6,7 @@ import { clothingWords, clothingGroup } from "./clothing.ts";
 import { sceneWords, scenesGroup } from "./picture-scenes.ts";
 import { schoolInstructionCards, schoolInstructionWordIds } from "./school-content.ts";
 import type { PairBlock, PairWord } from "../practice/word-pairs.ts";
+import { buildTopicExpansion } from "./topic-expansion.ts";
 
 // IDs reference existing content. This registry does not own translations or review state.
 const lessonWords: PairWord[] = lessonContent.studyItems.map(item => {
@@ -48,7 +49,7 @@ const schoolInstructionBlock: PairBlock = {
 };
 const selectedVerbs = new Set(verbBlocks.flatMap(block => block.words));
 
-export const pairVocabulary: readonly PairWord[] = [
+const basePairVocabulary: readonly PairWord[] = [
   ...sceneWords,
   ...clothingWords,
   ...lessonWords,
@@ -56,7 +57,10 @@ export const pairVocabulary: readonly PairWord[] = [
   ...schoolInstructionCards,
   ...verbCards.filter(word => selectedVerbs.has(word.id) && !schoolInstructionWordIds.includes(word.id)).map(word => ({ id: word.id, label: word.pt, translation: word.ru })),
 ];
+export const topicExpansion = buildTopicExpansion(basePairVocabulary);
+export const pairVocabulary = [...basePairVocabulary.map(topicExpansion.decorate), ...topicExpansion.newWords];
 export const vocabularyGroups: readonly VocabularyGroup[] = [
+  ...topicExpansion.groups,
   scenesGroup,
   clothingGroup,
   { id: "vocabulary-lessons", title: "Из уроков", subgroups: lessonBlocks.map(block => ({ id: block.id, title: block.title, sets: [block] })) },
