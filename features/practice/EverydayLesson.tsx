@@ -5,8 +5,10 @@ import { bodyFunctions, everydayLessons, preferenceFoods, preferencePeople, pref
 import { CardSpeechButton } from "../cards/components/CardSpeechButton";
 import { SpeechHelpButton } from "../cards/components/SpeechHelpButton";
 import styles from "./EverydayLesson.module.css";
+import { usePracticePlan } from "./plan/PracticePlanContext";
 
 export function EverydayLesson({ lessonId }: { lessonId: EverydayLessonId }) {
+  const plan=usePracticePlan();
   const lesson=everydayLessons[lessonId];
   const [mode,setMode]=useState<"learn"|"check">("learn");
   const [person,setPerson]=useState(0),[food,setFood]=useState(0),[negative,setNegative]=useState(false),[body,setBody]=useState(0);
@@ -27,7 +29,7 @@ export function EverydayLesson({ lessonId }: { lessonId: EverydayLessonId }) {
       <div className={styles.sentence} aria-live="polite"><div><strong lang="pt-PT">{sentence.pt}</strong><span>{sentence.ru}</span></div><CardSpeechButton text={sentence.pt} /></div>
       <details className={styles.rule}><summary>Как это устроено</summary><p>{lesson.rule}</p></details>
       <button type="button" className="house-primary" onClick={restart}>Попробовать самому</button>
-    </>:!task?<div className={styles.summary} role="status"><h2>Практика пройдена!</h2><p>Верно с первой попытки: {score} из {lesson.checks.length}</p><button type="button" onClick={restart}>Повторить</button><button type="button" onClick={()=>setMode("learn")}>Вернуться к примерам</button></div>:<form className={styles.task} onSubmit={event=>{event.preventDefault();if(!choice)return;if(checked){setStep(step+1);setChoice(null);setChecked(false);}else{setChecked(true);if(choice===task.answer)setScore(score+1);}}}>
+    </>:!task?<div className={styles.summary} role="status"><h2>Практика пройдена!</h2><p>Верно с первой попытки: {score} из {lesson.checks.length}</p><button type="button" onClick={restart}>Повторить</button><button type="button" onClick={()=>setMode("learn")}>Вернуться к примерам</button></div>:<form className={styles.task} onSubmit={event=>{event.preventDefault();if(!choice)return;if(checked){if(step===lesson.checks.length-1)plan?.complete(`practice:everyday:${lessonId}`,score<lesson.checks.length);setStep(step+1);setChoice(null);setChecked(false);}else{setChecked(true);if(choice===task.answer)setScore(score+1);}}}>
       <span>{step+1} / {lesson.checks.length}</span><h2>{task.prompt}</h2>
       {(task.before||task.after)&&<p className={styles.gap} lang="pt-PT">{task.before}<strong>{choice??"…"}</strong>{task.after}</p>}
       <div className={styles.answers} role="group" aria-label="Варианты ответа">{task.options.map(option=><button type="button" key={option} lang="pt-PT" disabled={checked} aria-pressed={choice===option} onClick={()=>setChoice(option)}>{option}</button>)}</div>

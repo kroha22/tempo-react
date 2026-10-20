@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import PracticeScreen from "@/features/practice/PracticeScreen";
 import { RelatedLearningNavigation } from "@/features/practice/RelatedLearningNavigation";
 import { RelatedLearning } from "./RelatedLearning";
+import { PracticePlanProvider } from "@/features/practice/plan/PracticePlanContext";
+import { browserPracticePlanStorage } from "./practice-plan-storage";
 
 export function Demo() {
   const [href, setHref] = useState(() => window.location.hash.slice(1));
@@ -32,9 +34,9 @@ export function Demo() {
     <header className="demo-intro"><div><span>Tempo</span><strong>Европейский португальский</strong></div>
       <details className="demo-info"><summary aria-label="О демо-версии">i</summary><div><strong>Интерактивное демо</strong><p>Короткие уроки, тренировка форм и колоды карточек. Прогресс сохраняется только в этом браузере.</p><a href="https://github.com/kroha22/tempo-react">Исходный код на GitHub →</a></div></details>
     </header>
-    <RelatedLearningNavigation value={navigate}>
+    <PracticePlanProvider storage={browserPracticePlanStorage}><RelatedLearningNavigation value={navigate}>
       <div ref={main} hidden={!!href}><PracticeScreen initialChildMode={initialChildMode} initialSection="lessons" /></div>
       {!!href && <div ref={related}><RelatedLearning key={href} href={href} onBack={() => navigate("")} /></div>}
-    </RelatedLearningNavigation>
+    </RelatedLearningNavigation></PracticePlanProvider>
   </div>;
 }

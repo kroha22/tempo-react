@@ -5,8 +5,10 @@ import { checkVocabularyWritingAnswer, type VocabularyWord } from "../content/vo
 import { CardSpeechButton } from "../cards/components/CardSpeechButton";
 import { SpeechHelpButton } from "../cards/components/SpeechHelpButton";
 import styles from "./VocabularyWriting.module.css";
+import { usePracticePlan } from "./plan/PracticePlanContext";
 
 export function VocabularyWriting({ words, active = true }: { words: readonly VocabularyWord[]; active?: boolean }) {
+  const plan=usePracticePlan();
   const [index, setIndex] = useState(0);
   const [answer, setAnswer] = useState("");
   const [result, setResult] = useState<"correct" | "wrong" | "accent" | null>(null);
@@ -18,7 +20,7 @@ export function VocabularyWriting({ words, active = true }: { words: readonly Vo
   const resolved = result === "correct";
   if (!word) return <p>В этом наборе пока нет слов.</p>;
   function next() {
-    if (index === words.length - 1) { setFinished(true); return; }
+    if (index === words.length - 1) { plan?.completeWords(words.map(word=>word.id),score<words.length);setFinished(true); return; }
     setIndex(index + 1); setAnswer(""); setResult(null); setHint(false); input.current?.focus();
   }
   function insertLetter(letter: string) {

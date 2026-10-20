@@ -21,6 +21,9 @@ import { people, verbs, type PersonKey, type Tense, type VerbGroup, type VerbKey
 import { createPracticeSession, practiceSessionReducer } from "./practice-session";
 import type { ActionUse, BeingVerb, ChildStep, LessonPracticeTarget, PracticeMode, PracticeSection } from "./practice-types";
 import styles from "./PracticeScreen.module.css";
+import { ChildPracticePlan } from "./plan/ChildPracticePlan";
+import { usePracticePlan } from "./plan/PracticePlanContext";
+import { practicePlanSteps } from "./plan/model";
 
 
 function shuffle<T>(items: T[]) {
@@ -41,6 +44,8 @@ type PracticeClientProps = {
 };
 
 export default function PracticeScreen({ initialVerbKey = "fazer", initialTense = "present", initialChildMode = false, initialChildStep, initialSection = "trainer" }: PracticeClientProps) {
+  const plan=usePracticePlan();
+  const [allLessons,setAllLessons]=useState(false);
   const [lessonPracticeOpen, setLessonPracticeOpen] = useState(false);
   const [activeLessonId, setActiveLessonId] = useState("ser");
   const [session, dispatch] = useReducer(
@@ -216,6 +221,7 @@ export default function PracticeScreen({ initialVerbKey = "fazer", initialTense 
   return (
     <div className={`${styles.screen} practice-screen ${childMode ? "kids-mode kids-theme" : ""} kingdom-${group}`}>
       <PracticeTopbar
+        planCount={childMode&&plan&&!allLessons?practicePlanSteps.length:undefined}
         section={section}
         childMode={childMode}
         tense={tense}
@@ -223,7 +229,7 @@ export default function PracticeScreen({ initialVerbKey = "fazer", initialTense 
         onToggleChildMode={toggleChildMode}
       />
 
-      {childMode && section !== "trainer" && (
+      {childMode && section !== "trainer" && !(section==="lessons"&&plan&&!allLessons) && (
         <aside className={styles.childAccent} aria-label="Включено детское оформление">
           <span className={styles.childMascot} aria-hidden="true">🦉</span>
           <span>
@@ -398,7 +404,7 @@ export default function PracticeScreen({ initialVerbKey = "fazer", initialTense 
           />
         )}
         </>}
-      </section> : section === "lessons" ? <><AdultLessons activeLessonId={activeLessonId} onLessonChange={setActiveLessonId} onOpenPractice={openLessonPractice} onOpenConjugationOverview={openConjugationOverview} /><AdditionalLessons /></> : section === "vocabulary" ? <VocabularyHub onOpenCards={() => changeSection("cards")} /> : <Flashcards />}
+      </section> : section === "lessons" ? childMode&&plan&&!allLessons?<ChildPracticePlan onOpenCatalog={()=>setAllLessons(true)}/>:<>{childMode&&plan&&<button type="button" onClick={()=>setAllLessons(false)}>‹ К моему плану</button>}<AdultLessons activeLessonId={activeLessonId} onLessonChange={setActiveLessonId} onOpenPractice={openLessonPractice} onOpenConjugationOverview={openConjugationOverview} /><AdditionalLessons /></> : section === "vocabulary" ? <VocabularyHub onOpenCards={() => changeSection("cards")} /> : <Flashcards />}
 
       <footer><span>{section === "cards" ? "Колоды: базовые слова, глаголы и тематические наборы" : section === "vocabulary" ? "Темы, карточки, пары и задания на смысл" : section === "lessons" ? "Коротко о форме — сразу в живом примере" : "Учи форму вместе с местоимением"}</span><span>Português · A1–B2</span></footer>
     </div>

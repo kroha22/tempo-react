@@ -1,0 +1,36 @@
+.plan { max-width:48rem; margin:12px auto; color:#274c39; }
+.intro { padding:16px; background:linear-gradient(120deg,#e1f0d6,#fff2bd); border-radius:24px; }
+.plan h1 { font-size:28px; margin:8px 0; }
+.intro p { margin:8px 0 14px; }
+.counter { display:flex; align-items:baseline; flex-wrap:wrap; gap:8px; }
+.counter strong { font-size:26px; }
+.intro progress { display:block; width:100%; height:14px; margin:10px 0; accent-color:#467956; }
+.intro small { font-size:12px; }
+.continue { display:grid; gap:8px; margin:12px 0; padding:16px; border:2px solid #83a373; border-radius:20px; background:#fffdf2; }
+.continue strong { font-size:20px; }
+.plan button { min-height:44px; font:inherit; color:#274c39; border:1px solid #8eac87; border-radius:12px; padding:8px 12px; background:#fffdf4; cursor:pointer; }
+.plan button:disabled { opacity:.55; cursor:default; }
+.continue button, .finished button { background:#426e4b; color:#fff; border-color:#426e4b; }
+.filters { display:flex; gap:6px; flex-wrap:wrap; margin:16px 0; }
+.filters button[aria-pressed="true"] { background:#d9ebce; border-color:#49734c; }
+.chapters { display:grid; gap:12px; }
+.chapter { border:1px solid #a6bda4; border-radius:20px; background:#fffef6; overflow:hidden; }
+.chapter summary { display:flex; align-items:center; gap:12px; padding:14px; cursor:pointer; min-height:44px; }
+.chapter summary > span:nth-child(2) { display:grid; gap:4px; }
+.number { display:grid; place-items:center; width:34px; height:34px; flex-shrink:0; border-radius:50%; background:#e7edc3; font-weight:800; }
+.chapter small { display:block; font-size:13px; }
+.chapter p { margin:0; padding:0 14px 12px; font-size:14px; }
+.chapter ol { list-style:none; padding:0 10px 10px; margin:0; display:grid; gap:6px; }
+.chapter li button { width:100%; display:flex; align-items:center; gap:10px; padding:10px; text-align:left; background:#f2f6ea; border:1px solid #cfdbbc; border-radius:12px; }
+.chapter li button > span:nth-child(2) { flex:1; display:grid; gap:4px; }
+.chapter button[aria-current="step"] { border:2px solid #41754b; }
+.check { flex-shrink:0; font-size:20px; min-width:24px; text-align:center; }
+.catalog { margin-top:16px; }
+.lessonHeader { display:flex; align-items:center; flex-wrap:wrap; gap:12px; margin:12px 0; font-size:14px; }
+.lessonContent :global(.adult-lessons-layout) { display:block; }
+.lessonContent :global(.adult-lessons) { margin-top:8px; }
+.lessonContent :global(.adult-lesson-heading) { display:none; }
+.finished { display:grid; gap:8px; margin:16px 0; padding:16px; border-radius:16px; background:#dceecf; }
+.plan :focus-visible { outline:3px solid #176d97; outline-offset:3px; }
+.plan h1:focus { outline:none; }
+@media(max-width:420px) { .plan { margin-inline:8px; } .plan h1 {font-size:25px;} }

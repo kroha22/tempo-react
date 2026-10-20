@@ -3,6 +3,7 @@ import type { PracticeSection } from "./practice-types";
 import styles from "./PracticeTopbar.module.css";
 
 type PracticeTopbarProps = {
+  planCount?:number;
   section: PracticeSection;
   childMode: boolean;
   tense: Tense;
@@ -10,10 +11,10 @@ type PracticeTopbarProps = {
   onToggleChildMode: () => void;
 };
 
-export function PracticeTopbar({ section, childMode, tense, onSectionChange, onToggleChildMode }: PracticeTopbarProps) {
+export function PracticeTopbar({ section, childMode, tense, onSectionChange, onToggleChildMode, planCount }: PracticeTopbarProps) {
   const navigationSection = section === "trainer" ? "lessons" : section;
-  const lessonNumber = section === "cards" ? "02" : section === "vocabulary" ? "35" : section === "lessons" ? "14" : tense === "present" ? "01" : "02";
-  const lessonLabel = section === "cards" ? "coleções e frases" : section === "vocabulary" ? "temas e jogos" : section === "lessons" ? "gramática prática" : tense === "present" ? "Presente do indicativo" : "Pretérito perfeito";
+  const lessonNumber = section === "cards" ? "02" : section === "vocabulary" ? "35" : section === "lessons" ? String(planCount??14) : tense === "present" ? "01" : "02";
+  const lessonLabel = section === "cards" ? "coleções e frases" : section === "vocabulary" ? "temas e jogos" : section === "lessons" ? planCount?"занятия по шагам":"gramática prática" : tense === "present" ? "Presente do indicativo" : "Pretérito perfeito";
 
   return (
     <header className={`${styles.topbar} practice-topbar`}>
