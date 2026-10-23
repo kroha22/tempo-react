@@ -1,1 +1,2 @@
 .details { display: grid; gap: 4px; text-align: center; margin: 12px auto 0; max-width: 34rem; font-size: 15px; color: #315544; }
+.illustration { display: block; box-sizing: border-box; width: clamp(90px, 24vw, 132px); height: clamp(90px, 24vw, 132px); padding: 6px; flex-shrink: 0; margin: 4px auto; border-radius: 18px; background: white; background-repeat: no-repeat; }

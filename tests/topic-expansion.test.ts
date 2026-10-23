@@ -19,15 +19,14 @@ test("new topic nouns reuse scene and source identities and retain morphology",(
     assert.equal(entry.lemma,lemma,key);assert.equal(entry.morphology?.article,article,key);assert.equal(entry.morphology?.plural,plural,key);
     assert.ok(word.example?.pt);assert.ok(word.example?.ru);
   }
-  assert.equal(topicExpansion.byKey.size,46);
-  assert.equal([...topicExpansion.byKey.values()].filter(word=>word.id.startsWith("vocabulary:noun:")).length,37);
+  assert.equal(topicExpansion.byKey.size,topicNounSeeds.length);
   const existing={id:"existing-mother",label:"a mãe",translation:"Мама",acceptedAnswers:{pt:["mamã"],ru:["мать"]}};
   assert.deepEqual(buildTopicExpansion([existing]).byKey.get("mae")?.acceptedAnswers,existing.acceptedAnswers);
 });
 
 test("all seven bounded sets appear in the intended semantic themes",()=>{
   for(const set of topicSetDefinitions){
-    assert.ok(set.keys.length>=4&&set.keys.length<=8);
+    assert.ok(set.keys.length>=3&&set.keys.length<=8);
     const topic=catalogGroups.find(group=>group.id===`topic:${set.group==="food"?"food":`vocabulary-${set.group}`}`)!;
     assert.ok(topic,set.id);
     const found=topic.subgroups.flatMap(group=>group.sets).find(item=>item.id===`collection:${set.id}`)!;

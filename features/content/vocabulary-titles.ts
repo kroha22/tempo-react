@@ -1,0 +1,22 @@
+/** Presentation translations; canonical IDs, exercise answers and progress stay unchanged. */
+export const vocabularyTitlesPt: Readonly<Record<string, string>> = {
+  "Семья и друзья":"Família e amigos", "Моя семья":"A minha família", "Родственники":"Familiares",
+  "Тело":"O corpo", "Лицо и руки":"O rosto e as mãos", "Тело и движение":"O corpo em movimento",
+  "Мир в картинках":"O mundo em imagens", "На нашей улице":"Na nossa rua", "На пляже":"Na praia",
+  "В саду":"No jardim", "Под дождём":"À chuva", "После дождя":"Depois da chuva", "На ферме":"Na quinta",
+  "На рынке":"No mercado", "Собираемся в школу":"Vamos para a escola", "За завтраком":"Ao pequeno-almoço", "В парке":"No parque",
+  "Одежда":"A roupa", "Одежда и обувь":"Roupa e calçado", "Из уроков":"Das aulas", "Знакомство":"Apresentações",
+  "Знакомые предметы":"Objetos do dia a dia", "Где находится?":"Onde está?", "Быть, иметь, есть":"Ser, estar, ter e haver", "Места в городе":"Lugares na cidade",
+  "Дом":"A casa", "Комнаты и части дома":"Divisões e partes da casa", "Мебель и техника":"Móveis e eletrodomésticos",
+  "Посуда и ванная":"Loiça e casa de banho", "Сад и транспорт":"Jardim e transportes", "Сад":"O jardim", "Спальня":"O quarto",
+  "Кухня":"A cozinha", "Гостиная":"A sala", "Гараж":"A garagem", "Ванная комната":"A casa de banho", "Дом и вещи":"A casa e os objetos",
+  "Глаголы на каждый день":"Verbos do dia a dia", "Движение и поездки":"Movimento e viagens", "Общение":"Comunicação", "Работа и учёба":"Trabalho e estudo",
+  "Повседневные действия":"Ações do dia a dia", "Еда и покупки":"Alimentação e compras", "Отдых и свободное время":"Descanso e tempos livres",
+  "Желания и чувства":"Desejos e sentimentos", "Разговор и понимание":"Falar e compreender", "Повседневная жизнь":"O dia a dia",
+  "Фрукты и ягоды":"Fruta e frutos vermelhos", "Что едим и пьём":"O que comemos e bebemos", "Накрываем на стол":"Pôr a mesa",
+  "Овощи":"Legumes", "Молочные продукты":"Laticínios", "Зерновые продукты":"Cereais e derivados", "Ещё фрукты и ягоды":"Mais fruta e frutos vermelhos",
+  "Ещё овощи и зелень":"Mais legumes e ervas aromáticas", "Мясо и мясные продукты":"Carne e produtos de carne", "Рыба и морепродукты":"Peixe e marisco",
+  "Масла и приправы":"Óleos e temperos", "Соусы":"Molhos", "Десерты, яйца и бобовые":"Sobremesas, ovos e leguminosas", "Готовим еду":"Vamos cozinhar",
+  "Природа":"A natureza", "Животные":"Os animais", "Город и дорога":"A cidade e os transportes", "Школа":"A escola",
+  "Инструкции на уроке":"Instruções na aula", "Работа и встречи":"Trabalho e encontros", "Здоровье и самочувствие":"Saúde e bem-estar", "Люди и состояния":"Pessoas e estados",
+};

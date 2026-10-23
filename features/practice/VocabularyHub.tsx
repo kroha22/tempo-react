@@ -6,8 +6,9 @@ export function VocabularyHub({ onOpenCards }: { onOpenCards: () => void }) {
     <main className={styles.shell} aria-label="Слова">
       <header className={styles.header}>
         <div>
-          <span>Palavras</span>
-          <h1>Слова и выражения</h1>
+          <span>Palavras · Слова</span>
+          <h1 lang="pt-PT">Palavras e expressões</h1>
+          <p>Слова и выражения</p>
           <p>Выбирайте тему и способ практики. Полная колода базовых слов находится в разделе карточек.</p>
         </div>
         <button type="button" onClick={onOpenCards}>Перейти к карточкам</button>

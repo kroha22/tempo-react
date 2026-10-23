@@ -1,5 +1,5 @@
 /** Reusable views of existing vocabulary. Word IDs retain their canonical owners. */
-export type VocabularyWord = { id: string; label: string; translation: string; acceptedAnswers?: { pt: readonly string[]; ru: readonly string[] }; noun?: { lemma: string; article: "o" | "a"; plural: string; pluralArticle: "os" | "as" }; example?: { pt: string; ru: string } };
+export type VocabularyWord = { id: string; label: string; translation: string; illustration?: { src: string; column: number; row: number; grid?: number; crop?: {x:number;y:number;width:number;height:number;sourceWidth:number;sourceHeight:number} }; acceptedAnswers?: { pt: readonly string[]; ru: readonly string[] }; noun?: { lemma: string; article: "o" | "a"; plural: string; pluralArticle: "os" | "as" }; example?: { pt: string; ru: string } };
 export type VocabularySet = {
   id: string;
   title: string;

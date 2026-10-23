@@ -1,12 +1,12 @@
 import { firstVerticalSliceContentPack as lessonContent } from "./manifest.ts";
 import { houseVocabularyGroup, housePracticeWords, housePlaces, houseRoomGroup } from "./house-practice.ts";
-import { vocabularySets, type VocabularyGroup } from "./vocabulary-model.ts";
+import { vocabularySets, type VocabularyGroup, type VocabularyWord } from "./vocabulary-model.ts";
 import { verbCards } from "../cards/data/verb-cards.ts";
 import { clothingWords, clothingGroup } from "./clothing.ts";
 import { sceneWords, scenesGroup } from "./picture-scenes.ts";
 import { schoolInstructionCards, schoolInstructionWordIds } from "./school-content.ts";
 import type { PairBlock, PairWord } from "../practice/word-pairs.ts";
-import { buildTopicExpansion } from "./topic-expansion.ts";
+import { buildTopicExpansion, foodCategories } from "./topic-expansion.ts";
 
 // IDs reference existing content. This registry does not own translations or review state.
 const lessonWords: PairWord[] = lessonContent.studyItems.map(item => {
@@ -58,7 +58,7 @@ const basePairVocabulary: readonly PairWord[] = [
   ...verbCards.filter(word => selectedVerbs.has(word.id) && !schoolInstructionWordIds.includes(word.id)).map(word => ({ id: word.id, label: word.pt, translation: word.ru })),
 ];
 export const topicExpansion = buildTopicExpansion(basePairVocabulary);
-export const pairVocabulary = [...basePairVocabulary.map(topicExpansion.decorate), ...topicExpansion.newWords];
+export const pairVocabulary: VocabularyWord[] = [...basePairVocabulary.map(topicExpansion.decorate), ...topicExpansion.newWords, ...foodCategories];
 export const vocabularyGroups: readonly VocabularyGroup[] = [
   ...topicExpansion.groups,
   scenesGroup,

@@ -1,0 +1,46 @@
+import type { NounSeed } from "./topic-expansion.ts";
+
+// Original examples inspired by the food topic of the supplied page.
+export const foodPhotoNouns: readonly NounSeed[] = [
+  ["quivi","o","quivi","quivis","Киви","Corto um quivi ao meio.","Я разрезаю киви пополам."],
+  ["couve","a","couve","couves","Капуста","Ponho couve na sopa.","Я кладу капусту в суп."],
+  ["curgete","a","curgete","curgetes","Кабачок","Corto uma curgete.","Я режу кабачок."],
+  ["roma","a","romã","romãs","Гранат","Esta romã tem muitas sementes.","В этом гранате много зёрен."],
+  ["manga","a","manga","mangas","Манго","A manga está madura.","Манго спелое."],
+  ["tangerina","a","tangerina","tangerinas","Мандарин","Descasco uma tangerina.","Я чищу мандарин."],
+  ["fiambre","o","fiambre","fiambres","Варёная ветчина","Ponho fiambre na sandes.","Я кладу варёную ветчину в бутерброд."],
+  ["presunto","o","presunto","presuntos","Вяленая ветчина","Corto uma fatia de presunto.","Я отрезаю ломтик вяленой ветчины."],
+  ["camarao","o","camarão","camarões","Креветка","O camarão está no prato.","Креветка на тарелке."],
+  ["bife","o","bife","bifes","Стейк","Como um bife com arroz.","Я ем стейк с рисом."],
+  ["oleo","o","óleo","óleos","Растительное масло","Uso óleo de girassol para cozinhar.","Я использую подсолнечное масло для готовки."],
+  ["azeite","o","azeite","azeites","Оливковое масло","Ponho azeite na salada.","Я добавляю оливковое масло в салат."],
+  ["sardinha","a","sardinha","sardinhas","Сардина","Como sardinhas com pão.","Я ем сардины с хлебом."],
+  ["gelado","o","gelado","gelados","Мороженое","Quero um gelado de morango.","Я хочу клубничное мороженое."],
+  ["ketchup","o","ketchup","ketchups","Кетчуп","Ponho ketchup no hambúrguer.","Я добавляю кетчуп в гамбургер."],
+  ["diospiro","o","dióspiro","dióspiros","Хурма","O dióspiro está maduro.","Хурма спелая."],
+  ["maionese","a","maionese","maioneses","Майонез","A maionese está no frigorífico.","Майонез в холодильнике."],
+  ["mostarda","a","mostarda","mostardas","Горчица","Ponho mostarda na sandes.","Я добавляю горчицу в бутерброд."],
+  ["hamburguer","o","hambúrguer","hambúrgueres","Гамбургер","Como um hambúrguer ao almoço.","Я ем гамбургер на обед."],
+  ["salsicha","a","salsicha","salsichas","Сосиска","A salsicha está no prato.","Сосиска на тарелке."],
+  ["salmao","o","salmão","salmões","Лосось","Hoje como salmão com legumes.","Сегодня я ем лосось с овощами."],
+  ["bacalhau","o","bacalhau","bacalhaus","Треска","O bacalhau está salgado.","Треска солёная."],
+  ["sal","o","sal","sais","Соль","Ponho um pouco de sal na sopa.","Я добавляю немного соли в суп."],
+  ["vinagre","o","vinagre","vinagres","Уксус","Ponho vinagre na salada.","Я добавляю уксус в салат."],
+  ["feijao","o","feijão","feijões","Фасоль","Como feijão com arroz.","Я ем фасоль с рисом."],
+  ["pimenta","a","pimenta","pimentas","Перец (пряность)","Ponho pimenta na sopa.","Я добавляю перец в суп."],
+  ["tomate","o","tomate","tomates","Помидор","Corto um tomate para a salada.","Я режу помидор для салата."],
+  ["bolo","o","bolo","bolos","Пирог, торт","Como uma fatia de bolo.","Я ем кусочек пирога."],
+  ["uvas","a","uva","uvas","Виноград","Lavo as uvas antes de comer.","Я мою виноград перед едой."],
+  ["ovos","o","ovo","ovos","Яйцо","Como um ovo ao pequeno-almoço.","Я ем яйцо на завтрак."],
+  ["framboesas","a","framboesa","framboesas","Малина","Gosto de framboesas.","Я люблю малину."],
+  ["salsa","a","salsa","salsas","Петрушка","Ponho salsa na sopa.","Я добавляю петрушку в суп."],
+];
+
+export const foodPhotoIllustrationKeys = [
+  "morango","melancia","quivi","couve","curgete","roma",
+  "manga","tangerina","fiambre","presunto","camarao","bife",
+  "oleo","azeite","sardinha","gelado","ketchup","diospiro",
+  "maionese","mostarda","hamburguer","salsicha","salmao","bacalhau",
+  "sal","vinagre","feijao","pimenta","tomate","bolo",
+  "uvas","ovos","framboesas","salsa","agua","frango",
+] as const;

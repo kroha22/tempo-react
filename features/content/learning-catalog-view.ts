@@ -1,6 +1,6 @@
 import { learningCatalog } from "./learning-catalog.ts";
 import { pairVocabulary, studyVocabularyGroups } from "./vocabulary-catalog.ts";
-import { vocabularySets, type VocabularyGroup } from "./vocabulary-model.ts";
+import { vocabularySets, type VocabularyGroup, type VocabularyWord } from "./vocabulary-model.ts";
 import { houseImageActivity } from "./house.ts";
 import { sceneImageActivities } from "./picture-scenes.ts";
 import { clothingImageActivity } from "./clothing.ts";
@@ -12,7 +12,7 @@ const reviewedVocabularyWords = vocabularyLessons.flatMap(lesson => lesson.items
   label: item.display.split(" — ")[0],
   translation: item.translation,
 })));
-export const catalogWords = [...pairVocabulary, ...reviewedVocabularyWords.filter(word => !pairVocabulary.some(existing => existing.id === word.id))];
+export const catalogWords: VocabularyWord[] = [...pairVocabulary, ...reviewedVocabularyWords.filter(word => !pairVocabulary.some(existing => existing.id === word.id))];
 const wordsById = new Map(catalogWords.map(word => [word.id, word]));
 const representative = new Map(learningCatalog.meanings.map(meaning => [meaning.id, meaning.legacyWordIds[0] ?? meaning.sourceEntryIds?.[0]]));
 const legacySets = new Map(studyVocabularyGroups.flatMap(vocabularySets).map(set => [set.id, set]));
