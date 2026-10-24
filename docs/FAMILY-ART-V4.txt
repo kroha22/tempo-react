@@ -1,0 +1,9 @@
+2026-10-24 — built-in image_gen, precise-object-edit.
+Family illustrations use an unrelated fictional family, not the recurring emotion/body boy.
+Reference: public/images/scenes/family-cover-v3.webp
+Master: output/imagegen/masters/family-cover-v4.png
+Web: public/images/scenes/family-cover-v4.webp
+Used by FamilyLesson and TopicCover. Emotion and body assets unchanged.
+
+Prompt:
+Use case: precise-object-edit. Edit only the little boy seated between the girl and father in this family picnic illustration. Make him a different ordinary fictional child, clearly NOT the recurring light-haired boy with rectangular glasses from the emotion lesson. New child: short softly curly dark brown hair, brown eyes, no glasses at all, a simple powder-blue and white striped T-shirt with no dinosaurs or other motifs, slightly rounder face. Preserve his age, seated pose, happy expression, gaze toward father and strawberry in hand. Keep the father clean-shaven with short rusy hair and broad chin, mother with straight chestnut hair just below shoulders and subtle bump in her otherwise straight nose, grandparents, girl, pets, every picnic object, background, composition, lighting and painterly style unchanged. This is an unrelated fictional family rather than the recurring boy's family. No lettering or watermark; same landscape format.

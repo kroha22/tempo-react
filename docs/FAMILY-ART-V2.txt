@@ -1,0 +1,8 @@
+2026-10-24 — built-in image_gen, identity-preserve edit.
+Master: output/imagegen/masters/family-cover-v2.png
+Web: public/images/scenes/family-cover-v2.webp
+References: family-cover-v1.webp; feelings-boy-glasses-v2.webp.
+Used in family lesson and family topic cover. Assessment scenes unchanged.
+
+Prompt:
+Use case: identity-preserve. Edit image 1, the family garden illustration, using image 2 strictly as the boy character identity and painterly children's book style reference. Keep the six family members, their positions, picnic table, Portuguese garden house, dog and cat and overall landscape composition. Change father (adult man behind boy) to short dark-blond/light-brown hair (Russian rusy), distinctly broad square chin, light close stubble that lets the broad chin show; preserve sage shirt and warm expression. Change mother at far right to chestnut brown LONG STRAIGHT hair, visibly straight smooth strands extending below shoulders; preserve coral dress and expression. Replace little boy with exactly the boy from reference image 2: tousled short light-brown hair, black rectangular glasses with amber temples, warm fair skin, brown eyes, white dinosaur-pattern T-shirt. Keep his seated pose holding strawberry. Unify rendering to the soft painterly gouache children's illustration of reference 2; balanced coral, powder blue, muted lavender and natural garden colors, less yellow cast. Grandparents and girl remain recognizable and unchanged in identity. No lettering, no watermark. One final landscape illustration.

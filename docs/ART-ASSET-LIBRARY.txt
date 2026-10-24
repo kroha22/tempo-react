@@ -1,0 +1,21 @@
+Tempo art library — 2026-10-24
+
+Cover direction approved by the user:
+People are optional. Show the topic itself when that is clearer: nature, animals, clothing, home, food, school objects, directions, environment, city and transport.
+Keep characters for suitable social, family, emotion, body and action scenes. This is not a rule to put people in every lesson.
+
+Preserved character examples and references:
+Browse: output/imagegen/character-examples.html
+User-supplied original sheets: output/imagegen/references/family/
+Generated PNG masters: output/imagegen/masters/covers/
+Previous web illustrations with characters: public/images/covers/*-v1.webp
+Family scene versions: public/images/scenes/family-cover-v1.webp through family-cover-v4.webp
+Boy and identity atlases: public/images/vocabulary/
+
+All earlier images remain available for use inside lessons or as character references. Replacing a cover is not permission to delete its old image or master.
+Family relationships and supplied reference lineage: docs/FAMILY-CAST-ART.txt.
+Current decorative-cover registry: features/practice/lesson-covers.ts.
+Assessment images and answer mappings are unchanged.
+
+New non-human covers use sibling filenames *-objects-v2.webp; PNG masters use the same basename.
+Generation: built-in image_gen. Exact prompts: docs/OBJECT-COVER-PROMPTS-V2.txt.

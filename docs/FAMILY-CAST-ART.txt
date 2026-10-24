@@ -1,0 +1,37 @@
+Tempo family characters — 2026-10-24
+Current approved family relationship supplied by the user:
+- The recurring boy's parents are the woman in mint and man in black from parents-emotions-original.png.
+- parents-and-son-original.png supplies their shared family poses and the boy's identity.
+- The mother in purple from aunt-and-daughters-original.png is the boy's mother's sister.
+- Her older brunette daughter and younger blonde daughter are the boy's cousins (двоюродные сёстры), not his sisters.
+- The aunt and daughters live far away, in another city. No city name is assigned.
+This update supersedes the generic-family choice for these specific family images. Other cover characters remain varied.
+
+User-supplied originals, preserved intact:
+output/imagegen/references/family/parents-emotions-original.png
+output/imagegen/references/family/parents-and-son-original.png
+output/imagegen/references/family/aunt-and-daughters-original.png
+
+Current usage:
+family-parents-v1: family topic cover and FamilyLesson main illustration.
+aunt-reading-v1: lesson-vocabulary cover and optional family-story disclosure in FamilyLesson.
+aunt-city-v1: city/transport topic cover; the aunt and daughters in their own city, not visiting the boy.
+Web assets: public/images/covers/<name>.webp
+Masters: output/imagegen/masters/covers/<name>.png
+Generation: built-in image_gen, one identity-preserve call per scene; all three original sheets supplied as references.
+Other exercise data, answers, IDs, vocabulary and progress unchanged. The family disclosure is Russian story context only, not assessed language content.
+
+Shared prompt:
+Use case: identity-preserve. Asset: one finished landscape 4:3 illustration for Tempo learning app. Provided character sheets are references, NOT layouts to replicate; do not create a collage. Match their expressive warm hand-painted children's-book illustration, recognizable faces, fine gouache texture and natural proportions. Center faces and main subjects with enough padding for wide thumbnail crop.
+
+family-parents-v1
+Image 1 and image 2 are strict identity references for mother, father and their son. Create one landscape scene of exactly these three people reading a dinosaur picture book together on a powder-blue couch in a cozy home, mother on left in mint sleeveless top and pendant, chestnut long hair and green eyes; father on right clean-shaven short brown hair in black T-shirt, broad chin; their son between them in black rectangular glasses, tousled light-brown hair, white dinosaur shirt, olive shorts. Preserve facial features and identity from references. No other people. A warm everyday family scene, no grandparents or additional children. Image 3 is not relevant for this scene.
+No text, numbers, logos, watermark or frames.
+
+aunt-reading-v1
+Image 3 is the STRICT identity reference. Exactly this aunt in her purple sleeveless high-neck top, wavy shoulder-length chestnut hair, and her two daughters: older school-age/preteen girl with long straight dark brown hair and light cream cardigan, younger small blonde girl with two short pigtails and golden floral dress. Create one landscape scene of all three reading a storybook together on a blue couch in their own cozy apartment, afternoon light, pink and lavender accents. Clearly preserve the two distinct ages, hair and identities, warm natural expressions. No other people, no boy, no father. Images 1 and 2 are style reference only, do not insert their people.
+No text, numbers, logos, watermark or frames.
+
+aunt-city-v1
+Image 3 is the STRICT identity reference for the aunt and both daughters. Create one landscape scene of these exact three people by a large apartment window looking out over their own distant Portuguese city, a pastel street and a yellow tram visible outside. Aunt in purple sleeveless high-neck top, wavy shoulder-length chestnut hair; older daughter with long straight dark brown hair and light cream cardigan; younger daughter blonde with two pigtails and golden floral dress. They live together in a DIFFERENT city far away from the boy's family, so DO NOT include the boy or his parents. Preserve all three faces and distinct ages. One girl points at a tram outside; others smile. Balanced blue, lavender and coral interior. No map labels or city names.
+No text, numbers, logos, watermark or frames.

@@ -1,0 +1,8 @@
+2026-10-24 — built-in image_gen, precise-object-edit.
+Reference: public/images/scenes/family-cover-v2.webp
+Master: output/imagegen/masters/family-cover-v3.png
+Web: public/images/scenes/family-cover-v3.webp
+Used by FamilyLesson and TopicCover.
+
+Prompt:
+Use case: precise-object-edit. Make only the following localized character edits to this existing children's book family picnic illustration. Father (adult man in sage shirt behind boy): completely clean-shaven smooth skin, absolutely no beard, moustache, stubble or dark beard shadow; retain his broad square chin. Shorten his dark-blond/light-brown (rusy) hair a little further to a neat short haircut, less volume and shorter top, same color. Mother at far right in coral floral dress: chestnut brown straight hair ending just a little below her shoulders (NOT chest-length or waist-length), and a mostly straight nose with a very subtle small bump on the bridge, natural and understated. Keep parents' expressions and identities, the mother's earrings, all clothes, body poses, all other characters especially the boy with black rectangular glasses and dinosaur T-shirt, grandparents and girl, dog, cat, picnic objects, garden, house, composition, color palette and painterly texture unchanged. No text, no watermark. Output same landscape composition.

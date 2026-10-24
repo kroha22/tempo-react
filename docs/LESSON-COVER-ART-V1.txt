@@ -1,0 +1,91 @@
+Tempo lesson covers — 2026-10-24
+Generation: built-in image_gen, one call per cover.
+Style reference: public/images/scenes/family-cover-v4.webp.
+Identity reference ONLY for body/feelings: public/images/vocabulary/feelings-boy-glasses-v2.webp.
+Family: existing family-cover-v4.webp, unrelated fictional family.
+Recurring boy: emotions and body only among these catalog covers.
+All other covers: different fictional characters, no recurring boy identity.
+Scope: 20 visible illustrated catalog cards (19 new + existing family).
+Practical/grammar text cards remain text cards. Assessed images, vocabulary, answers and progress are unchanged.
+Registry: features/practice/lesson-covers.ts.
+Web assets: public/images/covers/*-v1.webp (960px wide, quality 88).
+Masters: output/imagegen/masters/covers/*-v1.png.
+
+Shared prompt:
+Use case: illustration-story. Asset: one finished landscape 4:3 lesson cover for a children's European Portuguese learning app. Image 1 is STYLE REFERENCE ONLY: match its polished soft gouache children's-book rendering, natural expressive faces, fine paper texture and warm gentle daylight, but create the new scene described below. Simple spacious composition with 1–3 large clear subjects centered inside the middle 70% so cropping to a wide thumbnail keeps faces intact. More balanced powder blue, coral, lavender, cream and natural greens, no heavy yellow cast. No text, letters, numbers, logos, watermark, frame or collage.
+
+hello / foundation:hello
+Scene: Two unrelated children greeting each other with a friendly wave at a Portuguese school gate: a dark-skinned girl with two puff ponytails in a coral jacket and a pale red-haired boy in a blue sweater.
+All people are different fictional characters, unrelated to the recurring boy. Do not depict the light-haired boy with rectangular glasses or dinosaur shirt. No eyeglasses on the children.
+
+identity / foundation:identity
+Scene: A young female illustrator with a short dark bob in a lavender apron holding a sketchbook and pencil at her studio table, warm confident expression; clear portrait about introducing who you are.
+All people are different fictional characters, unrelated to the recurring boy. Do not depict the light-haired boy with rectangular glasses or dinosaur shirt. No eyeglasses on the children.
+
+space / topic:vocabulary-space
+Scene: A brown-skinned girl with a high ponytail in a coral T-shirt consulting a simple folded map beside a wooden direction sign in a sunny park. Sign arrows have no text.
+All people are different fictional characters, unrelated to the recurring boy. Do not depict the light-haired boy with rectangular glasses or dinosaur shirt. No eyeglasses on the children.
+
+my-day / topic:vocabulary-my-day
+Scene: A dark-haired little boy in blue pajamas opening pale blue curtains to morning sunshine; bedside round clock, slippers and tidy bedroom; daily routine.
+All people are different fictional characters, unrelated to the recurring boy. Do not depict the light-haired boy with rectangular glasses or dinosaur shirt. No eyeglasses on the children.
+
+body / topic:vocabulary-body
+Scene: The EXACT boy from image 2, same black rectangular glasses with amber temples, tousled light-brown hair, warm fair skin, white dinosaur T-shirt. Full body standing with arms stretched out in a gentle playful pose, olive shorts and blue sneakers, simple powder blue room. Anatomically natural, no labels.
+Image 2 is the mandatory character identity reference.
+
+scenes / topic:vocabulary-scenes
+Scene: A short-haired woman with a coral backpack and a dark-skinned boy in a blue cap exploring a Portuguese seaside town overlook, tiled roofs, distant ocean, a tiny tram; world discovery.
+All people are different fictional characters, unrelated to the recurring boy. Do not depict the light-haired boy with rectangular glasses or dinosaur shirt. No eyeglasses on the children.
+
+clothing / topic:vocabulary-clothing
+Scene: A little girl with a straight black bob choosing between a coral raincoat and a lavender cardigan on a clothes rack, blue shoes and yellow rain boots below, cozy uncluttered bedroom.
+All people are different fictional characters, unrelated to the recurring boy. Do not depict the light-haired boy with rectangular glasses or dinosaur shirt. No eyeglasses on the children.
+
+lessons / topic:vocabulary-lessons
+Scene: A curly-haired brown-skinned boy in a coral pullover and a red-haired girl in a blue shirt reading an open book together at a library table, a few pastel books behind them.
+All people are different fictional characters, unrelated to the recurring boy. Do not depict the light-haired boy with rectangular glasses or dinosaur shirt. No eyeglasses on the children.
+
+house / topic:vocabulary-house
+Scene: A friendly older woman with silver bob hair tending a small potted plant by a window in a cozy Portuguese home, powder-blue sofa, coral cushion, wooden shelves.
+All people are different fictional characters, unrelated to the recurring boy. Do not depict the light-haired boy with rectangular glasses or dinosaur shirt. No eyeglasses on the children.
+
+verbs / topic:vocabulary-verbs
+Scene: A dark-skinned girl with neat braids in a lavender top watering a large potted flowering plant with a blue watering can, action clearly readable, airy balcony.
+All people are different fictional characters, unrelated to the recurring boy. Do not depict the light-haired boy with rectangular glasses or dinosaur shirt. No eyeglasses on the children.
+
+everyday / topic:everyday
+Scene: An East Asian father with short black hair and his daughter with a ponytail preparing breakfast together at a powder-blue kitchen counter, bread, orange and two cups, coral accents.
+All people are different fictional characters, unrelated to the recurring boy. Do not depict the light-haired boy with rectangular glasses or dinosaur shirt. No eyeglasses on the children.
+
+food / topic:food
+Scene: A smiling middle-aged female market vendor with curly auburn hair in a lavender apron handing a paper bag of oranges to a brown-skinned young woman in a blue jacket at a Portuguese fruit stall.
+All people are different fictional characters, unrelated to the recurring boy. Do not depict the light-haired boy with rectangular glasses or dinosaur shirt. No eyeglasses on the children.
+
+nature / topic:nature
+Scene: A red-haired girl with freckles in a coral jacket kneeling to observe a butterfly beside lavender wildflowers, soft blue stream and leafy trees behind, calm nature exploration.
+All people are different fictional characters, unrelated to the recurring boy. Do not depict the light-haired boy with rectangular glasses or dinosaur shirt. No eyeglasses on the children.
+
+animals / topic:animals
+Scene: A curly dark-haired boy in blue overalls gently feeding a friendly goat beside a small farm fence, a hen and rabbit nearby, soft blue sky and coral barn accent.
+All people are different fictional characters, unrelated to the recurring boy. Do not depict the light-haired boy with rectangular glasses or dinosaur shirt. No eyeglasses on the children.
+
+city / topic:city
+Scene: A woman with short curly dark hair and a pale little girl in a lavender jacket waiting safely at a Portuguese tram stop, recognizable yellow tram and pastel buildings behind.
+All people are different fictional characters, unrelated to the recurring boy. Do not depict the light-haired boy with rectangular glasses or dinosaur shirt. No eyeglasses on the children.
+
+school / topic:school
+Scene: A dark-skinned boy with short hair in a blue shirt and a pale girl with ginger braids in a coral cardigan building a simple paper model at a classroom desk, books and colored pencils.
+All people are different fictional characters, unrelated to the recurring boy. Do not depict the light-haired boy with rectangular glasses or dinosaur shirt. No eyeglasses on the children.
+
+work / topic:work
+Scene: Two adult colleagues, a brown-skinned woman with a dark bun in a blue blouse and a fair man with short auburn hair in a lavender shirt, discussing a paper plan at a bright studio table; no writing.
+All people are different fictional characters, unrelated to the recurring boy. Do not depict the light-haired boy with rectangular glasses or dinosaur shirt. No eyeglasses on the children.
+
+health / topic:health
+Scene: A friendly dark-skinned female doctor with short natural hair and a pale red-haired child in a blue sweater at a calm clinic, doctor demonstrating a stethoscope, reassuring smiles, coral and powder blue furnishings.
+All people are different fictional characters, unrelated to the recurring boy. Do not depict the light-haired boy with rectangular glasses or dinosaur shirt. No eyeglasses on the children.
+
+feelings / topic:people
+Scene: The EXACT boy from image 2: same black rectangular glasses with amber temples, tousled short light-brown hair, warm fair skin and white dinosaur T-shirt. One waist-up portrait smiling warmly with one hand on his chest, warm expressive eyes; soft lavender room and coral cushion, emotions theme. Only one boy and one expression.
+Image 2 is the mandatory character identity reference.
