@@ -53,3 +53,11 @@ next-env.d.ts
 /SETUP.md
 /skills/
 /docs/*.md
+
+# Local QA logs and reference-only textbook research are not product source.
+/.playwright-cli/
+/output/*.log
+/output/body-research/
+/output/topic-research/
+/output/playwright/
+/output/food-pilot/*.jpg
