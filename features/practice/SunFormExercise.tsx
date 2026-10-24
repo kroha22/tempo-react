@@ -1,3 +1,5 @@
+import {ActivityCompletion} from "./ActivityCompletion";
+import {wordActivityId} from "./learning-rewards";
 import type { ConjugationVerb, Forms, PersonKey, Tense } from "@/features/conjugation/data";
 import { people } from "@/features/conjugation/data";
 import type { PracticeMode } from "./practice-types";
@@ -100,6 +102,7 @@ export function SunFormExercise({
         </aside>
       )}
 
+      {completed&&mode==="practice"&&<ActivityCompletion id={wordActivityId("forms",[verb.infinitive,tense])} title={`${verb.infinitive.toUpperCase()} · ${tense==="present"?"настоящее":"прошедшее"}`} group="Грамматика" correct={people.length} total={people.length} scoreLabel="Собрано"><button type="button" onClick={onRestartPractice}>Повторить формы</button></ActivityCompletion>}
       <div className={styles.footer}>
         {mode === "learn" ? (
           <p>Все формы уже открыты. Сравни окончания или переходи в режим практики.</p>

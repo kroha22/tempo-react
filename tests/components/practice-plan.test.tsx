@@ -1,6 +1,6 @@
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import { beforeEach, expect, test, vi } from "vitest";
-import { Demo } from "@/github-pages/Demo";
+import { LegacyDemo as Demo } from "@/github-pages/Demo";
 import { browserPracticePlanStorage, practicePlanStorageKey } from "@/github-pages/practice-plan-storage";
 import { ChildPracticePlan } from "@/features/practice/plan/ChildPracticePlan";
 import { PracticePlanProvider, usePracticePlan } from "@/features/practice/plan/PracticePlanContext";
@@ -58,11 +58,11 @@ test("a storage update from another tab updates the counter without writing over
 test("the old catalog and words stay accessible from the child plan",()=>{
   render(<Demo/>);
   fireEvent.click(screen.getByRole("button",{name:"Все уроки и свободная практика"}));
-  expect(screen.getByRole("heading",{name:"14 коротких уроков"})).toBeVisible();
-  fireEvent.click(screen.getByRole("button",{name:"‹ К моему плану"}));
+  expect(screen.getByRole("heading",{name:"Aulas — Уроки"})).toBeVisible();
+  fireEvent.click(screen.getByRole("button",{name:"Мой план"}));
   expect(screen.getByRole("heading",{name:"Мой план"})).toBeVisible();
-  fireEvent.click(screen.getByRole("button",{name:"Слова"}));
-  expect(screen.getByRole("button",{name:/^Семья и друзья/})).toBeVisible();
+  fireEvent.click(screen.getByRole("button",{name:"Уроки"}));
+  expect(screen.getByRole("button",{name:/^Família e amigos/})).toBeVisible();
 });
 
 test("a word set is completed only after all typed answers, and hints flag it for review",()=>{

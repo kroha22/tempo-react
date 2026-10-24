@@ -1,10 +1,11 @@
 import { learningCatalog } from "./learning-catalog.ts";
 import { pairVocabulary, studyVocabularyGroups } from "./vocabulary-catalog.ts";
 import { vocabularySets, type VocabularyGroup, type VocabularyWord } from "./vocabulary-model.ts";
-import { houseImageActivity } from "./house.ts";
-import { sceneImageActivities } from "./picture-scenes.ts";
-import { clothingImageActivity } from "./clothing.ts";
+import { vocabularyImages } from "./vocabulary-images.ts";
 import { vocabularyLessons } from "./vocabulary-lessons.ts";
+import { withEverydayIllustration } from "./everyday-illustrations.ts";
+import { withTableIllustration } from "./table-illustrations.ts";
+import { withBodyIllustration } from "./body-vocabulary.ts";
 
 // Compatibility boundary: exercises continue to receive their original word IDs.
 const reviewedVocabularyWords = vocabularyLessons.flatMap(lesson => lesson.items.map(item => ({
@@ -12,15 +13,15 @@ const reviewedVocabularyWords = vocabularyLessons.flatMap(lesson => lesson.items
   label: item.display.split(" — ")[0],
   translation: item.translation,
 })));
-export const catalogWords: VocabularyWord[] = [...pairVocabulary, ...reviewedVocabularyWords.filter(word => !pairVocabulary.some(existing => existing.id === word.id))];
+export const catalogWords: VocabularyWord[] = [...pairVocabulary, ...reviewedVocabularyWords.filter(word => !pairVocabulary.some(existing => existing.id === word.id))].map(withEverydayIllustration).map(withTableIllustration).map(withBodyIllustration);
 const wordsById = new Map(catalogWords.map(word => [word.id, word]));
 const representative = new Map(learningCatalog.meanings.map(meaning => [meaning.id, meaning.legacyWordIds[0] ?? meaning.sourceEntryIds?.[0]]));
 const legacySets = new Map(studyVocabularyGroups.flatMap(vocabularySets).map(set => [set.id, set]));
-const imageDefinitions = [houseImageActivity, clothingImageActivity, ...sceneImageActivities];
+const imageDefinitions = vocabularyImages;
 export const catalogGroups: VocabularyGroup[] = learningCatalog.topics.flatMap(topic => {
   // The source group exists to register the instruction collection. The
   // semantic School topic is the single visible home for it and the backpack scene.
-  if (topic.id === "topic:short-vocabulary-lessons" || topic.id === "topic:vocabulary-school" || topic.id === "topic:vocabulary-food-more" || topic.id.startsWith("topic:general-vocabulary")) return [];
+  if (topic.id === "topic:vocabulary-feelings" || topic.id === "topic:short-vocabulary-lessons" || topic.id === "topic:vocabulary-school" || topic.id === "topic:vocabulary-food-more" || topic.id.startsWith("topic:general-vocabulary")) return [];
   const collections = learningCatalog.collections.filter(collection => collection.topicIds.includes(topic.id) && (collection.source.kind === "lesson" || legacySets.has(collection.source.legacySetId ?? "")) && collection.meaningIds.every(id => representative.get(id)));
   if (!collections.length) return [];
   const baseEntryIds = new Set(collections.filter(collection => collection.source.kind !== "lesson").flatMap(collection => collection.meaningIds.map(id => learningCatalog.meanings.find(meaning => meaning.id === id)!.entryId)));

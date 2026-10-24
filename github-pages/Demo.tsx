@@ -4,14 +4,25 @@ import { RelatedLearningNavigation } from "@/features/practice/RelatedLearningNa
 import { RelatedLearning } from "./RelatedLearning";
 import { PracticePlanProvider } from "@/features/practice/plan/PracticePlanContext";
 import { browserPracticePlanStorage } from "./practice-plan-storage";
+import { ProfileManager } from "./ProfileManager";
+import type { LocalProfile } from "./profiles";
+import {useProfileLearning} from "../features/practice/profile-learning";
 
 export function Demo() {
+  return <ProfileManager>{profile=><ProfileDemo profile={profile}/>}</ProfileManager>;
+}
+
+// Existing unprofiled entry is retained only for focused legacy integration tests.
+export function LegacyDemo() {return <PracticePlanProvider storage={browserPracticePlanStorage}><ProfileDemo/></PracticePlanProvider>;}
+function ProfileDemo({profile}:{profile?:LocalProfile}) {
+  const learning=useProfileLearning();
+  const [resumeTopic]=useState(()=>learning?.learning.lastTopicId??null);
   const [href, setHref] = useState(() => window.location.hash.slice(1));
   const main = useRef<HTMLDivElement>(null);
   const related = useRef<HTMLDivElement>(null);
   const previousHref = useRef("");
   const presentation = new URLSearchParams(window.location.search).get("mode");
-  const initialChildMode = presentation === "child" || presentation === "kingdoms";
+  const initialChildMode = profile?profile.child:presentation === "child" || presentation === "kingdoms";
   useEffect(() => {
     const update = () => setHref(window.location.hash.slice(1));
     window.addEventListener("hashchange", update);
@@ -34,9 +45,9 @@ export function Demo() {
     <header className="demo-intro"><div><span>Tempo</span><strong>Европейский португальский</strong></div>
       <details className="demo-info"><summary aria-label="О демо-версии">i</summary><div><strong>Интерактивное демо</strong><p>Короткие уроки, тренировка форм и колоды карточек. Прогресс сохраняется только в этом браузере.</p><a href="https://github.com/kroha22/tempo-react">Исходный код на GitHub →</a></div></details>
     </header>
-    <PracticePlanProvider storage={browserPracticePlanStorage}><RelatedLearningNavigation value={navigate}>
-      <div ref={main} hidden={!!href}><PracticeScreen initialChildMode={initialChildMode} initialSection="lessons" /></div>
+    <RelatedLearningNavigation value={navigate}>
+      <div ref={main} hidden={!!href}><PracticeScreen profileName={profile?.name} initialChildMode={initialChildMode} initialSection={resumeTopic?"vocabulary":"lessons"} resumeTopicId={resumeTopic} resumePlan={!!profile&&!resumeTopic} /></div>
       {!!href && <div ref={related}><RelatedLearning key={href} href={href} onBack={() => navigate("")} /></div>}
-    </RelatedLearningNavigation></PracticePlanProvider>
+    </RelatedLearningNavigation>
   </div>;
 }

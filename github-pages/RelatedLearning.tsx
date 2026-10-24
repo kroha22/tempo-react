@@ -1,3 +1,4 @@
+import {ActivityCompletion} from "@/features/practice/ActivityCompletion";
 import { useState } from "react";
 import { routeLessonExperiences } from "@/features/content/first-vertical-slice/route-extension";
 import { CardSpeechButton } from "@/features/cards/components/CardSpeechButton";
@@ -8,8 +9,15 @@ import { PastSuns } from "@/features/practice/PastSuns";
 import { TrazerLesson } from "@/features/practice/TrazerLesson";
 import { EverydayLesson } from "@/features/practice/EverydayLesson";
 import { verbs, type VerbKey } from "@/features/conjugation/data";
+import {shortGrammarLessons} from "@/features/content/short-grammar-lessons";
 
 export function relatedDestination(href: string) {
+  if(href.startsWith("/learning/practice?")){
+    const lesson=new URLSearchParams(href.split("?")[1]).get("lesson");
+    if(lesson)return shortGrammarLessons.some(item=>item.id===lesson)?{kind:"conjugation" as const}:null;
+    const key=new URLSearchParams(href.split("?")[1]).get("verb");
+    return key&&key in verbs?{kind:"conjugation" as const}:null;
+  }
   if (href === "/learning/everyday/likes" || href === "/learning/everyday/body") return {kind:"everyday" as const,lessonId:href.endsWith("likes")?"likes" as const:"body" as const};
   if (href === "/learning/conjugation") return { kind: "conjugation" as const };
   const prefix = "/learning/lessons/";
@@ -26,14 +34,15 @@ export function RelatedLearning({ href, onBack }: { href: string; onBack: () => 
   const [checked, setChecked] = useState(false);
   const practiceParams = href.startsWith("/learning/practice?") ? new URLSearchParams(href.split("?")[1]) : null;
   const requestedVerb = practiceParams?.get("verb") ?? "fazer";
+  const grammarLesson=shortGrammarLessons.find(lesson=>lesson.id===practiceParams?.get("lesson"));
   if (destination?.kind === "everyday") return <section><button type="button" className="tempo-back" onClick={onBack}>← Назад</button><EverydayLesson key={href} lessonId={destination.lessonId}/></section>;
-  const extra = practiceParams ? <PracticeScreen initialSection="trainer" initialVerbKey={requestedVerb in verbs ? requestedVerb as VerbKey : "fazer"} initialTense={practiceParams.get("tense") === "past" ? "past" : "present"} /> : href === "/learning/time" ? <ClockLesson /> : href === "/learning/future" ? <FutureLesson /> : href === "/learning/past-suns" ? <PastSuns /> : href === "/learning/trazer" ? <TrazerLesson /> : null;
+  const extra = practiceParams ? <PracticeScreen onOpenLessons={onBack} initialSection={grammarLesson?"lessons":"trainer"} initialGrammarLessonId={grammarLesson?.id} initialChildMode={practiceParams.get("mode")==="kingdoms"} initialChildStep="exercise" initialVerbKey={requestedVerb in verbs ? requestedVerb as VerbKey : "fazer"} initialTense={practiceParams.get("tense") === "past" ? "past" : "present"} /> : href === "/learning/time" ? <ClockLesson /> : href === "/learning/future" ? <FutureLesson /> : href === "/learning/past-suns" ? <PastSuns /> : href === "/learning/trazer" ? <TrazerLesson /> : null;
   if (extra) return <section><button type="button" className="tempo-back" onClick={onBack}>← К урокам</button>{extra}</section>;
   if (!destination) return <section><button type="button" onClick={onBack}>← Вернуться к фразам</button><h1>Урок не найден</h1></section>;
   if (destination.kind === "conjugation") return <section aria-label="Формы настоящего времени">
     <button type="button" className="tempo-back" onClick={onBack}>← Вернуться к фразам</button>
     <h1 tabIndex={-1}>Формы настоящего времени</h1>
-    <PracticeScreen initialSection="trainer" initialVerbKey="estar" initialTense="present" />
+    <PracticeScreen onOpenLessons={onBack} initialSection="trainer" initialVerbKey="estar" initialTense="present" />
   </section>;
   const lesson = destination.lesson;
   const activity = lesson.activity;
@@ -50,6 +59,7 @@ export function RelatedLearning({ href, onBack }: { href: string; onBack: () => 
       <div className="usage-options" aria-label="Варианты ответа">{activity.options.map(option => <button type="button" key={option.id} aria-pressed={selected === option.id} disabled={checked} onClick={() => setSelected(option.id)}>{option.label}</button>)}</div>
       {!checked ? <button type="button" className="usage-check" disabled={!selected} onClick={() => setChecked(true)}>Проверить</button> : <div className={`usage-feedback ${selected === activity.correctOptionId ? "is-correct" : "is-wrong"}`} role="status"><strong>{selected === activity.correctOptionId ? "Верно" : "Посмотри на правильный вариант"}</strong><p>{answer.label}</p><button type="button" onClick={() => { setChecked(false); setSelected(null); }}>Попробовать ещё раз</button></div>}
     </div>
+    {checked&&<ActivityCompletion id={lesson.id} title={lesson.title} group="Первые фразы" correct={selected===activity.correctOptionId?1:0} total={1} scoreLabel="Верно"/>}
     <button type="button" onClick={onBack}>← Вернуться к фразам</button>
   </section>;
 }

@@ -1,2 +1,6 @@
 .details { display: grid; gap: 4px; text-align: center; margin: 12px auto 0; max-width: 34rem; font-size: 15px; color: #315544; }
 .illustration { display: block; box-sizing: border-box; width: clamp(90px, 24vw, 132px); height: clamp(90px, 24vw, 132px); padding: 6px; flex-shrink: 0; margin: 4px auto; border-radius: 18px; background: white; background-repeat: no-repeat; }
+.compact.compact :global(.vocabulary-card-glass .vocabulary-flashcard) { min-height: 0; padding: 30px 12px 16px; gap: 10px; }
+.compact.compact :global(.vocabulary-card-counter) { margin-top: 4px; margin-bottom: 6px; }
+.compact :global(.vocabulary-tap-hint) { opacity: .75; }
+.compact .details { margin-top: 8px; }

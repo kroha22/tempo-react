@@ -33,7 +33,7 @@ test("food categories generate unambiguous tasks through the visible catalog", (
 });
 
 test("food illustrations cover the supplied page without replacing word IDs", () => {
-  const illustrated = catalogWords.filter(word => word.illustration);
+  const illustrated = catalogWords.filter(word => word.illustration?.src.includes("food-drawn"));
   assert.equal(illustrated.length, 52);
   assert.equal(new Set(illustrated.map(word => `${word.illustration!.src}:${word.illustration!.column}:${word.illustration!.row}`)).size, 52);
   assert.equal(illustrated.find(word => word.noun?.lemma === "maçã")?.id, "scene-word:a-maca");

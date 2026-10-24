@@ -1,3 +1,6 @@
+import {useState} from "react";
+import {ActivityCompletion,useChildPresentation} from "./ActivityCompletion";
+import {wordActivityId} from "./learning-rewards";
 import { people, type Forms, type Person, type Tense, type ConjugationVerb } from "@/features/conjugation/data";
 import type { PracticeMode, QuizResult } from "./practice-types";
 import styles from "./QuizExercise.module.css";
@@ -31,6 +34,10 @@ export function QuizExercise({
   onAnswer,
   onNext,
 }: QuizExerciseProps) {
+  const [score,setScore]=useState(0);
+  const child=useChildPresentation();
+  const finished=!!quizResult&&round%people.length===people.length-1;
+  function answer(selection:string,correct:boolean){setScore((round%people.length===0?0:score)+Number(correct));onAnswer(selection,correct);}
   return (
     <div className={`${styles.card} ${quizResult ? styles[quizResult] : ""}`}>
       <div className={styles.heading}>
@@ -63,7 +70,7 @@ export function QuizExercise({
               key={form}
               disabled={Boolean(quizResult)}
               className={`${quizResult && correct ? styles.correct : ""} ${selected && quizResult === "wrong" ? styles.wrong : ""}`}
-              onClick={() => onAnswer(form, correct)}
+              onClick={() => answer(form, correct)}
             >{form}</button>
           );
         }) : people.map((person) => {
@@ -74,7 +81,7 @@ export function QuizExercise({
               key={person.key}
               disabled={Boolean(quizResult)}
               className={`${quizResult && correct ? styles.correct : ""} ${selected && quizResult === "wrong" ? styles.wrong : ""}`}
-              onClick={() => onAnswer(person.key, correct)}
+              onClick={() => answer(person.key, correct)}
             >{person.label}</button>
           );
         })}
@@ -82,8 +89,9 @@ export function QuizExercise({
 
       <div className={styles.footer} aria-live="polite">
         <p>{quizResult === "correct" ? "Верно! Muito bem!" : quizResult === "wrong" ? `Почти. Правильный ответ: ${mode === "choose" ? correctForm : people.filter((person) => forms[person.key] === correctForm).map((person) => person.label).join(" или ")}.` : "Выбери один из вариантов."}</p>
-        {quizResult && <button onClick={onNext}>Следующий <span aria-hidden="true">›</span></button>}
+        {quizResult && !(child&&finished) && <button onClick={onNext}>Следующий <span aria-hidden="true">›</span></button>}
       </div>
+      {finished&&<ActivityCompletion key={Math.floor(round/people.length)} id={wordActivityId(`quiz-${mode}`,[verb.infinitive,tense])} title={`${verb.infinitive.toUpperCase()} · ${mode==="choose"?"выбери форму":"узнай местоимение"}`} group="Грамматика" correct={score} total={people.length} scoreLabel="Верно"><button type="button" onClick={onNext}>Следующий круг →</button></ActivityCompletion>}
     </div>
   );
 }

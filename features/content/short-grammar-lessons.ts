@@ -1,4 +1,5 @@
 import type { LessonPracticeTarget } from "../practice/practice-types.ts";
+import {beingContent} from "./first-steps.ts";
 
 export type Example = { pt: string; ru: string };
 export type FormRow = { label: string; value: string };
@@ -19,7 +20,7 @@ export type ShortGrammarLesson = {
 export const shortGrammarLessons: ShortGrammarLesson[] = [
   {
     id: "ser", chapter: "Настоящее", title: "SER", subtitle: "Кто? Что? Откуда?",
-    rule: "SER называет человека или предмет: кто он, откуда, кем работает, из чего сделан. С ним также говорим о времени и устойчивых характеристиках.",
+    rule: beingContent.ser.rule,
     formula: "кто/что + форма SER + характеристика",
     forms: [
       { label: "eu", value: "sou" }, { label: "tu", value: "és" }, { label: "ele / ela / você", value: "é" },
@@ -35,7 +36,7 @@ export const shortGrammarLessons: ShortGrammarLesson[] = [
   },
   {
     id: "estar", chapter: "Настоящее", title: "ESTAR", subtitle: "Где? В каком состоянии?",
-    rule: "ESTAR показывает местоположение, состояние сейчас или результат изменения. Это не просто «временно»: закрытая дверь тоже está fechada.",
+    rule: beingContent.estar.rule,
     formula: "кто/что + форма ESTAR + состояние или место",
     forms: [
       { label: "eu", value: "estou" }, { label: "tu", value: "estás" }, { label: "ele / ela / você", value: "está" },
@@ -51,7 +52,7 @@ export const shortGrammarLessons: ShortGrammarLesson[] = [
   },
   {
     id: "ser-estar", chapter: "Настоящее", title: "SER или ESTAR?", subtitle: "Характеристика и состояние",
-    rule: "SER говорит, что это за человек или предмет. ESTAR — где он и как себя чувствует или выглядит в конкретной ситуации. Некоторые прилагательные меняют смысл вместе с глаголом.",
+    rule: beingContent.contrast.rule,
     markers: ["SER: профессия, происхождение, материал", "ESTAR: место, состояние, результат"],
     examples: [
       { pt: "A Marta é alegre.", ru: "Марта жизнерадостная." },

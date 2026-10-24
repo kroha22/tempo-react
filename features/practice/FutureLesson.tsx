@@ -1,5 +1,6 @@
 "use client";
 
+import {ActivityCompletion} from "./ActivityCompletion";
 import { useState } from "react";
 import { TenseExamples } from "./TenseExamples";
 import { LegacyLessonLink as Link } from "./LegacyLessonLink";
@@ -46,7 +47,7 @@ export function FutureLesson() {
       <p>В упражнении выбери две части: правильную форму <span lang="pt-PT">ir</span> и подходящее время.</p>
       <button type="button" className="house-primary" onClick={() => setStage("exercise")}>К упражнению · 4 предложения →</button>
       <TenseExamples tense="future" />
-    </> : stage === "done" ? <div className="house-feedback"><h2>Muito bem!</h2><p>Теперь ты можешь составлять предложения о будущем.</p><div className="house-tools">{!!helped.length && <button type="button" className="house-primary" onClick={() => restart(true)}>Повторить сложное: {helped.length}</button>}<button type="button" onClick={() => restart(false)}>Все предложения ещё раз</button><button type="button" onClick={() => { setTasks(futureTasks); setIndex(0); setHelped([]); setStage("learn"); }}>Вернуться к правилу</button></div><details><summary>Готовые предложения для тетради</summary><ol>{futureTasks.map(task => <li key={task.id}><p lang="pt-PT">{futureSentence(task)}</p><small>{task.translation}</small></li>)}</ol></details></div>
+    </> : stage === "done" ? <ActivityCompletion id="future:ir-infinitivo" title="Планы: IR + infinitivo" group="Время и планы" correct={tasks.length-helped.length} total={tasks.length}><div className="house-feedback"><h2>Muito bem!</h2><p>Теперь ты можешь составлять предложения о будущем.</p><div className="house-tools">{!!helped.length && <button type="button" className="house-primary" onClick={() => restart(true)}>Повторить сложное: {helped.length}</button>}<button type="button" onClick={() => restart(false)}>Все предложения ещё раз</button><button type="button" onClick={() => { setTasks(futureTasks); setIndex(0); setHelped([]); setStage("learn"); }}>Вернуться к правилу</button></div><details><summary>Готовые предложения для тетради</summary><ol>{futureTasks.map(task => <li key={task.id}><p lang="pt-PT">{futureSentence(task)}</p><small>{task.translation}</small></li>)}</ol></details></div></ActivityCompletion>
     : <FutureRound key={tasks[index].id} task={tasks[index]} number={index + 1} total={tasks.length} onNext={usedHelp => { if (usedHelp) setHelped(previous => [...previous, tasks[index].id]); if (index + 1 === tasks.length) setStage("done"); else setIndex(index + 1); }} />}
   </section>;
 }

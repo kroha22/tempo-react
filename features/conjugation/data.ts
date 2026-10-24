@@ -76,6 +76,10 @@ function irregularVerb(
 export const verbs = {
   falar: regularVerb("falar", "говорить", "#f7c64c", "ar"),
   estudar: regularVerb("estudar", "учиться", "#f3a66f", "ar"),
+  acordar: regularVerb("acordar", "просыпаться", "#f3a66f", "ar"),
+  tomar: regularVerb("tomar", "принимать; пить", "#f3a66f", "ar"),
+  voltar: regularVerb("voltar", "возвращаться", "#f3a66f", "ar"),
+  descansar: regularVerb("descansar", "отдыхать", "#f3a66f", "ar"),
   trabalhar: regularVerb("trabalhar", "работать", "#e8a5bd", "ar"),
   reparar: regularVerb("reparar", "ремонтировать", "#ef765d", "ar"),
   montar: regularVerb("montar", "собирать", "#db5f47", "ar"),

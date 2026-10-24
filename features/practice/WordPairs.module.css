@@ -1,0 +1,6 @@
+.toggle { display:flex; gap:4px; width:fit-content; padding:4px; border:1px solid #c4d4c7; border-radius:12px; background:#e3ede5; margin:8px 0; }
+.toggle button { border:0; background:transparent; padding:7px 10px; min-height:44px; }
+.toggle button[aria-pressed="true"] { background:#fffef7; box-shadow:0 1px 4px #315f4826; color:#285940; }
+.root.root .picturePair { padding:3px; min-height:54px; }
+.pairIllustration { display:grid; place-items:center; }
+.pairIllustration > * { width:48px; height:48px; margin:0; padding:2px; border-radius:9px; }

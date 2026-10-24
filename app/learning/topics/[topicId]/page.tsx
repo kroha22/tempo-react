@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { AppShell } from "@/features/app-shell/AppShell";
-import { people, verbs } from "@/features/conjugation/data";
+import {SerEstarExplanation} from "@/features/practice/SerEstarExplanation";
 
 export default async function TopicPage({ params, searchParams }: { params: Promise<{ topicId: string }>; searchParams: Promise<{ returnLesson?: string; phase?: string }> }) {
   const { topicId } = await params;
@@ -29,13 +29,9 @@ export default async function TopicPage({ params, searchParams }: { params: Prom
         </div>
         <Link className="topic-practice-link" href="/learning/practice?verb=ficar">Потренировать FICAR →</Link>
       </> : <>
-        <p className="topic-explanation"><b>SER</b> используем, когда называем человека или предмет и говорим, какой он. <b>ESTAR</b> — когда описываем состояние сейчас или говорим, где кто-то находится.</p>
-        <div className="contrast-cards">
-          <article><span>Какой он вообще</span><strong>O Rui é calmo.</strong><small>Руй спокойный по характеру.</small></article>
-          <article><span>Как он чувствует себя сейчас</span><strong>O Rui está calmo.</strong><small>Сейчас Руй спокоен.</small></article>
-        </div>
-        <div className="conjugation-compare"><header><div><span>SER</span><h2>Кто это и какой он</h2></div><Link href="/learning/practice?verb=ser">Потренировать SER →</Link></header><div>{people.map((person) => <p key={person.key}><span>{person.label}</span><strong>{verbs.ser.forms.present[person.key]}</strong></p>)}</div></div>
-        <div className="conjugation-compare conjugation-compare--estar"><header><div><span>ESTAR</span><h2>Как сейчас и где</h2></div><Link href="/learning/practice?verb=estar">Потренировать ESTAR →</Link></header><div>{people.map((person) => <p key={person.key}><span>{person.label}</span><strong>{verbs.estar.forms.present[person.key]}</strong></p>)}</div></div>
+        <SerEstarExplanation/>
+        <Link href="/learning/practice?verb=ser">Потренировать SER →</Link>
+        <Link href="/learning/practice?verb=estar">Потренировать ESTAR →</Link>
       </>}
     </section>
   </AppShell>;

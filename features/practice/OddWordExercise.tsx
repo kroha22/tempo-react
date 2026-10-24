@@ -1,5 +1,7 @@
 "use client";
 
+import {ActivityCompletion} from "./ActivityCompletion";
+import {wordActivityId} from "./learning-rewards";
 import { useEffect, useId, useRef, useState } from "react";
 import { checkVocabularyAnswer, type VocabularyWord, type VocabularySet } from "../content/vocabulary-model";
 import { generateOddTasks, type GeneratedOddTask as OddTask } from "./odd-one-out";
@@ -72,7 +74,7 @@ export function OddWordExercise({ words, sets, mode = "odd" }: { words: readonly
   const finished = rounds.length > 0 && index === rounds.length;
   return <section className="house-activity house-odd" ref={top}>
     {!rounds.length ? <><div className="house-heading"><h1>{mode === "odd" ? "Найди лишнее" : "Что общего?"}</h1></div><p>{mode === "odd" ? "Четыре слова относятся к одной группе, а одно — лишнее. Найди его и назови общую группу." : "Посмотри на четыре слова и назови, что их объединяет."} Можно отвечать по-русски, смотреть переводы и подсказки.</p><button type="button" className="house-primary" onClick={() => setRounds(generateOddTasks(eligible, Math.random))}>Начать · {eligible.length}</button></>
-    : finished ? <div className="house-feedback"><h1>Готово! Muito bem!</h1><p>Можно повторить с подсказками или попробовать новые сочетания.</p>{helpedIds.length > 0 && <button type="button" className="house-primary" onClick={() => { setRounds(rounds.filter(task => helpedIds.includes(task.id))); setIndex(0); setHelpedIds([]); }}>Повторить то, где нужна была помощь</button>}<button type="button" onClick={() => { setRounds(generateOddTasks(eligible, Math.random)); setIndex(0); setHelpedIds([]); }}>Новые задания</button></div>
+    : finished ? <ActivityCompletion id={wordActivityId(mode,eligible.map(set=>set.id))} title={mode==="odd"?"Найди лишнее":"Что общего?"} group="Слова и игры" correct={rounds.length-helpedIds.length} total={rounds.length}><div className="house-feedback"><h1>Готово! Muito bem!</h1><p>Можно повторить с подсказками или попробовать новые сочетания.</p>{helpedIds.length > 0 && <button type="button" className="house-primary" onClick={() => { setRounds(rounds.filter(task => helpedIds.includes(task.id))); setIndex(0); setHelpedIds([]); }}>Повторить то, где нужна была помощь</button>}<button type="button" onClick={() => { setRounds(generateOddTasks(eligible, Math.random)); setIndex(0); setHelpedIds([]); }}>Новые задания</button></div></ActivityCompletion>
     : <OddRound key={rounds[index].id} task={rounds[index]} words={words} places={places} mode={mode} number={index + 1} total={rounds.length} alwaysHints={alwaysHints} setAlwaysHints={setAlwaysHints} onNext={helped => { if (helped) setHelpedIds(previous => [...previous, rounds[index].id]); setIndex(index + 1); top.current?.scrollIntoView({ block: "start" }); }} />}
   </section>;
 }

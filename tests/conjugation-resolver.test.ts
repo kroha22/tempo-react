@@ -33,13 +33,13 @@ test("irregular paradigms remain complete", () => {
 });
 
 test("group lookup and endings support the existing trainer", () => {
-  assert.deepEqual(verbKeysForGroup("ar"), ["falar", "estudar", "trabalhar", "reparar", "montar", "criar", "ficar"]);
+  assert.deepEqual(verbKeysForGroup("ar"), ["falar", "estudar", "acordar", "tomar", "voltar", "descansar", "trabalhar", "reparar", "montar", "criar", "ficar"]);
   assert.equal(endingFor("falar", "past", "nos"), "ámos");
   assert.equal(endingFor("ser", "present", "eu"), null);
 });
 
 test("every trainer verb resolves every active person and tense", () => {
-  assert.equal(allVerbKeys.length, 26);
+  assert.equal(allVerbKeys.length, 30);
   for (const verb of allVerbKeys) {
     for (const tense of ["present", "past"] as const) {
       for (const person of people) {

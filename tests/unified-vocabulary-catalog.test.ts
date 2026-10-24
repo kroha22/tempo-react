@@ -50,7 +50,8 @@ test("the Words catalog integrates only missing reviewed words into semantic top
     .filter(subgroup => subgroup.id.startsWith("collection:vocabulary-lesson:"))
     .map(subgroup => ({ group: group.title, title: subgroup.title, words: subgroup.sets[0].words.map(id => labels.get(id)) })));
 
-  assert.equal(integratedSets.flatMap(set => set.words).length, 35);
+  // Feliz and nervoso now belong to the shared illustrated states collection.
+  assert.equal(integratedSets.flatMap(set => set.words).length, 33);
   assert.deepEqual(integratedSets.find(set => set.title === "Дом и вещи")?.words, ["o apartamento", "a chave", "o objeto"]);
   assert.deepEqual(integratedSets.find(set => set.title === "Город и дорога")?.words, ["a praça", "a avenida", "a ponte", "a estação"]);
   assert.deepEqual(integratedSets.find(set => set.title === "Разговор и понимание")?.words, ["dizer", "conversar", "contar"]);

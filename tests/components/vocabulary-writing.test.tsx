@@ -18,7 +18,7 @@ describe("VocabularyWriting", () => {
     expect(screen.getByLabelText("Твой ответ")).toHaveFocus();
     await user.type(screen.getByLabelText("Твой ответ"), "pao{Enter}");
     await user.click(screen.getByRole("button", { name: "Завершить" }));
-    expect(screen.getByText("Вспомнилось: 2 из 2")).toBeInTheDocument();
+    expect(screen.getByText("Вспомнилось: 1 из 2")).toBeInTheDocument();
   });
   it("keeps typing and checking available after a hint, without counting it as recalled", async () => {
     const user = userEvent.setup();

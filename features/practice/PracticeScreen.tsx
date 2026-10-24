@@ -1,8 +1,8 @@
 "use client";
 
+import {ChildPresentation} from "./ActivityCompletion";
 import { useMemo, useReducer, useState } from "react";
 import Flashcards from "@/features/cards/components/Flashcards";
-import { AdditionalLessons } from "./AdditionalLessons";
 import AdultLessons from "@/features/practice/AdultLessons";
 import { ActionGuide } from "@/features/practice/ActionGuide";
 import { AdultRulePanel } from "@/features/practice/AdultRulePanel";
@@ -16,6 +16,7 @@ import { RulesDeck } from "@/features/practice/RulesDeck";
 import { SunFormExercise } from "@/features/practice/SunFormExercise";
 import { TerGuide } from "@/features/practice/TerGuide";
 import { VocabularyHub } from "@/features/practice/VocabularyHub";
+import {useProfileLearning} from "./profile-learning";
 
 import { people, verbs, type PersonKey, type Tense, type VerbGroup, type VerbKey } from "@/features/conjugation/data";
 import { createPracticeSession, practiceSessionReducer } from "./practice-session";
@@ -23,7 +24,8 @@ import type { ActionUse, BeingVerb, ChildStep, LessonPracticeTarget, PracticeMod
 import styles from "./PracticeScreen.module.css";
 import { ChildPracticePlan } from "./plan/ChildPracticePlan";
 import { usePracticePlan } from "./plan/PracticePlanContext";
-import { practicePlanSteps } from "./plan/model";
+import { practicePlanSteps,nextPracticeStep } from "./plan/model";
+import { PracticeWelcome } from "./plan/PracticeWelcome";
 
 
 function shuffle<T>(items: T[]) {
@@ -41,16 +43,25 @@ type PracticeClientProps = {
   initialChildMode?: boolean;
   initialChildStep?: ChildStep;
   initialSection?: PracticeSection;
+  profileName?:string;
+  resumeTopicId?:string|null;
+  resumePlan?:boolean;
+  initialGrammarLessonId?:string;
+  onOpenLessons?:()=>void;
 };
 
-export default function PracticeScreen({ initialVerbKey = "fazer", initialTense = "present", initialChildMode = false, initialChildStep, initialSection = "trainer" }: PracticeClientProps) {
+export default function PracticeScreen({ initialVerbKey = "fazer", initialTense = "present", initialChildMode = false, initialChildStep, initialSection = "trainer",profileName,resumeTopicId,resumePlan=false,initialGrammarLessonId,onOpenLessons }: PracticeClientProps) {
+  const learner=useProfileLearning();
   const plan=usePracticePlan();
-  const [allLessons,setAllLessons]=useState(false);
+  const [allLessons,setAllLessons]=useState(!!initialGrammarLessonId);
+  const [catalogRevision,setCatalogRevision]=useState(0);
+  const [home,setHome]=useState(!!profileName&&!resumeTopicId&&!resumePlan);
+  const [launch,setLaunch]=useState<{id:string|null;revision:number}>({id:resumePlan&&plan?nextPracticeStep(plan.progress).id:null,revision:0});
   const [lessonPracticeOpen, setLessonPracticeOpen] = useState(false);
-  const [activeLessonId, setActiveLessonId] = useState("ser");
+  const [activeLessonId, setActiveLessonId] = useState(initialGrammarLessonId??"ser");
   const [session, dispatch] = useReducer(
     practiceSessionReducer,
-    { initialVerbKey, initialTense, initialChildMode, initialChildStep, initialSection },
+    { initialVerbKey, initialTense, initialChildMode:learner?.profile.child??initialChildMode, initialChildStep, initialSection },
     createPracticeSession,
   );
   const {
@@ -77,6 +88,7 @@ export default function PracticeScreen({ initialVerbKey = "fazer", initialTense 
     quizSelection,
     quizResult,
   } = session;
+  const planEnabled=!!plan&&(childMode||!!profileName);
 
   const verb = verbs[verbKey];
   const forms = verb.forms[tense];
@@ -181,12 +193,20 @@ export default function PracticeScreen({ initialVerbKey = "fazer", initialTense 
   }
 
   function toggleChildMode() {
+    if(learner)return;
     const nextChildMode = !childMode;
     syncChildModeUrl(nextChildMode);
     dispatch({ type: "childModeChanged", childMode: nextChildMode });
   }
 
   function changeSection(nextSection: PracticeSection) {
+    window.scrollTo(0,0);
+    if(nextSection==="vocabulary"&&onOpenLessons){onOpenLessons();return;}
+    if(nextSection==="vocabulary")setCatalogRevision(value=>value+1);
+    if(nextSection==="lessons")learner?.update(current=>({...current,lastTopicId:null}));
+    setHome(false);
+    setAllLessons(false);
+    setLaunch(old=>({id:null,revision:old.revision+1}));
     setLessonPracticeOpen(false);
     dispatch({ type: "sectionChanged", section: nextSection });
   }
@@ -219,9 +239,12 @@ export default function PracticeScreen({ initialVerbKey = "fazer", initialTense 
   }
 
   return (
-    <div className={`${styles.screen} practice-screen ${childMode ? "kids-mode kids-theme" : ""} kingdom-${group}`}>
+    <ChildPresentation value={childMode}><div className={`${styles.screen} practice-screen ${childMode ? "kids-mode kids-theme" : ""} kingdom-${group}`}>
       <PracticeTopbar
-        planCount={childMode&&plan&&!allLessons?practicePlanSteps.length:undefined}
+        onHome={profileName?()=>setHome(true):onOpenLessons}
+        home={home}
+        profileMode={!!profileName||!!learner}
+        planCount={planEnabled&&!allLessons?practicePlanSteps.length:undefined}
         section={section}
         childMode={childMode}
         tense={tense}
@@ -229,7 +252,7 @@ export default function PracticeScreen({ initialVerbKey = "fazer", initialTense 
         onToggleChildMode={toggleChildMode}
       />
 
-      {childMode && section !== "trainer" && !(section==="lessons"&&plan&&!allLessons) && (
+      {childMode && !home && section !== "trainer" && !(section==="lessons"&&planEnabled&&!allLessons) && (
         <aside className={styles.childAccent} aria-label="Включено детское оформление">
           <span className={styles.childMascot} aria-hidden="true">🦉</span>
           <span>
@@ -240,7 +263,7 @@ export default function PracticeScreen({ initialVerbKey = "fazer", initialTense 
         </aside>
       )}
 
-      {section === "trainer" ? <section className={styles.workspace} id="trainer" aria-label="Тренажёр спряжения глаголов">
+      {home&&profileName&&plan?<PracticeWelcome name={profileName} onContinue={id=>{changeSection("lessons");plan.visit(id);setLaunch(old=>({id,revision:old.revision+1}));}} onPlan={()=>changeSection("lessons")} onWords={()=>changeSection("vocabulary")} onCards={()=>changeSection("cards")}/>:section === "trainer" ? <section className={styles.workspace} id="trainer" aria-label="Тренажёр спряжения глаголов">
         {lessonPracticeOpen && <button className={styles.lessonBack} onClick={returnToLessons}>← К урокам</button>}
         {childMode && childStep === "kingdom" && (
           <KingdomMap
@@ -388,7 +411,7 @@ export default function PracticeScreen({ initialVerbKey = "fazer", initialTense 
             onRestartPractice={() => reset("practice")}
           />
         ) : (
-          <QuizExercise
+          <QuizExercise key={`${mode}:${verb.infinitive}:${tense}`}
             mode={mode}
             round={round}
             tense={tense}
@@ -404,9 +427,9 @@ export default function PracticeScreen({ initialVerbKey = "fazer", initialTense 
           />
         )}
         </>}
-      </section> : section === "lessons" ? childMode&&plan&&!allLessons?<ChildPracticePlan onOpenCatalog={()=>setAllLessons(true)}/>:<>{childMode&&plan&&<button type="button" onClick={()=>setAllLessons(false)}>‹ К моему плану</button>}<AdultLessons activeLessonId={activeLessonId} onLessonChange={setActiveLessonId} onOpenPractice={openLessonPractice} onOpenConjugationOverview={openConjugationOverview} /><AdditionalLessons /></> : section === "vocabulary" ? <VocabularyHub onOpenCards={() => changeSection("cards")} /> : <Flashcards />}
+      </section> : section === "lessons"&&planEnabled&&!allLessons ? <ChildPracticePlan key={launch.revision} initialStepId={launch.id} onOpenCatalog={()=>changeSection("vocabulary")}/> : section === "lessons"&&initialGrammarLessonId ? <><button type="button" onClick={openConjugationOverview}>Все спряжения →</button><AdultLessons singleLesson showPractice consolidateBeing childMode={childMode} activeLessonId={activeLessonId} onLessonChange={setActiveLessonId} onOpenPractice={openLessonPractice} onOpenConjugationOverview={openConjugationOverview}/></> : section === "vocabulary"||section === "lessons" ? <VocabularyHub key={catalogRevision} initialChildMode={childMode} initialTopicId={catalogRevision===0?resumeTopicId:null} onOpenPlan={plan?()=>changeSection("lessons"):undefined} onOpenCards={() => changeSection("cards")} /> : <Flashcards />}
 
       <footer><span>{section === "cards" ? "Колоды: базовые слова, глаголы и тематические наборы" : section === "vocabulary" ? "Темы, карточки, пары и задания на смысл" : section === "lessons" ? "Коротко о форме — сразу в живом примере" : "Учи форму вместе с местоимением"}</span><span>Português · A1–B2</span></footer>
-    </div>
+    </div></ChildPresentation>
   );
 }

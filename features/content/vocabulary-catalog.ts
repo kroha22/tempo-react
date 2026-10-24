@@ -7,6 +7,13 @@ import { sceneWords, scenesGroup } from "./picture-scenes.ts";
 import { schoolInstructionCards, schoolInstructionWordIds } from "./school-content.ts";
 import type { PairBlock, PairWord } from "../practice/word-pairs.ts";
 import { buildTopicExpansion, foodCategories } from "./topic-expansion.ts";
+import { withEverydayIllustration } from "./everyday-illustrations.ts";
+import { withTableIllustration } from "./table-illustrations.ts";
+import { withBodyIllustration } from "./body-vocabulary.ts";
+import { spaceWords, spaceGroup, withSpaceIllustration } from "./space-vocabulary.ts";
+import {myDayVerbWords,myDayTimeWords,myDayGroup} from "./my-day.ts";
+import {identityWords} from "./identity.ts";
+import {feelingWords,feelingsGroup,withFeelingIllustration} from "./feelings-lesson.ts";
 
 // IDs reference existing content. This registry does not own translations or review state.
 const lessonWords: PairWord[] = lessonContent.studyItems.map(item => {
@@ -53,13 +60,18 @@ const basePairVocabulary: readonly PairWord[] = [
   ...sceneWords,
   ...clothingWords,
   ...lessonWords,
+  ...spaceWords.filter(word => !lessonWords.some(existing => existing.id === word.id)),
   ...housePracticeWords.map(word => ({ ...word, acceptedAnswers: housePlaces.find(place => place.id === word.id) })),
   ...schoolInstructionCards,
   ...verbCards.filter(word => selectedVerbs.has(word.id) && !schoolInstructionWordIds.includes(word.id)).map(word => ({ id: word.id, label: word.pt, translation: word.ru })),
 ];
 export const topicExpansion = buildTopicExpansion(basePairVocabulary);
-export const pairVocabulary: VocabularyWord[] = [...basePairVocabulary.map(topicExpansion.decorate), ...topicExpansion.newWords, ...foodCategories];
+const existingPairVocabulary: VocabularyWord[] = [...basePairVocabulary.map(topicExpansion.decorate), ...topicExpansion.newWords, ...foodCategories,...myDayVerbWords.filter(word=>!basePairVocabulary.some(existing=>existing.id===word.id)),...myDayTimeWords,...feelingWords].map(withEverydayIllustration).map(withTableIllustration).map(withBodyIllustration).map(withSpaceIllustration).map(withFeelingIllustration);
+export const pairVocabulary:VocabularyWord[]=[...existingPairVocabulary,...identityWords.filter(word=>!existingPairVocabulary.some(existing=>existing.id===word.id))];
 export const vocabularyGroups: readonly VocabularyGroup[] = [
+  spaceGroup,
+  feelingsGroup,
+  myDayGroup,
   ...topicExpansion.groups,
   scenesGroup,
   clothingGroup,

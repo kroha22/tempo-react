@@ -1,10 +1,13 @@
 "use client";
 
+import {ActivityCompletion} from "./ActivityCompletion";
+import {wordActivityId} from "./learning-rewards";
 import { useRef, useState } from "react";
 import type { VocabularyWord } from "../content/vocabulary-model";
 import { extendSearchPath, findSearchWord, makeSearchBoard, searchPathText, searchWords } from "./word-search";
+import { WordCelebration } from "./WordCelebration";
 
-export function WordSearch({ words }: { words: readonly VocabularyWord[] }) {
+export function WordSearch({ words,title }: { words: readonly VocabularyWord[];title?:string }) {
   const eligible = searchWords(words);
   const [batch, setBatch] = useState(0);
   const [board, setBoard] = useState(() => makeSearchBoard(eligible.slice(0, 10), 731));
@@ -14,6 +17,8 @@ export function WordSearch({ words }: { words: readonly VocabularyWord[] }) {
   const [hint, setHint] = useState<string | null>(null);
   const [message, setMessage] = useState("");
   const [confirm, setConfirm] = useState(false);
+  const [celebration,setCelebration]=useState<{word:VocabularyWord;sequence:number}|null>(null);
+  const sequence=useRef(0);
   const dragPath = useRef<readonly number[]>([]);
   const dragMoved = useRef(false);
   const dragging = useRef(false);
@@ -37,6 +42,7 @@ export function WordSearch({ words }: { words: readonly VocabularyWord[] }) {
         return;
       }
       setFound((previous) => ({ ...previous, [word.id]: path }));
+      setCelebration({word,sequence:++sequence.current});
       setMessage(`✓ ${word.label} — ${word.translation.toLowerCase()}`);
       return;
     }
@@ -108,12 +114,14 @@ export function WordSearch({ words }: { words: readonly VocabularyWord[] }) {
     setHint(null);
     setMessage("");
     setConfirm(false);
+    setCelebration(null);
     setFocus(0);
   }
 
   return (
     <section
       className="house-activity word-search"
+      style={{position:"relative"}}
       onKeyDown={(event) => {
         if (event.key === "Escape") {
           setHint(null);
@@ -124,6 +132,7 @@ export function WordSearch({ words }: { words: readonly VocabularyWord[] }) {
         if (!(event.target as HTMLElement).closest(".house-word-entry")) setHint(null);
       }}
     >
+      {celebration&&<WordCelebration key={celebration.sequence} word={celebration.word} onFinish={()=>setCelebration(null)}/>}
       <div className="house-heading"><h1>Поиск слов</h1><span>{Object.keys(found).length} / {board.words.length}</span></div>
       <p>Собирай слово по буквам или проведи по нему пальцем. Слова идут по прямой вправо, вниз или по диагонали. Артикли и дефисы в сетку не входят; ç и ударения сохранены.</p>
       <div
@@ -176,7 +185,7 @@ export function WordSearch({ words }: { words: readonly VocabularyWord[] }) {
           </div>
         ))}
       </div>
-      {completed && <div className="house-feedback"><h2>Все слова найдены!</h2>{(batch + 1) * 10 < eligible.length ? <button type="button" className="house-primary" onClick={() => next(batch + 1, Math.floor(Math.random() * 2 ** 32))}>Следующие слова →</button> : <p>Тема пройдена. Можно попробовать другой способ изучения.</p>}</div>}
+      {completed && <ActivityCompletion id={wordActivityId("search",board.words.map(word=>word.id))} title={`${title??"Поиск слов"} · поиск, набор ${batch+1}`} group="Слова и игры" correct={board.words.length} total={board.words.length} scoreLabel="Найдено"><div className="house-feedback"><h2>Все слова найдены!</h2>{(batch + 1) * 10 < eligible.length ? <button type="button" className="house-primary" onClick={() => next(batch + 1, Math.floor(Math.random() * 2 ** 32))}>Следующие слова →</button> : <p>Тема пройдена. Можно попробовать другой способ изучения.</p>}</div></ActivityCompletion>}
       <div className="house-tools"><span>Набор {batch + 1} из {Math.ceil(eligible.length / 10)}</span><button type="button" onClick={() => setConfirm(true)}>Новое поле</button></div>
       {confirm && <div className="house-reset"><p>Начать этот набор заново с новым расположением букв?</p><button type="button" onClick={() => next(batch, Math.floor(Math.random() * 2 ** 32))}>Да, начать</button><button type="button" onClick={() => setConfirm(false)}>Отмена</button></div>}
     </section>

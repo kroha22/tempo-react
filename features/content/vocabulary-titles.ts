@@ -1,5 +1,9 @@
 /** Presentation translations; canonical IDs, exercise answers and progress stay unchanged. */
 export const vocabularyTitlesPt: Readonly<Record<string, string>> = {
+  "Как я себя чувствую":"Como me sinto?",
+  "Мой день":"O meu dia", "Действия в течение дня":"Ações do dia", "Во сколько?":"A que horas?",
+  "Пространство и направления":"O espaço e as direções", "Куда двигаться?":"Para onde?",
+  "От головы до ног":"Da cabeça aos pés", "Внутри тела":"Por dentro do corpo",
   "Семья и друзья":"Família e amigos", "Моя семья":"A minha família", "Родственники":"Familiares",
   "Тело":"O corpo", "Лицо и руки":"O rosto e as mãos", "Тело и движение":"O corpo em movimento",
   "Мир в картинках":"O mundo em imagens", "На нашей улице":"Na nossa rua", "На пляже":"Na praia",

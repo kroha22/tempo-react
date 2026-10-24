@@ -62,10 +62,10 @@ describe("Practice composition controls", () => {
     const user = userEvent.setup();
 
     await user.click(screen.getByRole("button", { name: "Уроки" }));
-    expect(screen.getByRole("complementary", { name: "Включено детское оформление" })).toHaveTextContent("Разберём правило по шагам");
+    expect(screen.getByRole("complementary", { name: "Включено детское оформление" })).toHaveTextContent("играй со словами");
     expect(screen.getByRole("button", { name: /Переключить на взрослый режим/ })).toHaveAttribute("aria-pressed", "true");
 
-    await user.click(screen.getByRole("button", { name: "Слова" }));
+    await user.click(screen.getByRole("button", { name: "Уроки" }));
     expect(screen.getByRole("complementary", { name: "Включено детское оформление" })).toHaveTextContent("играй со словами");
 
     await user.click(screen.getByRole("button", { name: "Карточки" }));
@@ -76,11 +76,10 @@ describe("Practice composition controls", () => {
   });
 
   it("opens conjugation practice from its lesson and returns to the lesson catalog", async () => {
-    render(<PracticeScreen initialSection="lessons" />);
+    render(<PracticeScreen initialSection="lessons" initialGrammarLessonId="present-ar" />);
     const user = userEvent.setup();
 
     expect(screen.queryByRole("button", { name: "Спряжение" })).not.toBeInTheDocument();
-    await user.click(screen.getByRole("button", { name: /Правильные -AR/ }));
     await user.click(screen.getByRole("button", { name: /Потренировать формы/ }));
 
     expect(screen.getByRole("button", { name: /К урокам/ })).toBeInTheDocument();
@@ -88,15 +87,13 @@ describe("Practice composition controls", () => {
     expect(screen.getByRole("button", { name: "Уроки" }).className).toContain("active");
 
     await user.click(screen.getByRole("button", { name: /К урокам/ }));
-    expect(screen.getByRole("heading", { name: /коротких уроков/ })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Правильные -AR" })).toBeInTheDocument();
   });
 
   it("connects a child lesson directly to the shared solar exercise", async () => {
-    render(<PracticeScreen initialSection="lessons" initialChildMode />);
+    render(<PracticeScreen initialSection="lessons" initialGrammarLessonId="present-ar" initialChildMode />);
     const user = userEvent.setup();
 
-    await user.click(screen.getByRole("button", { name: /Правильные -AR/ }));
     await user.click(screen.getByRole("button", { name: /Потренировать формы/ }));
 
     expect(screen.getAllByText("falar").length).toBeGreaterThan(0);
@@ -105,7 +102,7 @@ describe("Practice composition controls", () => {
   });
 
   it("keeps the child castle map as the shared conjugation overview inside lessons", async () => {
-    render(<PracticeScreen initialSection="lessons" initialChildMode />);
+    render(<PracticeScreen initialSection="lessons" initialGrammarLessonId="present-ar" initialChildMode />);
     const user = userEvent.setup();
 
     await user.click(screen.getByRole("button", { name: /Все спряжения/ }));
@@ -416,10 +413,8 @@ describe("Practice composition controls", () => {
   });
 
   it("opens the complete IR guide from its lesson", async () => {
-    render(<PracticeScreen initialSection="lessons" />);
+    render(<PracticeScreen initialSection="lessons" initialGrammarLessonId="ir-plans" />);
     const user = userEvent.setup();
-
-    await user.click(screen.getByRole("button", { name: /IR: идти и планировать/ }));
     await user.click(screen.getByRole("button", { name: /Потренировать формы/ }));
 
     expect(screen.getByRole("heading", { name: "IR" })).toBeInTheDocument();

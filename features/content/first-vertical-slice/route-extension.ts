@@ -1,3 +1,4 @@
+import {beingContent} from "../first-steps.ts";
 import type {
   CanDoObjective,
   Chunk,
@@ -70,10 +71,10 @@ export const routeLessonExperiences: RouteLessonExperience[] = [
     title: "SER или ESTAR",
     canDo: "Я могу сказать, кто это или какой человек, и описать состояние сейчас.",
     minutes: 10,
-    cue: "SER нужен, чтобы назвать или описать. ESTAR — чтобы сказать, как кто-то себя чувствует сейчас или где находится.",
+    cue: beingContent.contrast.rule,
     examples: [
-      { pt: "O Rui é calmo.", ru: "Руй спокойный по характеру." },
-      { pt: "O Rui está calmo.", ru: "Сейчас Руй спокоен." },
+      beingContent.ser.example,
+      beingContent.estar.example,
     ],
     vocabulary: [
       { pt: "calmo / calma", ru: "спокойный / спокойная" },

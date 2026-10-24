@@ -1,5 +1,7 @@
 "use client";
 
+import {ActivityCompletion} from "./ActivityCompletion";
+import {wordActivityId} from "./learning-rewards";
 import { useRef, useState } from "react";
 import { checkVocabularyWritingAnswer, type VocabularyWord } from "../content/vocabulary-model";
 import { CardSpeechButton } from "../cards/components/CardSpeechButton";
@@ -7,13 +9,14 @@ import { SpeechHelpButton } from "../cards/components/SpeechHelpButton";
 import styles from "./VocabularyWriting.module.css";
 import { usePracticePlan } from "./plan/PracticePlanContext";
 
-export function VocabularyWriting({ words, active = true }: { words: readonly VocabularyWord[]; active?: boolean }) {
+export function VocabularyWriting({ words, active = true, title }: { words: readonly VocabularyWord[]; active?: boolean; title?:string }) {
   const plan=usePracticePlan();
   const [index, setIndex] = useState(0);
   const [answer, setAnswer] = useState("");
   const [result, setResult] = useState<"correct" | "wrong" | "accent" | null>(null);
   const [hint, setHint] = useState(false);
   const [score, setScore] = useState(0);
+  const [hadMistake,setHadMistake]=useState(false);
   const [finished, setFinished] = useState(false);
   const input = useRef<HTMLInputElement>(null);
   const word = words[index];
@@ -21,7 +24,7 @@ export function VocabularyWriting({ words, active = true }: { words: readonly Vo
   if (!word) return <p>В этом наборе пока нет слов.</p>;
   function next() {
     if (index === words.length - 1) { plan?.completeWords(words.map(word=>word.id),score<words.length);setFinished(true); return; }
-    setIndex(index + 1); setAnswer(""); setResult(null); setHint(false); input.current?.focus();
+    setIndex(index + 1); setAnswer(""); setResult(null); setHint(false); setHadMistake(false); input.current?.focus();
   }
   function insertLetter(letter: string) {
     const field = input.current;
@@ -33,7 +36,7 @@ export function VocabularyWriting({ words, active = true }: { words: readonly Vo
     field.focus();
     requestAnimationFrame(() => field.setSelectionRange(start + letter.length, start + letter.length));
   }
-  if (finished) return <section className={styles.panel}><h2>Набор пройден!</h2><p>Вспомнилось: {score} из {words.length}</p><button type="button" onClick={() => { setIndex(0); setAnswer(""); setResult(null); setHint(false); setScore(0); setFinished(false); }}>Повторить набор</button></section>;
+  if (finished) return <ActivityCompletion id={wordActivityId("writing",words.map(word=>word.id))} title={title?`${title} · письмо`:`Напиши слова · ${words.length} слов`} group="Слова и игры" correct={score} total={words.length}><section className={styles.panel}><h2>Набор пройден!</h2><p>Вспомнилось: {score} из {words.length}</p><button type="button" onClick={() => { setIndex(0); setAnswer(""); setResult(null); setHint(false); setScore(0); setHadMistake(false); setFinished(false); }}>Повторить набор</button></section></ActivityCompletion>;
   return <section className={styles.panel} aria-label="Напиши слово">
     <header><span>{index + 1} / {words.length}</span><SpeechHelpButton /></header>
     <p className={styles.prompt}>Как это по-португальски?</p>
@@ -45,7 +48,8 @@ export function VocabularyWriting({ words, active = true }: { words: readonly Vo
       const outcome = checkVocabularyWritingAnswer(word, answer, words);
       const correct = outcome === "correct";
       setResult(outcome);
-      if (correct && !hint) setScore(score + 1);
+      if (correct && !hint && !hadMistake) setScore(score + 1);
+      if(!correct)setHadMistake(true);
     }}>
       <label htmlFor="vocabulary-writing-answer">Твой ответ</label>
       <input id="vocabulary-writing-answer" ref={input} lang="pt-PT" value={answer} onChange={event => { setAnswer(event.target.value); if (!resolved) setResult(null); }} readOnly={resolved} autoComplete="off" autoCapitalize="none" spellCheck={false} placeholder="Напиши слово…" aria-describedby="vocabulary-writing-feedback" />

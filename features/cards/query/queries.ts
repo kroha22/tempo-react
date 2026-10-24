@@ -5,6 +5,7 @@ import { loadCardProgress, saveCardProgress } from "../api/progress";
 import { loadSavedItems } from "../api/saved-items";
 import type { ReviewProgress } from "../scheduler";
 import { useCardsScope } from "./CardsQueryBoundary";
+import { useLocalCardProgress } from "./LocalCardProgress";
 
 export const cardsKeys = {
   progress: (scope: string) => ["cards", scope, "verb-progress"] as const,
@@ -12,9 +13,10 @@ export const cardsKeys = {
 };
 
 export function useCardProgressQuery() {
+  const local=useLocalCardProgress();
   const scope = useCardsScope();
   return useQuery({ queryKey: cardsKeys.progress(scope.scopeKey), enabled: !scope.blocked,
-    queryFn: ({ signal }) => loadCardProgress(signal) });
+    queryFn: ({ signal }) => local?loadCardProgress(signal,local):loadCardProgress(signal) });
 }
 
 export function useSavedItemsQuery() {
@@ -28,11 +30,12 @@ export function savedItemsOptions(scopeKey: string) {
 }
 
 export function useSaveReviewMutation() {
+  const local=useLocalCardProgress();
   const scope = useCardsScope();
   const key = cardsKeys.progress(scope.scopeKey);
   return useMutation({
     mutationKey: ["cards", scope.scopeKey, "save-review"],
-    mutationFn: (progress: ReviewProgress) => saveCardProgress(progress, scope.controller.signal),
+    mutationFn: (progress: ReviewProgress) => local?saveCardProgress(progress, scope.controller.signal,local):saveCardProgress(progress, scope.controller.signal),
     onMutate: async () => { await scope.client.cancelQueries({ queryKey: key }); },
     onSuccess: async (saved) => {
       // A focus refetch started during POST must not overwrite its confirmed result.

@@ -2,11 +2,13 @@ import { generalVocabulary } from "./general-vocabulary.ts";
 import type { VocabularyGroup, VocabularyWord } from "./vocabulary-model.ts";
 import { foodPhotoNouns } from "./food-photo-vocabulary.ts";
 import { foodIllustration } from "./food-illustrations.ts";
+import { insideBodyNouns } from "./body-vocabulary.ts";
 
 export type NounSeed = readonly [key: string, article: "o" | "a", lemma: string, plural: string, translation: string, pt: string, ru: string];
 // Original examples; textbooks inform the situations, never supply published text or art.
 export const topicNounSeeds: readonly NounSeed[] = [
   ...foodPhotoNouns,
+  ...insideBodyNouns,
   ["mae","a","mãe","mães","Мама","A minha mãe está em casa.","Моя мама дома."],
   ["pai","o","pai","pais","Папа","O meu pai está na cozinha.","Мой папа на кухне."],
   ["irmao","o","irmão","irmãos","Брат","O meu irmão lê um livro.","Мой брат читает книгу."],
@@ -81,6 +83,8 @@ export const topicSetDefinitions = [
   { id:"expansion-food-other", title:"Десерты, яйца и бобовые", group:"food", keys:["gelado","bolo","ovos","feijao"] },
   { id:"expansion-body-face", title:"Лицо и руки", group:"body", keys:["cabeca","olho","orelha","ouvido","nariz","boca","lingua","mao"] },
   { id:"expansion-body-movement", title:"Тело и движение", group:"body", keys:["braco","perna","pe","dedo","joelho","barriga"] },
+  { id:"expansion-body-outside", title:"От головы до ног", group:"body", keys:["cabeca","braco","mao","barriga","perna","joelho","pe","dedo"] },
+  { id:"expansion-body-inside", title:"Внутри тела", group:"body", keys:["coracao","pulmao","estomago","rim","osso","musculo"] },
 ] as const;
 
 export function buildTopicExpansion(existing: readonly VocabularyWord[]) {

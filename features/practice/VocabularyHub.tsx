@@ -1,19 +1,19 @@
+"use client";
 import { VocabularyStudy } from "./VocabularyStudy";
 import styles from "./VocabularyHub.module.css";
 
-export function VocabularyHub({ onOpenCards }: { onOpenCards: () => void }) {
+export function VocabularyHub({ onOpenCards,initialChildMode=false,initialTopicId,onOpenPlan }: { onOpenCards: () => void;initialChildMode?:boolean;initialTopicId?:string|null;onOpenPlan?:()=>void }) {
   return (
-    <main className={styles.shell} aria-label="Слова">
+    <main className={styles.shell} aria-label="Уроки">
       <header className={styles.header}>
         <div>
-          <span>Palavras · Слова</span>
-          <h1 lang="pt-PT">Palavras e expressões</h1>
-          <p>Слова и выражения</p>
-          <p>Выбирайте тему и способ практики. Полная колода базовых слов находится в разделе карточек.</p>
+          <span>Aprender · Учимся</span>
+          <h1 lang="pt-PT">Aulas — Уроки</h1>
+          <p>Темы, фразы, времена и формы — в одном месте.</p>
         </div>
-        <button type="button" onClick={onOpenCards}>Перейти к карточкам</button>
+        <div><button type="button" onClick={onOpenCards}>Перейти к карточкам</button>{onOpenPlan&&<button type="button" onClick={onOpenPlan}>Мой план</button>}</div>
       </header>
-      <VocabularyStudy onOpenCards={onOpenCards} />
+      <VocabularyStudy initialChildMode={initialChildMode} initialTopicId={initialTopicId} onOpenCards={onOpenCards} />
     </main>
   );
 }

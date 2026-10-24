@@ -1,0 +1,18 @@
+.burst { position: absolute; z-index: 8; left: 50%; top: 42%; width: min(220px,75%); pointer-events: none; display: grid; place-items: center; transform: translate(-50%,-50%); animation: liftAway 1200ms ease-out both; }
+.label { grid-area: 1/1; padding: 12px 18px; border-radius: 18px; background: #fffdf0f2; border: 1px solid #b9d9c1; box-shadow: 0 8px 24px #315f482e; font-size: 24px; font-weight: 900; color: #285940; text-align: center; }
+.withImage .label { animation: becomeImage 1100ms both; }
+.image { grid-area: 1/1; padding: 8px; border-radius: 22px; background: #fffef7; box-shadow: 0 8px 30px #315f4829; animation: imageAppear 1100ms both; }
+.spark { position: absolute; width: 8px; height: 8px; border-radius: 3px; background: #edbd53; animation: sparkle 1100ms ease-out both; }
+.spark:nth-of-type(1) { left: 5%; top: 20%; --dx:-25px; --dy:-30px; }
+.spark:nth-of-type(2) { right: 5%; top: 15%; --dx:25px; --dy:-35px; background: #65bda5; }
+.spark:nth-of-type(3) { left: 15%; bottom: 5%; --dx:-30px; --dy:25px; background: #ad94dc; }
+.spark:nth-of-type(4) { right: 12%; bottom: 8%; --dx:30px; --dy:20px; background: #e88fa6; }
+.placement { position: absolute; inset: -5px; border: 2px solid #738eaa; border-radius: 10px; pointer-events: none; animation: place 450ms ease-out both; }
+.confirmed { border-color: #50a76e; box-shadow: 0 0 12px #74c49080; animation: confirm 800ms ease-out both; }
+@keyframes liftAway { 0% { opacity:0; transform:translate(-50%,-30%) scale(.7); } 20%,65% { opacity:1; transform:translate(-50%,-50%) scale(1.04); } 100% { opacity:0; transform:translate(-50%,-85%) scale(1.15); filter:blur(3px); } }
+@keyframes becomeImage { 0%,30% { opacity:1; transform:scale(1); } 60%,100% { opacity:0; transform:scale(.7); } }
+@keyframes imageAppear { 0%,25% { opacity:0; transform:scale(.65); } 60%,100% { opacity:1; transform:scale(1); } }
+@keyframes sparkle { 0%,20% { opacity:0; transform:translate(0,0) scale(.3); } 40% { opacity:1; } 100% { opacity:0; transform:translate(var(--dx),var(--dy)) rotate(70deg); } }
+@keyframes place { from { opacity:1; transform:scale(.85); } to { opacity:0; transform:scale(1.25); } }
+@keyframes confirm { 0% { opacity:0; transform:scale(.8); } 35% { opacity:1; transform:scale(1.25); } 100% { opacity:0; transform:scale(1.6); } }
+@media (prefers-reduced-motion: reduce) { .burst { animation: reduced 150ms linear both; } .label, .image, .spark, .placement { animation: none; } .withImage .label, .spark, .placement { display:none; } @keyframes reduced { from {opacity:1;} to {opacity:0;} } }

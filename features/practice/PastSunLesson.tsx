@@ -1,5 +1,6 @@
 "use client";
 
+import {ActivityCompletion} from "./ActivityCompletion";
 import { useState } from "react";
 import { TenseExamples } from "./TenseExamples";
 import { LegacyLessonLink as Link } from "./LegacyLessonLink";
@@ -40,7 +41,7 @@ export function PastSunLesson({ lesson }: { lesson: SunLesson }) {
       <p className="house-feedback"><b>Запомни:</b> {lesson.note}</p>
       <TenseExamples tense="past" />
       <details><summary>А форма с vós?</summary><p><span lang="pt-PT">Vós {lesson.vos}.</span> Эта форма встречается реже. В основном упражнении используем <span lang="pt-PT">vocês {form("voces")}</span>.</p></details>
-    </> : stage === "done" ? <div className="house-feedback"><h2>Muito bem!</h2><p>Упражнение пройдено. Можно ещё раз вспомнить формы, для которых понадобилась помощь.</p><div className="house-tools">{!!helped.length && <button type="button" className="house-primary" onClick={() => restart(true)}>Повторить с подсказками: {helped.length}</button>}<button type="button" onClick={() => restart(false)}>Пройти всё ещё раз</button><button type="button" onClick={() => { setRepeat(lesson.exercises); setIndex(0); setHelped([]); setStage("learn"); }}>Вернуться к солнышку</button></div><Link href={`/learning/practice?verb=${lesson.verb}&tense=past`}>Свободная тренировка {lesson.verb} →</Link></div> : <>
+    </> : stage === "done" ? <ActivityCompletion id={`past:${lesson.verb}`} title={`${lesson.verb.toUpperCase()} · прошедшее время`} group="Время и планы" correct={repeat.length-helped.filter(id=>repeat.some(task=>task.id===id)).length} total={repeat.length}><div className="house-feedback"><h2>Muito bem!</h2><p>Упражнение пройдено. Можно ещё раз вспомнить формы, для которых понадобилась помощь.</p><div className="house-tools">{!!helped.length && <button type="button" className="house-primary" onClick={() => restart(true)}>Повторить с подсказками: {helped.length}</button>}<button type="button" onClick={() => restart(false)}>Пройти всё ещё раз</button><button type="button" onClick={() => { setRepeat(lesson.exercises); setIndex(0); setHelped([]); setStage("learn"); }}>Вернуться к солнышку</button></div><Link href={`/learning/practice?verb=${lesson.verb}&tense=past`}>Свободная тренировка {lesson.verb} →</Link></div></ActivityCompletion> : <>
       <div className="house-heading"><h2>Вставь форму {lesson.verb}</h2><span>{index + 1} / {repeat.length}</span></div>
       <p>Событие уже произошло. Используй Pretérito Perfeito.</p>
       <form onSubmit={event => { event.preventDefault(); setChecked(true); if (!correct) setHelped(previous => previous.includes(task.id) ? previous : [...previous, task.id]); }}>

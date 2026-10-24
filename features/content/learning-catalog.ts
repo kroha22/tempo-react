@@ -3,9 +3,10 @@ import { vocabularySets } from "./vocabulary-model.ts";
 import { firstVerticalSliceContentPack as pack } from "./manifest.ts";
 import { verbs, allVerbKeys, type VerbKey, type Tense } from "../conjugation/data.ts";
 import { verbCards } from "../cards/data/verb-cards.ts";
-import { sceneImageActivities } from "./picture-scenes.ts";
-import { clothingImageActivity } from "./clothing.ts";
-import { houseImageActivity } from "./house.ts";
+import { vocabularyImages } from "./vocabulary-images.ts";
+import {buildMyDayUsage} from "./my-day.ts";
+import {buildFamilyUsage} from "./family-lesson.ts";
+import {feelingWords,buildFeelingsUsage} from "./feelings-lesson.ts";
 import { searchWords } from "../practice/word-search.ts";
 import { generalVocabulary } from "./general-vocabulary.ts";
 import { vocabularyLessons } from "./vocabulary-lessons.ts";
@@ -29,8 +30,8 @@ for (const word of ordered) {
   const infinitive=deck?.pt ?? (item?.display.type==="verb"?item.display.infinitive:undefined);
   const key=infinitive&&allVerbKeys.find(key=>verbs[key].infinitive===infinitive);
   const noun=item?.display.type==="noun"?item.display:undefined;
-  const lemma=infinitive??noun?.lemma??word.label.replace(/^(o|a|os|as) /,"");
-  const partOfSpeech:LexicalEntry["partOfSpeech"]=infinitive?"verb":noun||/^(o|a|os|as) /.test(word.label)?"noun":"expression";
+  const lemma=infinitive??noun?.lemma??word.noun?.lemma??word.adjective?.lemma??word.label.replace(/^(o|a|os|as) /,"");
+  const partOfSpeech:LexicalEntry["partOfSpeech"]=infinitive?"verb":word.adjective?"adjective":noun||/^(o|a|os|as) /.test(word.label)?"noun":"expression";
   const entryId=word.noun && word.id.startsWith("vocabulary:noun:") ? `lexeme:noun:${word.id.slice("vocabulary:noun:".length)}` : entryIdFor(partOfSpeech,lemma,word.id);
   const existing=equivalentLabels.has(word.label)?owner.get(word.label):undefined;
   const meaningId=existing??`meaning:${word.id}`;
@@ -39,12 +40,12 @@ for (const word of ordered) {
   owner.set(word.label,meaningId);
   const previousEntry=entryMap.get(entryId);
   entryMap.set(entryId, {id:entryId,lemma,partOfSpeech,...previousEntry,...(key?{conjugationKey:key}:{}),...(noun?{morphology:{article:noun.definiteArticle,plural:noun.plural,pluralArticle:noun.pluralDefiniteArticle,gender:noun.definiteArticle==="o"?"masculine" as const:"feminine" as const}}:{}),...(word.noun?{morphology:{...word.noun,gender:word.noun.article==="o"?"masculine" as const:"feminine" as const}}:{})});
-  meaningMap.set(meaningId,{id:meaningId,entryId,translation:word.translation,legacyWordIds:[word.id],status:item||word.noun?"source-backed":"needs-review",...(item?{canonicalTarget:item.target}:{})});
+  meaningMap.set(meaningId,{id:meaningId,entryId,translation:word.translation,legacyWordIds:[word.id],status:item||word.noun||word.adjective?"source-backed":"needs-review",...(item?{canonicalTarget:item.target}:{})});
 }
 // Add supported trainer verbs without minting/changing card identities.
 for(const key of allVerbKeys){const id=entryIdFor("verb",verbs[key].infinitive);if(!entryMap.has(id))entryMap.set(id,{id,lemma:verbs[key].infinitive,partOfSpeech:"verb",conjugationKey:key});}
 
-const reviewedSourceIds = new Set([...vocabularyLessons.flatMap(lesson=>lesson.items.map(item=>item.sourceEntryId)), ...[...topicExpansion.byKey.values()].map(word=>word.id)]);
+const reviewedSourceIds = new Set([...feelingWords.map(word=>word.id),...vocabularyLessons.flatMap(lesson=>lesson.items.map(item=>item.sourceEntryId)), ...[...topicExpansion.byKey.values()].map(word=>word.id)]);
 const lessonItemBySourceId = new Map(vocabularyLessons.flatMap(lesson=>lesson.items.map(item=>[item.sourceEntryId,item] as const)));
 const meaningBySource = new Map<string,string>();
 for(const source of generalVocabulary){
@@ -104,6 +105,7 @@ topics.push(
   {id:"topic:people",title:"Люди и состояния",parentIds:[]},
 );
 const everyday = collections.find(c=>c.id === "collection:basic-verbs")!;
+collections.find(collection=>collection.id==="collection:feelings-now")?.topicIds.push("topic:people");
 collections.filter(c=>["scene-set-breakfast","scene-set-school"].includes(c.source.legacySetId??"")).forEach(c=>c.topicIds.push("topic:everyday"));
 // Link food verbs into Food without cloning their meanings.
 collections.push({id:"collection:food-actions",title:"Действия за столом",topicIds:["topic:food","topic:everyday"],meaningIds:everyday.meaningIds.filter(id=>["comer","beber"].includes(entryMap.get(meaningMap.get(id)!.entryId)!.lemma)),source:{kind:"vocabulary",legacySetId:"curated-food-actions"}});
@@ -193,14 +195,7 @@ const usageModules: UsageModule[] = [{
   ],
 }];
 const expansionMeaning = (key:string) => meaningId(topicWord(key).id);
-usageModules.push({
-  id:"usage:family",title:"Моя семья во фразах",situation:"Назови близких и посмотри, как слова работают в предложениях. O meu — мой, a minha — моя.",collectionIds:["collection:expansion-family-close"],newMeaningIds:[],reviewedMeaningIds:["mae","pai","irmao","irma","avo-f","avo-m"].map(expansionMeaning),recognitionOnly:["meu","minha","está","em casa"],
-  examples:["mae","pai","irmao","irma"].map(key=>({id:`example:family:${key}`,portuguese:topicWord(key).example!.pt,translation:topicWord(key).example!.ru,meaningIds:[expansionMeaning(key)],grammarTopicIds:["grammar:present"]})),
-  exercises:[
-    {id:"cloze:family-mae",prompt:"Как сказать «моя мама»?",before:"",after:"",correctOptionId:"family-mae",feedback:"A minha mãe — моя мама. Mãe — женского рода.",options:[{id:"family-mae",text:"a minha mãe",meaningId:expansionMeaning("mae")},{id:"family-pai",text:"o meu pai",meaningId:expansionMeaning("pai")},{id:"family-irma",text:"a minha irmã",meaningId:expansionMeaning("irma")}]},
-    {id:"cloze:family-avo",prompt:"Мой дедушка в саду. Выбери слово с правильным ударением.",before:"O meu ",after:" está no jardim.",correctOptionId:"family-avo-m",feedback:"Avô — дедушка, avó — бабушка. Здесь знак ударения меняет значение.",options:[{id:"family-avo-m",text:"avô",meaningId:expansionMeaning("avo-m")},{id:"family-avo-f",text:"avó",meaningId:expansionMeaning("avo-f")},{id:"family-irmao",text:"irmão",meaningId:expansionMeaning("irmao")}]},
-  ],relatedLinks:[{id:"family-ter",label:"У меня есть / здесь есть",href:"/learning/lessons/lesson%3Aa1-1%3Apossession-and-presence",kind:"lesson"}],
-},{
+usageModules.push(buildFamilyUsage(expansionMeaning,id=>meaningByLegacy.get(id)!),{
   id:"usage:food-likes",title:"Что мне нравится есть",situation:"Повтори знакомые продукты во фразах. Для предпочтений используем GOSTAR + DE.",collectionIds:["collection:expansion-food-fruit","collection:expansion-food-meals"],newMeaningIds:[],reviewedMeaningIds:["maca","morango","pera","queijo","leite","arroz"].map(expansionMeaning),recognitionOnly:["gosto","gostas","não","de"],
   examples:[{id:"example:likes-morango",portuguese:"Gosto de morangos.",translation:"Я люблю клубнику.",meaningIds:[expansionMeaning("morango")],grammarTopicIds:["grammar:likes"]},{id:"example:likes-leite",portuguese:"Não gosto de leite.",translation:"Я не люблю молоко.",meaningIds:[expansionMeaning("leite")],grammarTopicIds:["grammar:likes"]},{id:"example:likes-queijo",portuguese:"Gostas de queijo?",translation:"Ты любишь сыр?",meaningIds:[expansionMeaning("queijo")],grammarTopicIds:["grammar:likes"]}],
   exercises:[{id:"cloze:likes-fruit",prompt:"Я люблю клубнику. Дополни фразу.",before:"Gosto de ",after:".",correctOptionId:"likes-morango",feedback:"Gosto de morangos. — Я люблю клубнику.",options:[{id:"likes-morango",text:"morangos",meaningId:expansionMeaning("morango")},{id:"likes-pera",text:"peras",meaningId:expansionMeaning("pera")},{id:"likes-maca",text:"maçãs",meaningId:expansionMeaning("maca")}]},{id:"cloze:likes-cheese",prompt:"Ты любишь сыр? Дополни вопрос.",before:"Gostas de ",after:"?",correctOptionId:"likes-queijo",feedback:"Gostas de queijo? — Ты любишь сыр?",options:[{id:"likes-queijo",text:"queijo",meaningId:expansionMeaning("queijo")},{id:"likes-leite",text:"leite",meaningId:expansionMeaning("leite")},{id:"likes-arroz",text:"arroz",meaningId:expansionMeaning("arroz")}]}],
@@ -211,7 +206,16 @@ usageModules.push({
   exercises:bodyFunctions.slice(0,2).map((item,index)=>({id:`cloze:body:${item.key}`,prompt:item.question,before:index===0?"Vejo com ":"Ouço com ",after:".",correctOptionId:`body-option:${item.key}`,feedback:`${item.pt} — ${item.ru}`,options:bodyFunctions.slice(0,3).map(option=>({id:`body-option:${option.key}`,text:option.part,meaningId:expansionMeaning(option.key)}))})),
   relatedLinks:[{id:"body-lesson",label:"Тело и действия: интерактивный урок",href:"/learning/everyday/body",kind:"lesson"}],
 });
-const scenes=[houseImageActivity,clothingImageActivity,...sceneImageActivities].map(image=>({id:image.id,title:image.title,image:{src:image.image.src,width:image.image.width,height:image.image.height},targets:image.spots.map(spot=>({id:spot.id,meaningIds:spot.acceptedWordIds.map(id=>meaningByLegacy.get(id)!),anchor:{x:spot.x/image.image.width,y:spot.y/image.image.height}}))}));
+const positionIds=["study:chunk:dentro-de","study:chunk:em-cima-de","study:chunk:debaixo-de","study:chunk:ao-lado-de"];
+usageModules.push({
+  id:"usage:space-location",title:"Onde está o gato? — Где кот?",situation:"Опиши положение кота. ESTÁ — находится; de + a превращается в da: dentro da caixa. EM CIMA DE — на поверхности, не просто выше.",collectionIds:["collection:space-positions"],newMeaningIds:[],reviewedMeaningIds:positionIds.map(id=>meaningByLegacy.get(id)!),recognitionOnly:["o gato","a caixa","está","da"],
+  examples:positionIds.map(id=>{const word=pairVocabulary.find(word=>word.id===id)!;return {id:`example:space:${id}`,portuguese:word.example!.pt,translation:word.example!.ru,meaningIds:[meaningByLegacy.get(id)!],grammarTopicIds:["grammar:present"]};}),
+  exercises:[{id:"cloze:space-inside",prompt:"Кот внутри коробки. Дополни фразу.",before:"O gato está ",after:" caixa.",correctOptionId:"inside",feedback:"O gato está dentro da caixa. — Кот внутри коробки. De + a = da.",options:[{id:"inside",text:"dentro da",meaningId:meaningByLegacy.get(positionIds[0])!},{id:"under",text:"debaixo da",meaningId:meaningByLegacy.get(positionIds[2])!},{id:"beside",text:"ao lado da",meaningId:meaningByLegacy.get(positionIds[3])!}]}],
+  relatedLinks:[{id:"space-location-lesson",label:"Где находится предмет? Короткий урок",href:"/learning/lessons/lesson%3Aa1-1%3Alocate-object",kind:"lesson"},{id:"space-estar",label:"ESTAR: формы настоящего времени",href:"/learning/conjugation",kind:"grammar"}],
+});
+usageModules.push(buildMyDayUsage(id=>{const meaning=meaningByLegacy.get(id);if(!meaning)throw new Error(`Unknown day word ${id}`);return meaning;}));
+usageModules.push(buildFeelingsUsage(id=>{const meaning=meaningByLegacy.get(id);if(!meaning)throw new Error(`Unknown feeling ${id}`);return meaning;}));
+const scenes=vocabularyImages.map(image=>({id:image.id,title:image.title,image:{src:image.image.src,width:image.image.width,height:image.image.height},targets:image.spots.map(spot=>({id:spot.id,meaningIds:spot.acceptedWordIds.map(id=>meaningByLegacy.get(id)!),anchor:{x:spot.x/image.image.width,y:spot.y/image.image.height}}))}));
 const activities:ActivityBinding[]=collections.filter(c=>c.source.legacySetId).flatMap(c=>{
   const sourceIds=new Set(c.meaningIds.flatMap(id=>meaningMap.get(id)!.legacyWordIds));
   const searchable=searchWords(pairVocabulary.filter(word=>sourceIds.has(word.id))).length>0;

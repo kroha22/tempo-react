@@ -3,6 +3,7 @@ import { parseLegacyProgressPayload } from "../progress-contract.ts";
 import type { ReviewProgress } from "../scheduler.ts";
 
 const demoStorageKey = "tempo-react:github-pages:card-progress";
+export type LocalCardProgressStorage = {load:()=>ReviewProgress[];save:(progress:ReviewProgress)=>ReviewProgress};
 
 function isStaticDemo() {
   return typeof window !== "undefined" && window.location.pathname.startsWith("/tempo-react");
@@ -31,7 +32,8 @@ function responseBody(value: unknown): Record<string, unknown> {
   return body;
 }
 
-export async function loadCardProgress(signal?: AbortSignal): Promise<ReviewProgress[]> {
+export async function loadCardProgress(signal?: AbortSignal, local?:LocalCardProgressStorage): Promise<ReviewProgress[]> {
+  if(local)return local.load();
   if (isStaticDemo()) return loadDemoProgress();
   const body = responseBody(await requestJson("/api/progress", { signal }));
   if (!Array.isArray(body.progress)) throw new Error("Invalid progress response");
@@ -42,7 +44,9 @@ export async function loadCardProgress(signal?: AbortSignal): Promise<ReviewProg
   });
 }
 
-export async function saveCardProgress(progress: ReviewProgress, signal?: AbortSignal): Promise<ReviewProgress> {
+export async function saveCardProgress(progress: ReviewProgress, signal?: AbortSignal, local?:LocalCardProgressStorage): Promise<ReviewProgress> {
+  if(signal?.aborted)throw new Error("Inactive session");
+  if(local)return local.save(progress);
   if (isStaticDemo()) {
     const next = [...loadDemoProgress().filter((row) => row.cardId !== progress.cardId), progress];
     window.localStorage.setItem(demoStorageKey, JSON.stringify(next));

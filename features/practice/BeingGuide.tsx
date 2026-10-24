@@ -2,6 +2,7 @@ import type { ConjugationVerb, Forms, PersonKey, Tense } from "@/features/conjug
 import { SunFormExercise } from "@/features/practice/SunFormExercise";
 import styles from "./BeingGuide.module.css";
 import type { BeingVerb, PracticeMode } from "./practice-types";
+import {SerEstarExplanation} from "./SerEstarExplanation";
 
 type BeingGuideProps = {
   beingVerb: BeingVerb;
@@ -26,17 +27,6 @@ type BeingGuideProps = {
   onRestartPractice: () => void;
 };
 
-const serRules = [
-  ["◎", "Кто или что", "Eu sou estudante."],
-  ["⌂", "Откуда", "Sou de Lisboa."],
-  ["◆", "Характеристика", "A nave é grande."],
-] as const;
-
-const estarRules = [
-  ["☻", "Как себя чувствует", "Eu estou feliz."],
-  ["⌖", "Где находится", "Estamos na oficina."],
-  ["↻", "Что изменилось", "A porta está aberta."],
-] as const;
 
 export function BeingGuide({
   beingVerb,
@@ -60,7 +50,6 @@ export function BeingGuide({
   onSelectChip,
   onRestartPractice,
 }: BeingGuideProps) {
-  const rules = beingVerb === "ser" ? serRules : estarRules;
   const otherVerb = beingVerb === "ser" ? "estar" : "ser";
   const tenseName = tense === "present" ? "настоящем времени" : "прошедшем времени";
 
@@ -81,24 +70,7 @@ export function BeingGuide({
         <div className={`${styles.illustration} ${styles[beingVerb]}`} role="img" aria-label={`${illustrationTitle}: ${beingVerb === "ser" ? "кто или что, происхождение, роль и характеристика" : "текущее состояние, настроение и местоположение"}`}>
           <span>{illustrationTitle}</span>
         </div>
-        <div className={styles.explanation}>
-          <span className={styles.question}>{beingVerb === "ser" ? "Кто это? Что это?" : "Как сейчас? Где сейчас?"}</span>
-          <h2>{beingVerb === "ser" ? "Опознаём и описываем" : "Проверяем состояние"}</h2>
-          <p>{beingVerb === "ser"
-            ? "SER помогает назвать человека или предмет, происхождение, профессию и устойчивую характеристику."
-            : "ESTAR показывает состояние, настроение, здоровье, местоположение или результат изменения."}</p>
-          <div className={styles.ruleList}>
-            {rules.map(([icon, label, example]) => (
-              <div key={label}><span aria-hidden="true">{icon}</span><p><strong>{label}</strong><b>{example}</b></p></div>
-            ))}
-          </div>
-          <aside className={styles.memoryTip}>
-            <strong>Главная подсказка</strong>
-            <p>{beingVerb === "ser"
-              ? "Не обязательно «навсегда». Важно, что мы определяем, кто или что это."
-              : "Не обязательно «ненадолго». Важно, что мы описываем состояние или место в этот момент."}</p>
-          </aside>
-        </div>
+        <SerEstarExplanation childMode={childMode} focus={beingVerb} showForms={false} illustrations={false}/>
       </div>
       <section className={styles.sunLesson} aria-labelledby="being-sun-title">
         <div className={styles.sunIntro}>

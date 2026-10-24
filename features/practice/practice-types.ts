@@ -1,4 +1,5 @@
 export type PracticeMode = "learn" | "practice" | "choose" | "reverse";
+// lessons/vocabulary remain compatibility aliases; the visible navigation has one «Уроки» entry.
 export type PracticeSection = "trainer" | "lessons" | "vocabulary" | "cards";
 export type BeingVerb = "ser" | "estar";
 export type ActionUse = "habit" | "now";

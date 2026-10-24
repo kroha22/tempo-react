@@ -1,15 +1,17 @@
 "use client";
 
+import {ActivityCompletion} from "./ActivityCompletion";
 import { useContext, useState } from "react";
 import type { UsageModule } from "../content/learning-model";
 import { CardSpeechButton } from "../cards/components/CardSpeechButton";
 import { SpeechHelpButton } from "../cards/components/SpeechHelpButton";
 import { RelatedLearningNavigation } from "./RelatedLearningNavigation";
 
-export function UsagePractice({ module, active = true }: { module: UsageModule; active?: boolean }) {
+export function UsagePractice({ module, active = true,onComplete,onRunComplete,completionLabel="Следующий урок →" }: { module: UsageModule; active?: boolean;onComplete?:()=>void;onRunComplete?:(result:{correct:number;total:number})=>void;completionLabel?:string }) {
   const [step, setStep] = useState(0);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [checked, setChecked] = useState(false);
+  const [correctCount,setCorrectCount]=useState(0);
   const exercise = module.exercises[step];
   const finished = step >= module.exercises.length;
 
@@ -17,15 +19,17 @@ export function UsagePractice({ module, active = true }: { module: UsageModule; 
     setStep(0);
     setSelectedId(null);
     setChecked(false);
+    setCorrectCount(0);
   }
 
-  if (finished) return <section className="usage-practice usage-practice--finished" aria-live="polite">
+  if (finished) return <ActivityCompletion id={module.id} title={module.title} group="Слова в жизни" correct={correctCount} total={module.exercises.length} record={module.id!=="usage:feelings"} child={module.id==="usage:feelings"?false:undefined}><section className="usage-practice usage-practice--finished" aria-live="polite">
     <span className="tempo-kicker">Фразы готовы</span>
     <h2>Все примеры пройдены</h2>
     <p>Слова остались теми же, но теперь они встретились внутри целых предложений.</p>
     <button type="button" onClick={restart}>↺ Повторить фразы</button>
+    {onComplete&&<button type="button" onClick={onComplete}>{completionLabel}</button>}
     <RelatedLinks module={module} />
-  </section>;
+  </section></ActivityCompletion>;
 
   const correct = selectedId === exercise.correctOptionId;
   const correctSentence = `${exercise.before}${exercise.options.find(option => option.id === exercise.correctOptionId)?.text ?? ""}${exercise.after}`;
@@ -63,7 +67,7 @@ export function UsagePractice({ module, active = true }: { module: UsageModule; 
       {!checked ? <button className="usage-check" type="button" disabled={!selectedId} onClick={() => setChecked(true)}>Проверить</button> : <div className={`usage-feedback ${correct ? "is-correct" : "is-wrong"}`} role="status">
         <strong>{correct ? "Верно" : "Посмотри на правильный вариант"}</strong>
         <div className="usage-answer-audio"><p>{exercise.feedback}</p><CardSpeechButton key={exercise.id} text={correctSentence} label="Послушать фразу" disabled={!active} /></div>
-        <button type="button" onClick={() => { setStep(current => current + 1); setSelectedId(null); setChecked(false); }}>{step + 1 === module.exercises.length ? "Завершить" : "Следующая фраза →"}</button>
+        <button type="button" onClick={() => {const score=correctCount+Number(correct);setCorrectCount(score);if(step+1===module.exercises.length)onRunComplete?.({correct:score,total:module.exercises.length});setStep(current => current + 1); setSelectedId(null); setChecked(false); }}>{step + 1 === module.exercises.length ? "Завершить" : "Следующая фраза →"}</button>
       </div>}
     </div>
 

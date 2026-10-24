@@ -9,9 +9,9 @@ import { isPracticeStepComplete, nextPracticeStep, practicePlanChapters, practic
 import { usePracticePlan } from "./PracticePlanContext";
 import styles from "./ChildPracticePlan.module.css";
 
-export function ChildPracticePlan({onOpenCatalog}:{onOpenCatalog:()=>void}) {
+export function ChildPracticePlan({onOpenCatalog,initialStepId=null}:{onOpenCatalog:()=>void;initialStepId?:string|null}) {
   const plan=usePracticePlan();
-  const [current,setCurrent]=useState<string|null>(null),[attempt,setAttempt]=useState(0),[wordPhase,setWordPhase]=useState<"learn"|"write">("learn");
+  const [current,setCurrent]=useState<string|null>(initialStepId),[attempt,setAttempt]=useState(0),[wordPhase,setWordPhase]=useState<"learn"|"write">("learn");
   const [filter,setFilter]=useState<"all"|"done"|"review">("all");
   const root=useRef<HTMLElement>(null);
   useEffect(()=>{root.current?.querySelector<HTMLHeadingElement>("h1")?.focus();},[current]);
@@ -29,12 +29,13 @@ export function ChildPracticePlan({onOpenCatalog}:{onOpenCatalog:()=>void}) {
     const selectedWords=selected.kind==="words"?selected.wordIds.map(id=>pairVocabulary.find(word=>word.id===id)!):[];
     return <section ref={root} className={styles.plan} aria-label="Занятие моего плана">
       <header className={styles.lessonHeader}><button type="button" onClick={()=>setCurrent(null)}>‹ К моему плану</button><span>{chapter?.title}</span></header>
+      {chapter&&<aside className={styles.topicIntro} aria-label="Об этой теме"><strong>{chapter.title}</strong><p>{chapter.description}.</p><small>Шаг {chapter.steps.findIndex(step=>step.id===selected.id)+1} из {chapter.steps.length} · сначала разберёмся, затем проверим себя.</small></aside>}
       <div className={styles.lessonContent} key={`${selected.id}:${attempt}`}>
         {selected.kind==="grammar"?<><h1 tabIndex={-1}>{selected.title}</h1><AdultLessons singleLesson activeLessonId={selected.lessonId} onLessonChange={()=>{}} onOpenPractice={()=>{}} onOpenConjugationOverview={()=>{}}/></>:selected.kind==="everyday"?<EverydayLesson lessonId={selected.lessonId}/>:<>
           <h1 tabIndex={-1}>{selected.title}</h1><p>Сначала посмотри карточки, затем напиши каждое слово по-португальски.</p>
           <nav className="vocabulary-modes" aria-label="Шаги словарного занятия"><button type="button" aria-pressed={wordPhase==="learn"} onClick={()=>setWordPhase("learn")}>Изучить слова</button><button type="button" aria-pressed={wordPhase==="write"} onClick={()=>setWordPhase("write")}>Написать слова</button></nav>
           <div hidden={wordPhase!=="learn"}><VocabularyCards words={selectedWords} active={wordPhase==="learn"}/><button type="button" onClick={()=>setWordPhase("write")}>Теперь напишем слова →</button></div>
-          <div hidden={wordPhase!=="write"}><VocabularyWriting words={selectedWords} active={wordPhase==="write"}/></div>
+          <div hidden={wordPhase!=="write"}><VocabularyWriting title={selected.title} words={selectedWords} active={wordPhase==="write"}/></div>
         </>}
       </div>
       {done&&<aside className={styles.finished} aria-label="Занятие пройдено"><strong>✓ Занятие пройдено</strong>{progress.completed[selected.id].needsReview&&<span>Можно вернуться и повторить без подсказок.</span>}<button type="button" onClick={()=>after?open(after):setCurrent(null)}>{after?"Следующее занятие →":"К моему плану"}</button></aside>}

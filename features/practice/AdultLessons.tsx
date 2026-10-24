@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import {SerEstarExplanation} from "./SerEstarExplanation";
+import {useProfileLearning} from "./profile-learning";
 import type { LessonPracticeTarget } from "./practice-types";
 
 import { shortGrammarLessons as lessons } from "../content/short-grammar-lessons";
-import { usePracticePlan } from "./plan/PracticePlanContext";
+import {ShortGrammarQuiz} from "./ShortGrammarQuiz";
 
 const pastPanels = {
   pps: {
@@ -44,26 +46,27 @@ const pastPanels = {
 };
 
 type AdultLessonsProps = {
+  consolidateBeing?: boolean;
+  childMode?: boolean;
   singleLesson?: boolean;
+  showPractice?:boolean;
   activeLessonId: string;
   onLessonChange: (lessonId: string) => void;
   onOpenPractice: (target: LessonPracticeTarget) => void;
   onOpenConjugationOverview: () => void;
 };
 
-export default function AdultLessons({ activeLessonId, onLessonChange, onOpenPractice, onOpenConjugationOverview, singleLesson = false }: AdultLessonsProps) {
-  const plan = usePracticePlan();
+export default function AdultLessons({ activeLessonId, onLessonChange, onOpenPractice, onOpenConjugationOverview, singleLesson = false,showPractice=false,consolidateBeing=false,childMode=false }: AdultLessonsProps) {
+  const learner=useProfileLearning();
   const activeIndex = Math.max(0, lessons.findIndex((item) => item.id === activeLessonId));
-  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
-  const [hadMistake,setHadMistake]=useState(false);
   const [pastMode, setPastMode] = useState<keyof typeof pastPanels>("pps");
-  const lesson = lessons[activeIndex];
+  const combinedBeing=consolidateBeing&&["ser","estar","ser-estar"].includes(activeLessonId);
+  const lesson = combinedBeing?lessons.find(item=>item.id==="ser-estar")!:lessons[activeIndex];
+  const checks=combinedBeing?lessons.filter(item=>["ser","estar","ser-estar"].includes(item.id)):[lesson];
   const chapters = Array.from(new Set(lessons.map((item) => item.chapter)));
 
   const openLesson = (index: number) => {
     onLessonChange(lessons[index].id);
-    setSelectedAnswer(null);
-    setHadMistake(false);
   };
 
   return (
@@ -107,11 +110,11 @@ export default function AdultLessons({ activeLessonId, onLessonChange, onOpenPra
             <div><span>{lesson.chapter} · урок {activeIndex + 1}</span><h2>{lesson.title}</h2><p>{lesson.subtitle}</p></div>
           </header>
 
-          <div className="adult-rule">
+          {["ser","estar","ser-estar"].includes(lesson.id)?<SerEstarExplanation childMode={learner?.profile.child??childMode} focus={combinedBeing?"both":lesson.id==="ser"?"ser":lesson.id==="estar"?"estar":"both"}/>:<div className="adult-rule">
             <span>Суть</span>
             <p>{lesson.rule}</p>
             {lesson.formula && <code>{lesson.formula}</code>}
-          </div>
+          </div>}
 
           {lesson.id === "past" && <section className="adult-past" aria-labelledby="past-mode-title">
             <div className="adult-past-switch" role="group" aria-label="Два плана прошедшего времени">
@@ -131,46 +134,28 @@ export default function AdultLessons({ activeLessonId, onLessonChange, onOpenPra
             </div>
           </section>}
 
-          {lesson.markers && <div className="adult-markers" aria-label="Подсказки">
+          {!["ser","estar","ser-estar"].includes(lesson.id)&&lesson.markers && <div className="adult-markers" aria-label="Подсказки">
             {lesson.markers.map((marker) => <span key={marker}>{marker}</span>)}
           </div>}
 
-          {lesson.forms && <section className="adult-forms" aria-labelledby={`${lesson.id}-forms`}>
+          {!["ser","estar","ser-estar"].includes(lesson.id)&&lesson.forms && <section className="adult-forms" aria-labelledby={`${lesson.id}-forms`}>
             <h3 id={`${lesson.id}-forms`}>Опорные формы</h3>
             <div>{lesson.forms.map((form) => <p key={`${form.label}-${form.value}`}><span>{form.label}</span><strong>{form.value}</strong></p>)}</div>
           </section>}
 
-          <section className="adult-examples" aria-labelledby={`${lesson.id}-examples`}>
+          {!["ser","estar","ser-estar"].includes(lesson.id)&&<section className="adult-examples" aria-labelledby={`${lesson.id}-examples`}>
             <h3 id={`${lesson.id}-examples`}>Примеры</h3>
             <div>{lesson.examples.map((example) => <p key={example.pt}><strong lang="pt">{example.pt}</strong><span>{example.ru}</span></p>)}</div>
-          </section>
+          </section>}
 
-          <section className="adult-check" aria-labelledby={`${lesson.id}-check`}>
-            <span>Проверь себя</span>
-            <h3 id={`${lesson.id}-check`} lang="pt">{lesson.quiz.prompt}</h3>
-            <div className="adult-check-options">
-              {lesson.quiz.options.map((option, index) => {
-                const revealed = selectedAnswer !== null;
-                const correct = index === lesson.quiz.answer;
-                const wrong = revealed && index === selectedAnswer && !correct;
-                return <button
-                  key={option}
-                  disabled={revealed}
-                  className={revealed && correct ? "correct" : wrong ? "wrong" : ""}
-                  onClick={() => {setSelectedAnswer(index);if(correct)plan?.complete(`practice:grammar:${lesson.id}`,hadMistake);else setHadMistake(true);}}
-                >{option}</button>;
-              })}
-            </div>
-            <p className="adult-check-feedback" aria-live="polite">
-              {selectedAnswer === null ? "Выбери подходящий вариант." : selectedAnswer === lesson.quiz.answer ? `Верно. ${lesson.quiz.explanation}` : `Не совсем. ${lesson.quiz.explanation}`}
-            </p>
-            {selectedAnswer!==null&&selectedAnswer!==lesson.quiz.answer&&<button type="button" onClick={()=>setSelectedAnswer(null)}>Попробовать ещё раз</button>}
-          </section>
+          {checks.map(check=><ShortGrammarQuiz key={check.id} lesson={check}/>)}
 
-          {!singleLesson && lesson.practice && <aside className="adult-practice-bridge" aria-label="Практика этого урока">
+          {(!singleLesson||showPractice) && lesson.practice && <aside className="adult-practice-bridge" aria-label="Практика этого урока">
             <div><span>Связано с уроком</span><strong>Закрепи это правило на тех же формах</strong></div>
             <button onClick={() => onOpenPractice(lesson.practice!)}>Потренировать формы <span aria-hidden="true">→</span></button>
           </aside>}
+
+          {combinedBeing&&showPractice&&<aside className="adult-practice-bridge" aria-label="Практика ESTAR"><strong>Формы ESTAR</strong><button onClick={()=>onOpenPractice(lessons.find(item=>item.id==="estar")!.practice!)}>Потренировать ESTAR →</button></aside>}
 
           {!singleLesson && <footer className="adult-lesson-controls">
             <button disabled={activeIndex === 0} onClick={() => openLesson(activeIndex - 1)}>← Предыдущий</button>

@@ -6,6 +6,7 @@ export default defineConfig({
   root: fileURLToPath(new URL("./github-pages", import.meta.url)),
   publicDir: fileURLToPath(new URL("./public", import.meta.url)),
   base: "/tempo-react/",
+  define: { __TEMPO_ASSET_BASE__: JSON.stringify("/tempo-react/") },
   plugins: [react()],
   resolve: {
     alias: {
