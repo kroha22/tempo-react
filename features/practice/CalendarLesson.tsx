@@ -9,12 +9,13 @@ import {ClockLesson} from "./ClockLesson";
 import {UsagePractice} from "./UsagePractice";
 import {LessonText,LessonTextContext} from "./LessonText";
 import {useTextHelp} from "./LessonHelp";
+import {CardSpeechButton} from "../cards/components/CardSpeechButton";
 import styles from "./CalendarLesson.module.css";
 import frame from "./CooperationLesson.module.css";
 
 export function CalendarLesson({initialLessonId="hours",initialChildMode=false,active=true,onRoutine}:{initialLessonId?:string;initialChildMode?:boolean;active?:boolean;onRoutine:()=>void}){
   const [selected,setSelected]=useState(initialLessonId),[view,setView]=useState("learn");
-  const {help,controls,popup,close}=useTextHelp(calendarTranslations,calendarGlossary);
+  const {help,controls,popup,close}=useTextHelp(calendarTranslations,calendarGlossary,{simple:true});
   const heading=useRef<HTMLHeadingElement>(null),first=useRef(true);
   useEffect(()=>{if(first.current){first.current=false;return;}heading.current?.focus({preventScroll:true});heading.current?.scrollIntoView?.({block:"start"});},[selected,view]);
   function select(id:string){setSelected(id);setView("learn");help.reset();}
@@ -34,9 +35,9 @@ export function CalendarLesson({initialLessonId="hours",initialChildMode=false,a
       <div className={frame.frame}><button type="button" className={frame.previous} aria-label="Anterior — Назад" disabled={current===0} onClick={()=>changeView(views[current-1])}>‹</button><div key={lesson.id}>
         <h3><LessonText text={lesson.title.split(" — ")[0]} audio/></h3>
         <div hidden={view!=="learn"}><p><LessonText text={calendarPortuguese[lesson.id].intro} audio/></p><div className="house-feedback"><p><LessonText text={calendarPortuguese[lesson.id].explanation} audio/></p></div></div>
-        <div hidden={view!=="words"}>{lesson.rows.length>0&&<dl>{lesson.rows.map(([pt,ru])=><div key={pt}><dt><LessonText text={pt} translation={ru} audio/></dt></div>)}</dl>}<div className="usage-examples">{practice.examples.map(example=><article key={example.id}><LessonText text={example.portuguese} translation={example.translation} audio/></article>)}</div></div>
+        <div hidden={view!=="words"}>{lesson.rows.length>0&&<dl>{lesson.rows.map(([pt,ru])=><div key={pt}><dt><CardSpeechButton text={pt} disabled={!active||view!=="words"}/><LessonText text={pt} translation={ru} keepPortuguese/></dt></div>)}</dl>}<div className="usage-examples">{practice.examples.map(example=><article key={example.id}><CardSpeechButton text={example.portuguese} disabled={!active||view!=="words"}/><LessonText text={example.portuguese} translation={example.translation} keepPortuguese/></article>)}</div></div>
         {selected.startsWith("months-")&&<div hidden={view!=="knuckles"}><MonthKnuckles/></div>}
-        <div hidden={view!=="practice"}><UsagePractice compact portuguese={!help.translated} active={active&&view==="practice"} module={practice} onComplete={()=>{const i=calendarLessons.findIndex(item=>item.id===selected);select(calendarLessons[i+1]?.id??"hours");}} completionLabel={help.translated?"Следующий урок →":"Seguinte →"}/></div>
+        <div hidden={view!=="practice"}><UsagePractice compact keepStudyPortuguese portuguese={!help.translated} active={active&&view==="practice"} module={practice} onComplete={()=>{const i=calendarLessons.findIndex(item=>item.id===selected);select(calendarLessons[i+1]?.id??"hours");}} completionLabel={help.translated?"Следующий урок →":"Seguinte →"}/></div>
       </div><button type="button" className={frame.next} aria-label="Seguinte — Дальше" disabled={current===views.length-1} onClick={()=>changeView(views[current+1])}>›</button></div>
     </>}
     <p><button type="button" onClick={onRoutine}>{help.translated?"Мой день: время во фразах о распорядке →":"O meu dia · Usar as horas em frases →"}</button></p>

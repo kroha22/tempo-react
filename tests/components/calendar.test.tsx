@@ -2,16 +2,27 @@ import {render,screen,within} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {expect,it,vi} from "vitest";
 import {VocabularyHub} from "@/features/practice/VocabularyHub";
+import {CalendarLesson} from "@/features/practice/CalendarLesson";
+
+it("keeps calendar words Portuguese while translating instructions",async()=>{
+  const user=userEvent.setup();render(<CalendarLesson initialLessonId="week" onRoutine={vi.fn()}/>);
+  expect(screen.queryByRole("button",{name:"Слова"})).not.toBeInTheDocument();
+  expect(screen.queryByRole("button",{name:"Слушать"})).not.toBeInTheDocument();
+  await user.click(screen.getByRole("button",{name:"Palavras"}));
+  await user.click(screen.getByRole("button",{name:"⇄ Перевод"}));
+  expect(screen.getByRole("button",{name:"Перевод: segunda-feira"})).toHaveTextContent("segunda-feira");
+  expect(screen.queryByText("понедельник",{exact:true})).not.toBeInTheDocument();
+  await user.click(screen.getByRole("button",{name:"Перевод: segunda-feira"}));
+  expect(within(screen.getByRole("dialog",{name:"Перевод слова"})).getByText("понедельник")).toBeVisible();
+});
 
 it.each([false,true])("uses short calendar blocks, clock practice and shared help (child=%s)",async child=>{
   const user=userEvent.setup();
   render(<VocabularyHub initialChildMode={child} onOpenCards={vi.fn()} initialTopicId="topic:vocabulary-calendar"/>);
   const region=screen.getByRole("region",{name:"Время и календарь: уроки"});
-  await user.click(within(region).getByRole("button",{name:"Слова"}));
   await user.click(within(region).getByRole("button",{name:"Перевод: calendário"}));
   expect(screen.getByRole("dialog",{name:"Перевод слова"})).toHaveTextContent("календарь");
   await user.click(screen.getByRole("button",{name:"Закрыть подсказку"}));
-  await user.click(within(region).getByRole("button",{name:"Слова"}));
   await user.click(within(region).getByRole("button",{name:"Ler o relógio"}));
   await user.type(within(region).getByLabelText("Escreve a hora em português"),"São sete horas.");
   await user.click(within(region).getByRole("button",{name:"Verificar"}));
@@ -23,19 +34,19 @@ it.each([false,true])("uses short calendar blocks, clock practice and shared hel
   expect(within(region).getByRole("heading",{name:"Время и календарь",level:2})).toBeVisible();
   expect(within(region).getByText("Сегодня вторник.")).toBeVisible();
   await user.click(within(region).getByRole("button",{name:"⇄ Перевод"}));
-  await user.click(within(region).getByRole("button",{name:"terça-feira"}));
+  await user.click(within(region).getByRole("button",{name:"Выбрать: terça-feira"}));
   await user.click(within(region).getByRole("button",{name:"Verificar"}));
   expect(within(region).getByText("Correto!",{exact:true})).toBeVisible();
   await user.click(within(region).getByRole("button",{name:/5 · A data/}));
   await user.click(within(region).getByRole("button",{name:"Praticar"}));
-  await user.click(within(region).getByRole("button",{name:"outubro"}));
+  await user.click(within(region).getByRole("button",{name:"Выбрать: outubro"}));
   await user.click(within(region).getByRole("button",{name:"Verificar"}));
   expect(within(region).getByText("Correto!",{exact:true})).toBeVisible();
   await user.click(within(region).getByRole("button",{name:/3 · Janeiro/}));
   await user.click(within(region).getByRole("button",{name:"Os nós dos dedos"}));
   await user.click(within(region).getByRole("button",{name:"Следующая часть памятки"}));
   await user.click(within(region).getByRole("button",{name:"Следующая часть памятки"}));
-  expect(within(region).getByText("Julho e agosto têm ambos 31 dias.",{exact:false})).toBeVisible();
+  expect(within(region).getByRole("region",{name:"Счёт месяцев по костяшкам"})).toHaveTextContent("Julho e agosto têm ambos 31 dias.");
   await user.click(within(region).getByRole("button",{name:/O meu dia.*Usar as horas/}));
   expect(screen.getByRole("region",{name:"Мой день: время и действия"})).toBeVisible();
 });

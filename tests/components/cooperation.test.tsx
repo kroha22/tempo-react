@@ -21,7 +21,7 @@ it.each([false,true])("practises all three cooperation stages and reuses feeling
   const answers=[["Esperar pela sua vez.","É a tua vez.","Vamos falar com calma."],["Estou triste.","Podes parar, por favor?","A um adulto de confiança."],["o diálogo","a negociação","o compromisso"]];
   for(let step=0;step<3;step++){
     for(let i=0;i<3;i++){
-      await user.click(within(region).getByRole("button",{name:answers[step][i]}));
+      await user.click(within(region).getByRole("button",{name:`Выбрать: ${answers[step][i]}`}));
       await user.click(within(region).getByRole("button",{name:"Verificar"}));
       expect(within(region).getByText("Correto!",{exact:true})).toBeVisible();
       if(step===0&&i===0){
@@ -42,7 +42,6 @@ it("replaces whole blocks, keeps word help across screens and offers Portuguese 
   const user=userEvent.setup();
   render(<VocabularyHub onOpenCards={vi.fn()} initialTopicId="topic:vocabulary-cooperation"/>);
   const region=screen.getByRole("region",{name:"Общаемся и договариваемся: уроки"});
-  await user.click(within(region).getByRole("button",{name:"Слова"}));
   await user.click(within(region).getByRole("button",{name:"Перевод: chegar a acordo"}));
   const popup=screen.getByRole("dialog",{name:"Перевод слова"});
   expect(within(popup).getByText("договориться")).toBeVisible();
@@ -53,13 +52,14 @@ it("replaces whole blocks, keeps word help across screens and offers Portuguese 
   expect(within(region).getByRole("heading",{name:"Слушать и уважать"})).toBeVisible();
   await user.click(within(region).getByRole("button",{name:"Seguinte — Дальше"}));
   expect(within(region).getByRole("button",{name:"⇄ Перевод"})).toHaveAttribute("aria-pressed","false");
-  expect(within(region).getByRole("button",{name:"Слова"})).toHaveAttribute("aria-pressed","true");
-  await user.click(within(region).getByRole("button",{name:"Слушать"}));
-  expect(within(region).getByRole("button",{name:/Послушать: Como podemos chegar a acordo/})).toBeInTheDocument();
+  expect(within(region).queryByRole("button",{name:"Слова"})).not.toBeInTheDocument();
+  expect(within(region).queryByRole("button",{name:"Слушать"})).not.toBeInTheDocument();
+  expect(within(region).queryByRole("button",{name:/Послушать: Como podemos chegar a acordo/})).not.toBeInTheDocument();
   await user.click(within(region).getByRole("button",{name:"Seguinte — Дальше"}));
   await user.click(within(region).getByRole("button",{name:"Выбрать: Esperar pela sua vez."}));
   await user.click(within(region).getByRole("button",{name:"⇄ Перевод"}));
-  expect(within(region).getAllByText("Дождаться своей очереди.")[0]).toBeVisible();
+  expect(within(region).getByRole("button",{name:"Выбрать: Esperar pela sua vez."})).toBeVisible();
+  expect(within(region).queryByText("Дождаться своей очереди.")).not.toBeInTheDocument();
   await user.click(within(region).getByRole("button",{name:"Проверить"}));
   expect(within(region).getByText("Верно",{exact:true})).toBeVisible();
   await user.click(within(region).getByRole("button",{name:"Следующая фраза →"}));
