@@ -38,3 +38,30 @@ it("keeps practice answers while switching tabs and has no Portuguese paper task
   expect(screen.queryByLabelText("Задание на бумаге")).not.toBeInTheDocument();
   expect(within(screen.getByRole("region",{name:"Вставь сочетания букв"})).queryByText("Qual palavra significa um veículo?")).not.toBeInTheDocument();
 });
+
+it("offers word hints immediately, skips isolated letters and keeps only the translation control",async()=>{
+  const user=userEvent.setup();render(<TestPreparation initialUnitId="letters" onUnitChange={vi.fn()} onBack={vi.fn()} onOpen={vi.fn()}/>);
+  const controls=within(screen.getByRole("group",{name:"Подсказки и перевод"}));
+  expect(controls.getAllByRole("button")).toHaveLength(1);
+  expect(screen.queryByRole("button",{name:"Перевод: a"})).not.toBeInTheDocument();
+  expect(screen.queryByRole("button",{name:"Перевод: e"})).not.toBeInTheDocument();
+  await user.click(screen.getByRole("button",{name:"Перевод: vogais"}));
+  const popup=within(screen.getByRole("dialog",{name:"Перевод слова"}));
+  expect(popup.getByText("гласные")).toBeVisible();
+  expect(popup.getByRole("button",{name:"Послушать: vogais"})).toBeVisible();
+  expect(document.querySelector("button button")).toBeNull();
+  expect(screen.getByRole("button",{name:"Буква H: agá"})).toBeVisible();
+  expect(screen.getByRole("button",{name:"Буква R: erre"})).toBeVisible();
+  expect(screen.getByRole("group",{name:"Подсказки и перевод"})).not.toHaveTextContent("Слушать");
+});
+
+it("translates explanations but keeps vocabulary Portuguese with individual hints",async()=>{
+  const user=userEvent.setup();render(<TestPreparation initialUnitId="letters" onUnitChange={vi.fn()} onBack={vi.fn()} onOpen={vi.fn()}/>);
+  await user.click(screen.getByRole("button",{name:"⇄ Перевод"}));
+  expect(screen.getByText("Полезные слова")).toBeVisible();
+  expect(screen.getByRole("button",{name:"Перевод: a vogal"})).toHaveTextContent("a vogal");
+  expect(screen.queryByText("гласная буква")).not.toBeInTheDocument();
+  await user.click(screen.getByRole("button",{name:"Перевод: a vogal"}));
+  expect(within(screen.getByRole("dialog",{name:"Перевод слова"})).getByText("гласная буква")).toBeVisible();
+  expect(screen.getByRole("button",{name:"Буква H: agá"})).toBeVisible();
+});

@@ -41,12 +41,12 @@ it("covers every preparation topic with a valid check and paper handoff",()=>{
   expect(preparationUnits.find(u=>u.id==="timeline")?.notice).toBeDefined();
 });
 
-it("numbers only the three world exercise sheets, with recognizable printed titles",async()=>{
-  const user=userEvent.setup();render(<TestPreparation initialUnitId={null} onUnitChange={vi.fn()} onBack={vi.fn()} onOpen={vi.fn()}/>);
-  await user.click(screen.getByText("Как найти бумажный лист"));
+it("keeps the preparation catalogue free of paper directions and scores",()=>{
+  render(<TestPreparation initialUnitId={null} onUnitChange={vi.fn()} onBack={vi.fn()} onOpen={vi.fn()}/>);
   expect(preparationSheets.map(s=>s.number)).toEqual([1,2,3]);
-  for(const sheet of preparationSheets)expect(screen.getByText(`Лист ${sheet.number} · ${sheet.title[1]}`)).toBeVisible();
-  expect(screen.getByRole("region",{name:"Набор подготовки к проверочной"})).not.toHaveTextContent(/IMG_/);
+  expect(screen.queryByText("Как найти бумажный лист")).not.toBeInTheDocument();
+  expect(screen.queryByRole("button",{name:"Слова"})).not.toBeInTheDocument();
+  expect(screen.queryByRole("button",{name:"Слушать"})).not.toBeInTheDocument();
 });
 
 it("returns through a second related topic to the original task without clearing its answer",async()=>{
@@ -105,21 +105,22 @@ it.each(preparationUnits.filter(u=>u.subject!=="portuguese"))("child completes $
   expect(screen.getByRole("region",{name:"Результат занятия"})).toHaveTextContent("2 / 2");
   if(["cooperation","bones","organs","prevention","wellbeing"].includes(unit.id)){
   await user.click(screen.getByRole("button",{name:"Agora no papel →"}));
-  expect(screen.getByText(unit.paper![0])).toBeVisible();
-  if(unit.notice)expect(screen.getByText(unit.notice[0])).toBeVisible();
+  expect(screen.getByLabelText("Задание на бумаге")).toHaveTextContent(unit.paper![0]);
+  if(unit.notice)expect(screen.getByLabelText("Задание на бумаге")).toHaveTextContent(unit.notice[0]);
   await user.click(screen.getByRole("button",{name:"⇄ Перевод"}));
   expect(screen.getByText(unit.paper![1])).toBeVisible();
   if(unit.notice)expect(screen.getByText(unit.notice[1])).toBeVisible();
   }else expect(screen.queryByLabelText("Задание на бумаге")).not.toBeInTheDocument();
 });
 
-it("labels the retained best score honestly after a lower-scoring retry",async()=>{
+it("keeps saved best scores but hides results from preparation cards",async()=>{
   const result={title:"Алфавит",group:"Слова в жизни" as const,correct:2,total:2};
   const learning=recordActivity(recordActivity(emptyProfileLearning(),"prep:letters",result),"prep:letters",{...result,correct:1});
   const user=userEvent.setup();
   render(<ProfileLearningContext value={{profile:{id:"qa",child:true},learning,savingError:false,update:()=>true}}><TestPreparation initialUnitId={null} onUnitChange={vi.fn()} onBack={vi.fn()} onOpen={vi.fn()}/></ProfileLearningContext>);
   await user.click(screen.getByRole("button",{name:"Português"}));
-  expect(screen.getByRole("button",{name:/O alfabeto/})).toHaveTextContent("Ранее, короткая проверка: 2/2");
+  expect(screen.getByRole("button",{name:/O alfabeto/})).toHaveTextContent("Буквы, гласные и согласные");
+  expect(screen.queryByText(/Ранее, короткая проверка/)).not.toBeInTheDocument();
   expect(screen.queryByText(/Последняя тренировка/)).not.toBeInTheDocument();
 });
 
@@ -173,5 +174,5 @@ it("embeds the existing organ diagram with all six matching targets",async()=>{
   const diagram=within(screen.getByRole("region",{name:"Органы: схема и практика"}));
   expect(diagram.getByRole("group",{name:"Слова для расстановки"})).toBeVisible();
   expect(diagram.getAllByRole("button",{name:/Квадрат \d+, пустой/})).toHaveLength(6);
-  expect(screen.getByText(preparationUnits.find(u=>u.id==="organs")!.paper![0])).toBeVisible();
+  expect(screen.getByLabelText("Задание на бумаге")).toHaveTextContent(preparationUnits.find(u=>u.id==="organs")!.paper![0]);
 });

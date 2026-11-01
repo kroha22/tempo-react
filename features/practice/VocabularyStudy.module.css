@@ -28,6 +28,8 @@
 .catalogGrid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; margin-top:18px; }
 .catalogGrid .topicCard { --cover-color:#b7e4ce; display:flex; flex-direction:column; gap:5px; align-items:stretch; min-width:0; padding:9px; border:1px solid #ffffffd9; border-radius:20px; text-align:left; color:#294b39; background:linear-gradient(150deg,#ffffffa1,#ffffff1a),var(--cover-color); box-shadow:inset 0 1px 2px white,inset 0 -1px 1px #ffffff80,0 5px 14px #315f4812; }
 .topicCard[data-tone="1"] { --cover-color:#f5dca1; }
+.catalogGrid .preparationCard {background:linear-gradient(135deg,#ffe17c,#ffb9a4 55%,#dac4ff);border:2px solid #fff4c2;box-shadow:inset 0 2px 3px #fff,0 6px 18px #93693328;justify-content:center;padding:18px;}
+.preparationIcon{font-size:48px;color:#8c4b22;line-height:1.2;}
 .topicCard[data-tone="2"] { --cover-color:#b6ddef; }
 .topicCard[data-tone="3"] { --cover-color:#edc0d1; }
 .topicCard[data-tone="4"] { --cover-color:#d4c5ec; }

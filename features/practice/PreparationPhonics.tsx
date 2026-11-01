@@ -6,12 +6,17 @@ import {ActivityCompletion} from "./ActivityCompletion";
 import {LessonText,useLessonText} from "./LessonText";
 import styles from "./TestPreparation.module.css";
 
+// Names, not isolated phonemes: Acordo Ortográfico, Base I.
+export const alphabetNames=["á","bê","cê","dê","é","efe","gê","agá","i","jota","capa","ele","eme","ene","ó","pê","quê","erre","esse","tê","u","vê","dáblio","xis","ípsilon","zê"] as const;
+export function AlphabetSounds(){
+  return <div className={styles.alphabetSounds} aria-label="Послушай названия букв">{Array.from("ABCDEFGHIJKLMNOPQRSTUVWXYZ").map((letter,i)=><div key={letter}><CardSpeechButton text={alphabetNames[i]} label={`Буква ${letter}`}><span>{letter} {letter.toLowerCase()}</span></CardSpeechButton><small lang="pt-PT">{alphabetNames[i]}</small></div>)}</div>;
+}
+
 export function PhonicsExamples({id}:{id:string}){
-  const help=useLessonText();
   const words=preparationPhonics[id];
-  if(id==="letters")return <section><h4><LessonText text="Letras e sons" translation="Буквы и звуки"/></h4><p><LessonText text="As cinco letras vogais são A, E, I, O e U. Os acentos, como em á e ê, não criam novas letras do alfabeto." translation="Пять гласных букв — A, E, I, O, U. Знаки ударения, например в á и ê, не создают новых букв алфавита."/></p><p><LessonText text="Os sons também podem ser surdos ou sonoros. Põe a mão na garganta: no som inicial de vaca há vibração; no de faca, não. Compara os sons, não apenas as letras." translation="Звуки бывают глухими и звонкими. Положи руку на горло: при первом звуке vaca ощущается вибрация, при первом звуке faca — нет. Сравнивай звуки, а не только буквы."/></p><div className={styles.soundWords}>{[["faca","нож"],["vaca","корова"]].map(([word,meaning])=><span key={word}><CardSpeechButton text={word}/><b lang="pt-PT">{word}</b>{help?.translated&&<small>{meaning}</small>}</span>)}</div></section>;
+  if(id==="letters")return <section><h4><LessonText text="Letras e sons" translation="Буквы и звуки"/></h4><p><LessonText text="As cinco letras vogais são A, E, I, O e U. Os acentos, como em á e ê, não criam novas letras do alfabeto." translation="Пять гласных букв — A, E, I, O, U. Знаки ударения, например в á и ê, не создают новых букв алфавита."/></p><p><LessonText text="Os sons também podem ser surdos ou sonoros. Põe a mão na garganta: no som inicial de vaca há vibração; no de faca, não. Compara os sons, não apenas as letras." translation="Звуки бывают глухими и звонкими. Положи руку на горло: при первом звуке vaca ощущается вибрация, при первом звуке faca — нет. Сравнивай звуки, а не только буквы."/></p><div className={styles.soundWords}>{[["faca","нож"],["vaca","корова"]].map(([word,meaning])=><span key={word}><CardSpeechButton text={word}/><b><LessonText text={word} translation={meaning} keepPortuguese/></b></span>)}</div></section>;
   if(!words)return null;
-  return <section aria-label="Слова для прослушивания"><h4><LessonText text="Ouve e repete" translation="Послушай и повтори"/></h4><div className={styles.soundWords}>{words.map(item=><span key={item.word}><CardSpeechButton text={item.word}/><b lang="pt-PT">{item.word}</b>{help?.translated&&<small>{item.meaning}</small>}</span>)}</div></section>;
+  return <section className={styles.embedded} aria-label="Слова для прослушивания"><h4><LessonText text="Ouve e repete" translation="Послушай и повтори"/></h4><div className={styles.soundWords}>{words.map(item=><span key={item.word}><CardSpeechButton text={item.word}/><b><LessonText text={item.word} translation={item.meaning} keepPortuguese/></b></span>)}</div></section>;
 }
 
 export function PreparationPhonics({id}:{id:string}){

@@ -9,7 +9,7 @@ export const preparationSheets=[
 
 // Recognition/review supports from these lessons. Catalog words are resolved to their existing IDs in the view.
 export const preparationKeywords:Readonly<Record<string,readonly PrepText[]>>={
-  letters:[["o alfabeto","алфавит"],["a letra","буква"],["o nome","имя"],["a palavra","слово"]],
+  letters:[["o alfabeto","алфавит"],["a vogal","гласная буква"],["a consoante","согласная буква"],["a letra","буква"],["o som","звук"],["a sílaba","слог"]],
   "r-rr":[["caro","дорогой"],["o carro","машина"],["o rato","мышь"],["o coração","сердце"]],
   "s-ss":[["a casa","дом"],["a massa","макароны"],["a rosa","роза"],["o dinossauro","динозавр"]],
   "c-cedilla":[["a cidade","город"],["a cabeça","голова"],["o açúcar","сахар"],["a cereja","вишня"]],

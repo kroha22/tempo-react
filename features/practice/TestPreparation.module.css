@@ -14,6 +14,8 @@
 .sheetIndex summary,.embedded summary {cursor:pointer;min-height:44px;padding:10px 0;font-weight:800;}
 .sheetIndex li {margin:12px 0;}.sheetIndex li>span {display:block;font-size:14px;margin-top:4px;}
 .keywordList {display:flex;flex-wrap:wrap;gap:8px;margin:12px 0;}.keywordList>span {border:1px solid #b5caba;border-radius:10px;background:#edf5ed;padding:8px 12px;}
+.keywordList>span {display:flex;align-items:center;gap:8px;}
+.alphabetSounds{display:grid;grid-template-columns:repeat(auto-fit,minmax(64px,1fr));gap:8px;}.alphabetSounds>div{display:flex;flex-direction:column;align-items:center;justify-content:center;background:white;border:1px solid #b5caba;border-radius:10px;padding:6px;}.alphabetSounds button{width:100%;min-width:48px;min-height:48px;font:inherit;}.alphabetSounds small{font-size:13px;}.alphabetSounds [role=status]:empty{display:none;}
 .embedded details {border-top:1px solid #d8e2d9;margin-top:8px;}
 .notice {padding:14px;border:2px solid #d0a45b;border-radius:14px;background:#fff5dc;line-height:1.5;}
 @media(max-width:620px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));}.grid .unit{padding:11px;}.subjects button{font-size:13px;}}
