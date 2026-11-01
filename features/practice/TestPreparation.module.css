@@ -16,6 +16,10 @@
 .keywordList {display:flex;flex-wrap:wrap;gap:8px;margin:12px 0;}.keywordList>span {border:1px solid #b5caba;border-radius:10px;background:#edf5ed;padding:8px 12px;}
 .keywordList>span {display:flex;align-items:center;gap:8px;}
 .alphabetSounds{display:grid;grid-template-columns:repeat(auto-fit,minmax(64px,1fr));gap:8px;}.alphabetSounds>div{display:flex;flex-direction:column;align-items:center;justify-content:center;background:white;border:1px solid #b5caba;border-radius:10px;padding:6px;}.alphabetSounds button{width:100%;min-width:48px;min-height:48px;font:inherit;}.alphabetSounds small{font-size:13px;}.alphabetSounds [role=status]:empty{display:none;}
+.alphabetLegend{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px;}.alphabetLegend>span{padding:8px 12px;border:1px solid;border-radius:12px;font-size:14px;color:#294b39;}
+.alphabetSounds>div[data-family=vowel],.alphabetLegend>[data-family=vowel],.letterButtons button[data-family=vowel]{background:#ffe0c9;border-color:#c78b63;}
+.alphabetSounds>div[data-family=consonant],.alphabetLegend>[data-family=consonant],.letterButtons button[data-family=consonant]{background:#d9ecfa;border-color:#83abc7;}
+.alphabetSounds button{border:0;border-radius:8px;background:transparent;color:#294b39;cursor:pointer;font-weight:800;}.alphabetSounds button:hover{background:#ffffff70;}.alphabetSounds button:focus-visible{outline:3px solid #8056a6;outline-offset:2px;}
 .embedded details {border-top:1px solid #d8e2d9;margin-top:8px;}
 .notice {padding:14px;border:2px solid #d0a45b;border-radius:14px;background:#fff5dc;line-height:1.5;}
 @media(max-width:620px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));}.grid .unit{padding:11px;}.subjects button{font-size:13px;}}
@@ -24,7 +28,7 @@
 .practiceStack[hidden] {display:none;}
 .sheetPreview {margin:0 auto 16px;max-width:340px;}.sheetPreview img{display:block;width:100%;height:auto;border:1px solid #adbcae;border-radius:8px;}.sheetPreview figcaption{margin-top:8px;font-size:14px;}
 .soundWords {display:flex;flex-wrap:wrap;gap:10px;}.soundWords>span{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px;background:#f0f5ee;border-radius:12px;}.soundWords small{width:100%;}
-.letterButtons {display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:7px;}.letterButtons button{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60px;font:inherit;border:1px solid #789986;border-radius:10px;background:white;}.letterButtons button[aria-pressed=true]{background:#c4e6cf;outline:2px solid #416f54;font-weight:bold;}
+.letterButtons {display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:7px;}.letterButtons button{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60px;font:inherit;border:1px solid #789986;border-radius:10px;background:white;}.letterButtons button[aria-pressed=true]{outline:3px solid #416f54;font-weight:bold;}
 .spellingPool{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:16px 0;}.spellingPool article{padding:12px;border:1px solid #adc5b6;border-radius:14px;background:#fff;}.spellingPool article>div:first-child{display:flex;gap:10px;align-items:center;min-height:44px;}.spellingPool b{font-size:22px;}.spellingChoices{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}.spellingChoices button{min-width:44px;min-height:44px;padding:6px;border:1px solid #789986;border-radius:9px;background:#f3f8f0;font:inherit;}.spellingChoices button[aria-pressed=true]{outline:2px solid #416f54;background:#d5eadc;font-weight:bold;}
 .topicPage>h2,.goal,.paper,.embedded,.monthPractice,.topicPage>.visualWords {grid-column:1/-1;}
 .topicPage>h2 {margin:16px 0 0;line-height:1.2;}
