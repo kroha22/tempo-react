@@ -3,6 +3,8 @@ export const lessonCovers: Readonly<Record<string, string>> = {
   "foundation:hello": "/images/covers/hello-v1.webp",
   "foundation:identity": "/images/covers/identity-v1.webp",
   "topic:vocabulary-space": "/images/covers/space-objects-v2.webp",
+  "topic:vocabulary-cooperation": "/images/covers/cooperation-v2.webp",
+  "topic:vocabulary-calendar": "/images/vocabulary/my-day-cover.svg",
   "topic:vocabulary-my-day": "/images/covers/my-day-v1.webp",
   "topic:vocabulary-body": "/images/covers/body-v1.webp",
   "topic:vocabulary-scenes": "/images/covers/scenes-objects-v2.webp",

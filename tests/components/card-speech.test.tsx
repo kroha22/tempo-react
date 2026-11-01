@@ -26,6 +26,8 @@ test("backup is shared, persisted and reversible without playing or flipping", a
   help(); fireEvent.click(screen.getByRole("button",{name:"Вернуться к Joana"}));
   fireEvent.click(screen.getByRole("button",{name:"Послушать: casa"}));
   expect(speak.mock.lastCall![0]).toMatchObject({voice:joana,lang:"pt-PT"});
+  // Finish the final mocked utterance before the next test replaces the browser engine.
+  act(()=>speak.mock.lastCall![0].onend());
 });
 test("missing backup preserves existing settings and explains why", () => {
   voices=[joana]; render(<SpeechHelpButton/>);help();fireEvent.click(screen.getByRole("button",{name:"Включить запасной"}));

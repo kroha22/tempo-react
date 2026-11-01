@@ -1,0 +1,36 @@
+.lesson p {line-height:1.5;}
+.help {display:flex;gap:6px;flex-wrap:wrap;margin:10px 0;}
+.help button {min-height:44px;padding:8px 12px;border:1px solid #adc5b6;border-radius:12px;background:#fff;font:inherit;color:#294b39;}
+.help button[aria-pressed=true] {background:#d5eadc;outline:2px solid #52876b;}
+.popup {position:fixed;bottom:18px;left:50%;transform:translateX(-50%);width:min(90vw,540px);box-sizing:border-box;z-index:20;display:flex;gap:10px;align-items:center;padding:12px;background:#fffbea;border:2px solid #9eb9a4;border-radius:18px;box-shadow:0 8px 30px #294b3940;}
+.popup p {flex:1;margin:0;}
+.popup>button {min-width:44px;min-height:44px;}
+.frame {position:relative;margin:12px 0;padding:0 16px;}
+.content {min-width:0;}
+.previous,.next {position:absolute;top:45%;transform:translateY(-50%);z-index:1;width:44px;height:56px;padding:0;border-radius:18px;border:1px solid #aac5b3;background:#edf7ef;color:#294b39;font-size:36px;cursor:pointer;}
+.previous {left:-24px;}
+.next {right:-24px;}
+.frame>button {display:grid;place-items:center;}
+.frame>.previous,.frame>.next {font-size:36px;}
+.previous:disabled,.next:disabled {opacity:.35;cursor:default;}
+.previous:focus-visible,.next:focus-visible {outline:3px solid #8056a6;outline-offset:2px;}
+.context {font-size:13px;color:#44684e;}
+.content summary {cursor:pointer;min-height:32px;font-size:13px;}
+.intro {font-size:14px;margin:8px 0;}
+.intro summary {cursor:pointer;min-height:32px;}
+.views,.actions {display:flex;gap:8px;margin:12px 0;flex-wrap:wrap;clear:both;}
+.views button {flex:1;min-height:44px;padding:8px;border-radius:12px;border:1px solid #adc5b6;background:#fff;color:#294b39;font:inherit;}
+.views button[aria-pressed=true] {background:#d5eadc;font-weight:800;}
+.lesson h2:focus {outline:none;}
+.steps {display:flex;flex-wrap:wrap;gap:8px;margin:16px 0;}
+.steps button {min-height:44px;flex:1 1 190px;padding:10px;border-radius:14px;border:1px solid #adc5b6;background:#fff8e6;color:#294b39;font:inherit;text-align:left;}
+.steps button[aria-pressed=true] {background:#d5eadc;outline:2px solid #52876b;}
+.scene {width:min(100%,260px);margin:12px auto;}
+.scene svg {display:block;width:100%;border-radius:18px;overflow:hidden;}
+.scene figcaption {font-size:13px;line-height:1.5;margin-top:6px;}
+.lesson :global(.usage-practice) {clear:both;}
+.process {display:flex;flex-wrap:wrap;gap:10px;padding-left:24px;clear:both;}
+.process li {flex:1 1 150px;padding:8px;background:#edf5e8;border-radius:12px;}
+.process span {display:block;font-size:14px;}
+.steps button:focus-visible {outline:3px solid #8056a6;outline-offset:3px;}
+@media(max-width:620px){.scene{width:min(100%,200px);}.steps{flex-wrap:nowrap;overflow-x:auto;padding:3px;margin:10px 0;}.steps button{flex:0 0 190px;font-size:13px;}.views button{font-size:13px;}}

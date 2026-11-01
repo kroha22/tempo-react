@@ -1,0 +1,25 @@
+.lesson nav {display:flex;flex-wrap:wrap;gap:8px;margin:12px 0;}
+.lesson nav button {min-height:44px;max-width:100%;white-space:normal;text-align:left;}
+.lesson dl {display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:8px;margin:12px 0;}
+.lesson dl>div {padding:8px;background:#ffffff90;border-radius:10px;}
+.lesson dt {font-weight:800;overflow-wrap:anywhere;}
+.lesson dd {margin:3px 0 0;font-size:14px;}
+.lesson p {line-height:1.5;}
+.lesson h2:focus {outline:none;}
+.lesson nav[aria-label="Уроки времени и календаря"] {flex-wrap:nowrap;overflow-x:auto;padding:3px;}
+.lesson nav[aria-label="Уроки времени и календаря"] button {flex:0 0 170px;}
+.lesson :global(.learning-clock) {width:min(100%,190px);margin:10px auto;}
+.lesson :global(.clock-lesson) {padding:0;}
+.lesson :global(.clock-instruction) {font-size:14px;}
+@media(max-width:620px){.lesson nav[aria-label="Блок календарного урока"]{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;}.lesson nav[aria-label="Блок календарного урока"] button{min-width:0;font-size:13px;}}
+.knuckles {margin:14px 0;padding:12px;border:1px solid #d6bb77;border-radius:16px;background:#fff7dd;}
+.knuckles summary {cursor:pointer;font-weight:800;min-height:44px;display:list-item;align-content:center;}
+.knuckleRow {display:flex;flex-wrap:wrap;gap:6px;padding:0;list-style:none;}
+.knuckleRow li {display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1 0 86px;gap:3px;border:1px solid #b5c7ba;border-radius:12px;background:#fff;padding:8px 4px;margin-top:22px;}
+.knuckleRow li[data-raised=true] {margin-top:0;margin-bottom:22px;border-radius:24px 24px 10px 10px;background:#dff0e7;}
+.knuckleRow small {font-size:11px;}
+.knuckleRow strong {font-size:20px;}
+.knuckles .knuckleRow {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;}
+.knuckles .knuckleRow li {min-width:0;padding:5px 2px;gap:2px;margin-top:12px;}
+.knuckles .knuckleRow li[data-raised=true] {margin-top:0;margin-bottom:12px;}
+.knuckles .knuckleRow b {font-size:12px;overflow-wrap:anywhere;}

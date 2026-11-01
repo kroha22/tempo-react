@@ -4,6 +4,8 @@ import { firstVerticalSliceContentPack as pack } from "./manifest.ts";
 import { verbs, allVerbKeys, type VerbKey, type Tense } from "../conjugation/data.ts";
 import { verbCards } from "../cards/data/verb-cards.ts";
 import { vocabularyImages } from "./vocabulary-images.ts";
+import {buildCooperationUsage} from "./cooperation.ts";
+import {buildCalendarUsage} from "./calendar.ts";
 import {buildMyDayUsage} from "./my-day.ts";
 import {buildFamilyUsage} from "./family-lesson.ts";
 import {feelingWords,buildFeelingsUsage} from "./feelings-lesson.ts";
@@ -215,6 +217,8 @@ usageModules.push({
 });
 usageModules.push(buildMyDayUsage(id=>{const meaning=meaningByLegacy.get(id);if(!meaning)throw new Error(`Unknown day word ${id}`);return meaning;}));
 usageModules.push(buildFeelingsUsage(id=>{const meaning=meaningByLegacy.get(id);if(!meaning)throw new Error(`Unknown feeling ${id}`);return meaning;}));
+usageModules.push(...buildCalendarUsage(id=>{const meaning=meaningByLegacy.get(id);if(!meaning)throw new Error(`Unknown calendar word ${id}`);return meaning;}));
+usageModules.push(...buildCooperationUsage(id=>{const meaning=meaningByLegacy.get(id);if(!meaning)throw new Error(`Unknown cooperation word ${id}`);return meaning;}));
 const scenes=vocabularyImages.map(image=>({id:image.id,title:image.title,image:{src:image.image.src,width:image.image.width,height:image.image.height},targets:image.spots.map(spot=>({id:spot.id,meaningIds:spot.acceptedWordIds.map(id=>meaningByLegacy.get(id)!),anchor:{x:spot.x/image.image.width,y:spot.y/image.image.height}}))}));
 const activities:ActivityBinding[]=collections.filter(c=>c.source.legacySetId).flatMap(c=>{
   const sourceIds=new Set(c.meaningIds.flatMap(id=>meaningMap.get(id)!.legacyWordIds));

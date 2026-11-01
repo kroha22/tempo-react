@@ -1,7 +1,7 @@
 import {shortGrammarLessons} from "../content/short-grammar-lessons";
 import {LegacyLessonLink} from "./LegacyLessonLink";
 import styles from "./LearningLibrary.module.css";
-const practical=[["/learning/everyday/likes","GOSTAR DE","Мне нравится"],["/learning/everyday/body","O corpo e as ações","Тело и действия"],["/learning/time","Que horas são?","Часы и время"],["/learning/trazer","TRAZER","Приносить: формы и фразы"]];
+const practical=[["/learning/everyday/likes","GOSTAR DE","Мне нравится"],["/learning/everyday/body","O corpo e as ações","Тело и действия"],["/learning/trazer","TRAZER","Приносить: формы и фразы"]];
 const extraForms=[["/learning/future","IR + infinitivo","Будущее: планы"],["/learning/past-suns","FAZER, DIZER, IR, TRAZER","Прошедшее: формы и практика"],["/learning/conjugation","Conjugação","Тренажёр спряжений"]];
 export function LearningLibrary(){return <nav className={styles.library} aria-label="Уроки и грамматика">
   <section aria-labelledby="practical-lessons"><h2 id="practical-lessons">Mais aulas — Практические уроки</h2><div className={styles.grid}>{practical.map(([href,title,subtitle],index)=><LegacyLessonLink className={`${styles.card} ${styles[`tone${index%3}`]}`} key={href} href={href}><span className={styles.symbol} aria-hidden="true">✦</span><strong lang="pt-PT">{title}</strong><span>{subtitle}</span><small>Объяснение и практика →</small></LegacyLessonLink>)}</div></section>

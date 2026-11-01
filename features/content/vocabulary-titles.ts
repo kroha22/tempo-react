@@ -1,6 +1,8 @@
 /** Presentation translations; canonical IDs, exercise answers and progress stay unchanged. */
 export const vocabularyTitlesPt: Readonly<Record<string, string>> = {
   "Как я себя чувствую":"Como me sinto?",
+  "Общаемся и договариваемся":"Conversar e chegar a acordo", "Слушаем по очереди":"Ouvir à vez", "Чувства и границы":"Sentimentos e limites", "Ищем общее решение":"Encontrar uma solução",
+  "Время и календарь":"O tempo e o calendário", "Дни недели":"Os dias da semana", "Январь — июнь":"Janeiro–junho", "Июль — декабрь":"Julho–dezembro",
   "Мой день":"O meu dia", "Действия в течение дня":"Ações do dia", "Во сколько?":"A que horas?",
   "Пространство и направления":"O espaço e as direções", "Куда двигаться?":"Para onde?",
   "От головы до ног":"Da cabeça aos pés", "Внутри тела":"Por dentro do corpo",

@@ -61,6 +61,7 @@ export type UsageClozeOption = {
 export type UsageCloze = {
   id: string;
   prompt: string;
+  promptTranslation?: string;
   before: string;
   after: string;
   options: readonly UsageClozeOption[];

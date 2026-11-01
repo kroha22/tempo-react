@@ -12,6 +12,8 @@ import { withTableIllustration } from "./table-illustrations.ts";
 import { withBodyIllustration } from "./body-vocabulary.ts";
 import { spaceWords, spaceGroup, withSpaceIllustration } from "./space-vocabulary.ts";
 import {myDayVerbWords,myDayTimeWords,myDayGroup} from "./my-day.ts";
+import {cooperationWords,cooperationGroup} from "./cooperation.ts";
+import {calendarWords,calendarGroup} from "./calendar.ts";
 import {identityWords} from "./identity.ts";
 import {feelingWords,feelingsGroup,withFeelingIllustration} from "./feelings-lesson.ts";
 
@@ -66,11 +68,13 @@ const basePairVocabulary: readonly PairWord[] = [
   ...verbCards.filter(word => selectedVerbs.has(word.id) && !schoolInstructionWordIds.includes(word.id)).map(word => ({ id: word.id, label: word.pt, translation: word.ru })),
 ];
 export const topicExpansion = buildTopicExpansion(basePairVocabulary);
-const existingPairVocabulary: VocabularyWord[] = [...basePairVocabulary.map(topicExpansion.decorate), ...topicExpansion.newWords, ...foodCategories,...myDayVerbWords.filter(word=>!basePairVocabulary.some(existing=>existing.id===word.id)),...myDayTimeWords,...feelingWords].map(withEverydayIllustration).map(withTableIllustration).map(withBodyIllustration).map(withSpaceIllustration).map(withFeelingIllustration);
+const existingPairVocabulary: VocabularyWord[] = [...basePairVocabulary.map(topicExpansion.decorate), ...topicExpansion.newWords, ...foodCategories,...myDayVerbWords.filter(word=>!basePairVocabulary.some(existing=>existing.id===word.id)),...myDayTimeWords,...calendarWords,...cooperationWords,...feelingWords].map(withEverydayIllustration).map(withTableIllustration).map(withBodyIllustration).map(withSpaceIllustration).map(withFeelingIllustration);
 export const pairVocabulary:VocabularyWord[]=[...existingPairVocabulary,...identityWords.filter(word=>!existingPairVocabulary.some(existing=>existing.id===word.id))];
 export const vocabularyGroups: readonly VocabularyGroup[] = [
   spaceGroup,
   feelingsGroup,
+  calendarGroup,
+  cooperationGroup,
   myDayGroup,
   ...topicExpansion.groups,
   scenesGroup,

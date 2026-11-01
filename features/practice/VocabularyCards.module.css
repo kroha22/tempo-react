@@ -4,3 +4,11 @@
 .compact.compact :global(.vocabulary-card-counter) { margin-top: 4px; margin-bottom: 6px; }
 .compact :global(.vocabulary-tap-hint) { opacity: .75; }
 .compact .details { margin-top: 8px; }
+.imageSlot {display:grid;place-items:center;width:100%;height:calc(clamp(90px,24vw,132px) + 8px);flex-shrink:0;}
+.compact.compact :global(.vocabulary-flashcard) .textSlot {display:grid;width:100%;font-size:clamp(24px,5vw,38px);line-height:1.25;font-weight:700;min-height:2.5em;text-align:center;}
+.textSlot>strong,.textSlot>.textMeasure {grid-area:1/1;align-self:center;font:inherit;line-height:inherit;overflow-wrap:anywhere;min-width:0;}
+.compact.compact :global(.vocabulary-flashcard) .textMeasure {visibility:hidden;font:inherit;line-height:inherit;pointer-events:none;}
+.textMeasure::before {content:attr(data-text);}
+.detailSlot {display:grid;min-height:1.3em;}
+.detailSlot>span {grid-area:1/1;align-self:center;}
+.details .textMeasure {visibility:hidden;pointer-events:none;}
