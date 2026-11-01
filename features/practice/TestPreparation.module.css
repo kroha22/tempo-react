@@ -8,5 +8,42 @@
 .option {display:flex;align-items:center;gap:10px;border:1px solid #adc5b6;border-radius:14px;padding:10px;background:#fff;}
 .option>span {flex:1;}
 .option>button {min-width:44px;min-height:44px;}
+.option>button[aria-pressed=true] {background:#d5eadc;outline:2px solid #52876b;font-weight:800;}
+.success {padding:12px;border-radius:12px;color:#285038;background:#dfefdf;font-weight:800;}
 .notice {padding:14px;border:2px solid #d0a45b;border-radius:14px;background:#fff5dc;line-height:1.5;}
 @media(max-width:620px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));}.grid .unit{padding:11px;}.subjects button{font-size:13px;}}
+.topicPage {display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:18px;align-items:start;}
+.topicPage>h2,.goal,.paper,.embedded,.monthPractice,.topicPage>.visualWords {grid-column:1/-1;}
+.topicPage>h2 {margin:16px 0 0;line-height:1.2;}
+.goal {margin:0;color:#526b5b;}
+.explanation,.practice,.paper,.embedded,.monthPractice {min-width:0;padding:18px;border:1px solid #c4d5c7;border-radius:18px;background:#ffffffb8;}
+.explanation>h3,.practice>h3,.paper>h3 {margin-top:0;}
+.explanation p,.paper p {line-height:1.55;}
+.practice {grid-column:2;grid-row:3;background:#f2f7ef;}
+.paper {background:#fff7df;border-color:#dcca90;outline-offset:4px;}
+.compare {display:flex;flex-wrap:wrap;gap:8px;margin:14px 0;}
+.compare b {padding:10px 14px;background:#e2edf4;border:1px solid #b0c9d8;border-radius:12px;font-size:20px;white-space:normal;}
+.worked {padding:12px;border-left:4px solid #93bda0;border-radius:8px;background:#edf5ed;}
+.worked h4 {margin:0 0 8px;}.worked p {margin:0;}
+.tryIt {padding:10px;background:#fff4d1;border-radius:10px;}
+.alphabet {display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:5px;}
+.alphabet>span {padding:6px 2px;border:1px solid #c4d5c7;border-radius:8px;text-align:center;font-size:21px;font-weight:800;background:#fff;}
+.alphabet small {font-size:17px;color:#526b5b;}
+.visualWords {display:flex;flex-wrap:wrap;gap:12px;justify-content:center;}
+.visualWords article {flex:0 1 150px;display:flex;flex-direction:column;align-items:center;gap:5px;padding:12px;border-radius:14px;background:#fff;}
+.visualWords article>svg,.visualWords article>span {display:block;width:100px;height:100px;flex:none;}
+.visualWords article p {font-size:14px;}
+.embedded :global(section.house-activity) {padding:0;border:0;box-shadow:none;background:transparent;max-width:none;}
+.embedded :global(.house-word-entry .house-word)>span[lang] {flex:1;overflow-wrap:normal;word-break:normal;}
+.monthPractice {display:flow-root;}.monthPractice h3 {clear:both;}
+.knuckleHint {float:right;width:min(100%,320px);margin:0 0 12px 16px;background:#fff8e8;border-radius:14px;padding:10px;}
+.knuckleHint svg {display:block;width:100%;height:auto;}.knuckleHint figcaption {font-size:12px;line-height:1.4;}
+.monthPractice h3:first-of-type {clear:none;}
+.monthOrder {clear:both;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;padding:0;list-style:none;}
+.monthOrder li {min-width:0;}.monthOrder button,.monthOrder li>span {display:block;width:100%;padding:9px 4px;border:1px solid #b3caba;border-radius:10px;background:#fff;min-height:44px;font:inherit;overflow-wrap:anywhere;}
+.monthPool {display:flex;flex-wrap:wrap;gap:6px;margin:12px 0;}.monthPool button {min-height:44px;padding:8px 12px;border:1px solid #adc5b6;border-radius:10px;background:#edf5ed;font:inherit;}
+.monthPool button:disabled {opacity:.4;}
+.monthChecks {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:12px 0;}
+.monthChecks label {display:flex;align-items:center;gap:8px;min-height:44px;padding:6px;border:1px solid #b3caba;border-radius:10px;background:white;overflow-wrap:anywhere;}
+.monthChecks input {width:22px;height:22px;flex:none;accent-color:#52876b;}
+@media(max-width:700px){.topicPage{display:block;}.topicPage>section,.topicPage>.paper,.topicPage>.embedded,.topicPage>.visualWords{margin-top:16px;}.topicPage>h2{font-size:24px;}.goal{margin:10px 0;}.explanation,.practice,.paper,.embedded,.monthPractice{padding:13px;}.monthOrder,.monthChecks{grid-template-columns:repeat(2,minmax(0,1fr));}.knuckleHint{float:none;width:min(100%,300px);margin:0 auto 12px;}.compare b{font-size:18px;}.embedded :global(.house-activity){padding:0;}}
