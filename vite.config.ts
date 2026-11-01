@@ -1,4 +1,5 @@
 import vinext from "vinext";
+import {privateSchoolSheets} from "./scripts/private-school-sheets";
 import { defineConfig } from "vite";
 
 const LOCAL_ONLY_DATABASE_ID =
@@ -33,6 +34,7 @@ export default defineConfig(async () => {
       host: "127.0.0.1",
     },
     plugins: [
+      privateSchoolSheets(),
       vinext(),
       cloudflare({
         viteEnvironment: { name: "rsc", childEnvironments: ["ssr"] },

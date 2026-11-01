@@ -17,14 +17,20 @@
 .embedded details {border-top:1px solid #d8e2d9;margin-top:8px;}
 .notice {padding:14px;border:2px solid #d0a45b;border-radius:14px;background:#fff5dc;line-height:1.5;}
 @media(max-width:620px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));}.grid .unit{padding:11px;}.subjects button{font-size:13px;}}
-.topicPage {display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:18px;align-items:start;}
+.topicPage {display:block;}
+.practiceStack {display:grid;gap:16px;}
+.practiceStack[hidden] {display:none;}
+.sheetPreview {margin:0 auto 16px;max-width:340px;}.sheetPreview img{display:block;width:100%;height:auto;border:1px solid #adbcae;border-radius:8px;}.sheetPreview figcaption{margin-top:8px;font-size:14px;}
+.soundWords {display:flex;flex-wrap:wrap;gap:10px;}.soundWords>span{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px;background:#f0f5ee;border-radius:12px;}.soundWords small{width:100%;}
+.letterButtons {display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:7px;}.letterButtons button{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60px;font:inherit;border:1px solid #789986;border-radius:10px;background:white;}.letterButtons button[aria-pressed=true]{background:#c4e6cf;outline:2px solid #416f54;font-weight:bold;}
+.spellingPool{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:16px 0;}.spellingPool article{padding:12px;border:1px solid #adc5b6;border-radius:14px;background:#fff;}.spellingPool article>div:first-child{display:flex;gap:10px;align-items:center;min-height:44px;}.spellingPool b{font-size:22px;}.spellingChoices{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}.spellingChoices button{min-width:44px;min-height:44px;padding:6px;border:1px solid #789986;border-radius:9px;background:#f3f8f0;font:inherit;}.spellingChoices button[aria-pressed=true]{outline:2px solid #416f54;background:#d5eadc;font-weight:bold;}
 .topicPage>h2,.goal,.paper,.embedded,.monthPractice,.topicPage>.visualWords {grid-column:1/-1;}
 .topicPage>h2 {margin:16px 0 0;line-height:1.2;}
 .goal {margin:0;color:#526b5b;}
 .explanation,.practice,.paper,.embedded,.monthPractice {min-width:0;padding:18px;border:1px solid #c4d5c7;border-radius:18px;background:#ffffffb8;}
 .explanation>h3,.practice>h3,.paper>h3 {margin-top:0;}
 .explanation p,.paper p {line-height:1.55;}
-.practice {grid-column:2;grid-row:3;background:#f2f7ef;}
+.practice {background:#f2f7ef;}
 .paper {background:#fff7df;border-color:#dcca90;outline-offset:4px;}
 .compare {display:flex;flex-wrap:wrap;gap:8px;margin:14px 0;}
 .compare b {padding:10px 14px;background:#e2edf4;border:1px solid #b0c9d8;border-radius:12px;font-size:20px;white-space:normal;}

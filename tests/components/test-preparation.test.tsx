@@ -21,7 +21,8 @@ it("covers every preparation topic with a valid check and paper handoff",()=>{
   expect(preparationUnits.flatMap(u=>u.questions)).toHaveLength(40);
   for(const unit of preparationUnits){
     expect(preparationGuides[unit.id],unit.id).toBeDefined();
-    expect(unit.paper[0]).toMatch(/Folha|Apoio/);
+    if(unit.paper)expect(unit.paper![0]).toMatch(/Folha/);
+    if(unit.subject!=="world"||unit.id==="timeline")expect(unit.paper).toBeUndefined();
     expect(JSON.stringify(unit)).not.toMatch(/IMG_\d+|\.HEIC|\.JPG/);
     const words=preparationKeywords[unit.id].map(([label,translation],i)=>({id:`qa:${i}`,label,translation}));
     expect(words.length,unit.id).toBeGreaterThanOrEqual(4);
@@ -40,10 +41,10 @@ it("covers every preparation topic with a valid check and paper handoff",()=>{
   expect(preparationUnits.find(u=>u.id==="timeline")?.notice).toBeDefined();
 });
 
-it("numbers only the five exercise sheets, with recognizable printed titles",async()=>{
+it("numbers only the three world exercise sheets, with recognizable printed titles",async()=>{
   const user=userEvent.setup();render(<TestPreparation initialUnitId={null} onUnitChange={vi.fn()} onBack={vi.fn()} onOpen={vi.fn()}/>);
   await user.click(screen.getByText("Как найти бумажный лист"));
-  expect(preparationSheets.map(s=>s.number)).toEqual([1,2,3,4,5]);
+  expect(preparationSheets.map(s=>s.number)).toEqual([1,2,3]);
   for(const sheet of preparationSheets)expect(screen.getByText(`Лист ${sheet.number} · ${sheet.title[1]}`)).toBeVisible();
   expect(screen.getByRole("region",{name:"Набор подготовки к проверочной"})).not.toHaveTextContent(/IMG_/);
 });
@@ -51,6 +52,7 @@ it("numbers only the five exercise sheets, with recognizable printed titles",asy
 it("returns through a second related topic to the original task without clearing its answer",async()=>{
   const user=userEvent.setup();render(<VocabularyHub initialChildMode onOpenCards={vi.fn()} initialTopicId="school:preparation"/>);
   await user.click(screen.getByRole("button",{name:/^Conviver e resolver conflitos/}));
+  await user.click(screen.getByRole("button",{name:"Praticar"}));
   const quiz=within(screen.getByRole("region",{name:"Практика темы"}));
   await user.click(quiz.getByRole("button",{name:"Выбрать вариант 2"}));
   await user.click(screen.getByRole("button",{name:"Общаемся и договариваемся: комикс и практика →"}));
@@ -71,15 +73,16 @@ it("opens the reused pair and word-search mechanics from the lesson word list",a
   expect(screen.getByRole("group",{name:"Поле букв"})).toBeVisible();
 });
 
-it.each(preparationUnits)("child completes $id, sees feedback, retries and reaches the exact paper instruction",async unit=>{
+it.each(preparationUnits.filter(u=>u.subject!=="portuguese"))("child completes $id, sees feedback, retries and reaches the exact paper instruction",async unit=>{
   const user=userEvent.setup();
   render(<TestPreparation initialChildMode initialUnitId={unit.id} onUnitChange={vi.fn()} onBack={vi.fn()} onOpen={vi.fn()}/>);
   await user.click(screen.getByRole("button",{name:"⇄ Перевод"}));
   expect(screen.getByRole("heading",{name:unit.title[1]})).toBeVisible();
   expect(screen.getByText(unit.rule[1])).toBeVisible();
-  expect(screen.getByText(unit.paper[1])).toBeVisible();
+  expect(screen.queryByRole("region",{name:"Задание на бумаге"})).not.toBeInTheDocument();
   expect(screen.queryByRole("navigation",{name:"Блок подготовки"})).not.toBeInTheDocument();
   await user.click(screen.getByRole("button",{name:"⇄ Перевод"}));
+  await user.click(screen.getByRole("button",{name:"Praticar"}));
   const quiz=within(screen.getByRole("region",{name:"Практика темы"}));
   expect(quiz.getByRole("button",{name:"Verificar"})).toBeDisabled();
   // First attempt deliberately gets one answer wrong; it must not be counted as correct.
@@ -100,12 +103,14 @@ it.each(preparationUnits)("child completes $id, sees feedback, retries and reach
     await user.click(quiz.getByRole("button",{name:i===unit.questions.length-1?"Concluir":"Seguinte →"}));
   }
   expect(screen.getByRole("region",{name:"Результат занятия"})).toHaveTextContent("2 / 2");
+  if(["cooperation","bones","organs","prevention","wellbeing"].includes(unit.id)){
   await user.click(screen.getByRole("button",{name:"Agora no papel →"}));
-  expect(screen.getByText(unit.paper[0])).toBeVisible();
+  expect(screen.getByText(unit.paper![0])).toBeVisible();
   if(unit.notice)expect(screen.getByText(unit.notice[0])).toBeVisible();
   await user.click(screen.getByRole("button",{name:"⇄ Перевод"}));
-  expect(screen.getByText(unit.paper[1])).toBeVisible();
+  expect(screen.getByText(unit.paper![1])).toBeVisible();
   if(unit.notice)expect(screen.getByText(unit.notice[1])).toBeVisible();
+  }else expect(screen.queryByLabelText("Задание на бумаге")).not.toBeInTheDocument();
 });
 
 it("labels the retained best score honestly after a lower-scoring retry",async()=>{
@@ -114,7 +119,7 @@ it("labels the retained best score honestly after a lower-scoring retry",async()
   const user=userEvent.setup();
   render(<ProfileLearningContext value={{profile:{id:"qa",child:true},learning,savingError:false,update:()=>true}}><TestPreparation initialUnitId={null} onUnitChange={vi.fn()} onBack={vi.fn()} onOpen={vi.fn()}/></ProfileLearningContext>);
   await user.click(screen.getByRole("button",{name:"Português"}));
-  expect(screen.getByRole("button",{name:/O alfabeto/})).toHaveTextContent("Лучший результат: 2/2");
+  expect(screen.getByRole("button",{name:/O alfabeto/})).toHaveTextContent("Ранее, короткая проверка: 2/2");
   expect(screen.queryByText(/Последняя тренировка/)).not.toBeInTheDocument();
 });
 
@@ -127,7 +132,8 @@ it.each([false,true])("embeds existing clocks and keeps explanation, quiz and pa
   const hours=preparationUnits.find(u=>u.id==="hours")!;
   await user.click(within(region).getByRole("button",{name:new RegExp(hours.title[0])}));
   expect(screen.queryByRole("button",{name:new RegExp(hours.targetLabel!)})).not.toBeInTheDocument();
-  expect(within(region).getByText(hours.paper[0])).toBeVisible();
+  expect(screen.queryByLabelText("Задание на бумаге")).not.toBeInTheDocument();
+  await user.click(screen.getByRole("button",{name:"Praticar"}));
   const clock=within(screen.getByRole("region",{name:"Часы: короткие блоки"}));
   await user.click(clock.getByRole("button",{name:"Ler o relógio"}));
   await user.type(clock.getByLabelText("Escreve a hora em português"),"São sete horas.");
@@ -140,8 +146,7 @@ it.each([false,true])("embeds existing clocks and keeps explanation, quiz and pa
     await user.click(quiz.getByRole("button",{name:i===hours.questions.length-1?"Concluir":"Seguinte →"}));
   }
   expect(within(region).getByText("Revisão concluída")).toBeVisible();
-  await user.click(within(region).getByRole("button",{name:"Agora no papel →"}));
-  expect(within(region).getByText(hours.paper[0])).toBeVisible();
+  expect(within(region).queryByRole("button",{name:"Agora no papel →"})).not.toBeInTheDocument();
 });
 
 it("sorts shuffled months, corrects an incorrect order and checks all 31-day selections",async()=>{
@@ -162,10 +167,11 @@ it("sorts shuffled months, corrects an incorrect order and checks all 31-day sel
   expect(screen.getByText(/Correto! Todos os meses estão bem assinalados./)).toBeVisible();
 });
 
-it("embeds the existing organ diagram with all six matching targets",()=>{
+it("embeds the existing organ diagram with all six matching targets",async()=>{
   render(<TestPreparation initialUnitId="organs" initialChildMode onUnitChange={vi.fn()} onBack={vi.fn()} onOpen={vi.fn()}/>);
+  await userEvent.click(screen.getByRole("button",{name:"Praticar"}));
   const diagram=within(screen.getByRole("region",{name:"Органы: схема и практика"}));
   expect(diagram.getByRole("group",{name:"Слова для расстановки"})).toBeVisible();
   expect(diagram.getAllByRole("button",{name:/Квадрат \d+, пустой/})).toHaveLength(6);
-  expect(screen.getByText(preparationUnits.find(u=>u.id==="organs")!.paper[0])).toBeVisible();
+  expect(screen.getByText(preparationUnits.find(u=>u.id==="organs")!.paper![0])).toBeVisible();
 });

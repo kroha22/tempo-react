@@ -5,8 +5,6 @@ export const preparationSheets=[
   {number:1,title:["Regras de boa convivência","Правила общения"],color:"Зелёный",printed:"As regras de boa convivência"},
   {number:2,title:["O corpo humano","Тело человека"],color:"Зелёный",printed:"Os ossos e os músculos / Os principais órgãos do corpo humano"},
   {number:3,title:["Saúde e bem-estar","Здоровье и самочувствие"],color:"Зелёный",printed:"A vacinação e o uso de medicamentos / O bem-estar"},
-  {number:4,title:["Horas, meses e dias","Часы, месяцы и дни"],color:"Синий",printed:"Horas, meses e dias"},
-  {number:5,title:["Numerais ordinais","Порядковые числительные"],color:"Синий",printed:"Numerais ordinais"},
 ] as const;
 
 // Recognition/review supports from these lessons. Catalog words are resolved to their existing IDs in the view.
