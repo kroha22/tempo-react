@@ -1,9 +1,10 @@
 "use client";
-import {useEffect,useRef,useState} from "react";
+import {useEffect,useId,useRef,useState} from "react";
 import {publicAssetUrl} from "../../shared/public-asset";
 import {finishCardAudio,startCardAudio,stopCardAudio} from "../cards/speech-playback";
 
 export function AlphabetLetter({letter,name}:{letter:string;name:string}){
+  const descriptionId=useId();
   const audio=useRef<HTMLAudioElement|null>(null);
   const [error,setError]=useState(false);
   const [playing,setPlaying]=useState(false);
@@ -22,5 +23,5 @@ export function AlphabetLetter({letter,name}:{letter:string;name:string}){
     audio.current=clip;
     void startCardAudio(clip).catch(error=>{finishCardAudio(clip);if(error?.name!=="AbortError"){setPlaying(false);setError(true);}});
   }
-  return <><button type="button" aria-label={`Буква ${letter}: ${name}`} aria-description={"AEIOU".includes(letter)?"Vogal — гласная буква":"Consoante — согласная буква"} aria-busy={playing} onClick={play}><span>{letter} {letter.toLowerCase()}</span></button><small lang="pt-PT">{name}</small>{error&&<small role="status">Не удалось загрузить звук. Нажми ещё раз.</small>}</>;
+  return <><button type="button" aria-label={`Буква ${letter}: ${name}`} aria-describedby={descriptionId} aria-busy={playing} onClick={play}><span>{letter} {letter.toLowerCase()}</span></button><span id={descriptionId} hidden>{"AEIOU".includes(letter)?"Vogal — гласная буква":"Consoante — согласная буква"}</span><small lang="pt-PT">{name}</small>{error&&<small role="status">Не удалось загрузить звук. Нажми ещё раз.</small>}</>;
 }

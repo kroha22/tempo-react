@@ -1,5 +1,5 @@
 "use client";
-import {useState} from "react";
+import {useRef,useState} from "react";
 import {preparationPhonics} from "../content/preparation-phonics";
 import {AlphabetLetter} from "./AlphabetLetter";
 import {CardSpeechButton} from "../cards/components/CardSpeechButton";
@@ -25,13 +25,37 @@ export function PreparationPhonics({id}:{id:string}){
   const words=preparationPhonics[id]??[];
   const groups=[...new Set(words.map(w=>w.group))];
   const [answers,setAnswers]=useState<Record<string,string>>({}),[checked,setChecked]=useState(false);
+  const [round,setRound]=useState(0),[checkedRounds,setCheckedRounds]=useState<number[]>([]),[finished,setFinished]=useState(false);
+  const roundHeading=useRef<HTMLHeadingElement>(null);
+  const shortRounds=id==="r-rr"||id==="s-ss";
+  const roundSize=shortRounds?4:words.length;
+  const roundCount=Math.ceil(words.length/roundSize);
+  const visibleWords=shortRounds?words.slice(round*roundSize,(round+1)*roundSize):words;
+  const roundChecked=shortRounds?checkedRounds.includes(round):checked;
+  function moveRound(next:number){setRound(next);roundHeading.current?.focus({preventScroll:true});roundHeading.current?.scrollIntoView?.({block:"start"});}
   const [alphabet,setAlphabet]=useState<string[]>([]),[kind,setKind]=useState<"vowels"|"consonants">("vowels");
   const letters=Array.from("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
   const correctLetters=letters.filter(l=>kind==="vowels"?"AEIOU".includes(l):!"AEIOU".includes(l));
   const exact=alphabet.length===correctLetters.length&&alphabet.every(l=>correctLetters.includes(l));
-  function reset(){setAnswers({});setAlphabet([]);setChecked(false);}
+  function reset(){setAnswers({});setAlphabet([]);setChecked(false);setCheckedRounds([]);setFinished(false);moveRound(0);}
   if(id==="letters")return <section aria-label="Практика алфавита"><h3><LessonText text="Descobre o alfabeto" translation="Исследуй алфавит"/></h3><div className={styles.subjects}>{(["vowels","consonants"] as const).map(k=><button key={k} type="button" aria-pressed={kind===k} onClick={()=>{setKind(k);reset();}}>{k==="vowels"?(ru?"Гласные":"Vogais"):(ru?"Согласные":"Consoantes")}</button>)}</div><p><LessonText text={kind==="vowels"?"Seleciona as cinco letras vogais.":"Seleciona as vinte e uma letras consoantes."} translation={kind==="vowels"?"Выдели пять гласных букв.":"Выдели двадцать одну согласную букву."}/></p><div className={styles.letterButtons}>{letters.map(l=><button key={l} type="button" aria-label={`${l} ${l.toLowerCase()}`} data-family={checked?("AEIOU".includes(l)?"vowel":"consonant"):undefined} aria-pressed={alphabet.includes(l)} disabled={checked} onClick={()=>setAlphabet(alphabet.includes(l)?alphabet.filter(v=>v!==l):[...alphabet,l])}><span>{l}</span><small>{l.toLowerCase()}</small></button>)}</div><p><LessonText text="As letras não são os sons. K, W e Y também fazem parte do alfabeto; aparecem, por exemplo, em nomes e palavras de origem estrangeira." translation="Буквы и звуки — разное. K, W и Y тоже входят в алфавит: например, встречаются в именах и заимствованных словах."/></p>{!checked?<button type="button" onClick={()=>setChecked(true)}>{ru?"Проверить":"Verificar"}</button>:<ActivityCompletion id={`prep:phonics:letters:${kind}`} title="Алфавит" group="Слова в жизни" correct={Number(exact)} total={1}><p role="status">{exact?(ru?"Верно!":"Correto!"):(ru?"Сверь выделение с ответом:":"Compara com a resposta:")} {correctLetters.join(" · ")}</p><button type="button" onClick={reset}>{ru?"Повторить":"Repetir"}</button></ActivityCompletion>}</section>;
   if(!words.length)return null;
   const score=words.filter(w=>answers[w.word]===w.group).length;
-  return <section aria-label="Вставь сочетания букв"><h3><LessonText text={id==="x-sounds"?"Que som tem o X?":"Completa e organiza as palavras"} translation={id==="x-sounds"?"Как звучит X?":"Заполни пропуски и распредели слова"}/></h3><p><LessonText text={id==="x-sounds"?"Ouve cada palavra e escolhe o som do X. Os nomes dos grupos são pistas de leitura.":"Ouve a palavra, usa a pista e escolhe as letras que faltam. Depois verifica tudo."} translation={id==="x-sounds"?"Послушай каждое слово и выбери звук X. Названия групп — подсказки для чтения.":"Послушай слово, прочитай подсказку и выбери пропущенные буквы. Потом проверь всё."}/></p><div className={styles.spellingPool}>{words.map(w=><article key={w.word}><div><CardSpeechButton text={w.word}/><b lang="pt-PT">{checked||id==="x-sounds"?w.word:w.word.replace(w.segment,"___")}</b></div><small>{w.meaning}</small><div className={styles.spellingChoices}>{groups.map(g=><button key={g} type="button" aria-label={`${w.meaning}: ${g}`} aria-pressed={answers[w.word]===g} disabled={checked} onClick={()=>setAnswers({...answers,[w.word]:g})}>{g.toUpperCase()}</button>)}</div>{checked&&<p>{answers[w.word]===w.group?"✓":"✗"} {w.word} → {w.group.toUpperCase()}</p>}</article>)}</div>{!checked?<button type="button" disabled={Object.keys(answers).length!==words.length} onClick={()=>setChecked(true)}>{ru?"Проверить":"Verificar"}</button>:<ActivityCompletion id={`prep:phonics:${id}`} title="Буквы и звуки" group="Слова в жизни" correct={score} total={words.length}><p role="status">{score} / {words.length}</p><button type="button" onClick={reset}>{ru?"Повторить":"Repetir"}</button></ActivityCompletion>}</section>;
+  const done=shortRounds?finished:checked;
+  return <section aria-label="Вставь сочетания букв">
+    <h3 className={styles.roundHeading} ref={roundHeading} tabIndex={-1}><LessonText text={id==="x-sounds"?"Que som tem o X?":"Completa e organiza as palavras"} translation={id==="x-sounds"?"Как звучит X?":"Заполни пропуски и распредели слова"}/></h3>
+    {(!done||!shortRounds)&&<>
+      <p><LessonText text={id==="x-sounds"?"Ouve cada palavra e escolhe o som do X. Os nomes dos grupos são pistas de leitura.":"Ouve a palavra, usa a pista e escolhe as letras que faltam. Depois verifica tudo."} translation={id==="x-sounds"?"Послушай каждое слово и выбери звук X. Названия групп — подсказки для чтения.":"Послушай слово, прочитай подсказку и выбери пропущенные буквы. Потом проверь всё."}/></p>
+      {shortRounds&&<p className={styles.roundProgress} aria-live="polite">{ru?"Раунд":"Ronda"} {round+1} / {roundCount} · {visibleWords.length} {ru?"слова":"palavras"}</p>}
+      <div className={`${styles.spellingPool} ${shortRounds?styles.shortRound:""}`}>{visibleWords.map(w=><article key={w.word}><div><CardSpeechButton text={w.word}/><b lang="pt-PT">{roundChecked||id==="x-sounds"?w.word:w.word.replace(w.segment,"___")}</b></div><small>{w.meaning}</small><div className={styles.spellingChoices}>{groups.map(g=><button key={g} type="button" aria-label={`${w.meaning}: ${g}`} aria-pressed={answers[w.word]===g} disabled={roundChecked} onClick={()=>setAnswers({...answers,[w.word]:g})}>{g.toUpperCase()}</button>)}</div>{roundChecked&&<p>{answers[w.word]===w.group?"✓":"✗"} {w.word} → {w.group.toUpperCase()}</p>}</article>)}</div>
+      <div className={styles.roundActions}>
+        {shortRounds&&<button type="button" disabled={round===0} onClick={()=>moveRound(round-1)}>{ru?"← Назад":"← Anterior"}</button>}
+        {!roundChecked?<button type="button" disabled={!visibleWords.every(w=>answers[w.word]!==undefined)} onClick={()=>{if(shortRounds)setCheckedRounds(previous=>[...previous,round]);else setChecked(true);}}>{ru?"Проверить":"Verificar"}</button>:shortRounds&&<>
+          <p role="status">{ru?"В этом раунде":"Nesta ronda"}: {visibleWords.filter(w=>answers[w.word]===w.group).length} / {visibleWords.length}</p>
+          <button type="button" onClick={()=>{if(round===roundCount-1){setFinished(true);roundHeading.current?.focus({preventScroll:true});roundHeading.current?.scrollIntoView?.({block:"start"});}else moveRound(round+1);}}>{round===roundCount-1?(ru?"Завершить":"Concluir"):(ru?"Следующий раунд →":"Seguinte →")}</button>
+        </>}
+      </div>
+    </>}
+    {done&&<ActivityCompletion id={`prep:phonics:${id}`} title="Буквы и звуки" group="Слова в жизни" correct={score} total={words.length}><p role="status">{score} / {words.length}</p><button type="button" onClick={reset}>{ru?"Повторить":"Repetir"}</button></ActivityCompletion>}
+  </section>;
 }
