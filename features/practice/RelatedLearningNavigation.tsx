@@ -2,5 +2,5 @@
 
 import { createContext } from "react";
 
-// The static demo supplies navigation; the server app keeps its normal URLs.
-export const RelatedLearningNavigation = createContext<((href: string) => void) | null>(null);
+// The demo retains the originating link for return focus; the server app keeps normal URLs.
+export const RelatedLearningNavigation = createContext<((href: string, origin?:HTMLElement) => void) | null>(null);

@@ -21,6 +21,7 @@ function ProfileDemo({profile}:{profile?:LocalProfile}) {
   const main = useRef<HTMLDivElement>(null);
   const related = useRef<HTMLDivElement>(null);
   const previousHref = useRef("");
+  const originLink=useRef<HTMLElement|null>(null);
   const presentation = new URLSearchParams(window.location.search).get("mode");
   const initialChildMode = profile?profile.child:presentation === "child" || presentation === "kingdoms";
   useEffect(() => {
@@ -33,10 +34,12 @@ function ProfileDemo({profile}:{profile?:LocalProfile}) {
       previousHref.current = href;
       related.current?.querySelector("h1")?.focus();
     } else if (previousHref.current) {
-      Array.from(main.current?.querySelectorAll("a") ?? []).find(link => link.getAttribute("href") === `#${previousHref.current}`)?.focus();
+      const origin=originLink.current?.isConnected?originLink.current:Array.from(main.current?.querySelectorAll("a") ?? []).find(link => link.getAttribute("href") === `#${previousHref.current}`);
+      origin?.focus({preventScroll:true});origin?.scrollIntoView?.({block:"center"});originLink.current=null;
     }
   }, [href]);
-  function navigate(nextHref: string) {
+  function navigate(nextHref: string, origin?:HTMLElement) {
+    if(nextHref&&!href){const source=origin??document.activeElement;originLink.current=source instanceof HTMLElement&&main.current?.contains(source)?source:null;}
     window.location.hash = nextHref;
     setHref(nextHref);
     if (nextHref) window.scrollTo(0, 0);

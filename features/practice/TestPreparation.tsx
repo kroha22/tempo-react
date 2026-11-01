@@ -9,6 +9,8 @@ import {VocabularyIllustration} from "./VocabularyIllustration";
 import {ClockLesson} from "./ClockLesson";
 import {PreparationMonths} from "./PreparationMonths";
 import {PreparationBody} from "./PreparationBody";
+import {PreparationWords} from "./PreparationWords";
+import {preparationKeywords,preparationSheets} from "../content/preparation-support";
 import {LessonText,LessonTextContext,useLessonText} from "./LessonText";
 import {useTextHelp} from "./LessonHelp";
 import {ActivityCompletion,ChildPresentation} from "./ActivityCompletion";
@@ -51,28 +53,30 @@ function PreparationVisuals({id}:{id:string}){
   return !!words.length&&<div className={styles.visualWords}>{words.map(word=><article key={word.id}><VocabularyIllustration illustration={word.illustration!}/><b><LessonText text={word.label} translation={word.translation} audio/></b></article>)}</div>;
 }
 
-export function TestPreparation({initialUnitId,onUnitChange,onBack,onOpen,initialChildMode=false}:{initialUnitId:string|null;onUnitChange:(id:string|null)=>void;onBack:()=>void;onOpen:(target:PrepTarget)=>void;initialChildMode?:boolean}){
+export function TestPreparation({initialUnitId,onUnitChange,onBack,onOpen,initialChildMode=false,active=true}:{initialUnitId:string|null;onUnitChange:(id:string|null)=>void;onBack:()=>void;onOpen:(target:PrepTarget)=>void;initialChildMode?:boolean;active?:boolean}){
   const [subject,setSubject]=useState<keyof typeof subjects>(preparationUnits.find(u=>u.id===initialUnitId)?.subject??"world");
   const [unitId,setUnitId]=useState(initialUnitId);
-  const {help,controls,popup,close}=useTextHelp(translations,preparationGlossary);
-  const learner=useProfileLearning();const heading=useRef<HTMLHeadingElement>(null),first=useRef(true),paper=useRef<HTMLDivElement>(null);
+  const keywords=preparationKeywords[unitId??""]??[];
+  const {help,controls,popup,close}=useTextHelp(translations,{...preparationGlossary,...Object.fromEntries(keywords.flatMap(([pt,ru])=>[[pt,ru],[pt.replace(/^(o|a|os|as) /u,""),ru]]))});
+  const learner=useProfileLearning();const heading=useRef<HTMLHeadingElement>(null),first=useRef(true),paper=useRef<HTMLDivElement>(null),returnFocus=useRef<HTMLElement|null>(null);
   const unit=preparationUnits.find(item=>item.id===unitId);
   const guide=unit&&preparationGuides[unit.id];
-  useEffect(()=>{if(first.current){first.current=false;return;}heading.current?.focus({preventScroll:true});heading.current?.scrollIntoView?.({block:"start"});},[unitId]);
+  useEffect(()=>{if(!active)return;if(returnFocus.current?.isConnected){returnFocus.current.focus({preventScroll:true});returnFocus.current.scrollIntoView?.({block:"center"});returnFocus.current=null;return;}if(first.current){first.current=false;return;}heading.current?.focus({preventScroll:true});heading.current?.scrollIntoView?.({block:"start"});},[unitId,active]);
   function open(id:string|null){setUnitId(id);onUnitChange(id);help.reset();}
   function goToPaper(){paper.current?.focus({preventScroll:true});paper.current?.scrollIntoView?.({block:"start",behavior:"smooth"});}
   return <ChildPresentation value={learner?.profile.child??initialChildMode}><LessonTextContext value={help}><section className="house-activity" aria-label="Набор подготовки к проверочной" onKeyDown={e=>{if(e.key==="Escape")close();}}>
     <button type="button" className="pair-back" onClick={unit?()=>open(null):onBack}>{unit?"← К списку подготовки":"← Ко всем темам"}</button>
     <h1 ref={heading} tabIndex={-1}><LessonText text="Preparar o teste" audio/></h1>{controls}
-    {!unit?<><p>Выбери тему: объяснение, задания и инструкция для бумаги теперь на одной странице.</p><nav className={styles.subjects} aria-label="Предмет подготовки">{Object.entries(subjects).map(([id,[pt,ru]])=><button type="button" key={id} aria-pressed={subject===id} onClick={()=>setSubject(id as keyof typeof subjects)}>{help.translated?ru:pt}</button>)}</nav><p>{preparationUnits.filter(item=>item.subject===subject).length} тем · {preparationUnits.length} всего</p><div className={styles.grid}>{preparationUnits.filter(item=>item.subject===subject).map(item=>{const result=learner?.learning.activities?.[`prep:${item.id}`];return <button type="button" className={styles.unit} key={item.id} onClick={()=>open(item.id)}><b>{help.translated?item.title[1]:item.title[0]}</b>{!help.translated&&<small>{item.title[1]}</small>}{result&&<small>Лучший результат: {result.correct}/{result.total}</small>}</button>;})}</div></>:<div key={unit.id} className={styles.topicPage}>
+    {!unit?<><p>Выбери тему: объяснение, задания и инструкция для бумаги теперь на одной странице.</p><details className={styles.sheetIndex}><summary>Как найти бумажный лист</summary><p>Пронумеруй пять листов с заданиями в таком порядке. Памятки с правилами остаются отдельно.</p><ol>{preparationSheets.map(sheet=><li key={sheet.number}><b>Лист {sheet.number} · {sheet.title[1]}</b><span>{sheet.color} лист. Заголовок: <span lang="pt-PT">{sheet.printed}</span></span></li>)}</ol></details><nav className={styles.subjects} aria-label="Предмет подготовки">{Object.entries(subjects).map(([id,[pt,ru]])=><button type="button" key={id} aria-pressed={subject===id} onClick={()=>setSubject(id as keyof typeof subjects)}>{help.translated?ru:pt}</button>)}</nav><p>{preparationUnits.filter(item=>item.subject===subject).length} тем · {preparationUnits.length} всего</p><div className={styles.grid}>{preparationUnits.filter(item=>item.subject===subject).map(item=>{const result=learner?.learning.activities?.[`prep:${item.id}`];return <button type="button" className={styles.unit} key={item.id} onClick={()=>open(item.id)}><b>{help.translated?item.title[1]:item.title[0]}</b>{!help.translated&&<small>{item.title[1]}</small>}{result&&<small>Лучший результат: {result.correct}/{result.total}</small>}</button>;})}</div></>:<div key={unit.id} className={styles.topicPage}>
       <h2><LessonText text={unit.title[0]} translation={unit.title[1]} audio/></h2>
       {guide&&<p className={styles.goal}><LessonText text={guide.goal[0]} translation={guide.goal[1]} audio/></p>}
       <section className={styles.explanation} aria-label="Объяснение темы"><h3><LessonText text="Rever" audio/></h3><p><LessonText text={unit.rule[0]} translation={unit.rule[1]} audio/></p><PreparationVisuals id={unit.id}/>{guide?.compare&&<div className={styles.compare}>{guide.compare.map(text=><b key={text} lang="pt-PT">{text}</b>)}</div>}{guide&&<div className={styles.worked}><h4><LessonText text="Vamos ver um exemplo" translation="Разберём пример" audio/></h4><p><LessonText text={guide.worked[0]} translation={guide.worked[1]} audio/></p></div>}{unit.examples.map(([pt,ru])=><p key={pt}><LessonText text={pt} translation={ru} audio/></p>)}{guide&&<p className={styles.tryIt}><LessonText text={guide.tryIt[0]} translation={guide.tryIt[1]} audio/></p>}</section>
       {unit.id==="hours"&&<div className={styles.embedded}><ClockLesson embedded/></div>}
       {unit.id==="months"&&<PreparationMonths/>}
       {(unit.id==="organs"||unit.id==="bones")&&<PreparationBody organs={unit.id==="organs"}/>}
-      {unit.target&&!["hours","months","organs","bones"].includes(unit.id)&&<p><button type="button" onClick={()=>onOpen(unit.target!)}>{unit.targetLabel} →</button></p>}
+      {unit.target&&!["hours","months","organs","bones"].includes(unit.id)&&<p><button type="button" onClick={event=>{returnFocus.current=event.currentTarget;close();onOpen(unit.target!);}}>{unit.targetLabel} →</button></p>}
       <section className={styles.practice} aria-label="Практика темы"><h3><LessonText text="Praticar" audio/></h3><PrepQuiz unit={unit} onPaper={goToPaper}/></section>
+      <PreparationWords unitId={unit.id}/>
       <div className={styles.paper} ref={paper} tabIndex={-1} aria-label="Задание на бумаге"><h3><span aria-hidden="true">✎ </span><LessonText text="Agora no papel" audio/></h3>{unit.notice&&<aside className={styles.notice}><LessonText text={unit.notice[0]} translation={unit.notice[1]} audio/></aside>}<p><LessonText text={unit.paper[0]} translation={unit.paper[1]} audio/></p><p><LessonText text="Pede a um adulto para verificar o trabalho quando terminares." translation="Когда закончишь, попроси взрослого проверить работу." audio/></p><button type="button" onClick={()=>open(null)}>К списку подготовки →</button></div>
     </div>}{popup}
   </section></LessonTextContext></ChildPresentation>;

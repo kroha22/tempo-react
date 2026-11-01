@@ -7,7 +7,7 @@ import type { VocabularyWord } from "../content/vocabulary-model";
 import { extendSearchPath, findSearchWord, makeSearchBoard, searchPathText, searchWords } from "./word-search";
 import { WordCelebration } from "./WordCelebration";
 
-export function WordSearch({ words,title }: { words: readonly VocabularyWord[];title?:string }) {
+export function WordSearch({ words,title,embedded=false }: { words: readonly VocabularyWord[];title?:string;embedded?:boolean }) {
   const eligible = searchWords(words);
   const [batch, setBatch] = useState(0);
   const [board, setBoard] = useState(() => makeSearchBoard(eligible.slice(0, 10), 731));
@@ -133,7 +133,7 @@ export function WordSearch({ words,title }: { words: readonly VocabularyWord[];t
       }}
     >
       {celebration&&<WordCelebration key={celebration.sequence} word={celebration.word} onFinish={()=>setCelebration(null)}/>}
-      <div className="house-heading"><h1>Поиск слов</h1><span>{Object.keys(found).length} / {board.words.length}</span></div>
+      <div className="house-heading">{embedded?<h4>Поиск слов</h4>:<h1>Поиск слов</h1>}<span>{Object.keys(found).length} / {board.words.length}</span></div>
       <p>Собирай слово по буквам или проведи по нему пальцем. Слова идут по прямой вправо, вниз или по диагонали. Артикли и дефисы в сетку не входят; ç и ударения сохранены.</p>
       <div
         className="word-search-grid"

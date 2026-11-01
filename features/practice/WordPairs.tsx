@@ -6,7 +6,7 @@ import { makePairBoard, matchPair, shufflePairWords, type PairBoard, type PairWo
 import { VocabularyIllustration } from "./VocabularyIllustration";
 import styles from "./WordPairs.module.css";
 
-export function WordPairs({ words, blocks, catalog = false, onComplete, completionLabel = "Готово", footer }: { words: readonly PairWord[]; blocks: readonly PairBlock[]; catalog?: boolean; onComplete?: () => void; completionLabel?: string; footer?: ReactNode }) {
+export function WordPairs({ words, blocks, catalog = false, onComplete, completionLabel = "Готово", footer, embedded=false }: { words: readonly PairWord[]; blocks: readonly PairBlock[]; catalog?: boolean; onComplete?: () => void; completionLabel?: string; footer?: ReactNode; embedded?:boolean }) {
   const packs = blocks.map(block => block.words);
   const wordMap = new Map(words.map(word => [word.id, word]));
   function practiceWord(id: string) { const word = wordMap.get(id); if (!word) throw new Error(`Unknown pair word: ${id}`); return word; }
@@ -92,7 +92,7 @@ export function WordPairs({ words, blocks, catalog = false, onComplete, completi
     {catalog && <button type="button" className="pair-back" onClick={() => setChoosing(true)}>← Все темы</button>}
     {!catalog && blocks.length>1 && <div className="house-topic-nav" aria-label="Блоки слов">{blocks.map((block, index) => <button type="button" key={block.id} aria-pressed={pack === index} onClick={() => startPack(index)}>{block.title}<small>Слов: {block.words.length}</small></button>)}</div>}
     {!catalog && blocks.length>1 && <label className="house-topic-select">Тема<select aria-label="Блок слов" value={pack} onChange={event => startPack(Number(event.target.value))}>{blocks.map((block, index) => <option key={block.id} value={index}>{block.title} · {block.words.length}</option>)}</select></label>}
-    <div className="house-heading"><div><span className="tempo-kicker">{blocks[pack].title}</span><h1>{pictureMode?"Соедини слово с картинкой":"Найди перевод"}</h1></div><span>{board.completed} / {packs[pack].length}</span></div>
+    <div className="house-heading"><div>{!embedded&&<span className="tempo-kicker">{blocks[pack].title}</span>}{embedded?<h4>{pictureMode?"Соедини слово с картинкой":"Найди перевод"}</h4>:<h1>{pictureMode?"Соедини слово с картинкой":"Найди перевод"}</h1>}</div><span>{board.completed} / {packs[pack].length}</span></div>
     {canUsePictures&&<div className={styles.toggle} role="group" aria-label="Вид пар">{(["text","image"] as const).map(value=><button type="button" key={value} aria-pressed={rightMode===value} onClick={()=>{setRightMode(value);setLeft(null);setRight(null);}}>{value==="text"?"Texto · Перевод":"Imagem · Картинка"}</button>)}</div>}
     <p className="house-pair-message">{pictureMode&& !board.completed?"Нажми на португальское слово и его картинку — в любом порядке.":message}</p>
     <span className="house-sr-only" role="status">{announcement}</span>

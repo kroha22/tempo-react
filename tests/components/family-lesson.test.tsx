@@ -47,7 +47,7 @@ it.each([false,true])("opens the family topic and completes the shared phrase fl
   const user=userEvent.setup();
   await user.click(screen.getByRole("button",{name:/^Família e amigos/}));
   expect(screen.getByRole("button",{name:child?"Для детей":"Для взрослых"})).toHaveAttribute("aria-pressed","true");
-  expect(screen.getByRole("img",{name:"Мальчик в очках читает книгу вместе с мамой и папой"})).toBeVisible();
+  expect(screen.getByRole("img",{name:"Вымышленная семья: мама, папа, девочка Рита, мальчик Мигел, бабушка и дедушка"})).toHaveAttribute("src","/images/vocabulary/fictional-family-v1.webp");
   await user.click(screen.getByRole("button",{name:"К фразам с SER →"}));
   expect(screen.getAllByText("A minha mãe é professora.",{selector:"strong"})[0]).toBeVisible();
   await user.click(screen.getByRole("button",{name:"Попробовать составить фразы →"}));

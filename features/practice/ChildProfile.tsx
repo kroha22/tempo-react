@@ -10,7 +10,7 @@ import {TempoCharacter} from "./TempoCharacter";
 import {childAvatars,type ChildAvatarId} from "./child-avatars";
 export function ChildAvatar({ id }: { id?: ChildAvatarId }) {
   const avatar = childAvatars.find(item => item.id === id) ?? childAvatars[0];
-  return <span className={styles.avatar} role="img" aria-label={avatar.name}>{avatar.id==="boy"?<TempoCharacter/>:avatar.symbol}</span>;
+  return <span className={styles.avatar} role="img" aria-label={avatar.name}>{avatar.symbol}</span>;
 }
 export function ChildAlbum({ avatar }: { avatar?: ChildAvatarId }) {
   const learner = useProfileLearning();

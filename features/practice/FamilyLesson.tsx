@@ -1,7 +1,7 @@
 "use client";
 import {ChildPresentation} from "./ActivityCompletion";
 import {useState} from "react";
-import {closeFamilyKeys,familyExamples,familyPossessiveExamples} from "../content/family-lesson";
+import {closeFamilyKeys,familyExamples,familyPossessiveExamples,fictionalFamily} from "../content/family-lesson";
 import {topicExpansion} from "../content/vocabulary-catalog";
 import {learningCatalog} from "../content/learning-catalog";
 import {FamilyPossessives} from "./FamilyPossessives";
@@ -24,18 +24,17 @@ export function FamilyLesson({initialChildMode=false,onBack,onNext}:{initialChil
     {onBack&&<button type="button" className="pair-back" onClick={onBack}>‹ К первым шагам</button>}
     <span className="tempo-kicker">A minha família · Моя семья</span>{onBack?<h1>Рассказываем о близких</h1>:<h2>Рассказываем о близких</h2>}
     {!learner&&<div className={styles.switch} role="group" aria-label="Подача семейного урока"><button type="button" aria-pressed={!child} onClick={()=>setChild(false)}>Для взрослых</button><button type="button" aria-pressed={child} onClick={()=>setChild(true)}>Для детей</button></div>}
-    <p>{child?"Познакомься с семьёй на картинке. Повтори названия близких, а потом расскажи, кто кем работает или учится.":"Повторим шесть слов о близких и применим знакомый SER, чтобы назвать профессию или роль."} Картинка — повод для рассказа: профессии людей на ней не заданы. Можно придумать свою семью персонажей.</p>
+    <p>{child?"Познакомься с вымышленной семьёй Риты и Мигела. Повтори названия близких и расскажи о ком-нибудь на картинке.":"Повторим слова о близких и применим знакомый SER на примере вымышленной семьи Риты и Мигела."} Личные сведения о своей семье рассказывать не нужно.</p>
     <nav className={styles.steps} aria-label="Шаги семейного урока">{([ ["words","Palavras — Слова"],["possessives","Meu / teu — Чей? Чья?"],["professions","Profissões — Профессии"],["examples","Frases — Примеры"],["practice","Pratica — Попробуй"] ] as const).map(([id,title])=><button type="button" key={id} aria-current={phase===id?"step":undefined} onClick={()=>setPhase(id)}>{title}</button>)}</nav>
     <div hidden={phase!=="words"}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img className={styles.familyScene} src={publicAssetUrl("/images/covers/family-parents-v1.webp")} alt="Мальчик в очках читает книгу вместе с мамой и папой"/>
+      <img className={styles.familyScene} src={publicAssetUrl("/images/vocabulary/fictional-family-v1.webp")} alt="Вымышленная семья: мама, папа, девочка Рита, мальчик Мигел, бабушка и дедушка"/>
       <VocabularyCards words={familyWords} active={phase==="words"}/><button type="button" onClick={()=>setPhase("possessives")}>Разобраться с meu и teu →</button><button type="button" onClick={()=>setPhase("examples")}>К фразам с SER →</button>
       <details className={styles.distantFamily}>
-        <summary>Родственники в другом городе</summary>
-        <p>У мамы мальчика есть сестра. Для мальчика она — тётя, а её старшая и младшая дочки — его двоюродные сёстры. Они живут далеко, в другом городе.</p>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={publicAssetUrl("/images/covers/aunt-reading-v1.webp")} alt="Тётя мальчика читает книгу со старшей и младшей дочками" loading="lazy"/>
-        <p>У каждой семьи свои повседневные истории: можно рассказать о чтении, занятиях и жизни в своём городе.</p>
+        <summary>Кто на картинке? Придуманные имена и профессии</summary>
+        <div className={styles.examples}>{fictionalFamily.map(person=><article key={person.key}><strong>{person.name}</strong><span lang="pt-PT">{person.phrase}</span><small>{person.translation}</small></article>)}</div>
+        <p>Выбери одного человека и расскажи о нём: кто это, как его зовут, кем он работает или учится. Например: A minha mãe chama-se Diana. É professora.</p>
+        <p>Это семья для свободного рассказа. В следующих упражнениях могут быть другие персонажи и профессии.</p>
       </details>
     </div>
     <div hidden={phase!=="possessives"}><FamilyPossessives child={child}/><button type="button" onClick={()=>setPhase("examples")}>К примерам о близких →</button></div>

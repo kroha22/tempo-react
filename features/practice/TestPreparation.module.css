@@ -10,6 +10,11 @@
 .option>button {min-width:44px;min-height:44px;}
 .option>button[aria-pressed=true] {background:#d5eadc;outline:2px solid #52876b;font-weight:800;}
 .success {padding:12px;border-radius:12px;color:#285038;background:#dfefdf;font-weight:800;}
+.sheetIndex {margin:12px 0;padding:12px;border:1px solid #c4d5c7;border-radius:14px;background:#fff7df;}
+.sheetIndex summary,.embedded summary {cursor:pointer;min-height:44px;padding:10px 0;font-weight:800;}
+.sheetIndex li {margin:12px 0;}.sheetIndex li>span {display:block;font-size:14px;margin-top:4px;}
+.keywordList {display:flex;flex-wrap:wrap;gap:8px;margin:12px 0;}.keywordList>span {border:1px solid #b5caba;border-radius:10px;background:#edf5ed;padding:8px 12px;}
+.embedded details {border-top:1px solid #d8e2d9;margin-top:8px;}
 .notice {padding:14px;border:2px solid #d0a45b;border-radius:14px;background:#fff5dc;line-height:1.5;}
 @media(max-width:620px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));}.grid .unit{padding:11px;}.subjects button{font-size:13px;}}
 .topicPage {display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:18px;align-items:start;}
@@ -35,6 +40,8 @@
 .visualWords article p {font-size:14px;}
 .embedded :global(section.house-activity) {padding:0;border:0;box-shadow:none;background:transparent;max-width:none;}
 .embedded :global(.house-word-entry .house-word)>span[lang] {flex:1;overflow-wrap:normal;word-break:normal;}
+.embedded :global(.house-pair-column .house-pair) {padding:8px 4px;font-size:14px;overflow-wrap:normal;word-break:normal;}
+.embedded :global(.word-search-label) {padding:10px 4px 10px 8px;font-size:14px;overflow-wrap:normal;word-break:normal;}
 .monthPractice {display:flow-root;}.monthPractice h3 {clear:both;}
 .knuckleHint {float:right;width:min(100%,320px);margin:0 0 12px 16px;background:#fff8e8;border-radius:14px;padding:10px;}
 .knuckleHint svg {display:block;width:100%;height:auto;}.knuckleHint figcaption {font-size:12px;line-height:1.4;}

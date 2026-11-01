@@ -13,6 +13,14 @@ export const familyPossessiveExamples=[
 ] as const;
 
 export const closeFamilyKeys=["mae","pai","irmao","irma","avo-f","avo-m"] as const;
+export const fictionalFamily=[
+  {key:"mae",name:"Diana",phrase:`A mãe é ${professionForm("professor","female")}.`,translation:"Мама — учительница."},
+  {key:"pai",name:"Pedro",phrase:`O pai é ${professionForm("professor","male")}.`,translation:"Папа — учитель."},
+  {key:"irma",name:"Rita",phrase:"A Rita é estudante.",translation:"Рита — учащаяся."},
+  {key:"irmao",name:"Miguel",phrase:"O Miguel é estudante.",translation:"Мигел — учащийся."},
+  {key:"avo-f",name:"Rosa",phrase:`A avó é ${professionForm("médico","female")}.`,translation:"Бабушка — врач."},
+  {key:"avo-m",name:"Manuel",phrase:`O avô é ${professionForm("professor","male")}.`,translation:"Дедушка — учитель."},
+] as const;
 export const familyExamples=[
   {key:"mae",pt:"A minha mãe é professora.",ru:"Моя мама — учительница."},
   {key:"pai",pt:"O meu pai é professor.",ru:"Мой папа — учитель."},

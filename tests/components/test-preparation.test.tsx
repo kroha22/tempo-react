@@ -11,6 +11,9 @@ import {recordActivity} from "@/features/practice/learning-rewards";
 import {PreparationMonths} from "@/features/practice/PreparationMonths";
 import {calendarMonths} from "@/features/content/calendar";
 import {preparationGuides} from "@/features/content/test-preparation-guides";
+import {preparationKeywords,preparationSheets} from "@/features/content/preparation-support";
+import {PreparationWords} from "@/features/practice/PreparationWords";
+import {searchWords} from "@/features/practice/word-search";
 
 it("covers every preparation topic with a valid check and paper handoff",()=>{
   expect(preparationUnits).toHaveLength(20);
@@ -18,7 +21,11 @@ it("covers every preparation topic with a valid check and paper handoff",()=>{
   expect(preparationUnits.flatMap(u=>u.questions)).toHaveLength(40);
   for(const unit of preparationUnits){
     expect(preparationGuides[unit.id],unit.id).toBeDefined();
-    expect(unit.paper[0]).toMatch(/IMG_01/);
+    expect(unit.paper[0]).toMatch(/Folha|Apoio/);
+    expect(JSON.stringify(unit)).not.toMatch(/IMG_\d+|\.HEIC|\.JPG/);
+    const words=preparationKeywords[unit.id].map(([label,translation],i)=>({id:`qa:${i}`,label,translation}));
+    expect(words.length,unit.id).toBeGreaterThanOrEqual(4);
+    expect(searchWords(words).length,unit.id).toBeGreaterThanOrEqual(3);
     for(const question of unit.questions){
       expect(question.answer).toBeGreaterThanOrEqual(0);
       expect(question.answer).toBeLessThan(question.options.length);
@@ -31,6 +38,37 @@ it("covers every preparation topic with a valid check and paper handoff",()=>{
   }
   expect(preparationUnits.find(u=>u.id==="prevention")?.notice).toBeDefined();
   expect(preparationUnits.find(u=>u.id==="timeline")?.notice).toBeDefined();
+});
+
+it("numbers only the five exercise sheets, with recognizable printed titles",async()=>{
+  const user=userEvent.setup();render(<TestPreparation initialUnitId={null} onUnitChange={vi.fn()} onBack={vi.fn()} onOpen={vi.fn()}/>);
+  await user.click(screen.getByText("Как найти бумажный лист"));
+  expect(preparationSheets.map(s=>s.number)).toEqual([1,2,3,4,5]);
+  for(const sheet of preparationSheets)expect(screen.getByText(`Лист ${sheet.number} · ${sheet.title[1]}`)).toBeVisible();
+  expect(screen.getByRole("region",{name:"Набор подготовки к проверочной"})).not.toHaveTextContent(/IMG_/);
+});
+
+it("returns through a second related topic to the original task without clearing its answer",async()=>{
+  const user=userEvent.setup();render(<VocabularyHub initialChildMode onOpenCards={vi.fn()} initialTopicId="school:preparation"/>);
+  await user.click(screen.getByRole("button",{name:/^Conviver e resolver conflitos/}));
+  const quiz=within(screen.getByRole("region",{name:"Практика темы"}));
+  await user.click(quiz.getByRole("button",{name:"Выбрать вариант 2"}));
+  await user.click(screen.getByRole("button",{name:"Общаемся и договариваемся: комикс и практика →"}));
+  await user.click(screen.getByRole("button",{name:/Como me sinto.*Rever palavras/}));
+  expect(screen.getByRole("region",{name:"Как я себя чувствую: слова и ESTAR"})).toBeVisible();
+  await user.click(screen.getByRole("button",{name:"Вернуться к заданию подготовки"}));
+  expect(screen.getByRole("heading",{name:"Conviver e resolver conflitos"})).toBeVisible();
+  expect(quiz.getByRole("button",{name:"Выбрать вариант 2"})).toHaveAttribute("aria-pressed","true");
+});
+
+it("opens the reused pair and word-search mechanics from the lesson word list",async()=>{
+  const user=userEvent.setup();render(<PreparationWords unitId="r-rr"/>);
+  await user.click(screen.getByText(/Liga as palavras/));
+  const left=within(screen.getByLabelText("Португальские слова")),right=within(screen.getByLabelText("Русские переводы"));
+  await user.click(left.getByRole("button",{name:"caro"}));
+  await user.click(right.getByRole("button",{name:"дорогой"}));
+  await user.click(screen.getByText(/Procura as palavras/));
+  expect(screen.getByRole("group",{name:"Поле букв"})).toBeVisible();
 });
 
 it.each(preparationUnits)("child completes $id, sees feedback, retries and reaches the exact paper instruction",async unit=>{

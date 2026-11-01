@@ -8,12 +8,14 @@ import {verbCards} from "@/features/cards/data/verb-cards";
 beforeEach(()=>{window.localStorage.clear();window.history.replaceState(null,"","/tempo-react/");vi.spyOn(window,"scrollTo").mockImplementation(()=>{});});
 it.each([true,false])("opens and restores a profile (child=%s) without the casing collision",child=>{
   const view=render(<Demo/>);
+  expect(screen.queryByRole("group",{name:"Выбери аватар"})).not.toBeInTheDocument();
   fireEvent.change(screen.getByRole("textbox",{name:"Имя"}),{target:{value:"QA"}});
   fireEvent.click(screen.getByRole("radio",{name:child?"Ребёнок":"Взрослый"}));
   fireEvent.click(screen.getByRole("button",{name:"Создать профиль и начать"}));
   const registry=loadProfiles();
   expect(registry.profiles).toHaveLength(1);
   expect(registry.profiles[0].child).toBe(child);
+  if(child)expect(screen.getByRole("img",{name:"Мальчик"})).toHaveTextContent("👦");
   expect(screen.getByRole("img",{name:"Люди, роли и происхождение"})).toHaveAttribute("src",child?"/ser-guide-kingdoms.webp":"/ser-guide-adult.webp");
   const saved=window.localStorage.getItem(profilesKey);
   expect(screen.queryByRole("button",{name:"Создать профиль и начать"})).toBeNull();

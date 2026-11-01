@@ -21,5 +21,5 @@ export const lessonCovers: Readonly<Record<string, string>> = {
   "topic:work": "/images/covers/work-v1.webp",
   "topic:health": "/images/covers/health-v1.webp",
   "topic:people": "/images/covers/feelings-v1.webp",
-  "topic:vocabulary-family": "/images/covers/family-parents-v1.webp"
+  "topic:vocabulary-family": "/images/vocabulary/fictional-family-v1.webp"
 };

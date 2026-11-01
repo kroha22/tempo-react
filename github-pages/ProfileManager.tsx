@@ -4,10 +4,9 @@ import { PracticePlanProvider, usePracticePlan } from "../features/practice/plan
 import { LocalCardProgress } from "../features/cards/query/LocalCardProgress";
 import { SessionQueryBoundary } from "../shared/query/SessionQueryBoundary";
 import "./profiles.css";
-import {TempoCharacter} from "../features/practice/TempoCharacter";
 import {ChildAvatar,ChildAlbum} from "../features/practice/ChildProfile";
 import {rewardAlbum} from "../features/practice/learning-rewards";
-import {childAvatars,type ChildAvatarId} from "../features/practice/child-avatars";
+import type {ChildAvatarId} from "../features/practice/child-avatars";
 import {ProfileLearningContext,useProfileLearning,type ProfileLearning} from "../features/practice/profile-learning";
 import {isPracticeStepComplete,practicePlanSteps,nextPracticeStep} from "../features/practice/plan/model";
 
@@ -56,7 +55,6 @@ function ProfilePicker({current,onChoose,onCancel}:{current?:LocalProfile;onChoo
       <h2>{editing?"Настройки профиля":registry.profiles.length?"Добавить участника":"Первый профиль"}</h2>
       <label>Имя<input autoComplete="off" required maxLength={40} value={name} onChange={event=>setName(event.target.value)}/></label>
       <fieldset><legend>Оформление занятий</legend><label><input type="radio" name="presentation" checked={child} onChange={()=>setChild(true)}/> Ребёнок</label><label><input type="radio" name="presentation" checked={!child} onChange={()=>setChild(false)}/> Взрослый</label></fieldset>
-      {child&&<fieldset className="avatar-picker"><legend>Выбери аватар</legend>{childAvatars.map(item=><label key={item.id}><input type="radio" name="avatar" checked={avatar===item.id} onChange={()=>setAvatar(item.id)}/><span aria-hidden="true">{item.id==="boy"?<TempoCharacter/>:item.symbol}</span>{item.name}</label>)}</fieldset>}
       <small>Содержание общее. Смена оформления сохраняет твой прогресс.</small>
       {legacy&&!editing&&<label className="profile-transfer"><input type="checkbox" checked={transfer} onChange={event=>setTransfer(event.target.checked)}/> Скопировать прежние результаты в этот профиль<small>Исходные результаты останутся сохранены отдельно. Можно перенести их и в новый профиль позже.</small></label>}
       {error&&<p role="alert">{error}</p>}
