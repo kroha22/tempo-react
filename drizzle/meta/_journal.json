@@ -15,6 +15,13 @@
       "when": 1786533359800,
       "tag": "0001_dusty_mister_sinister",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1793573615827,
+      "tag": "0002_flippant_photon",
+      "breakpoints": true
     }
   ]
 }

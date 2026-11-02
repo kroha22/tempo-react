@@ -11,6 +11,38 @@ export const flashcardProgress = sqliteTable("flashcard_progress", {
   lastGrade: integer("last_grade"),
 }, (table) => [primaryKey({ columns: [table.userId, table.cardId] })]);
 
+// Saved StudyItems keep their existing review_item_id. Legacy v0001–v1000
+// progress remains in flashcard_progress, without copying or rewriting rows.
+export const studyReviewProgress = sqliteTable("study_review_progress", {
+  userId: text("user_id").notNull(),
+  reviewItemId: text("review_item_id").notNull(),
+  due: integer("due").notNull(),
+  interval: real("interval").notNull(),
+  ease: real("ease").notNull(),
+  repetitions: integer("repetitions").notNull(),
+  lapses: integer("lapses").notNull(),
+  lastGrade: integer("last_grade").notNull(),
+  reviewedAt: integer("reviewed_at").notNull(),
+  version: integer("version").notNull(),
+}, (table) => [
+  primaryKey({ columns: [table.userId, table.reviewItemId] }),
+  index("idx_study_review_user_due").on(table.userId, table.due),
+]);
+
+export const studyReviewEvents = sqliteTable("study_review_events", {
+  userId: text("user_id").notNull(),
+  clientEventId: text("client_event_id").notNull(),
+  studyItemId: text("study_item_id").notNull(),
+  reviewItemId: text("review_item_id").notNull(),
+  grade: integer("grade").notNull(),
+  expectedVersion: integer("expected_version").notNull(),
+  resultJson: text("result_json").notNull(),
+  reviewedAt: integer("reviewed_at").notNull(),
+}, (table) => [
+  primaryKey({ columns: [table.userId, table.clientEventId] }),
+  uniqueIndex("uidx_study_review_event_version").on(table.userId, table.reviewItemId, table.expectedVersion),
+]);
+
 export const lessonProgress = sqliteTable("lesson_progress", {
   userId: text("user_id").notNull(),
   lessonId: text("lesson_id").notNull(),
