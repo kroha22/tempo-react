@@ -2,6 +2,7 @@ import Link from "next/link";
 import { presentationModeParam, routeModeHref, type PresentationMode } from "@/features/learning/presentation-mode";
 
 const actions = [
+  { href: "/learning/gramatica-ativa", icon: "Aa", title: "Gramática Ativa 1", copy: "Уроки 1–3 и 18–23 · слова в карточки и практика", primary: false },
   { href: "/learning/route", icon: "→", title: "Продолжить учиться", copy: "Вернуться к разделу «Я и пространство»", primary: true },
   { href: "/learning/topics/ser-estar", icon: "◎", title: "Разобраться в теме", copy: "Понятные объяснения и примеры", primary: false },
   { href: "/learning/errors", icon: "↺", title: "Повторить сложное", copy: "Ещё раз пройти то, что пока не получается", primary: false },

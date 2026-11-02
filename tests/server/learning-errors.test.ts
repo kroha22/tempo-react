@@ -8,6 +8,7 @@ import * as complete from "@/app/api/learning/complete/route";
 import * as events from "@/app/api/learning/events/route";
 import * as errors from "@/app/api/learning/errors/route";
 import * as items from "@/app/api/study-items/route";
+import * as studyReviews from "@/app/api/study-reviews/route";
 
 const lessonId = "lesson:a1-1:introduce-yourself";
 const identity = { "oai-authenticated-user-id": "test-user" };
@@ -15,6 +16,8 @@ const base = { lessonId, sessionId: "session-test-001", clientEventId: "client-t
 
 describe("Learning API storage failures", () => {
   const cases: [string, (request: Request) => Promise<Response>, object | undefined][] = [
+    ["study review read", studyReviews.GET, undefined],
+    ["study review write", studyReviews.POST, { studyItemId: "study:noun:livro", clientEventId: "review:12345678-1234-1234-1234-123456789abc", grade: 2, expectedVersion: 0 }],
     ["progress read", progress.GET, undefined],
     ["progress write", progress.POST, { ...base, status: "active", snapshot: { stage: "learn" }, updatedAt: 1_800_000_000_000 }],
     ["completion prerequisite read", complete.POST, { ...base, completedAt: 1_800_000_000_000 }],

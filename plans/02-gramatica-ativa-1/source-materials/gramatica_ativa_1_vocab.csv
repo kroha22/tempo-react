@@ -1,0 +1,464 @@
+﻿unit,stage,pt,ru,source_status,tags,unique_key
+GA1-U01,preview,médico,врач,adapted_from_book_topic,"GA1,U01",médico
+GA1-U01,preview,enfermeiro,"медбрат, медсестра",adapted_from_book_topic,"GA1,U01",enfermeiro
+GA1-U01,preview,professor,учитель,adapted_from_book_topic,"GA1,U01",professor
+GA1-U01,preview,português,"португалец, португальский",adapted_from_book_topic,"GA1,U01",português
+GA1-U01,core,brasileiro,бразилец,adapted_from_book_topic,"GA1,U01",brasileiro
+GA1-U01,core,casado,"женатый, замужняя",adapted_from_book_topic,"GA1,U01",casado
+GA1-U01,core,solteiro,"неженатый, незамужняя",adapted_from_book_topic,"GA1,U01",solteiro
+GA1-U01,core,inteligente,умный,adapted_from_book_topic,"GA1,U01",inteligente
+GA1-U01,core,amigo,друг,adapted_from_book_topic,"GA1,U01",amigo
+GA1-U02,preview,casa,дом,adapted_from_book_topic,"GA1,U02",casa
+GA1-U02,preview,escola,школа,adapted_from_book_topic,"GA1,U02",escola
+GA1-U02,preview,aqui,здесь,adapted_from_book_topic,"GA1,U02",aqui
+GA1-U02,preview,ali,там,adapted_from_book_topic,"GA1,U02",ali
+GA1-U02,core,contente,довольный,adapted_from_book_topic,"GA1,U02",contente
+GA1-U02,core,triste,грустный,adapted_from_book_topic,"GA1,U02",triste
+GA1-U02,core,com sono,сонный,adapted_from_book_topic,"GA1,U02",com sono
+GA1-U02,core,com fome,голодный,adapted_from_book_topic,"GA1,U02",com fome
+GA1-U02,core,pronto,готовый,adapted_from_book_topic,"GA1,U02",pronto
+GA1-U02,core,frio,холод,adapted_from_book_topic,"GA1,U02",frio
+GA1-U03,preview,limpo,чистый,adapted_from_book_topic,"GA1,U03",limpo
+GA1-U03,preview,sujo,грязный,adapted_from_book_topic,"GA1,U03",sujo
+GA1-U03,preview,aberto,открытый,adapted_from_book_topic,"GA1,U03",aberto
+GA1-U03,preview,fechado,закрытый,adapted_from_book_topic,"GA1,U03",fechado
+GA1-U03,core,doente,больной,adapted_from_book_topic,"GA1,U03",doente
+GA1-U03,core,cansado,уставший,adapted_from_book_topic,"GA1,U03",cansado
+GA1-U03,core,novo,новый,adapted_from_book_topic,"GA1,U03",novo
+GA1-U03,core,velho,старый,adapted_from_book_topic,"GA1,U03",velho
+GA1-U03,core,salgado,солёный,adapted_from_book_topic,"GA1,U03",salgado
+GA1-U03,core,azedo,кислый,adapted_from_book_topic,"GA1,U03",azedo
+GA1-U04,preview,ler,читать,adapted_from_book_topic,"GA1,U04",ler
+GA1-U04,preview,comer,есть,adapted_from_book_topic,"GA1,U04",comer
+GA1-U04,preview,chover,идти (о дожде),adapted_from_book_topic,"GA1,U04",chover
+GA1-U04,preview,nevar,идти (о снеге),adapted_from_book_topic,"GA1,U04",nevar
+GA1-U04,core,trabalhar,работать,adapted_from_book_topic,"GA1,U04",trabalhar
+GA1-U04,core,conversar,разговаривать,adapted_from_book_topic,"GA1,U04",conversar
+GA1-U04,core,escrever,писать,adapted_from_book_topic,"GA1,U04",escrever
+GA1-U04,core,estudar,учиться,adapted_from_book_topic,"GA1,U04",estudar
+GA1-U04,core,telefonar,звонить,adapted_from_book_topic,"GA1,U04",telefonar
+GA1-U05,preview,falar,говорить,adapted_from_book_topic,"GA1,U05",falar
+GA1-U05,preview,morar,жить,adapted_from_book_topic,"GA1,U05",morar
+GA1-U05,preview,trabalhar,работать,adapted_from_book_topic,"GA1,U05",trabalhar
+GA1-U05,preview,jogar,играть,adapted_from_book_topic,"GA1,U05",jogar
+GA1-U05,core,telefonar,звонить,adapted_from_book_topic,"GA1,U05",telefonar
+GA1-U05,core,comprar,покупать,adapted_from_book_topic,"GA1,U05",comprar
+GA1-U05,core,tomar,"принимать, брать",adapted_from_book_topic,"GA1,U05",tomar
+GA1-U05,core,levantar,поднимать,adapted_from_book_topic,"GA1,U05",levantar
+GA1-U05,core,apanhar,"ловить, садиться на транспорт",adapted_from_book_topic,"GA1,U05",apanhar
+GA1-U06,preview,comer,есть,adapted_from_book_topic,"GA1,U06",comer
+GA1-U06,preview,beber,пить,adapted_from_book_topic,"GA1,U06",beber
+GA1-U06,preview,aprender,"учить, изучать",adapted_from_book_topic,"GA1,U06",aprender
+GA1-U06,preview,escrever,писать,adapted_from_book_topic,"GA1,U06",escrever
+GA1-U06,core,viver,жить,adapted_from_book_topic,"GA1,U06",viver
+GA1-U06,core,receber,получать,adapted_from_book_topic,"GA1,U06",receber
+GA1-U06,core,conhecer,быть знакомым,adapted_from_book_topic,"GA1,U06",conhecer
+GA1-U06,core,compreender,понимать,adapted_from_book_topic,"GA1,U06",compreender
+GA1-U06,core,chover,идти (о дожде),adapted_from_book_topic,"GA1,U06",chover
+GA1-U07,preview,ver,видеть,adapted_from_book_topic,"GA1,U07",ver
+GA1-U07,preview,ler,читать,adapted_from_book_topic,"GA1,U07",ler
+GA1-U07,preview,fazer,делать,adapted_from_book_topic,"GA1,U07",fazer
+GA1-U07,preview,dizer,говорить,adapted_from_book_topic,"GA1,U07",dizer
+GA1-U07,core,trazer,приносить,adapted_from_book_topic,"GA1,U07",trazer
+GA1-U07,core,saber,знать факт или умение,adapted_from_book_topic,"GA1,U07",saber
+GA1-U07,core,poder,мочь,adapted_from_book_topic,"GA1,U07",poder
+GA1-U07,core,perder,терять,adapted_from_book_topic,"GA1,U07",perder
+GA1-U07,core,querer,хотеть,adapted_from_book_topic,"GA1,U07",querer
+GA1-U07,core,pôr,класть,adapted_from_book_topic,"GA1,U07",pôr
+GA1-U08,preview,abrir,открывать,adapted_from_book_topic,"GA1,U08",abrir
+GA1-U08,preview,vestir,одевать,adapted_from_book_topic,"GA1,U08",vestir
+GA1-U08,preview,sentir,чувствовать,adapted_from_book_topic,"GA1,U08",sentir
+GA1-U08,preview,partir,отправляться,adapted_from_book_topic,"GA1,U08",partir
+GA1-U08,core,preferir,предпочитать,adapted_from_book_topic,"GA1,U08",preferir
+GA1-U08,core,conseguir,суметь,adapted_from_book_topic,"GA1,U08",conseguir
+GA1-U08,core,decidir,решать,adapted_from_book_topic,"GA1,U08",decidir
+GA1-U08,core,corrigir,исправлять,adapted_from_book_topic,"GA1,U08",corrigir
+GA1-U08,core,discutir,обсуждать,adapted_from_book_topic,"GA1,U08",discutir
+GA1-U09,preview,ir,"идти, ехать",adapted_from_book_topic,"GA1,U09",ir
+GA1-U09,preview,vir,приходить,adapted_from_book_topic,"GA1,U09",vir
+GA1-U09,preview,ouvir,"слышать, слушать",adapted_from_book_topic,"GA1,U09",ouvir
+GA1-U09,preview,pedir,просить,adapted_from_book_topic,"GA1,U09",pedir
+GA1-U09,core,dormir,спать,adapted_from_book_topic,"GA1,U09",dormir
+GA1-U09,core,subir,подниматься,adapted_from_book_topic,"GA1,U09",subir
+GA1-U09,core,fugir,убегать,adapted_from_book_topic,"GA1,U09",fugir
+GA1-U09,core,rir,смеяться,adapted_from_book_topic,"GA1,U09",rir
+GA1-U09,core,sair,выходить,adapted_from_book_topic,"GA1,U09",sair
+GA1-U09,core,cair,падать,adapted_from_book_topic,"GA1,U09",cair
+GA1-U10,preview,agora,сейчас,adapted_from_book_topic,"GA1,U10",agora
+GA1-U10,preview,normalmente,обычно,adapted_from_book_topic,"GA1,U10",normalmente
+GA1-U10,preview,sempre,всегда,adapted_from_book_topic,"GA1,U10",sempre
+GA1-U10,preview,nunca,никогда,adapted_from_book_topic,"GA1,U10",nunca
+GA1-U10,core,às vezes,иногда,adapted_from_book_topic,"GA1,U10",às vezes
+GA1-U10,core,hoje,сегодня,adapted_from_book_topic,"GA1,U10",hoje
+GA1-U10,core,amanhã,завтра,adapted_from_book_topic,"GA1,U10",amanhã
+GA1-U10,core,este momento,этот момент,adapted_from_book_topic,"GA1,U10",este momento
+GA1-U11,preview,irmão,брат,adapted_from_book_topic,"GA1,U11",irmão
+GA1-U11,preview,irmã,сестра,adapted_from_book_topic,"GA1,U11",irmã
+GA1-U11,preview,filho,сын,adapted_from_book_topic,"GA1,U11",filho
+GA1-U11,preview,filha,дочь,adapted_from_book_topic,"GA1,U11",filha
+GA1-U11,core,idade,возраст,adapted_from_book_topic,"GA1,U11",idade
+GA1-U11,core,fome,голод,adapted_from_book_topic,"GA1,U11",fome
+GA1-U11,core,sede,жажда,adapted_from_book_topic,"GA1,U11",sede
+GA1-U11,core,medo,страх,adapted_from_book_topic,"GA1,U11",medo
+GA1-U11,core,tempo,время,adapted_from_book_topic,"GA1,U11",tempo
+GA1-U11,core,frio,холод,adapted_from_book_topic,"GA1,U11",frio
+GA1-U12,preview,ontem,вчера,adapted_from_book_topic,"GA1,U12",ontem
+GA1-U12,preview,noite,ночь,adapted_from_book_topic,"GA1,U12",noite
+GA1-U12,preview,cinema,кино,adapted_from_book_topic,"GA1,U12",cinema
+GA1-U12,preview,festa,"праздник, вечеринка",adapted_from_book_topic,"GA1,U12",festa
+GA1-U12,core,viagem,поездка,adapted_from_book_topic,"GA1,U12",viagem
+GA1-U12,core,semana passada,прошлая неделя,adapted_from_book_topic,"GA1,U12",semana passada
+GA1-U12,core,almoço,обед,adapted_from_book_topic,"GA1,U12",almoço
+GA1-U12,core,negócio,"дело, бизнес",adapted_from_book_topic,"GA1,U12",negócio
+GA1-U13,preview,acordar,просыпаться,adapted_from_book_topic,"GA1,U13",acordar
+GA1-U13,preview,almoçar,обедать,adapted_from_book_topic,"GA1,U13",almoçar
+GA1-U13,preview,jantar,ужинать,adapted_from_book_topic,"GA1,U13",jantar
+GA1-U13,preview,trabalhar,работать,adapted_from_book_topic,"GA1,U13",trabalhar
+GA1-U13,core,escrever,писать,adapted_from_book_topic,"GA1,U13",escrever
+GA1-U13,core,nascer,рождаться,adapted_from_book_topic,"GA1,U13",nascer
+GA1-U13,core,ficar,оставаться,adapted_from_book_topic,"GA1,U13",ficar
+GA1-U13,core,passar,проводить время,adapted_from_book_topic,"GA1,U13",passar
+GA1-U14,preview,ontem,вчера,adapted_from_book_topic,"GA1,U14",ontem
+GA1-U14,preview,presente,подарок,adapted_from_book_topic,"GA1,U14",presente
+GA1-U14,preview,aniversário,день рождения,adapted_from_book_topic,"GA1,U14",aniversário
+GA1-U14,preview,filme,фильм,adapted_from_book_topic,"GA1,U14",filme
+GA1-U14,core,acidente,авария,adapted_from_book_topic,"GA1,U14",acidente
+GA1-U14,core,convite,приглашение,adapted_from_book_topic,"GA1,U14",convite
+GA1-U14,core,notícia,новость,adapted_from_book_topic,"GA1,U14",notícia
+GA1-U14,core,livro,книга,adapted_from_book_topic,"GA1,U14",livro
+GA1-U15,preview,levantar-se,вставать,adapted_from_book_topic,"GA1,U15",levantar-se
+GA1-U15,preview,deitar-se,ложиться,adapted_from_book_topic,"GA1,U15",deitar-se
+GA1-U15,preview,sentar-se,садиться,adapted_from_book_topic,"GA1,U15",sentar-se
+GA1-U15,preview,chamar-se,называться,adapted_from_book_topic,"GA1,U15",chamar-se
+GA1-U15,core,encontrar-se,встречаться,adapted_from_book_topic,"GA1,U15",encontrar-se
+GA1-U15,core,lavar-se,мыться,adapted_from_book_topic,"GA1,U15",lavar-se
+GA1-U15,core,lembrar-se,вспоминать,adapted_from_book_topic,"GA1,U15",lembrar-se
+GA1-U15,core,esquecer-se,забывать,adapted_from_book_topic,"GA1,U15",esquecer-se
+GA1-U16,preview,antigamente,раньше,adapted_from_book_topic,"GA1,U16",antigamente
+GA1-U16,preview,quando,когда,adapted_from_book_topic,"GA1,U16",quando
+GA1-U16,preview,pequeno,маленький,adapted_from_book_topic,"GA1,U16",pequeno
+GA1-U16,preview,campo,сельская местность,adapted_from_book_topic,"GA1,U16",campo
+GA1-U16,core,boneca,кукла,adapted_from_book_topic,"GA1,U16",boneca
+GA1-U16,core,brincar,играть,adapted_from_book_topic,"GA1,U16",brincar
+GA1-U16,core,escola,школа,adapted_from_book_topic,"GA1,U16",escola
+GA1-U16,core,habitualmente,обычно,adapted_from_book_topic,"GA1,U16",habitualmente
+GA1-U17,preview,antes,раньше,adapted_from_book_topic,"GA1,U17",antes
+GA1-U17,preview,agora,сейчас,adapted_from_book_topic,"GA1,U17",agora
+GA1-U17,preview,antigamente,в прежние времена,adapted_from_book_topic,"GA1,U17",antigamente
+GA1-U17,preview,costumar,иметь обыкновение,adapted_from_book_topic,"GA1,U17",costumar
+GA1-U17,core,viajar,путешествовать,adapted_from_book_topic,"GA1,U17",viajar
+GA1-U17,core,usar,использовать,adapted_from_book_topic,"GA1,U17",usar
+GA1-U17,core,a pé,пешком,adapted_from_book_topic,"GA1,U17",a pé
+GA1-U17,core,óculos,очки,adapted_from_book_topic,"GA1,U17",óculos
+GA1-U18,preview,quando,когда,adapted_from_book_topic,"GA1,U18",quando
+GA1-U18,preview,enquanto,пока,adapted_from_book_topic,"GA1,U18",enquanto
+GA1-U18,preview,idade,возраст,adapted_from_book_topic,"GA1,U18",idade
+GA1-U18,preview,meia-noite,полночь,adapted_from_book_topic,"GA1,U18",meia-noite
+GA1-U18,core,tomar duche,принимать душ,adapted_from_book_topic,"GA1,U18",tomar duche
+GA1-U18,core,fazer a cama,заправлять кровать,adapted_from_book_topic,"GA1,U18",fazer a cama
+GA1-U18,core,preparar,готовить,adapted_from_book_topic,"GA1,U18",preparar
+GA1-U18,core,conversar,разговаривать,adapted_from_book_topic,"GA1,U18",conversar
+GA1-U18,core,arrumar,прибирать,adapted_from_book_topic,"GA1,U18",arrumar
+GA1-U19,preview,quando,когда,adapted_from_book_topic,"GA1,U19",quando
+GA1-U19,preview,enquanto,пока,adapted_from_book_topic,"GA1,U19",enquanto
+GA1-U19,preview,de repente,внезапно,adapted_from_book_topic,"GA1,U19",de repente
+GA1-U19,preview,tocar,звонить,adapted_from_book_topic,"GA1,U19",tocar
+GA1-U19,core,entrar,входить,adapted_from_book_topic,"GA1,U19",entrar
+GA1-U19,core,chegar,приходить,adapted_from_book_topic,"GA1,U19",chegar
+GA1-U19,core,telefone,телефон,adapted_from_book_topic,"GA1,U19",telefone
+GA1-U19,core,acontecer,случаться,adapted_from_book_topic,"GA1,U19",acontecer
+GA1-U19,core,abrir,открывать,adapted_from_book_topic,"GA1,U19",abrir
+GA1-U20,preview,queria,хотел(а) бы,adapted_from_book_topic,"GA1,U20",queria
+GA1-U20,preview,gostava de,хотел(а) бы,adapted_from_book_topic,"GA1,U20",gostava de
+GA1-U20,preview,podia,не могли бы,adapted_from_book_topic,"GA1,U20",podia
+GA1-U20,preview,preferia,предпочёл(ла) бы,adapted_from_book_topic,"GA1,U20",preferia
+GA1-U20,core,por favor,пожалуйста,adapted_from_book_topic,"GA1,U20",por favor
+GA1-U20,core,informação,информация,adapted_from_book_topic,"GA1,U20",informação
+GA1-U20,core,ajudar,помогать,adapted_from_book_topic,"GA1,U20",ajudar
+GA1-U20,core,pedir,просить,adapted_from_book_topic,"GA1,U20",pedir
+GA1-U20,core,castelo,замок,adapted_from_book_topic,"GA1,U20",castelo
+GA1-U21,preview,já,уже,adapted_from_book_topic,"GA1,U21",já
+GA1-U21,preview,antes,"до, раньше",adapted_from_book_topic,"GA1,U21",antes
+GA1-U21,preview,quando,когда,adapted_from_book_topic,"GA1,U21",quando
+GA1-U21,preview,chegar,прибывать,adapted_from_book_topic,"GA1,U21",chegar
+GA1-U21,core,partir,отправляться,adapted_from_book_topic,"GA1,U21",partir
+GA1-U21,core,sair,уходить,adapted_from_book_topic,"GA1,U21",sair
+GA1-U21,core,acabar,заканчивать,adapted_from_book_topic,"GA1,U21",acabar
+GA1-U21,core,encontrar,встречать,adapted_from_book_topic,"GA1,U21",encontrar
+GA1-U21,core,arrumar,убирать,adapted_from_book_topic,"GA1,U21",arrumar
+GA1-U22,preview,ultimamente,в последнее время,adapted_from_book_topic,"GA1,U22",ultimamente
+GA1-U22,preview,desde que,с тех пор как,adapted_from_book_topic,"GA1,U22",desde que
+GA1-U22,preview,nos últimos tempos,в последнее время,adapted_from_book_topic,"GA1,U22",nos últimos tempos
+GA1-U22,preview,trabalhar,работать,adapted_from_book_topic,"GA1,U22",trabalhar
+GA1-U22,core,estudar,учиться,adapted_from_book_topic,"GA1,U22",estudar
+GA1-U22,core,dormir,спать,adapted_from_book_topic,"GA1,U22",dormir
+GA1-U22,core,inscrição,регистрация,adapted_from_book_topic,"GA1,U22",inscrição
+GA1-U22,core,turista,турист,adapted_from_book_topic,"GA1,U22",turista
+GA1-U22,core,abrir,открывать,adapted_from_book_topic,"GA1,U22",abrir
+GA1-U23,preview,amanhã,завтра,adapted_from_book_topic,"GA1,U23",amanhã
+GA1-U23,preview,agora,сейчас,adapted_from_book_topic,"GA1,U23",agora
+GA1-U23,preview,daqui a pouco,через некоторое время,adapted_from_book_topic,"GA1,U23",daqui a pouco
+GA1-U23,preview,acabar de,только что сделать,adapted_from_book_topic,"GA1,U23",acabar de
+GA1-U23,core,estar a,находиться в процессе,adapted_from_book_topic,"GA1,U23",estar a
+GA1-U23,core,ir,"идти, ехать",adapted_from_book_topic,"GA1,U23",ir
+GA1-U23,core,chegar,прибывать,adapted_from_book_topic,"GA1,U23",chegar
+GA1-U23,core,comprar,покупать,adapted_from_book_topic,"GA1,U23",comprar
+GA1-U23,core,estudar,учиться,adapted_from_book_topic,"GA1,U23",estudar
+GA1-U24,preview,amanhã,завтра,adapted_from_book_topic,"GA1,U24",amanhã
+GA1-U24,preview,no próximo ano,в следующем году,adapted_from_book_topic,"GA1,U24",no próximo ano
+GA1-U24,preview,provavelmente,вероятно,adapted_from_book_topic,"GA1,U24",provavelmente
+GA1-U24,preview,futuro,будущее,adapted_from_book_topic,"GA1,U24",futuro
+GA1-U24,core,viajar,путешествовать,adapted_from_book_topic,"GA1,U24",viajar
+GA1-U24,core,partir,отправляться,adapted_from_book_topic,"GA1,U24",partir
+GA1-U24,core,chegar,прибывать,adapted_from_book_topic,"GA1,U24",chegar
+GA1-U24,core,estará,"будет, вероятно находится",adapted_from_book_topic,"GA1,U24",estará
+GA1-U25,preview,gostaria,хотел(а) бы,adapted_from_book_topic,"GA1,U25",gostaria
+GA1-U25,preview,poderia,мог(ла) бы,adapted_from_book_topic,"GA1,U25",poderia
+GA1-U25,preview,deveria,следовало бы,adapted_from_book_topic,"GA1,U25",deveria
+GA1-U25,preview,se,если,adapted_from_book_topic,"GA1,U25",se
+GA1-U25,core,ajuda,помощь,adapted_from_book_topic,"GA1,U25",ajuda
+GA1-U25,core,convidar,приглашать,adapted_from_book_topic,"GA1,U25",convidar
+GA1-U25,core,preferir,предпочитать,adapted_from_book_topic,"GA1,U25",preferir
+GA1-U25,core,hipótese,предположение,adapted_from_book_topic,"GA1,U25",hipótese
+GA1-U26,preview,abrir,открывать,adapted_from_book_topic,"GA1,U26",abrir
+GA1-U26,preview,fechar,закрывать,adapted_from_book_topic,"GA1,U26",fechar
+GA1-U26,preview,entrar,входить,adapted_from_book_topic,"GA1,U26",entrar
+GA1-U26,preview,esperar,ждать,adapted_from_book_topic,"GA1,U26",esperar
+GA1-U26,core,olhar,смотреть,adapted_from_book_topic,"GA1,U26",olhar
+GA1-U26,core,ouvir,слушать,adapted_from_book_topic,"GA1,U26",ouvir
+GA1-U26,core,sentar-se,садиться,adapted_from_book_topic,"GA1,U26",sentar-se
+GA1-U26,core,virar,поворачивать,adapted_from_book_topic,"GA1,U26",virar
+GA1-U27,preview,não,не,adapted_from_book_topic,"GA1,U27",não
+GA1-U27,preview,barulho,шум,adapted_from_book_topic,"GA1,U27",barulho
+GA1-U27,preview,correr,бегать,adapted_from_book_topic,"GA1,U27",correr
+GA1-U27,preview,esquecer,забывать,adapted_from_book_topic,"GA1,U27",esquecer
+GA1-U27,core,parar,останавливаться,adapted_from_book_topic,"GA1,U27",parar
+GA1-U27,core,mexer,"трогать, двигать",adapted_from_book_topic,"GA1,U27",mexer
+GA1-U27,core,destruir,разрушать,adapted_from_book_topic,"GA1,U27",destruir
+GA1-U27,core,ter cuidado,быть осторожным,adapted_from_book_topic,"GA1,U27",ter cuidado
+GA1-U28,preview,antes de,перед тем как,adapted_from_book_topic,"GA1,U28",antes de
+GA1-U28,preview,depois de,после того как,adapted_from_book_topic,"GA1,U28",depois de
+GA1-U28,preview,para,чтобы,adapted_from_book_topic,"GA1,U28",para
+GA1-U28,preview,sem,без того чтобы,adapted_from_book_topic,"GA1,U28",sem
+GA1-U28,core,até,до того как,adapted_from_book_topic,"GA1,U28",até
+GA1-U28,core,apesar de,несмотря на,adapted_from_book_topic,"GA1,U28",apesar de
+GA1-U28,core,no caso de,в случае,adapted_from_book_topic,"GA1,U28",no caso de
+GA1-U28,core,decidir,решать,adapted_from_book_topic,"GA1,U28",decidir
+GA1-U29,preview,andar,идти,adapted_from_book_topic,"GA1,U29",andar
+GA1-U29,preview,chorar,плакать,adapted_from_book_topic,"GA1,U29",chorar
+GA1-U29,preview,conversar,беседовать,adapted_from_book_topic,"GA1,U29",conversar
+GA1-U29,preview,escrever,писать,adapted_from_book_topic,"GA1,U29",escrever
+GA1-U29,core,gradualmente,постепенно,adapted_from_book_topic,"GA1,U29",gradualmente
+GA1-U29,core,enquanto,пока,adapted_from_book_topic,"GA1,U29",enquanto
+GA1-U29,core,levantar,поднимать,adapted_from_book_topic,"GA1,U29",levantar
+GA1-U29,core,vender,продавать,adapted_from_book_topic,"GA1,U29",vender
+GA1-U30,preview,há,"есть, имеется",adapted_from_book_topic,"GA1,U30",há
+GA1-U30,preview,houve,"было, произошло",adapted_from_book_topic,"GA1,U30",houve
+GA1-U30,preview,havia,"имелось, было",adapted_from_book_topic,"GA1,U30",havia
+GA1-U30,preview,haverá,будет,adapted_from_book_topic,"GA1,U30",haverá
+GA1-U30,core,existir,существовать,adapted_from_book_topic,"GA1,U30",existir
+GA1-U30,core,acontecer,случаться,adapted_from_book_topic,"GA1,U30",acontecer
+GA1-U30,core,intenção,намерение,adapted_from_book_topic,"GA1,U30",intenção
+GA1-U30,core,convicção,убеждённость,adapted_from_book_topic,"GA1,U30",convicção
+GA1-U31,preview,poder,мочь,adapted_from_book_topic,"GA1,U31",poder
+GA1-U31,preview,conseguir,суметь,adapted_from_book_topic,"GA1,U31",conseguir
+GA1-U31,preview,saber,"знать, уметь",adapted_from_book_topic,"GA1,U31",saber
+GA1-U31,preview,conhecer,быть знакомым,adapted_from_book_topic,"GA1,U31",conhecer
+GA1-U31,core,dever,следует,adapted_from_book_topic,"GA1,U31",dever
+GA1-U31,core,ter de,быть должным,adapted_from_book_topic,"GA1,U31",ter de
+GA1-U31,core,precisar de,нуждаться в,adapted_from_book_topic,"GA1,U31",precisar de
+GA1-U31,core,proibido,запрещено,adapted_from_book_topic,"GA1,U31",proibido
+GA1-U31,core,permitido,разрешено,adapted_from_book_topic,"GA1,U31",permitido
+GA1-U32,preview,escrever,писать,adapted_from_book_topic,"GA1,U32",escrever
+GA1-U32,preview,construir,строить,adapted_from_book_topic,"GA1,U32",construir
+GA1-U32,preview,comprar,покупать,adapted_from_book_topic,"GA1,U32",comprar
+GA1-U32,preview,descobrir,открывать,adapted_from_book_topic,"GA1,U32",descobrir
+GA1-U32,core,publicar,публиковать,adapted_from_book_topic,"GA1,U32",publicar
+GA1-U32,core,organizar,организовывать,adapted_from_book_topic,"GA1,U32",organizar
+GA1-U32,core,bilhete,билет,adapted_from_book_topic,"GA1,U32",bilhete
+GA1-U32,core,estrada,дорога,adapted_from_book_topic,"GA1,U32",estrada
+GA1-U33,preview,aberto,открытый,adapted_from_book_topic,"GA1,U33",aberto
+GA1-U33,preview,fechado,закрытый,adapted_from_book_topic,"GA1,U33",fechado
+GA1-U33,preview,feito,сделанный,adapted_from_book_topic,"GA1,U33",feito
+GA1-U33,preview,limpo,чистый,adapted_from_book_topic,"GA1,U33",limpo
+GA1-U33,core,pago,оплаченный,adapted_from_book_topic,"GA1,U33",pago
+GA1-U33,core,entregue,доставленный,adapted_from_book_topic,"GA1,U33",entregue
+GA1-U33,core,aceite,принятый,adapted_from_book_topic,"GA1,U33",aceite
+GA1-U33,core,impresso,напечатанный,adapted_from_book_topic,"GA1,U33",impresso
+GA1-U34,preview,vende-se,продаётся,adapted_from_book_topic,"GA1,U34",vende-se
+GA1-U34,preview,aluga-se,сдаётся,adapted_from_book_topic,"GA1,U34",aluga-se
+GA1-U34,preview,fala-se,говорят,adapted_from_book_topic,"GA1,U34",fala-se
+GA1-U34,preview,precisa-se,требуется,adapted_from_book_topic,"GA1,U34",precisa-se
+GA1-U34,core,aceita-se,принимается,adapted_from_book_topic,"GA1,U34",aceita-se
+GA1-U34,core,publicar,публиковать,adapted_from_book_topic,"GA1,U34",publicar
+GA1-U34,core,anúncio,объявление,adapted_from_book_topic,"GA1,U34",anúncio
+GA1-U34,core,apartamento,квартира,adapted_from_book_topic,"GA1,U34",apartamento
+GA1-U35,preview,dizer,говорить,adapted_from_book_topic,"GA1,U35",dizer
+GA1-U35,preview,contar,рассказывать,adapted_from_book_topic,"GA1,U35",contar
+GA1-U35,preview,perguntar,спрашивать,adapted_from_book_topic,"GA1,U35",perguntar
+GA1-U35,preview,responder,отвечать,adapted_from_book_topic,"GA1,U35",responder
+GA1-U35,core,ontem,вчера,adapted_from_book_topic,"GA1,U35",ontem
+GA1-U35,core,amanhã,завтра,adapted_from_book_topic,"GA1,U35",amanhã
+GA1-U35,core,na véspera,накануне,adapted_from_book_topic,"GA1,U35",na véspera
+GA1-U35,core,no dia seguinte,на следующий день,adapted_from_book_topic,"GA1,U35",no dia seguinte
+GA1-U36,preview,livro,книга,adapted_from_book_topic,"GA1,U36",livro
+GA1-U36,preview,casa,дом,adapted_from_book_topic,"GA1,U36",casa
+GA1-U36,preview,carro,машина,adapted_from_book_topic,"GA1,U36",carro
+GA1-U36,preview,cidade,город,adapted_from_book_topic,"GA1,U36",cidade
+GA1-U36,core,irmão,брат,adapted_from_book_topic,"GA1,U36",irmão
+GA1-U36,core,irmã,сестра,adapted_from_book_topic,"GA1,U36",irmã
+GA1-U36,core,caneta,ручка,adapted_from_book_topic,"GA1,U36",caneta
+GA1-U36,core,mesa,стол,adapted_from_book_topic,"GA1,U36",mesa
+GA1-U36,core,país,страна,adapted_from_book_topic,"GA1,U36",país
+GA1-U37,preview,isto,это (около говорящего),adapted_from_book_topic,"GA1,U37",isto
+GA1-U37,preview,isso,это (около слушателя),adapted_from_book_topic,"GA1,U37",isso
+GA1-U37,preview,aquilo,то (вдали),adapted_from_book_topic,"GA1,U37",aquilo
+GA1-U37,preview,aqui,здесь,adapted_from_book_topic,"GA1,U37",aqui
+GA1-U37,core,aí,там у тебя,adapted_from_book_topic,"GA1,U37",aí
+GA1-U37,core,ali,там,adapted_from_book_topic,"GA1,U37",ali
+GA1-U37,core,lá,там вдали,adapted_from_book_topic,"GA1,U37",lá
+GA1-U37,core,caneta,ручка,adapted_from_book_topic,"GA1,U37",caneta
+GA1-U38,preview,este,этот,adapted_from_book_topic,"GA1,U38",este
+GA1-U38,preview,esta,эта,adapted_from_book_topic,"GA1,U38",esta
+GA1-U38,preview,esse,тот у тебя,adapted_from_book_topic,"GA1,U38",esse
+GA1-U38,preview,essa,та у тебя,adapted_from_book_topic,"GA1,U38",essa
+GA1-U38,core,aquele,тот вдали,adapted_from_book_topic,"GA1,U38",aquele
+GA1-U38,core,aquela,та вдали,adapted_from_book_topic,"GA1,U38",aquela
+GA1-U38,core,camisola,кофта,adapted_from_book_topic,"GA1,U38",camisola
+GA1-U38,core,caderno,тетрадь,adapted_from_book_topic,"GA1,U38",caderno
+GA1-U39,preview,meu,мой,adapted_from_book_topic,"GA1,U39",meu
+GA1-U39,preview,minha,моя,adapted_from_book_topic,"GA1,U39",minha
+GA1-U39,preview,teu,твой,adapted_from_book_topic,"GA1,U39",teu
+GA1-U39,preview,tua,твоя,adapted_from_book_topic,"GA1,U39",tua
+GA1-U39,core,seu,"его, её, ваш",adapted_from_book_topic,"GA1,U39",seu
+GA1-U39,core,nosso,наш,adapted_from_book_topic,"GA1,U39",nosso
+GA1-U39,core,dele,его,adapted_from_book_topic,"GA1,U39",dele
+GA1-U39,core,dela,её,adapted_from_book_topic,"GA1,U39",dela
+GA1-U39,core,pertencer,принадлежать,adapted_from_book_topic,"GA1,U39",pertencer
+GA1-U40,preview,quem,кто,adapted_from_book_topic,"GA1,U40",quem
+GA1-U40,preview,onde,где,adapted_from_book_topic,"GA1,U40",onde
+GA1-U40,preview,como,как,adapted_from_book_topic,"GA1,U40",como
+GA1-U40,preview,quando,когда,adapted_from_book_topic,"GA1,U40",quando
+GA1-U40,core,porquê,почему,adapted_from_book_topic,"GA1,U40",porquê
+GA1-U40,core,qual,какой из,adapted_from_book_topic,"GA1,U40",qual
+GA1-U40,core,quanto,сколько,adapted_from_book_topic,"GA1,U40",quanto
+GA1-U40,core,de que cor,какого цвета,adapted_from_book_topic,"GA1,U40",de que cor
+GA1-U41,preview,algum,какой-нибудь,adapted_from_book_topic,"GA1,U41",algum
+GA1-U41,preview,nenhum,ни один,adapted_from_book_topic,"GA1,U41",nenhum
+GA1-U41,preview,alguém,кто-то,adapted_from_book_topic,"GA1,U41",alguém
+GA1-U41,preview,ninguém,никто,adapted_from_book_topic,"GA1,U41",ninguém
+GA1-U41,core,tudo,всё,adapted_from_book_topic,"GA1,U41",tudo
+GA1-U41,core,nada,ничего,adapted_from_book_topic,"GA1,U41",nada
+GA1-U41,core,muito,много,adapted_from_book_topic,"GA1,U41",muito
+GA1-U41,core,pouco,мало,adapted_from_book_topic,"GA1,U41",pouco
+GA1-U41,core,outro,другой,adapted_from_book_topic,"GA1,U41",outro
+GA1-U41,core,todo,весь,adapted_from_book_topic,"GA1,U41",todo
+GA1-U42,preview,que,который,adapted_from_book_topic,"GA1,U42",que
+GA1-U42,preview,quem,"кто, которого",adapted_from_book_topic,"GA1,U42",quem
+GA1-U42,preview,onde,где,adapted_from_book_topic,"GA1,U42",onde
+GA1-U42,preview,qual,который,adapted_from_book_topic,"GA1,U42",qual
+GA1-U42,core,cujo,чей,adapted_from_book_topic,"GA1,U42",cujo
+GA1-U42,core,conhecer,"знать, быть знакомым",adapted_from_book_topic,"GA1,U42",conhecer
+GA1-U42,core,filme,фильм,adapted_from_book_topic,"GA1,U42",filme
+GA1-U42,core,restaurante,ресторан,adapted_from_book_topic,"GA1,U42",restaurante
+GA1-U43,preview,comprar,покупать,adapted_from_book_topic,"GA1,U43",comprar
+GA1-U43,preview,levar,нести,adapted_from_book_topic,"GA1,U43",levar
+GA1-U43,preview,encontrar,встречать,adapted_from_book_topic,"GA1,U43",encontrar
+GA1-U43,preview,ver,видеть,adapted_from_book_topic,"GA1,U43",ver
+GA1-U43,core,convidar,приглашать,adapted_from_book_topic,"GA1,U43",convidar
+GA1-U43,core,chamar,звать,adapted_from_book_topic,"GA1,U43",chamar
+GA1-U43,core,livro,книга,adapted_from_book_topic,"GA1,U43",livro
+GA1-U43,core,revista,журнал,adapted_from_book_topic,"GA1,U43",revista
+GA1-U44,preview,dar,давать,adapted_from_book_topic,"GA1,U44",dar
+GA1-U44,preview,enviar,отправлять,adapted_from_book_topic,"GA1,U44",enviar
+GA1-U44,preview,emprestar,одалживать,adapted_from_book_topic,"GA1,U44",emprestar
+GA1-U44,preview,oferecer,дарить,adapted_from_book_topic,"GA1,U44",oferecer
+GA1-U44,core,mandar,посылать,adapted_from_book_topic,"GA1,U44",mandar
+GA1-U44,core,encomenda,посылка,adapted_from_book_topic,"GA1,U44",encomenda
+GA1-U44,core,recado,сообщение,adapted_from_book_topic,"GA1,U44",recado
+GA1-U44,core,chave,ключ,adapted_from_book_topic,"GA1,U44",chave
+GA1-U45,preview,comigo,со мной,adapted_from_book_topic,"GA1,U45",comigo
+GA1-U45,preview,contigo,с тобой,adapted_from_book_topic,"GA1,U45",contigo
+GA1-U45,preview,connosco,с нами,adapted_from_book_topic,"GA1,U45",connosco
+GA1-U45,preview,convosco,с вами,adapted_from_book_topic,"GA1,U45",convosco
+GA1-U45,core,para mim,для меня,adapted_from_book_topic,"GA1,U45",para mim
+GA1-U45,core,para ti,для тебя,adapted_from_book_topic,"GA1,U45",para ti
+GA1-U45,core,sem ele,без него,adapted_from_book_topic,"GA1,U45",sem ele
+GA1-U45,core,com ela,с ней,adapted_from_book_topic,"GA1,U45",com ela
+GA1-U46,preview,em cima de,"наверху, на",adapted_from_book_topic,"GA1,U46",em cima de
+GA1-U46,preview,debaixo de,под,adapted_from_book_topic,"GA1,U46",debaixo de
+GA1-U46,preview,ao lado de,рядом с,adapted_from_book_topic,"GA1,U46",ao lado de
+GA1-U46,preview,à frente de,перед,adapted_from_book_topic,"GA1,U46",à frente de
+GA1-U46,core,atrás de,позади,adapted_from_book_topic,"GA1,U46",atrás de
+GA1-U46,core,entre,между,adapted_from_book_topic,"GA1,U46",entre
+GA1-U46,core,dentro de,внутри,adapted_from_book_topic,"GA1,U46",dentro de
+GA1-U46,core,perto de,около,adapted_from_book_topic,"GA1,U46",perto de
+GA1-U46,core,cadeira,стул,adapted_from_book_topic,"GA1,U46",cadeira
+GA1-U47,preview,a pé,пешком,adapted_from_book_topic,"GA1,U47",a pé
+GA1-U47,preview,de carro,на машине,adapted_from_book_topic,"GA1,U47",de carro
+GA1-U47,preview,de comboio,на поезде,adapted_from_book_topic,"GA1,U47",de comboio
+GA1-U47,preview,de autocarro,на автобусе,adapted_from_book_topic,"GA1,U47",de autocarro
+GA1-U47,core,para,"в направлении, для",adapted_from_book_topic,"GA1,U47",para
+GA1-U47,core,por,"через, по",adapted_from_book_topic,"GA1,U47",por
+GA1-U47,core,voltar,возвращаться,adapted_from_book_topic,"GA1,U47",voltar
+GA1-U47,core,viajar,путешествовать,adapted_from_book_topic,"GA1,U47",viajar
+GA1-U48,preview,manhã,утро,adapted_from_book_topic,"GA1,U48",manhã
+GA1-U48,preview,tarde,"день, вечер",adapted_from_book_topic,"GA1,U48",tarde
+GA1-U48,preview,noite,ночь,adapted_from_book_topic,"GA1,U48",noite
+GA1-U48,preview,semana,неделя,adapted_from_book_topic,"GA1,U48",semana
+GA1-U48,core,mês,месяц,adapted_from_book_topic,"GA1,U48",mês
+GA1-U48,core,ano,год,adapted_from_book_topic,"GA1,U48",ano
+GA1-U48,core,às,в (о времени),adapted_from_book_topic,"GA1,U48",às
+GA1-U48,core,desde,с,adapted_from_book_topic,"GA1,U48",desde
+GA1-U48,core,durante,в течение,adapted_from_book_topic,"GA1,U48",durante
+GA1-U49,preview,gostar de,любить что-либо,adapted_from_book_topic,"GA1,U49",gostar de
+GA1-U49,preview,precisar de,нуждаться в,adapted_from_book_topic,"GA1,U49",precisar de
+GA1-U49,preview,pensar em,думать о,adapted_from_book_topic,"GA1,U49",pensar em
+GA1-U49,preview,falar com,говорить с,adapted_from_book_topic,"GA1,U49",falar com
+GA1-U49,core,concordar com,соглашаться с,adapted_from_book_topic,"GA1,U49",concordar com
+GA1-U49,core,insistir em,настаивать на,adapted_from_book_topic,"GA1,U49",insistir em
+GA1-U49,core,acreditar em,верить в,adapted_from_book_topic,"GA1,U49",acreditar em
+GA1-U49,core,depender de,зависеть от,adapted_from_book_topic,"GA1,U49",depender de
+GA1-U50,preview,cansado de,уставший от,adapted_from_book_topic,"GA1,U50",cansado de
+GA1-U50,preview,interessado em,заинтересованный в,adapted_from_book_topic,"GA1,U50",interessado em
+GA1-U50,preview,contente com,довольный чем-либо,adapted_from_book_topic,"GA1,U50",contente com
+GA1-U50,preview,preocupado com,обеспокоенный чем-либо,adapted_from_book_topic,"GA1,U50",preocupado com
+GA1-U50,core,fiel a,верный кому-либо,adapted_from_book_topic,"GA1,U50",fiel a
+GA1-U50,core,habituado a,привыкший к,adapted_from_book_topic,"GA1,U50",habituado a
+GA1-U50,core,capaz de,способный на,adapted_from_book_topic,"GA1,U50",capaz de
+GA1-U50,core,diferente de,отличающийся от,adapted_from_book_topic,"GA1,U50",diferente de
+GA1-U51,preview,mais,больше,adapted_from_book_topic,"GA1,U51",mais
+GA1-U51,preview,menos,меньше,adapted_from_book_topic,"GA1,U51",menos
+GA1-U51,preview,tão,такой же по степени,adapted_from_book_topic,"GA1,U51",tão
+GA1-U51,preview,como,как,adapted_from_book_topic,"GA1,U51",como
+GA1-U51,core,do que,чем,adapted_from_book_topic,"GA1,U51",do que
+GA1-U51,core,melhor,лучше,adapted_from_book_topic,"GA1,U51",melhor
+GA1-U51,core,pior,хуже,adapted_from_book_topic,"GA1,U51",pior
+GA1-U51,core,maior,больше по размеру,adapted_from_book_topic,"GA1,U51",maior
+GA1-U51,core,menor,меньше по размеру,adapted_from_book_topic,"GA1,U51",menor
+GA1-U52,preview,o mais,самый,adapted_from_book_topic,"GA1,U52",o mais
+GA1-U52,preview,o menos,наименее,adapted_from_book_topic,"GA1,U52",o menos
+GA1-U52,preview,muito,очень,adapted_from_book_topic,"GA1,U52",muito
+GA1-U52,preview,altíssimo,очень высокий,adapted_from_book_topic,"GA1,U52",altíssimo
+GA1-U52,core,ótimo,отличный,adapted_from_book_topic,"GA1,U52",ótimo
+GA1-U52,core,péssimo,ужасный,adapted_from_book_topic,"GA1,U52",péssimo
+GA1-U52,core,melhor,лучший,adapted_from_book_topic,"GA1,U52",melhor
+GA1-U52,core,pior,худший,adapted_from_book_topic,"GA1,U52",pior
+GA1-U52,core,cedíssimo,очень рано,adapted_from_book_topic,"GA1,U52",cedíssimo
+GA1-U53,preview,tão,"так, настолько",adapted_from_book_topic,"GA1,U53",tão
+GA1-U53,preview,tanto,так много,adapted_from_book_topic,"GA1,U53",tanto
+GA1-U53,preview,tanta,так много (жен. р.),adapted_from_book_topic,"GA1,U53",tanta
+GA1-U53,preview,tantos,так много (мн. ч.),adapted_from_book_topic,"GA1,U53",tantos
+GA1-U53,core,tantas,так много (жен. мн. ч.),adapted_from_book_topic,"GA1,U53",tantas
+GA1-U53,core,calor,жара,adapted_from_book_topic,"GA1,U53",calor
+GA1-U53,core,trabalho,работа,adapted_from_book_topic,"GA1,U53",trabalho
+GA1-U53,core,barulho,шум,adapted_from_book_topic,"GA1,U53",barulho
+GA1-U54,preview,desde,с (момента),adapted_from_book_topic,"GA1,U54",desde
+GA1-U54,preview,há,"тому назад, уже",adapted_from_book_topic,"GA1,U54",há
+GA1-U54,preview,desde que,с тех пор как,adapted_from_book_topic,"GA1,U54",desde que
+GA1-U54,preview,há quanto tempo,как давно,adapted_from_book_topic,"GA1,U54",há quanto tempo
+GA1-U54,core,ontem,вчера,adapted_from_book_topic,"GA1,U54",ontem
+GA1-U54,core,semana,неделя,adapted_from_book_topic,"GA1,U54",semana
+GA1-U54,core,mês,месяц,adapted_from_book_topic,"GA1,U54",mês
+GA1-U54,core,ano,год,adapted_from_book_topic,"GA1,U54",ano
+GA1-U54,core,começar,начинать,adapted_from_book_topic,"GA1,U54",começar

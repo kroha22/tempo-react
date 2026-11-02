@@ -7,6 +7,7 @@ import { learningEvents, lessonProgress } from "@/db/schema";
 import { firstVerticalSliceContentPack } from "@/features/content/manifest";
 import { authenticatedUserId, unauthorizedResponse } from "@/features/learning/progress/auth";
 import { expectedContentRevision, parseCompleteLessonInput } from "@/features/learning/progress/contracts";
+import { gramaticaLessons, grammarExitResult } from "@/features/content/gramatica-ativa";
 
 export async function POST(request: Request) {
   const userId = authenticatedUserId(request);
@@ -53,6 +54,20 @@ export async function POST(request: Request) {
       independentCorrect = JSON.parse(independentAttempt?.payloadJson ?? "{}").correct === true;
     } catch {
       independentCorrect = false;
+    }
+    const grammarLesson = gramaticaLessons.find((candidate) => candidate.id === input.lessonId);
+    if (grammarLesson) {
+      const answers: Record<string, string> = {};
+      // The stable event ID admits one independently checked answer per item/session.
+      for (const attempt of attempts) {
+        if (!attempt.entityId || attempt.clientEventId !== `${input.sessionId}:${attempt.entityId}`) continue;
+        try {
+          const payload: unknown = JSON.parse(attempt.payloadJson);
+          if (payload && typeof payload === "object" && "answer" in payload && typeof payload.answer === "string") answers[attempt.entityId] = payload.answer;
+        } catch { /* Invalid evidence never demonstrates a skill. */ }
+      }
+      if (requiredItemIds.some((id) => !Object.hasOwn(answers, id))) return Response.json({ error: "Required answers missing", code: "MISSING_ATTEMPTS" }, { status: 409 });
+      independentCorrect = grammarExitResult(grammarLesson, answers).demonstrated;
     }
     const canDoResult = independentCorrect ? "demonstrated" as const : "partial" as const;
     const completionEvent = {
@@ -101,7 +116,7 @@ export async function POST(request: Request) {
       eq(lessonProgress.lessonId, input.lessonId),
     )).get();
     if (!progress) return internalErrorResponse("Missing saved progress");
-    return Response.json({ progress: progressDto(progress) });
+    return Response.json({ progress: progressDto(progress), ...(grammarLesson ? { attemptCanDoResult: canDoResult } : {}) });
   } catch {
     return internalErrorResponse("Lesson completion");
   }

@@ -6,6 +6,8 @@ import { getDb } from "@/db";
 import { lessonProgress } from "@/db/schema";
 import { authenticatedUserId, unauthorizedResponse } from "@/features/learning/progress/auth";
 import { expectedContentRevision, parseLessonProgressInput } from "@/features/learning/progress/contracts";
+import { gramaticaLessons } from "@/features/content/gramatica-ativa";
+import { validGrammarSnapshot } from "@/features/learning/gramatica/session";
 
 export async function GET(request: Request) {
   const userId = authenticatedUserId(request);
@@ -38,6 +40,13 @@ export async function POST(request: Request) {
   if (expectedRevision === null || expectedRevision !== input.flowRevision) {
     return Response.json({ error: "Flow revision mismatch", code: "REVISION_MISMATCH", expectedRevision }, { status: 409 });
   }
+  const grammarLesson = gramaticaLessons.find((lesson) => lesson.id === input.lessonId);
+  if (input.snapshot.grammar && (!grammarLesson || input.snapshot.grammar.sessionId !== input.sessionId || !validGrammarSnapshot(grammarLesson, input.snapshot.grammar))) {
+    return Response.json({ error: "Invalid grammar snapshot", code: "INVALID_INPUT" }, { status: 400 });
+  }
+  // Repeating a supplemental lesson may resume a new attempt without erasing
+  // the previously demonstrated Can-Do or changing any legacy lesson behavior.
+  const repeat = Boolean(grammarLesson && input.snapshot.grammar);
 
   const incoming = {
     userId,
@@ -61,9 +70,9 @@ export async function POST(request: Request) {
         flowRevision: sql`CASE WHEN excluded.updated_at >= ${lessonProgress.updatedAt} THEN excluded.flow_revision ELSE ${lessonProgress.flowRevision} END`,
         status: sql`CASE WHEN ${lessonProgress.status} = 'finished' THEN 'finished' WHEN excluded.updated_at >= ${lessonProgress.updatedAt} THEN excluded.status ELSE ${lessonProgress.status} END`,
         canDoResult: sql`CASE WHEN ${lessonProgress.status} = 'finished' OR excluded.updated_at < ${lessonProgress.updatedAt} THEN ${lessonProgress.canDoResult} ELSE excluded.can_do_result END`,
-        activePhaseId: sql`CASE WHEN ${lessonProgress.status} = 'finished' OR excluded.updated_at < ${lessonProgress.updatedAt} THEN ${lessonProgress.activePhaseId} ELSE excluded.active_phase_id END`,
-        sessionId: sql`CASE WHEN ${lessonProgress.status} = 'finished' OR excluded.updated_at < ${lessonProgress.updatedAt} THEN ${lessonProgress.sessionId} ELSE excluded.session_id END`,
-        snapshotJson: sql`CASE WHEN ${lessonProgress.status} = 'finished' OR excluded.updated_at < ${lessonProgress.updatedAt} THEN ${lessonProgress.snapshotJson} ELSE excluded.snapshot_json END`,
+        activePhaseId: sql`CASE WHEN (${lessonProgress.status} = 'finished' AND ${repeat ? 0 : 1}) OR excluded.updated_at < ${lessonProgress.updatedAt} THEN ${lessonProgress.activePhaseId} ELSE excluded.active_phase_id END`,
+        sessionId: sql`CASE WHEN (${lessonProgress.status} = 'finished' AND ${repeat ? 0 : 1}) OR excluded.updated_at < ${lessonProgress.updatedAt} THEN ${lessonProgress.sessionId} ELSE excluded.session_id END`,
+        snapshotJson: sql`CASE WHEN (${lessonProgress.status} = 'finished' AND ${repeat ? 0 : 1}) OR excluded.updated_at < ${lessonProgress.updatedAt} THEN ${lessonProgress.snapshotJson} ELSE excluded.snapshot_json END`,
         updatedAt: sql`MAX(${lessonProgress.updatedAt}, excluded.updated_at)`,
         completedAt: sql`CASE WHEN ${lessonProgress.completedAt} IS NOT NULL THEN ${lessonProgress.completedAt} WHEN excluded.status = 'finished' THEN excluded.updated_at ELSE NULL END`,
         version: sql`CASE WHEN excluded.updated_at >= ${lessonProgress.updatedAt} THEN ${lessonProgress.version} + 1 ELSE ${lessonProgress.version} END`,

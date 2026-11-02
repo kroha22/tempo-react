@@ -5,6 +5,7 @@ export const savedSourceSchema = z.object({
   studyItemId: z.string().min(1),
   sourceType: z.enum(["lesson", "topic", "scene", "summary", "checkpoint"]),
   sourceId: z.string().min(1),
+  sourceContextId: z.preprocess((value) => value === "" ? undefined : value, z.string().min(1).optional()),
 });
 export const savedItemsResponseSchema = z.object({ items: z.array(savedItemSchema), sources: z.array(savedSourceSchema) });
 export const saveItemResponseSchema = z.object({ item: savedItemSchema, sources: z.array(savedSourceSchema) });

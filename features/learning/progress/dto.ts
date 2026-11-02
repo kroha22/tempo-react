@@ -3,11 +3,19 @@ import { z } from "zod";
 // Browser-safe contracts: no database or content-pack imports.
 export const lessonStatusSchema = z.enum(["not_started", "active", "finished"]);
 export const canDoResultSchema = z.enum(["demonstrated", "partial", "not_yet"]);
+export const grammarSnapshotSchema = z.strictObject({
+  sessionId: z.string().regex(/^session:[a-f0-9-]{36}$/),
+  phase: z.enum(["diagnostic", "rule", "guided", "exit"]),
+  index: z.int().min(0).max(6),
+  answers: z.record(z.string().max(160), z.string().max(500)).refine((value) => Object.keys(value).length <= 15),
+});
+export type GrammarSnapshot = z.infer<typeof grammarSnapshotSchema>;
 export const lessonSnapshotSchema = z.strictObject({
   stage: z.enum(["learn", "activity", "summary"]).optional(),
   completedPhaseIds: z.array(z.string()).optional(),
   completed: z.boolean().optional(),
   canDoResult: canDoResultSchema.optional(),
+  grammar: grammarSnapshotSchema.optional(),
 });
 export type LessonSnapshot = z.infer<typeof lessonSnapshotSchema>;
 
@@ -20,11 +28,11 @@ export const learningProgressSchema = z.object({
 });
 export type LearningProgress = z.infer<typeof learningProgressSchema>;
 export const progressListSchema = z.object({ progress: z.array(learningProgressSchema) });
-export const progressResponseSchema = z.object({ progress: learningProgressSchema });
+export const progressResponseSchema = z.object({ progress: learningProgressSchema, attemptCanDoResult: canDoResultSchema.optional() });
 
 // Acknowledgements deliberately omit identity, raw payloads and storage metadata.
 export const eventAcknowledgementSchema = z.object({
-  event: z.object({ clientEventId: z.string().min(1) }),
+  event: z.object({ clientEventId: z.string().min(1), answer: z.string().max(500).optional() }),
   duplicate: z.boolean(),
 });
 export const errorPatternSchema = z.object({

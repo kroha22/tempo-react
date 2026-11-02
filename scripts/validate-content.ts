@@ -1,4 +1,5 @@
 import { verbCards } from "../features/cards/data/verb-cards.ts";
+import { validateGramaticaVocabulary } from "../features/content/gramatica-vocabulary.ts";
 import { firstVerticalSliceContentPack } from "../features/content/manifest.ts";
 import { generalVocabulary, validateGeneralVocabulary } from "../features/content/general-vocabulary.ts";
 import { validateVocabularyLessons, vocabularyLessons } from "../features/content/vocabulary-lessons.ts";
@@ -7,6 +8,7 @@ import { validateContentPack, validateLegacyVerbDeck } from "../features/content
 validateContentPack(firstVerticalSliceContentPack);
 validateLegacyVerbDeck(verbCards);
 const vocabularyErrors = [
+  ...validateGramaticaVocabulary(),
   ...validateGeneralVocabulary(generalVocabulary),
   ...validateVocabularyLessons(vocabularyLessons),
 ];

@@ -91,6 +91,7 @@ export type NounStudyItem = CanonicalEntity & {
     definiteArticle: "o" | "a";
     plural: string;
     pluralDefiniteArticle: "os" | "as";
+    pluralOnly?: boolean;
     translationKey: string;
   };
   defaultExampleId: string;
@@ -105,7 +106,15 @@ export type VerbStudyItem = CanonicalEntity & {
   cardEligible: boolean;
 };
 
-export type StudyItem = ChunkStudyItem | NounStudyItem | VerbStudyItem;
+export type OtherWordClass = "adjective" | "adverb" | "pronoun" | "preposition" | "conjunction" | "determiner" | "particle";
+export type WordStudyItem = CanonicalEntity & {
+  kind: "study-item";
+  target: { type: "lexeme-sense"; senseId: string; partOfSpeech: OtherWordClass };
+  display: { type: "word"; text: string; partOfSpeech: OtherWordClass; translationKey: string };
+  defaultExampleId: string;
+  cardEligible: boolean;
+};
+export type StudyItem = ChunkStudyItem | NounStudyItem | VerbStudyItem | WordStudyItem;
 
 export type LessonTarget = {
   entityId: string;
@@ -142,7 +151,7 @@ export type ContentBlock = CanonicalEntity & {
 
 export type ExerciseDefinition = CanonicalEntity & {
   kind: "exercise-definition";
-  interactionType: "choice" | "sentence-build";
+  interactionType: "choice" | "sentence-build" | "text-input";
   skill: "recognition" | "production" | "context-accuracy" | "comprehension";
 };
 
@@ -160,6 +169,7 @@ export type ExerciseItem = CanonicalEntity & {
   options?: ExerciseOption[];
   correctOptionId?: string;
   acceptedTokenSequences?: string[][];
+  acceptedAnswers?: string[];
   targetIds: string[];
   primaryDiagnosticTargetId: string;
   errorCode: string;

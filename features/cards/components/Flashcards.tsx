@@ -1,5 +1,6 @@
 "use client";
 import { basicWordCards } from "../data/basic-word-cards";
+import { LegacyLessonLink } from "@/features/practice/LegacyLessonLink";
 
 import { useEffect, useId, useRef, useState } from "react";
 import {
@@ -45,6 +46,8 @@ function DeckPicker({ onChoose, category, onCategoryChange }: { onChoose: (deck:
         <p>Частотные глаголы, базовая лексика и короткие тематические наборы.</p>
       </div>
       <nav className="vocabulary-modes" aria-label="Тип колод">{([['main', 'Основные'], ['phrases', 'Фразы'], ['forms', 'Спряжения']] as const).map(([id, label]) => <button type="button" key={id} aria-pressed={category === id} onClick={() => onCategoryChange(id)}>{label}</button>)}</nav>
+      {category === "main" && <p><LegacyLessonLink href="/learning/gramatica-ativa/vocabulary">Gramática Ativa 1 · словарь и карточки всех 54 уроков →</LegacyLessonLink></p>}
+      {category === "main" && <p><LegacyLessonLink href="/learning/gramatica-ativa/review">Gramática Ativa 1 · интервальное повторение сохранённых →</LegacyLessonLink></p>}
       {category !== "main" && <section className="tempo-deck-category"><h3>{category === "phrases" ? "Разговорные фразы" : "Спряжения по группам"}</h3><div className="deck-library__grid">{tempoPracticeDecks.filter(item => item.category === category).map(item => <button type="button" key={item.id} data-group={item.group} onClick={() => onChoose(item.id)} aria-label={`Открыть колоду «${item.title}»`}><span className="deck-library__icon" aria-hidden="true">{item.group ? item.group === "irregular" ? "★" : `-${item.group.toUpperCase()}` : "PT"}</span><strong>{item.title}</strong><span>{item.description}</span><small>{item.cards.length} карточек · открыть →</small></button>)}</div></section>}
       {category === "phrases" && <div className="deck-library__grid">        <button type="button" onClick={() => onChoose("school")} aria-label="Открыть колоду «Инструкции на уроке»">
           <span className="deck-library__icon deck-library__icon--school" aria-hidden="true">A+?</span>

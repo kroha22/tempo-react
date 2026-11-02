@@ -16,7 +16,7 @@ function clonePack(): ContentPack {
 
 test("the first vertical slice content pack is valid and complete", () => {
   assert.doesNotThrow(() => validateContentPack(firstVerticalSliceContentPack));
-  assert.equal(firstVerticalSliceContentPack.lessons.length, 7);
+  assert.equal(firstVerticalSliceContentPack.lessons.filter((lesson) => lesson.id.includes(":a1-1:")).length, 7);
   assert.equal(firstVerticalSliceContentPack.units[0].lessonIds.length, 6);
   assert.equal(firstVerticalSliceContentPack.units[0].checkpointId, "checkpoint:a1-1:new-room");
 });

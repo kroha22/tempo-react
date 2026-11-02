@@ -116,7 +116,7 @@ export function collectContentValidationIssues(pack: ContentPack): string[] {
   for (const item of pack.studyItems) {
     requireRef(item.id, item.defaultExampleId);
     if (item.target.type === "chunk") requireRef(item.id, item.target.chunkId);
-    if (item.display.type === "chunk") requireText(item.id, item.display.translationKey);
+    if (item.display.type === "chunk" || item.display.type === "word") requireText(item.id, item.display.translationKey);
     if (item.display.type === "verb") {
       requireText(item.id, item.display.translationKey);
       if (!item.display.infinitive.trim()) issues.push(`${item.id} has an empty infinitive`);
@@ -150,7 +150,7 @@ export function collectContentValidationIssues(pack: ContentPack): string[] {
         }
         if (option.rationaleKey) requireText(item.id, option.rationaleKey);
       }
-    } else if (!item.acceptedTokenSequences?.length) {
+    } else if (!item.acceptedTokenSequences?.length && !item.acceptedAnswers?.length) {
       issues.push(`${item.id} has no accepted answer`);
     }
   }

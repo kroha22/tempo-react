@@ -10,6 +10,7 @@ import { TrazerLesson } from "@/features/practice/TrazerLesson";
 import { EverydayLesson } from "@/features/practice/EverydayLesson";
 import { verbs, type VerbKey } from "@/features/conjugation/data";
 import {shortGrammarLessons} from "@/features/content/short-grammar-lessons";
+import { GrammarCourse } from "@/features/learning/gramatica/GrammarCourse";
 
 export function relatedDestination(href: string) {
   if(href.startsWith("/learning/practice?")){
@@ -32,6 +33,7 @@ export function RelatedLearning({ href, onBack }: { href: string; onBack: () => 
   const destination = relatedDestination(href);
   const [selected, setSelected] = useState<string | null>(null);
   const [checked, setChecked] = useState(false);
+  if (href === "/learning/gramatica-ativa" || href.startsWith("/learning/gramatica-ativa/")) return <GrammarCourse key={href} slug={href === "/learning/gramatica-ativa" ? undefined : href.slice("/learning/gramatica-ativa/".length)} practiceOnly />;
   const practiceParams = href.startsWith("/learning/practice?") ? new URLSearchParams(href.split("?")[1]) : null;
   const requestedVerb = practiceParams?.get("verb") ?? "fazer";
   const grammarLesson=shortGrammarLessons.find(lesson=>lesson.id===practiceParams?.get("lesson"));

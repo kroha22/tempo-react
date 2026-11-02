@@ -1,4 +1,6 @@
 import { ru } from "./locale/ru.ts";
+import { vocabularyChunks, vocabularyExamples, vocabularyRu, vocabularyStudyItems } from "./gramatica-vocabulary-pack.ts";
+import { grammarBlocks, grammarCanDos, grammarChunks, grammarCourses, grammarDefinitions, grammarExamples, grammarFlows, grammarItems, grammarLessons, grammarLevels, grammarRu, grammarStudyItems, grammarTargets, grammarUnits, grammarUses } from "./gramatica-ativa-pack.ts";
 import {
   canDos,
   chunks,
@@ -44,6 +46,9 @@ const fullUnits = units.map((unit) => ({ ...unit, lessonIds: fullLessons.filter(
 const fullLevels = levels.map((level) => ({ ...level, completionCanDoIds: fullCanDos.map((canDo) => canDo.id) }));
 
 const canonicalEntities: CanonicalEntity[] = [
+  ...vocabularyChunks, ...vocabularyExamples, ...vocabularyStudyItems,
+  ...grammarCourses, ...grammarLevels, ...grammarUnits, ...grammarCanDos, ...grammarTargets,
+  ...grammarChunks, ...grammarExamples, ...grammarStudyItems, ...grammarBlocks, ...grammarDefinitions, ...grammarItems, ...grammarLessons,
   ...courses,
   ...fullLevels,
   ...fullUnits,
@@ -58,7 +63,7 @@ const canonicalEntities: CanonicalEntity[] = [
   ...fullLessons,
 ];
 
-const revisionedEntities = [...canonicalEntities, ...fullFlows];
+const revisionedEntities = [...canonicalEntities, ...fullFlows, ...grammarFlows];
 
 export const firstVerticalSliceContentPack: ContentPack = {
   manifest: {
@@ -70,19 +75,19 @@ export const firstVerticalSliceContentPack: ContentPack = {
     ),
   },
   publishedPresentationProfileIds: ["adult"],
-  locales: { ru: { ...ru, ...routeExtensionRu } },
-  courses,
-  levels: fullLevels,
-  units: fullUnits,
-  canDos: fullCanDos,
-  knowledgeTargets: fullKnowledgeTargets,
-  chunks: fullChunks,
-  examples: fullExamples,
-  studyItems: fullStudyItems,
-  contentBlocks: fullContentBlocks,
-  exerciseDefinitions,
-  exerciseItems: fullExerciseItems,
-  exerciseUses: fullExerciseUses,
-  lessons: fullLessons,
-  flows: fullFlows,
+  locales: { ru: { ...ru, ...routeExtensionRu, ...grammarRu, ...vocabularyRu } },
+  courses: [...courses, ...grammarCourses],
+  levels: [...fullLevels, ...grammarLevels],
+  units: [...fullUnits, ...grammarUnits],
+  canDos: [...fullCanDos, ...grammarCanDos],
+  knowledgeTargets: [...fullKnowledgeTargets, ...grammarTargets],
+  chunks: [...fullChunks, ...grammarChunks, ...vocabularyChunks],
+  examples: [...fullExamples, ...grammarExamples, ...vocabularyExamples],
+  studyItems: [...fullStudyItems, ...grammarStudyItems, ...vocabularyStudyItems],
+  contentBlocks: [...fullContentBlocks, ...grammarBlocks],
+  exerciseDefinitions: [...exerciseDefinitions, ...grammarDefinitions],
+  exerciseItems: [...fullExerciseItems, ...grammarItems],
+  exerciseUses: [...fullExerciseUses, ...grammarUses],
+  lessons: [...fullLessons, ...grammarLessons],
+  flows: [...fullFlows, ...grammarFlows],
 };

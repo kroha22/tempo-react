@@ -1,0 +1,4176 @@
+{
+  "metadata": {
+    "book": "Gramática Ativa 1, 3.ª edição",
+    "note": "Учебная лексическая адаптация, не исчерпывающая буквальная выписка всех слов книги",
+    "deduplication": "unique_key + part_of_speech; one word can appear in several units"
+  },
+  "cards": [
+    {
+      "unit": "GA1-U01",
+      "stage": "preview",
+      "pt": "médico",
+      "ru": "врач",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U01",
+      "unique_key": "médico"
+    },
+    {
+      "unit": "GA1-U01",
+      "stage": "preview",
+      "pt": "enfermeiro",
+      "ru": "медбрат, медсестра",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U01",
+      "unique_key": "enfermeiro"
+    },
+    {
+      "unit": "GA1-U01",
+      "stage": "preview",
+      "pt": "professor",
+      "ru": "учитель",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U01",
+      "unique_key": "professor"
+    },
+    {
+      "unit": "GA1-U01",
+      "stage": "preview",
+      "pt": "português",
+      "ru": "португалец, португальский",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U01",
+      "unique_key": "português"
+    },
+    {
+      "unit": "GA1-U01",
+      "stage": "core",
+      "pt": "brasileiro",
+      "ru": "бразилец",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U01",
+      "unique_key": "brasileiro"
+    },
+    {
+      "unit": "GA1-U01",
+      "stage": "core",
+      "pt": "casado",
+      "ru": "женатый, замужняя",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U01",
+      "unique_key": "casado"
+    },
+    {
+      "unit": "GA1-U01",
+      "stage": "core",
+      "pt": "solteiro",
+      "ru": "неженатый, незамужняя",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U01",
+      "unique_key": "solteiro"
+    },
+    {
+      "unit": "GA1-U01",
+      "stage": "core",
+      "pt": "inteligente",
+      "ru": "умный",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U01",
+      "unique_key": "inteligente"
+    },
+    {
+      "unit": "GA1-U01",
+      "stage": "core",
+      "pt": "amigo",
+      "ru": "друг",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U01",
+      "unique_key": "amigo"
+    },
+    {
+      "unit": "GA1-U02",
+      "stage": "preview",
+      "pt": "casa",
+      "ru": "дом",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U02",
+      "unique_key": "casa"
+    },
+    {
+      "unit": "GA1-U02",
+      "stage": "preview",
+      "pt": "escola",
+      "ru": "школа",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U02",
+      "unique_key": "escola"
+    },
+    {
+      "unit": "GA1-U02",
+      "stage": "preview",
+      "pt": "aqui",
+      "ru": "здесь",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U02",
+      "unique_key": "aqui"
+    },
+    {
+      "unit": "GA1-U02",
+      "stage": "preview",
+      "pt": "ali",
+      "ru": "там",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U02",
+      "unique_key": "ali"
+    },
+    {
+      "unit": "GA1-U02",
+      "stage": "core",
+      "pt": "contente",
+      "ru": "довольный",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U02",
+      "unique_key": "contente"
+    },
+    {
+      "unit": "GA1-U02",
+      "stage": "core",
+      "pt": "triste",
+      "ru": "грустный",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U02",
+      "unique_key": "triste"
+    },
+    {
+      "unit": "GA1-U02",
+      "stage": "core",
+      "pt": "com sono",
+      "ru": "сонный",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U02",
+      "unique_key": "com sono"
+    },
+    {
+      "unit": "GA1-U02",
+      "stage": "core",
+      "pt": "com fome",
+      "ru": "голодный",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U02",
+      "unique_key": "com fome"
+    },
+    {
+      "unit": "GA1-U02",
+      "stage": "core",
+      "pt": "pronto",
+      "ru": "готовый",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U02",
+      "unique_key": "pronto"
+    },
+    {
+      "unit": "GA1-U02",
+      "stage": "core",
+      "pt": "frio",
+      "ru": "холод",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U02",
+      "unique_key": "frio"
+    },
+    {
+      "unit": "GA1-U03",
+      "stage": "preview",
+      "pt": "limpo",
+      "ru": "чистый",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U03",
+      "unique_key": "limpo"
+    },
+    {
+      "unit": "GA1-U03",
+      "stage": "preview",
+      "pt": "sujo",
+      "ru": "грязный",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U03",
+      "unique_key": "sujo"
+    },
+    {
+      "unit": "GA1-U03",
+      "stage": "preview",
+      "pt": "aberto",
+      "ru": "открытый",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U03",
+      "unique_key": "aberto"
+    },
+    {
+      "unit": "GA1-U03",
+      "stage": "preview",
+      "pt": "fechado",
+      "ru": "закрытый",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U03",
+      "unique_key": "fechado"
+    },
+    {
+      "unit": "GA1-U03",
+      "stage": "core",
+      "pt": "doente",
+      "ru": "больной",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U03",
+      "unique_key": "doente"
+    },
+    {
+      "unit": "GA1-U03",
+      "stage": "core",
+      "pt": "cansado",
+      "ru": "уставший",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U03",
+      "unique_key": "cansado"
+    },
+    {
+      "unit": "GA1-U03",
+      "stage": "core",
+      "pt": "novo",
+      "ru": "новый",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U03",
+      "unique_key": "novo"
+    },
+    {
+      "unit": "GA1-U03",
+      "stage": "core",
+      "pt": "velho",
+      "ru": "старый",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U03",
+      "unique_key": "velho"
+    },
+    {
+      "unit": "GA1-U03",
+      "stage": "core",
+      "pt": "salgado",
+      "ru": "солёный",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U03",
+      "unique_key": "salgado"
+    },
+    {
+      "unit": "GA1-U03",
+      "stage": "core",
+      "pt": "azedo",
+      "ru": "кислый",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U03",
+      "unique_key": "azedo"
+    },
+    {
+      "unit": "GA1-U04",
+      "stage": "preview",
+      "pt": "ler",
+      "ru": "читать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U04",
+      "unique_key": "ler"
+    },
+    {
+      "unit": "GA1-U04",
+      "stage": "preview",
+      "pt": "comer",
+      "ru": "есть",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U04",
+      "unique_key": "comer"
+    },
+    {
+      "unit": "GA1-U04",
+      "stage": "preview",
+      "pt": "chover",
+      "ru": "идти (о дожде)",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U04",
+      "unique_key": "chover"
+    },
+    {
+      "unit": "GA1-U04",
+      "stage": "preview",
+      "pt": "nevar",
+      "ru": "идти (о снеге)",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U04",
+      "unique_key": "nevar"
+    },
+    {
+      "unit": "GA1-U04",
+      "stage": "core",
+      "pt": "trabalhar",
+      "ru": "работать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U04",
+      "unique_key": "trabalhar"
+    },
+    {
+      "unit": "GA1-U04",
+      "stage": "core",
+      "pt": "conversar",
+      "ru": "разговаривать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U04",
+      "unique_key": "conversar"
+    },
+    {
+      "unit": "GA1-U04",
+      "stage": "core",
+      "pt": "escrever",
+      "ru": "писать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U04",
+      "unique_key": "escrever"
+    },
+    {
+      "unit": "GA1-U04",
+      "stage": "core",
+      "pt": "estudar",
+      "ru": "учиться",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U04",
+      "unique_key": "estudar"
+    },
+    {
+      "unit": "GA1-U04",
+      "stage": "core",
+      "pt": "telefonar",
+      "ru": "звонить",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U04",
+      "unique_key": "telefonar"
+    },
+    {
+      "unit": "GA1-U05",
+      "stage": "preview",
+      "pt": "falar",
+      "ru": "говорить",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U05",
+      "unique_key": "falar"
+    },
+    {
+      "unit": "GA1-U05",
+      "stage": "preview",
+      "pt": "morar",
+      "ru": "жить",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U05",
+      "unique_key": "morar"
+    },
+    {
+      "unit": "GA1-U05",
+      "stage": "preview",
+      "pt": "trabalhar",
+      "ru": "работать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U05",
+      "unique_key": "trabalhar"
+    },
+    {
+      "unit": "GA1-U05",
+      "stage": "preview",
+      "pt": "jogar",
+      "ru": "играть",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U05",
+      "unique_key": "jogar"
+    },
+    {
+      "unit": "GA1-U05",
+      "stage": "core",
+      "pt": "telefonar",
+      "ru": "звонить",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U05",
+      "unique_key": "telefonar"
+    },
+    {
+      "unit": "GA1-U05",
+      "stage": "core",
+      "pt": "comprar",
+      "ru": "покупать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U05",
+      "unique_key": "comprar"
+    },
+    {
+      "unit": "GA1-U05",
+      "stage": "core",
+      "pt": "tomar",
+      "ru": "принимать, брать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U05",
+      "unique_key": "tomar"
+    },
+    {
+      "unit": "GA1-U05",
+      "stage": "core",
+      "pt": "levantar",
+      "ru": "поднимать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U05",
+      "unique_key": "levantar"
+    },
+    {
+      "unit": "GA1-U05",
+      "stage": "core",
+      "pt": "apanhar",
+      "ru": "ловить, садиться на транспорт",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U05",
+      "unique_key": "apanhar"
+    },
+    {
+      "unit": "GA1-U06",
+      "stage": "preview",
+      "pt": "comer",
+      "ru": "есть",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U06",
+      "unique_key": "comer"
+    },
+    {
+      "unit": "GA1-U06",
+      "stage": "preview",
+      "pt": "beber",
+      "ru": "пить",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U06",
+      "unique_key": "beber"
+    },
+    {
+      "unit": "GA1-U06",
+      "stage": "preview",
+      "pt": "aprender",
+      "ru": "учить, изучать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U06",
+      "unique_key": "aprender"
+    },
+    {
+      "unit": "GA1-U06",
+      "stage": "preview",
+      "pt": "escrever",
+      "ru": "писать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U06",
+      "unique_key": "escrever"
+    },
+    {
+      "unit": "GA1-U06",
+      "stage": "core",
+      "pt": "viver",
+      "ru": "жить",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U06",
+      "unique_key": "viver"
+    },
+    {
+      "unit": "GA1-U06",
+      "stage": "core",
+      "pt": "receber",
+      "ru": "получать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U06",
+      "unique_key": "receber"
+    },
+    {
+      "unit": "GA1-U06",
+      "stage": "core",
+      "pt": "conhecer",
+      "ru": "быть знакомым",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U06",
+      "unique_key": "conhecer"
+    },
+    {
+      "unit": "GA1-U06",
+      "stage": "core",
+      "pt": "compreender",
+      "ru": "понимать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U06",
+      "unique_key": "compreender"
+    },
+    {
+      "unit": "GA1-U06",
+      "stage": "core",
+      "pt": "chover",
+      "ru": "идти (о дожде)",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U06",
+      "unique_key": "chover"
+    },
+    {
+      "unit": "GA1-U07",
+      "stage": "preview",
+      "pt": "ver",
+      "ru": "видеть",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U07",
+      "unique_key": "ver"
+    },
+    {
+      "unit": "GA1-U07",
+      "stage": "preview",
+      "pt": "ler",
+      "ru": "читать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U07",
+      "unique_key": "ler"
+    },
+    {
+      "unit": "GA1-U07",
+      "stage": "preview",
+      "pt": "fazer",
+      "ru": "делать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U07",
+      "unique_key": "fazer"
+    },
+    {
+      "unit": "GA1-U07",
+      "stage": "preview",
+      "pt": "dizer",
+      "ru": "говорить",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U07",
+      "unique_key": "dizer"
+    },
+    {
+      "unit": "GA1-U07",
+      "stage": "core",
+      "pt": "trazer",
+      "ru": "приносить",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U07",
+      "unique_key": "trazer"
+    },
+    {
+      "unit": "GA1-U07",
+      "stage": "core",
+      "pt": "saber",
+      "ru": "знать факт или умение",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U07",
+      "unique_key": "saber"
+    },
+    {
+      "unit": "GA1-U07",
+      "stage": "core",
+      "pt": "poder",
+      "ru": "мочь",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U07",
+      "unique_key": "poder"
+    },
+    {
+      "unit": "GA1-U07",
+      "stage": "core",
+      "pt": "perder",
+      "ru": "терять",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U07",
+      "unique_key": "perder"
+    },
+    {
+      "unit": "GA1-U07",
+      "stage": "core",
+      "pt": "querer",
+      "ru": "хотеть",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U07",
+      "unique_key": "querer"
+    },
+    {
+      "unit": "GA1-U07",
+      "stage": "core",
+      "pt": "pôr",
+      "ru": "класть",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U07",
+      "unique_key": "pôr"
+    },
+    {
+      "unit": "GA1-U08",
+      "stage": "preview",
+      "pt": "abrir",
+      "ru": "открывать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U08",
+      "unique_key": "abrir"
+    },
+    {
+      "unit": "GA1-U08",
+      "stage": "preview",
+      "pt": "vestir",
+      "ru": "одевать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U08",
+      "unique_key": "vestir"
+    },
+    {
+      "unit": "GA1-U08",
+      "stage": "preview",
+      "pt": "sentir",
+      "ru": "чувствовать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U08",
+      "unique_key": "sentir"
+    },
+    {
+      "unit": "GA1-U08",
+      "stage": "preview",
+      "pt": "partir",
+      "ru": "отправляться",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U08",
+      "unique_key": "partir"
+    },
+    {
+      "unit": "GA1-U08",
+      "stage": "core",
+      "pt": "preferir",
+      "ru": "предпочитать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U08",
+      "unique_key": "preferir"
+    },
+    {
+      "unit": "GA1-U08",
+      "stage": "core",
+      "pt": "conseguir",
+      "ru": "суметь",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U08",
+      "unique_key": "conseguir"
+    },
+    {
+      "unit": "GA1-U08",
+      "stage": "core",
+      "pt": "decidir",
+      "ru": "решать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U08",
+      "unique_key": "decidir"
+    },
+    {
+      "unit": "GA1-U08",
+      "stage": "core",
+      "pt": "corrigir",
+      "ru": "исправлять",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U08",
+      "unique_key": "corrigir"
+    },
+    {
+      "unit": "GA1-U08",
+      "stage": "core",
+      "pt": "discutir",
+      "ru": "обсуждать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U08",
+      "unique_key": "discutir"
+    },
+    {
+      "unit": "GA1-U09",
+      "stage": "preview",
+      "pt": "ir",
+      "ru": "идти, ехать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U09",
+      "unique_key": "ir"
+    },
+    {
+      "unit": "GA1-U09",
+      "stage": "preview",
+      "pt": "vir",
+      "ru": "приходить",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U09",
+      "unique_key": "vir"
+    },
+    {
+      "unit": "GA1-U09",
+      "stage": "preview",
+      "pt": "ouvir",
+      "ru": "слышать, слушать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U09",
+      "unique_key": "ouvir"
+    },
+    {
+      "unit": "GA1-U09",
+      "stage": "preview",
+      "pt": "pedir",
+      "ru": "просить",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U09",
+      "unique_key": "pedir"
+    },
+    {
+      "unit": "GA1-U09",
+      "stage": "core",
+      "pt": "dormir",
+      "ru": "спать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U09",
+      "unique_key": "dormir"
+    },
+    {
+      "unit": "GA1-U09",
+      "stage": "core",
+      "pt": "subir",
+      "ru": "подниматься",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U09",
+      "unique_key": "subir"
+    },
+    {
+      "unit": "GA1-U09",
+      "stage": "core",
+      "pt": "fugir",
+      "ru": "убегать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U09",
+      "unique_key": "fugir"
+    },
+    {
+      "unit": "GA1-U09",
+      "stage": "core",
+      "pt": "rir",
+      "ru": "смеяться",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U09",
+      "unique_key": "rir"
+    },
+    {
+      "unit": "GA1-U09",
+      "stage": "core",
+      "pt": "sair",
+      "ru": "выходить",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U09",
+      "unique_key": "sair"
+    },
+    {
+      "unit": "GA1-U09",
+      "stage": "core",
+      "pt": "cair",
+      "ru": "падать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U09",
+      "unique_key": "cair"
+    },
+    {
+      "unit": "GA1-U10",
+      "stage": "preview",
+      "pt": "agora",
+      "ru": "сейчас",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U10",
+      "unique_key": "agora"
+    },
+    {
+      "unit": "GA1-U10",
+      "stage": "preview",
+      "pt": "normalmente",
+      "ru": "обычно",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U10",
+      "unique_key": "normalmente"
+    },
+    {
+      "unit": "GA1-U10",
+      "stage": "preview",
+      "pt": "sempre",
+      "ru": "всегда",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U10",
+      "unique_key": "sempre"
+    },
+    {
+      "unit": "GA1-U10",
+      "stage": "preview",
+      "pt": "nunca",
+      "ru": "никогда",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U10",
+      "unique_key": "nunca"
+    },
+    {
+      "unit": "GA1-U10",
+      "stage": "core",
+      "pt": "às vezes",
+      "ru": "иногда",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U10",
+      "unique_key": "às vezes"
+    },
+    {
+      "unit": "GA1-U10",
+      "stage": "core",
+      "pt": "hoje",
+      "ru": "сегодня",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U10",
+      "unique_key": "hoje"
+    },
+    {
+      "unit": "GA1-U10",
+      "stage": "core",
+      "pt": "amanhã",
+      "ru": "завтра",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U10",
+      "unique_key": "amanhã"
+    },
+    {
+      "unit": "GA1-U10",
+      "stage": "core",
+      "pt": "este momento",
+      "ru": "этот момент",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U10",
+      "unique_key": "este momento"
+    },
+    {
+      "unit": "GA1-U11",
+      "stage": "preview",
+      "pt": "irmão",
+      "ru": "брат",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U11",
+      "unique_key": "irmão"
+    },
+    {
+      "unit": "GA1-U11",
+      "stage": "preview",
+      "pt": "irmã",
+      "ru": "сестра",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U11",
+      "unique_key": "irmã"
+    },
+    {
+      "unit": "GA1-U11",
+      "stage": "preview",
+      "pt": "filho",
+      "ru": "сын",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U11",
+      "unique_key": "filho"
+    },
+    {
+      "unit": "GA1-U11",
+      "stage": "preview",
+      "pt": "filha",
+      "ru": "дочь",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U11",
+      "unique_key": "filha"
+    },
+    {
+      "unit": "GA1-U11",
+      "stage": "core",
+      "pt": "idade",
+      "ru": "возраст",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U11",
+      "unique_key": "idade"
+    },
+    {
+      "unit": "GA1-U11",
+      "stage": "core",
+      "pt": "fome",
+      "ru": "голод",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U11",
+      "unique_key": "fome"
+    },
+    {
+      "unit": "GA1-U11",
+      "stage": "core",
+      "pt": "sede",
+      "ru": "жажда",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U11",
+      "unique_key": "sede"
+    },
+    {
+      "unit": "GA1-U11",
+      "stage": "core",
+      "pt": "medo",
+      "ru": "страх",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U11",
+      "unique_key": "medo"
+    },
+    {
+      "unit": "GA1-U11",
+      "stage": "core",
+      "pt": "tempo",
+      "ru": "время",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U11",
+      "unique_key": "tempo"
+    },
+    {
+      "unit": "GA1-U11",
+      "stage": "core",
+      "pt": "frio",
+      "ru": "холод",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U11",
+      "unique_key": "frio"
+    },
+    {
+      "unit": "GA1-U12",
+      "stage": "preview",
+      "pt": "ontem",
+      "ru": "вчера",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U12",
+      "unique_key": "ontem"
+    },
+    {
+      "unit": "GA1-U12",
+      "stage": "preview",
+      "pt": "noite",
+      "ru": "ночь",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U12",
+      "unique_key": "noite"
+    },
+    {
+      "unit": "GA1-U12",
+      "stage": "preview",
+      "pt": "cinema",
+      "ru": "кино",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U12",
+      "unique_key": "cinema"
+    },
+    {
+      "unit": "GA1-U12",
+      "stage": "preview",
+      "pt": "festa",
+      "ru": "праздник, вечеринка",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U12",
+      "unique_key": "festa"
+    },
+    {
+      "unit": "GA1-U12",
+      "stage": "core",
+      "pt": "viagem",
+      "ru": "поездка",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U12",
+      "unique_key": "viagem"
+    },
+    {
+      "unit": "GA1-U12",
+      "stage": "core",
+      "pt": "semana passada",
+      "ru": "прошлая неделя",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U12",
+      "unique_key": "semana passada"
+    },
+    {
+      "unit": "GA1-U12",
+      "stage": "core",
+      "pt": "almoço",
+      "ru": "обед",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U12",
+      "unique_key": "almoço"
+    },
+    {
+      "unit": "GA1-U12",
+      "stage": "core",
+      "pt": "negócio",
+      "ru": "дело, бизнес",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U12",
+      "unique_key": "negócio"
+    },
+    {
+      "unit": "GA1-U13",
+      "stage": "preview",
+      "pt": "acordar",
+      "ru": "просыпаться",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U13",
+      "unique_key": "acordar"
+    },
+    {
+      "unit": "GA1-U13",
+      "stage": "preview",
+      "pt": "almoçar",
+      "ru": "обедать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U13",
+      "unique_key": "almoçar"
+    },
+    {
+      "unit": "GA1-U13",
+      "stage": "preview",
+      "pt": "jantar",
+      "ru": "ужинать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U13",
+      "unique_key": "jantar"
+    },
+    {
+      "unit": "GA1-U13",
+      "stage": "preview",
+      "pt": "trabalhar",
+      "ru": "работать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U13",
+      "unique_key": "trabalhar"
+    },
+    {
+      "unit": "GA1-U13",
+      "stage": "core",
+      "pt": "escrever",
+      "ru": "писать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U13",
+      "unique_key": "escrever"
+    },
+    {
+      "unit": "GA1-U13",
+      "stage": "core",
+      "pt": "nascer",
+      "ru": "рождаться",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U13",
+      "unique_key": "nascer"
+    },
+    {
+      "unit": "GA1-U13",
+      "stage": "core",
+      "pt": "ficar",
+      "ru": "оставаться",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U13",
+      "unique_key": "ficar"
+    },
+    {
+      "unit": "GA1-U13",
+      "stage": "core",
+      "pt": "passar",
+      "ru": "проводить время",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U13",
+      "unique_key": "passar"
+    },
+    {
+      "unit": "GA1-U14",
+      "stage": "preview",
+      "pt": "ontem",
+      "ru": "вчера",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U14",
+      "unique_key": "ontem"
+    },
+    {
+      "unit": "GA1-U14",
+      "stage": "preview",
+      "pt": "presente",
+      "ru": "подарок",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U14",
+      "unique_key": "presente"
+    },
+    {
+      "unit": "GA1-U14",
+      "stage": "preview",
+      "pt": "aniversário",
+      "ru": "день рождения",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U14",
+      "unique_key": "aniversário"
+    },
+    {
+      "unit": "GA1-U14",
+      "stage": "preview",
+      "pt": "filme",
+      "ru": "фильм",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U14",
+      "unique_key": "filme"
+    },
+    {
+      "unit": "GA1-U14",
+      "stage": "core",
+      "pt": "acidente",
+      "ru": "авария",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U14",
+      "unique_key": "acidente"
+    },
+    {
+      "unit": "GA1-U14",
+      "stage": "core",
+      "pt": "convite",
+      "ru": "приглашение",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U14",
+      "unique_key": "convite"
+    },
+    {
+      "unit": "GA1-U14",
+      "stage": "core",
+      "pt": "notícia",
+      "ru": "новость",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U14",
+      "unique_key": "notícia"
+    },
+    {
+      "unit": "GA1-U14",
+      "stage": "core",
+      "pt": "livro",
+      "ru": "книга",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U14",
+      "unique_key": "livro"
+    },
+    {
+      "unit": "GA1-U15",
+      "stage": "preview",
+      "pt": "levantar-se",
+      "ru": "вставать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U15",
+      "unique_key": "levantar-se"
+    },
+    {
+      "unit": "GA1-U15",
+      "stage": "preview",
+      "pt": "deitar-se",
+      "ru": "ложиться",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U15",
+      "unique_key": "deitar-se"
+    },
+    {
+      "unit": "GA1-U15",
+      "stage": "preview",
+      "pt": "sentar-se",
+      "ru": "садиться",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U15",
+      "unique_key": "sentar-se"
+    },
+    {
+      "unit": "GA1-U15",
+      "stage": "preview",
+      "pt": "chamar-se",
+      "ru": "называться",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U15",
+      "unique_key": "chamar-se"
+    },
+    {
+      "unit": "GA1-U15",
+      "stage": "core",
+      "pt": "encontrar-se",
+      "ru": "встречаться",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U15",
+      "unique_key": "encontrar-se"
+    },
+    {
+      "unit": "GA1-U15",
+      "stage": "core",
+      "pt": "lavar-se",
+      "ru": "мыться",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U15",
+      "unique_key": "lavar-se"
+    },
+    {
+      "unit": "GA1-U15",
+      "stage": "core",
+      "pt": "lembrar-se",
+      "ru": "вспоминать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U15",
+      "unique_key": "lembrar-se"
+    },
+    {
+      "unit": "GA1-U15",
+      "stage": "core",
+      "pt": "esquecer-se",
+      "ru": "забывать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U15",
+      "unique_key": "esquecer-se"
+    },
+    {
+      "unit": "GA1-U16",
+      "stage": "preview",
+      "pt": "antigamente",
+      "ru": "раньше",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U16",
+      "unique_key": "antigamente"
+    },
+    {
+      "unit": "GA1-U16",
+      "stage": "preview",
+      "pt": "quando",
+      "ru": "когда",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U16",
+      "unique_key": "quando"
+    },
+    {
+      "unit": "GA1-U16",
+      "stage": "preview",
+      "pt": "pequeno",
+      "ru": "маленький",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U16",
+      "unique_key": "pequeno"
+    },
+    {
+      "unit": "GA1-U16",
+      "stage": "preview",
+      "pt": "campo",
+      "ru": "сельская местность",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U16",
+      "unique_key": "campo"
+    },
+    {
+      "unit": "GA1-U16",
+      "stage": "core",
+      "pt": "boneca",
+      "ru": "кукла",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U16",
+      "unique_key": "boneca"
+    },
+    {
+      "unit": "GA1-U16",
+      "stage": "core",
+      "pt": "brincar",
+      "ru": "играть",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U16",
+      "unique_key": "brincar"
+    },
+    {
+      "unit": "GA1-U16",
+      "stage": "core",
+      "pt": "escola",
+      "ru": "школа",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U16",
+      "unique_key": "escola"
+    },
+    {
+      "unit": "GA1-U16",
+      "stage": "core",
+      "pt": "habitualmente",
+      "ru": "обычно",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U16",
+      "unique_key": "habitualmente"
+    },
+    {
+      "unit": "GA1-U17",
+      "stage": "preview",
+      "pt": "antes",
+      "ru": "раньше",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U17",
+      "unique_key": "antes"
+    },
+    {
+      "unit": "GA1-U17",
+      "stage": "preview",
+      "pt": "agora",
+      "ru": "сейчас",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U17",
+      "unique_key": "agora"
+    },
+    {
+      "unit": "GA1-U17",
+      "stage": "preview",
+      "pt": "antigamente",
+      "ru": "в прежние времена",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U17",
+      "unique_key": "antigamente"
+    },
+    {
+      "unit": "GA1-U17",
+      "stage": "preview",
+      "pt": "costumar",
+      "ru": "иметь обыкновение",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U17",
+      "unique_key": "costumar"
+    },
+    {
+      "unit": "GA1-U17",
+      "stage": "core",
+      "pt": "viajar",
+      "ru": "путешествовать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U17",
+      "unique_key": "viajar"
+    },
+    {
+      "unit": "GA1-U17",
+      "stage": "core",
+      "pt": "usar",
+      "ru": "использовать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U17",
+      "unique_key": "usar"
+    },
+    {
+      "unit": "GA1-U17",
+      "stage": "core",
+      "pt": "a pé",
+      "ru": "пешком",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U17",
+      "unique_key": "a pé"
+    },
+    {
+      "unit": "GA1-U17",
+      "stage": "core",
+      "pt": "óculos",
+      "ru": "очки",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U17",
+      "unique_key": "óculos"
+    },
+    {
+      "unit": "GA1-U18",
+      "stage": "preview",
+      "pt": "quando",
+      "ru": "когда",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U18",
+      "unique_key": "quando"
+    },
+    {
+      "unit": "GA1-U18",
+      "stage": "preview",
+      "pt": "enquanto",
+      "ru": "пока",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U18",
+      "unique_key": "enquanto"
+    },
+    {
+      "unit": "GA1-U18",
+      "stage": "preview",
+      "pt": "idade",
+      "ru": "возраст",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U18",
+      "unique_key": "idade"
+    },
+    {
+      "unit": "GA1-U18",
+      "stage": "preview",
+      "pt": "meia-noite",
+      "ru": "полночь",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U18",
+      "unique_key": "meia-noite"
+    },
+    {
+      "unit": "GA1-U18",
+      "stage": "core",
+      "pt": "tomar duche",
+      "ru": "принимать душ",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U18",
+      "unique_key": "tomar duche"
+    },
+    {
+      "unit": "GA1-U18",
+      "stage": "core",
+      "pt": "fazer a cama",
+      "ru": "заправлять кровать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U18",
+      "unique_key": "fazer a cama"
+    },
+    {
+      "unit": "GA1-U18",
+      "stage": "core",
+      "pt": "preparar",
+      "ru": "готовить",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U18",
+      "unique_key": "preparar"
+    },
+    {
+      "unit": "GA1-U18",
+      "stage": "core",
+      "pt": "conversar",
+      "ru": "разговаривать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U18",
+      "unique_key": "conversar"
+    },
+    {
+      "unit": "GA1-U18",
+      "stage": "core",
+      "pt": "arrumar",
+      "ru": "прибирать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U18",
+      "unique_key": "arrumar"
+    },
+    {
+      "unit": "GA1-U19",
+      "stage": "preview",
+      "pt": "quando",
+      "ru": "когда",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U19",
+      "unique_key": "quando"
+    },
+    {
+      "unit": "GA1-U19",
+      "stage": "preview",
+      "pt": "enquanto",
+      "ru": "пока",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U19",
+      "unique_key": "enquanto"
+    },
+    {
+      "unit": "GA1-U19",
+      "stage": "preview",
+      "pt": "de repente",
+      "ru": "внезапно",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U19",
+      "unique_key": "de repente"
+    },
+    {
+      "unit": "GA1-U19",
+      "stage": "preview",
+      "pt": "tocar",
+      "ru": "звонить",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U19",
+      "unique_key": "tocar"
+    },
+    {
+      "unit": "GA1-U19",
+      "stage": "core",
+      "pt": "entrar",
+      "ru": "входить",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U19",
+      "unique_key": "entrar"
+    },
+    {
+      "unit": "GA1-U19",
+      "stage": "core",
+      "pt": "chegar",
+      "ru": "приходить",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U19",
+      "unique_key": "chegar"
+    },
+    {
+      "unit": "GA1-U19",
+      "stage": "core",
+      "pt": "telefone",
+      "ru": "телефон",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U19",
+      "unique_key": "telefone"
+    },
+    {
+      "unit": "GA1-U19",
+      "stage": "core",
+      "pt": "acontecer",
+      "ru": "случаться",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U19",
+      "unique_key": "acontecer"
+    },
+    {
+      "unit": "GA1-U19",
+      "stage": "core",
+      "pt": "abrir",
+      "ru": "открывать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U19",
+      "unique_key": "abrir"
+    },
+    {
+      "unit": "GA1-U20",
+      "stage": "preview",
+      "pt": "queria",
+      "ru": "хотел(а) бы",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U20",
+      "unique_key": "queria"
+    },
+    {
+      "unit": "GA1-U20",
+      "stage": "preview",
+      "pt": "gostava de",
+      "ru": "хотел(а) бы",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U20",
+      "unique_key": "gostava de"
+    },
+    {
+      "unit": "GA1-U20",
+      "stage": "preview",
+      "pt": "podia",
+      "ru": "не могли бы",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U20",
+      "unique_key": "podia"
+    },
+    {
+      "unit": "GA1-U20",
+      "stage": "preview",
+      "pt": "preferia",
+      "ru": "предпочёл(ла) бы",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U20",
+      "unique_key": "preferia"
+    },
+    {
+      "unit": "GA1-U20",
+      "stage": "core",
+      "pt": "por favor",
+      "ru": "пожалуйста",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U20",
+      "unique_key": "por favor"
+    },
+    {
+      "unit": "GA1-U20",
+      "stage": "core",
+      "pt": "informação",
+      "ru": "информация",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U20",
+      "unique_key": "informação"
+    },
+    {
+      "unit": "GA1-U20",
+      "stage": "core",
+      "pt": "ajudar",
+      "ru": "помогать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U20",
+      "unique_key": "ajudar"
+    },
+    {
+      "unit": "GA1-U20",
+      "stage": "core",
+      "pt": "pedir",
+      "ru": "просить",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U20",
+      "unique_key": "pedir"
+    },
+    {
+      "unit": "GA1-U20",
+      "stage": "core",
+      "pt": "castelo",
+      "ru": "замок",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U20",
+      "unique_key": "castelo"
+    },
+    {
+      "unit": "GA1-U21",
+      "stage": "preview",
+      "pt": "já",
+      "ru": "уже",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U21",
+      "unique_key": "já"
+    },
+    {
+      "unit": "GA1-U21",
+      "stage": "preview",
+      "pt": "antes",
+      "ru": "до, раньше",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U21",
+      "unique_key": "antes"
+    },
+    {
+      "unit": "GA1-U21",
+      "stage": "preview",
+      "pt": "quando",
+      "ru": "когда",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U21",
+      "unique_key": "quando"
+    },
+    {
+      "unit": "GA1-U21",
+      "stage": "preview",
+      "pt": "chegar",
+      "ru": "прибывать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U21",
+      "unique_key": "chegar"
+    },
+    {
+      "unit": "GA1-U21",
+      "stage": "core",
+      "pt": "partir",
+      "ru": "отправляться",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U21",
+      "unique_key": "partir"
+    },
+    {
+      "unit": "GA1-U21",
+      "stage": "core",
+      "pt": "sair",
+      "ru": "уходить",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U21",
+      "unique_key": "sair"
+    },
+    {
+      "unit": "GA1-U21",
+      "stage": "core",
+      "pt": "acabar",
+      "ru": "заканчивать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U21",
+      "unique_key": "acabar"
+    },
+    {
+      "unit": "GA1-U21",
+      "stage": "core",
+      "pt": "encontrar",
+      "ru": "встречать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U21",
+      "unique_key": "encontrar"
+    },
+    {
+      "unit": "GA1-U21",
+      "stage": "core",
+      "pt": "arrumar",
+      "ru": "убирать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U21",
+      "unique_key": "arrumar"
+    },
+    {
+      "unit": "GA1-U22",
+      "stage": "preview",
+      "pt": "ultimamente",
+      "ru": "в последнее время",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U22",
+      "unique_key": "ultimamente"
+    },
+    {
+      "unit": "GA1-U22",
+      "stage": "preview",
+      "pt": "desde que",
+      "ru": "с тех пор как",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U22",
+      "unique_key": "desde que"
+    },
+    {
+      "unit": "GA1-U22",
+      "stage": "preview",
+      "pt": "nos últimos tempos",
+      "ru": "в последнее время",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U22",
+      "unique_key": "nos últimos tempos"
+    },
+    {
+      "unit": "GA1-U22",
+      "stage": "preview",
+      "pt": "trabalhar",
+      "ru": "работать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U22",
+      "unique_key": "trabalhar"
+    },
+    {
+      "unit": "GA1-U22",
+      "stage": "core",
+      "pt": "estudar",
+      "ru": "учиться",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U22",
+      "unique_key": "estudar"
+    },
+    {
+      "unit": "GA1-U22",
+      "stage": "core",
+      "pt": "dormir",
+      "ru": "спать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U22",
+      "unique_key": "dormir"
+    },
+    {
+      "unit": "GA1-U22",
+      "stage": "core",
+      "pt": "inscrição",
+      "ru": "регистрация",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U22",
+      "unique_key": "inscrição"
+    },
+    {
+      "unit": "GA1-U22",
+      "stage": "core",
+      "pt": "turista",
+      "ru": "турист",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U22",
+      "unique_key": "turista"
+    },
+    {
+      "unit": "GA1-U22",
+      "stage": "core",
+      "pt": "abrir",
+      "ru": "открывать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U22",
+      "unique_key": "abrir"
+    },
+    {
+      "unit": "GA1-U23",
+      "stage": "preview",
+      "pt": "amanhã",
+      "ru": "завтра",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U23",
+      "unique_key": "amanhã"
+    },
+    {
+      "unit": "GA1-U23",
+      "stage": "preview",
+      "pt": "agora",
+      "ru": "сейчас",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U23",
+      "unique_key": "agora"
+    },
+    {
+      "unit": "GA1-U23",
+      "stage": "preview",
+      "pt": "daqui a pouco",
+      "ru": "через некоторое время",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U23",
+      "unique_key": "daqui a pouco"
+    },
+    {
+      "unit": "GA1-U23",
+      "stage": "preview",
+      "pt": "acabar de",
+      "ru": "только что сделать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U23",
+      "unique_key": "acabar de"
+    },
+    {
+      "unit": "GA1-U23",
+      "stage": "core",
+      "pt": "estar a",
+      "ru": "находиться в процессе",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U23",
+      "unique_key": "estar a"
+    },
+    {
+      "unit": "GA1-U23",
+      "stage": "core",
+      "pt": "ir",
+      "ru": "идти, ехать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U23",
+      "unique_key": "ir"
+    },
+    {
+      "unit": "GA1-U23",
+      "stage": "core",
+      "pt": "chegar",
+      "ru": "прибывать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U23",
+      "unique_key": "chegar"
+    },
+    {
+      "unit": "GA1-U23",
+      "stage": "core",
+      "pt": "comprar",
+      "ru": "покупать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U23",
+      "unique_key": "comprar"
+    },
+    {
+      "unit": "GA1-U23",
+      "stage": "core",
+      "pt": "estudar",
+      "ru": "учиться",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U23",
+      "unique_key": "estudar"
+    },
+    {
+      "unit": "GA1-U24",
+      "stage": "preview",
+      "pt": "amanhã",
+      "ru": "завтра",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U24",
+      "unique_key": "amanhã"
+    },
+    {
+      "unit": "GA1-U24",
+      "stage": "preview",
+      "pt": "no próximo ano",
+      "ru": "в следующем году",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U24",
+      "unique_key": "no próximo ano"
+    },
+    {
+      "unit": "GA1-U24",
+      "stage": "preview",
+      "pt": "provavelmente",
+      "ru": "вероятно",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U24",
+      "unique_key": "provavelmente"
+    },
+    {
+      "unit": "GA1-U24",
+      "stage": "preview",
+      "pt": "futuro",
+      "ru": "будущее",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U24",
+      "unique_key": "futuro"
+    },
+    {
+      "unit": "GA1-U24",
+      "stage": "core",
+      "pt": "viajar",
+      "ru": "путешествовать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U24",
+      "unique_key": "viajar"
+    },
+    {
+      "unit": "GA1-U24",
+      "stage": "core",
+      "pt": "partir",
+      "ru": "отправляться",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U24",
+      "unique_key": "partir"
+    },
+    {
+      "unit": "GA1-U24",
+      "stage": "core",
+      "pt": "chegar",
+      "ru": "прибывать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U24",
+      "unique_key": "chegar"
+    },
+    {
+      "unit": "GA1-U24",
+      "stage": "core",
+      "pt": "estará",
+      "ru": "будет, вероятно находится",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U24",
+      "unique_key": "estará"
+    },
+    {
+      "unit": "GA1-U25",
+      "stage": "preview",
+      "pt": "gostaria",
+      "ru": "хотел(а) бы",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U25",
+      "unique_key": "gostaria"
+    },
+    {
+      "unit": "GA1-U25",
+      "stage": "preview",
+      "pt": "poderia",
+      "ru": "мог(ла) бы",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U25",
+      "unique_key": "poderia"
+    },
+    {
+      "unit": "GA1-U25",
+      "stage": "preview",
+      "pt": "deveria",
+      "ru": "следовало бы",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U25",
+      "unique_key": "deveria"
+    },
+    {
+      "unit": "GA1-U25",
+      "stage": "preview",
+      "pt": "se",
+      "ru": "если",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U25",
+      "unique_key": "se"
+    },
+    {
+      "unit": "GA1-U25",
+      "stage": "core",
+      "pt": "ajuda",
+      "ru": "помощь",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U25",
+      "unique_key": "ajuda"
+    },
+    {
+      "unit": "GA1-U25",
+      "stage": "core",
+      "pt": "convidar",
+      "ru": "приглашать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U25",
+      "unique_key": "convidar"
+    },
+    {
+      "unit": "GA1-U25",
+      "stage": "core",
+      "pt": "preferir",
+      "ru": "предпочитать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U25",
+      "unique_key": "preferir"
+    },
+    {
+      "unit": "GA1-U25",
+      "stage": "core",
+      "pt": "hipótese",
+      "ru": "предположение",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U25",
+      "unique_key": "hipótese"
+    },
+    {
+      "unit": "GA1-U26",
+      "stage": "preview",
+      "pt": "abrir",
+      "ru": "открывать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U26",
+      "unique_key": "abrir"
+    },
+    {
+      "unit": "GA1-U26",
+      "stage": "preview",
+      "pt": "fechar",
+      "ru": "закрывать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U26",
+      "unique_key": "fechar"
+    },
+    {
+      "unit": "GA1-U26",
+      "stage": "preview",
+      "pt": "entrar",
+      "ru": "входить",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U26",
+      "unique_key": "entrar"
+    },
+    {
+      "unit": "GA1-U26",
+      "stage": "preview",
+      "pt": "esperar",
+      "ru": "ждать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U26",
+      "unique_key": "esperar"
+    },
+    {
+      "unit": "GA1-U26",
+      "stage": "core",
+      "pt": "olhar",
+      "ru": "смотреть",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U26",
+      "unique_key": "olhar"
+    },
+    {
+      "unit": "GA1-U26",
+      "stage": "core",
+      "pt": "ouvir",
+      "ru": "слушать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U26",
+      "unique_key": "ouvir"
+    },
+    {
+      "unit": "GA1-U26",
+      "stage": "core",
+      "pt": "sentar-se",
+      "ru": "садиться",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U26",
+      "unique_key": "sentar-se"
+    },
+    {
+      "unit": "GA1-U26",
+      "stage": "core",
+      "pt": "virar",
+      "ru": "поворачивать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U26",
+      "unique_key": "virar"
+    },
+    {
+      "unit": "GA1-U27",
+      "stage": "preview",
+      "pt": "não",
+      "ru": "не",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U27",
+      "unique_key": "não"
+    },
+    {
+      "unit": "GA1-U27",
+      "stage": "preview",
+      "pt": "barulho",
+      "ru": "шум",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U27",
+      "unique_key": "barulho"
+    },
+    {
+      "unit": "GA1-U27",
+      "stage": "preview",
+      "pt": "correr",
+      "ru": "бегать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U27",
+      "unique_key": "correr"
+    },
+    {
+      "unit": "GA1-U27",
+      "stage": "preview",
+      "pt": "esquecer",
+      "ru": "забывать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U27",
+      "unique_key": "esquecer"
+    },
+    {
+      "unit": "GA1-U27",
+      "stage": "core",
+      "pt": "parar",
+      "ru": "останавливаться",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U27",
+      "unique_key": "parar"
+    },
+    {
+      "unit": "GA1-U27",
+      "stage": "core",
+      "pt": "mexer",
+      "ru": "трогать, двигать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U27",
+      "unique_key": "mexer"
+    },
+    {
+      "unit": "GA1-U27",
+      "stage": "core",
+      "pt": "destruir",
+      "ru": "разрушать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U27",
+      "unique_key": "destruir"
+    },
+    {
+      "unit": "GA1-U27",
+      "stage": "core",
+      "pt": "ter cuidado",
+      "ru": "быть осторожным",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U27",
+      "unique_key": "ter cuidado"
+    },
+    {
+      "unit": "GA1-U28",
+      "stage": "preview",
+      "pt": "antes de",
+      "ru": "перед тем как",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U28",
+      "unique_key": "antes de"
+    },
+    {
+      "unit": "GA1-U28",
+      "stage": "preview",
+      "pt": "depois de",
+      "ru": "после того как",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U28",
+      "unique_key": "depois de"
+    },
+    {
+      "unit": "GA1-U28",
+      "stage": "preview",
+      "pt": "para",
+      "ru": "чтобы",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U28",
+      "unique_key": "para"
+    },
+    {
+      "unit": "GA1-U28",
+      "stage": "preview",
+      "pt": "sem",
+      "ru": "без того чтобы",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U28",
+      "unique_key": "sem"
+    },
+    {
+      "unit": "GA1-U28",
+      "stage": "core",
+      "pt": "até",
+      "ru": "до того как",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U28",
+      "unique_key": "até"
+    },
+    {
+      "unit": "GA1-U28",
+      "stage": "core",
+      "pt": "apesar de",
+      "ru": "несмотря на",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U28",
+      "unique_key": "apesar de"
+    },
+    {
+      "unit": "GA1-U28",
+      "stage": "core",
+      "pt": "no caso de",
+      "ru": "в случае",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U28",
+      "unique_key": "no caso de"
+    },
+    {
+      "unit": "GA1-U28",
+      "stage": "core",
+      "pt": "decidir",
+      "ru": "решать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U28",
+      "unique_key": "decidir"
+    },
+    {
+      "unit": "GA1-U29",
+      "stage": "preview",
+      "pt": "andar",
+      "ru": "идти",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U29",
+      "unique_key": "andar"
+    },
+    {
+      "unit": "GA1-U29",
+      "stage": "preview",
+      "pt": "chorar",
+      "ru": "плакать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U29",
+      "unique_key": "chorar"
+    },
+    {
+      "unit": "GA1-U29",
+      "stage": "preview",
+      "pt": "conversar",
+      "ru": "беседовать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U29",
+      "unique_key": "conversar"
+    },
+    {
+      "unit": "GA1-U29",
+      "stage": "preview",
+      "pt": "escrever",
+      "ru": "писать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U29",
+      "unique_key": "escrever"
+    },
+    {
+      "unit": "GA1-U29",
+      "stage": "core",
+      "pt": "gradualmente",
+      "ru": "постепенно",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U29",
+      "unique_key": "gradualmente"
+    },
+    {
+      "unit": "GA1-U29",
+      "stage": "core",
+      "pt": "enquanto",
+      "ru": "пока",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U29",
+      "unique_key": "enquanto"
+    },
+    {
+      "unit": "GA1-U29",
+      "stage": "core",
+      "pt": "levantar",
+      "ru": "поднимать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U29",
+      "unique_key": "levantar"
+    },
+    {
+      "unit": "GA1-U29",
+      "stage": "core",
+      "pt": "vender",
+      "ru": "продавать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U29",
+      "unique_key": "vender"
+    },
+    {
+      "unit": "GA1-U30",
+      "stage": "preview",
+      "pt": "há",
+      "ru": "есть, имеется",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U30",
+      "unique_key": "há"
+    },
+    {
+      "unit": "GA1-U30",
+      "stage": "preview",
+      "pt": "houve",
+      "ru": "было, произошло",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U30",
+      "unique_key": "houve"
+    },
+    {
+      "unit": "GA1-U30",
+      "stage": "preview",
+      "pt": "havia",
+      "ru": "имелось, было",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U30",
+      "unique_key": "havia"
+    },
+    {
+      "unit": "GA1-U30",
+      "stage": "preview",
+      "pt": "haverá",
+      "ru": "будет",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U30",
+      "unique_key": "haverá"
+    },
+    {
+      "unit": "GA1-U30",
+      "stage": "core",
+      "pt": "existir",
+      "ru": "существовать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U30",
+      "unique_key": "existir"
+    },
+    {
+      "unit": "GA1-U30",
+      "stage": "core",
+      "pt": "acontecer",
+      "ru": "случаться",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U30",
+      "unique_key": "acontecer"
+    },
+    {
+      "unit": "GA1-U30",
+      "stage": "core",
+      "pt": "intenção",
+      "ru": "намерение",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U30",
+      "unique_key": "intenção"
+    },
+    {
+      "unit": "GA1-U30",
+      "stage": "core",
+      "pt": "convicção",
+      "ru": "убеждённость",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U30",
+      "unique_key": "convicção"
+    },
+    {
+      "unit": "GA1-U31",
+      "stage": "preview",
+      "pt": "poder",
+      "ru": "мочь",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U31",
+      "unique_key": "poder"
+    },
+    {
+      "unit": "GA1-U31",
+      "stage": "preview",
+      "pt": "conseguir",
+      "ru": "суметь",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U31",
+      "unique_key": "conseguir"
+    },
+    {
+      "unit": "GA1-U31",
+      "stage": "preview",
+      "pt": "saber",
+      "ru": "знать, уметь",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U31",
+      "unique_key": "saber"
+    },
+    {
+      "unit": "GA1-U31",
+      "stage": "preview",
+      "pt": "conhecer",
+      "ru": "быть знакомым",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U31",
+      "unique_key": "conhecer"
+    },
+    {
+      "unit": "GA1-U31",
+      "stage": "core",
+      "pt": "dever",
+      "ru": "следует",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U31",
+      "unique_key": "dever"
+    },
+    {
+      "unit": "GA1-U31",
+      "stage": "core",
+      "pt": "ter de",
+      "ru": "быть должным",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U31",
+      "unique_key": "ter de"
+    },
+    {
+      "unit": "GA1-U31",
+      "stage": "core",
+      "pt": "precisar de",
+      "ru": "нуждаться в",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U31",
+      "unique_key": "precisar de"
+    },
+    {
+      "unit": "GA1-U31",
+      "stage": "core",
+      "pt": "proibido",
+      "ru": "запрещено",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U31",
+      "unique_key": "proibido"
+    },
+    {
+      "unit": "GA1-U31",
+      "stage": "core",
+      "pt": "permitido",
+      "ru": "разрешено",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U31",
+      "unique_key": "permitido"
+    },
+    {
+      "unit": "GA1-U32",
+      "stage": "preview",
+      "pt": "escrever",
+      "ru": "писать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U32",
+      "unique_key": "escrever"
+    },
+    {
+      "unit": "GA1-U32",
+      "stage": "preview",
+      "pt": "construir",
+      "ru": "строить",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U32",
+      "unique_key": "construir"
+    },
+    {
+      "unit": "GA1-U32",
+      "stage": "preview",
+      "pt": "comprar",
+      "ru": "покупать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U32",
+      "unique_key": "comprar"
+    },
+    {
+      "unit": "GA1-U32",
+      "stage": "preview",
+      "pt": "descobrir",
+      "ru": "открывать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U32",
+      "unique_key": "descobrir"
+    },
+    {
+      "unit": "GA1-U32",
+      "stage": "core",
+      "pt": "publicar",
+      "ru": "публиковать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U32",
+      "unique_key": "publicar"
+    },
+    {
+      "unit": "GA1-U32",
+      "stage": "core",
+      "pt": "organizar",
+      "ru": "организовывать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U32",
+      "unique_key": "organizar"
+    },
+    {
+      "unit": "GA1-U32",
+      "stage": "core",
+      "pt": "bilhete",
+      "ru": "билет",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U32",
+      "unique_key": "bilhete"
+    },
+    {
+      "unit": "GA1-U32",
+      "stage": "core",
+      "pt": "estrada",
+      "ru": "дорога",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U32",
+      "unique_key": "estrada"
+    },
+    {
+      "unit": "GA1-U33",
+      "stage": "preview",
+      "pt": "aberto",
+      "ru": "открытый",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U33",
+      "unique_key": "aberto"
+    },
+    {
+      "unit": "GA1-U33",
+      "stage": "preview",
+      "pt": "fechado",
+      "ru": "закрытый",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U33",
+      "unique_key": "fechado"
+    },
+    {
+      "unit": "GA1-U33",
+      "stage": "preview",
+      "pt": "feito",
+      "ru": "сделанный",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U33",
+      "unique_key": "feito"
+    },
+    {
+      "unit": "GA1-U33",
+      "stage": "preview",
+      "pt": "limpo",
+      "ru": "чистый",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U33",
+      "unique_key": "limpo"
+    },
+    {
+      "unit": "GA1-U33",
+      "stage": "core",
+      "pt": "pago",
+      "ru": "оплаченный",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U33",
+      "unique_key": "pago"
+    },
+    {
+      "unit": "GA1-U33",
+      "stage": "core",
+      "pt": "entregue",
+      "ru": "доставленный",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U33",
+      "unique_key": "entregue"
+    },
+    {
+      "unit": "GA1-U33",
+      "stage": "core",
+      "pt": "aceite",
+      "ru": "принятый",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U33",
+      "unique_key": "aceite"
+    },
+    {
+      "unit": "GA1-U33",
+      "stage": "core",
+      "pt": "impresso",
+      "ru": "напечатанный",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U33",
+      "unique_key": "impresso"
+    },
+    {
+      "unit": "GA1-U34",
+      "stage": "preview",
+      "pt": "vende-se",
+      "ru": "продаётся",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U34",
+      "unique_key": "vende-se"
+    },
+    {
+      "unit": "GA1-U34",
+      "stage": "preview",
+      "pt": "aluga-se",
+      "ru": "сдаётся",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U34",
+      "unique_key": "aluga-se"
+    },
+    {
+      "unit": "GA1-U34",
+      "stage": "preview",
+      "pt": "fala-se",
+      "ru": "говорят",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U34",
+      "unique_key": "fala-se"
+    },
+    {
+      "unit": "GA1-U34",
+      "stage": "preview",
+      "pt": "precisa-se",
+      "ru": "требуется",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U34",
+      "unique_key": "precisa-se"
+    },
+    {
+      "unit": "GA1-U34",
+      "stage": "core",
+      "pt": "aceita-se",
+      "ru": "принимается",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U34",
+      "unique_key": "aceita-se"
+    },
+    {
+      "unit": "GA1-U34",
+      "stage": "core",
+      "pt": "publicar",
+      "ru": "публиковать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U34",
+      "unique_key": "publicar"
+    },
+    {
+      "unit": "GA1-U34",
+      "stage": "core",
+      "pt": "anúncio",
+      "ru": "объявление",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U34",
+      "unique_key": "anúncio"
+    },
+    {
+      "unit": "GA1-U34",
+      "stage": "core",
+      "pt": "apartamento",
+      "ru": "квартира",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U34",
+      "unique_key": "apartamento"
+    },
+    {
+      "unit": "GA1-U35",
+      "stage": "preview",
+      "pt": "dizer",
+      "ru": "говорить",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U35",
+      "unique_key": "dizer"
+    },
+    {
+      "unit": "GA1-U35",
+      "stage": "preview",
+      "pt": "contar",
+      "ru": "рассказывать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U35",
+      "unique_key": "contar"
+    },
+    {
+      "unit": "GA1-U35",
+      "stage": "preview",
+      "pt": "perguntar",
+      "ru": "спрашивать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U35",
+      "unique_key": "perguntar"
+    },
+    {
+      "unit": "GA1-U35",
+      "stage": "preview",
+      "pt": "responder",
+      "ru": "отвечать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U35",
+      "unique_key": "responder"
+    },
+    {
+      "unit": "GA1-U35",
+      "stage": "core",
+      "pt": "ontem",
+      "ru": "вчера",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U35",
+      "unique_key": "ontem"
+    },
+    {
+      "unit": "GA1-U35",
+      "stage": "core",
+      "pt": "amanhã",
+      "ru": "завтра",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U35",
+      "unique_key": "amanhã"
+    },
+    {
+      "unit": "GA1-U35",
+      "stage": "core",
+      "pt": "na véspera",
+      "ru": "накануне",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U35",
+      "unique_key": "na véspera"
+    },
+    {
+      "unit": "GA1-U35",
+      "stage": "core",
+      "pt": "no dia seguinte",
+      "ru": "на следующий день",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U35",
+      "unique_key": "no dia seguinte"
+    },
+    {
+      "unit": "GA1-U36",
+      "stage": "preview",
+      "pt": "livro",
+      "ru": "книга",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U36",
+      "unique_key": "livro"
+    },
+    {
+      "unit": "GA1-U36",
+      "stage": "preview",
+      "pt": "casa",
+      "ru": "дом",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U36",
+      "unique_key": "casa"
+    },
+    {
+      "unit": "GA1-U36",
+      "stage": "preview",
+      "pt": "carro",
+      "ru": "машина",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U36",
+      "unique_key": "carro"
+    },
+    {
+      "unit": "GA1-U36",
+      "stage": "preview",
+      "pt": "cidade",
+      "ru": "город",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U36",
+      "unique_key": "cidade"
+    },
+    {
+      "unit": "GA1-U36",
+      "stage": "core",
+      "pt": "irmão",
+      "ru": "брат",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U36",
+      "unique_key": "irmão"
+    },
+    {
+      "unit": "GA1-U36",
+      "stage": "core",
+      "pt": "irmã",
+      "ru": "сестра",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U36",
+      "unique_key": "irmã"
+    },
+    {
+      "unit": "GA1-U36",
+      "stage": "core",
+      "pt": "caneta",
+      "ru": "ручка",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U36",
+      "unique_key": "caneta"
+    },
+    {
+      "unit": "GA1-U36",
+      "stage": "core",
+      "pt": "mesa",
+      "ru": "стол",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U36",
+      "unique_key": "mesa"
+    },
+    {
+      "unit": "GA1-U36",
+      "stage": "core",
+      "pt": "país",
+      "ru": "страна",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U36",
+      "unique_key": "país"
+    },
+    {
+      "unit": "GA1-U37",
+      "stage": "preview",
+      "pt": "isto",
+      "ru": "это (около говорящего)",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U37",
+      "unique_key": "isto"
+    },
+    {
+      "unit": "GA1-U37",
+      "stage": "preview",
+      "pt": "isso",
+      "ru": "это (около слушателя)",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U37",
+      "unique_key": "isso"
+    },
+    {
+      "unit": "GA1-U37",
+      "stage": "preview",
+      "pt": "aquilo",
+      "ru": "то (вдали)",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U37",
+      "unique_key": "aquilo"
+    },
+    {
+      "unit": "GA1-U37",
+      "stage": "preview",
+      "pt": "aqui",
+      "ru": "здесь",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U37",
+      "unique_key": "aqui"
+    },
+    {
+      "unit": "GA1-U37",
+      "stage": "core",
+      "pt": "aí",
+      "ru": "там у тебя",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U37",
+      "unique_key": "aí"
+    },
+    {
+      "unit": "GA1-U37",
+      "stage": "core",
+      "pt": "ali",
+      "ru": "там",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U37",
+      "unique_key": "ali"
+    },
+    {
+      "unit": "GA1-U37",
+      "stage": "core",
+      "pt": "lá",
+      "ru": "там вдали",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U37",
+      "unique_key": "lá"
+    },
+    {
+      "unit": "GA1-U37",
+      "stage": "core",
+      "pt": "caneta",
+      "ru": "ручка",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U37",
+      "unique_key": "caneta"
+    },
+    {
+      "unit": "GA1-U38",
+      "stage": "preview",
+      "pt": "este",
+      "ru": "этот",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U38",
+      "unique_key": "este"
+    },
+    {
+      "unit": "GA1-U38",
+      "stage": "preview",
+      "pt": "esta",
+      "ru": "эта",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U38",
+      "unique_key": "esta"
+    },
+    {
+      "unit": "GA1-U38",
+      "stage": "preview",
+      "pt": "esse",
+      "ru": "тот у тебя",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U38",
+      "unique_key": "esse"
+    },
+    {
+      "unit": "GA1-U38",
+      "stage": "preview",
+      "pt": "essa",
+      "ru": "та у тебя",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U38",
+      "unique_key": "essa"
+    },
+    {
+      "unit": "GA1-U38",
+      "stage": "core",
+      "pt": "aquele",
+      "ru": "тот вдали",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U38",
+      "unique_key": "aquele"
+    },
+    {
+      "unit": "GA1-U38",
+      "stage": "core",
+      "pt": "aquela",
+      "ru": "та вдали",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U38",
+      "unique_key": "aquela"
+    },
+    {
+      "unit": "GA1-U38",
+      "stage": "core",
+      "pt": "camisola",
+      "ru": "кофта",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U38",
+      "unique_key": "camisola"
+    },
+    {
+      "unit": "GA1-U38",
+      "stage": "core",
+      "pt": "caderno",
+      "ru": "тетрадь",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U38",
+      "unique_key": "caderno"
+    },
+    {
+      "unit": "GA1-U39",
+      "stage": "preview",
+      "pt": "meu",
+      "ru": "мой",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U39",
+      "unique_key": "meu"
+    },
+    {
+      "unit": "GA1-U39",
+      "stage": "preview",
+      "pt": "minha",
+      "ru": "моя",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U39",
+      "unique_key": "minha"
+    },
+    {
+      "unit": "GA1-U39",
+      "stage": "preview",
+      "pt": "teu",
+      "ru": "твой",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U39",
+      "unique_key": "teu"
+    },
+    {
+      "unit": "GA1-U39",
+      "stage": "preview",
+      "pt": "tua",
+      "ru": "твоя",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U39",
+      "unique_key": "tua"
+    },
+    {
+      "unit": "GA1-U39",
+      "stage": "core",
+      "pt": "seu",
+      "ru": "его, её, ваш",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U39",
+      "unique_key": "seu"
+    },
+    {
+      "unit": "GA1-U39",
+      "stage": "core",
+      "pt": "nosso",
+      "ru": "наш",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U39",
+      "unique_key": "nosso"
+    },
+    {
+      "unit": "GA1-U39",
+      "stage": "core",
+      "pt": "dele",
+      "ru": "его",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U39",
+      "unique_key": "dele"
+    },
+    {
+      "unit": "GA1-U39",
+      "stage": "core",
+      "pt": "dela",
+      "ru": "её",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U39",
+      "unique_key": "dela"
+    },
+    {
+      "unit": "GA1-U39",
+      "stage": "core",
+      "pt": "pertencer",
+      "ru": "принадлежать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U39",
+      "unique_key": "pertencer"
+    },
+    {
+      "unit": "GA1-U40",
+      "stage": "preview",
+      "pt": "quem",
+      "ru": "кто",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U40",
+      "unique_key": "quem"
+    },
+    {
+      "unit": "GA1-U40",
+      "stage": "preview",
+      "pt": "onde",
+      "ru": "где",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U40",
+      "unique_key": "onde"
+    },
+    {
+      "unit": "GA1-U40",
+      "stage": "preview",
+      "pt": "como",
+      "ru": "как",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U40",
+      "unique_key": "como"
+    },
+    {
+      "unit": "GA1-U40",
+      "stage": "preview",
+      "pt": "quando",
+      "ru": "когда",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U40",
+      "unique_key": "quando"
+    },
+    {
+      "unit": "GA1-U40",
+      "stage": "core",
+      "pt": "porquê",
+      "ru": "почему",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U40",
+      "unique_key": "porquê"
+    },
+    {
+      "unit": "GA1-U40",
+      "stage": "core",
+      "pt": "qual",
+      "ru": "какой из",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U40",
+      "unique_key": "qual"
+    },
+    {
+      "unit": "GA1-U40",
+      "stage": "core",
+      "pt": "quanto",
+      "ru": "сколько",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U40",
+      "unique_key": "quanto"
+    },
+    {
+      "unit": "GA1-U40",
+      "stage": "core",
+      "pt": "de que cor",
+      "ru": "какого цвета",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U40",
+      "unique_key": "de que cor"
+    },
+    {
+      "unit": "GA1-U41",
+      "stage": "preview",
+      "pt": "algum",
+      "ru": "какой-нибудь",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U41",
+      "unique_key": "algum"
+    },
+    {
+      "unit": "GA1-U41",
+      "stage": "preview",
+      "pt": "nenhum",
+      "ru": "ни один",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U41",
+      "unique_key": "nenhum"
+    },
+    {
+      "unit": "GA1-U41",
+      "stage": "preview",
+      "pt": "alguém",
+      "ru": "кто-то",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U41",
+      "unique_key": "alguém"
+    },
+    {
+      "unit": "GA1-U41",
+      "stage": "preview",
+      "pt": "ninguém",
+      "ru": "никто",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U41",
+      "unique_key": "ninguém"
+    },
+    {
+      "unit": "GA1-U41",
+      "stage": "core",
+      "pt": "tudo",
+      "ru": "всё",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U41",
+      "unique_key": "tudo"
+    },
+    {
+      "unit": "GA1-U41",
+      "stage": "core",
+      "pt": "nada",
+      "ru": "ничего",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U41",
+      "unique_key": "nada"
+    },
+    {
+      "unit": "GA1-U41",
+      "stage": "core",
+      "pt": "muito",
+      "ru": "много",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U41",
+      "unique_key": "muito"
+    },
+    {
+      "unit": "GA1-U41",
+      "stage": "core",
+      "pt": "pouco",
+      "ru": "мало",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U41",
+      "unique_key": "pouco"
+    },
+    {
+      "unit": "GA1-U41",
+      "stage": "core",
+      "pt": "outro",
+      "ru": "другой",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U41",
+      "unique_key": "outro"
+    },
+    {
+      "unit": "GA1-U41",
+      "stage": "core",
+      "pt": "todo",
+      "ru": "весь",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U41",
+      "unique_key": "todo"
+    },
+    {
+      "unit": "GA1-U42",
+      "stage": "preview",
+      "pt": "que",
+      "ru": "который",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U42",
+      "unique_key": "que"
+    },
+    {
+      "unit": "GA1-U42",
+      "stage": "preview",
+      "pt": "quem",
+      "ru": "кто, которого",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U42",
+      "unique_key": "quem"
+    },
+    {
+      "unit": "GA1-U42",
+      "stage": "preview",
+      "pt": "onde",
+      "ru": "где",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U42",
+      "unique_key": "onde"
+    },
+    {
+      "unit": "GA1-U42",
+      "stage": "preview",
+      "pt": "qual",
+      "ru": "который",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U42",
+      "unique_key": "qual"
+    },
+    {
+      "unit": "GA1-U42",
+      "stage": "core",
+      "pt": "cujo",
+      "ru": "чей",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U42",
+      "unique_key": "cujo"
+    },
+    {
+      "unit": "GA1-U42",
+      "stage": "core",
+      "pt": "conhecer",
+      "ru": "знать, быть знакомым",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U42",
+      "unique_key": "conhecer"
+    },
+    {
+      "unit": "GA1-U42",
+      "stage": "core",
+      "pt": "filme",
+      "ru": "фильм",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U42",
+      "unique_key": "filme"
+    },
+    {
+      "unit": "GA1-U42",
+      "stage": "core",
+      "pt": "restaurante",
+      "ru": "ресторан",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U42",
+      "unique_key": "restaurante"
+    },
+    {
+      "unit": "GA1-U43",
+      "stage": "preview",
+      "pt": "comprar",
+      "ru": "покупать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U43",
+      "unique_key": "comprar"
+    },
+    {
+      "unit": "GA1-U43",
+      "stage": "preview",
+      "pt": "levar",
+      "ru": "нести",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U43",
+      "unique_key": "levar"
+    },
+    {
+      "unit": "GA1-U43",
+      "stage": "preview",
+      "pt": "encontrar",
+      "ru": "встречать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U43",
+      "unique_key": "encontrar"
+    },
+    {
+      "unit": "GA1-U43",
+      "stage": "preview",
+      "pt": "ver",
+      "ru": "видеть",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U43",
+      "unique_key": "ver"
+    },
+    {
+      "unit": "GA1-U43",
+      "stage": "core",
+      "pt": "convidar",
+      "ru": "приглашать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U43",
+      "unique_key": "convidar"
+    },
+    {
+      "unit": "GA1-U43",
+      "stage": "core",
+      "pt": "chamar",
+      "ru": "звать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U43",
+      "unique_key": "chamar"
+    },
+    {
+      "unit": "GA1-U43",
+      "stage": "core",
+      "pt": "livro",
+      "ru": "книга",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U43",
+      "unique_key": "livro"
+    },
+    {
+      "unit": "GA1-U43",
+      "stage": "core",
+      "pt": "revista",
+      "ru": "журнал",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U43",
+      "unique_key": "revista"
+    },
+    {
+      "unit": "GA1-U44",
+      "stage": "preview",
+      "pt": "dar",
+      "ru": "давать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U44",
+      "unique_key": "dar"
+    },
+    {
+      "unit": "GA1-U44",
+      "stage": "preview",
+      "pt": "enviar",
+      "ru": "отправлять",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U44",
+      "unique_key": "enviar"
+    },
+    {
+      "unit": "GA1-U44",
+      "stage": "preview",
+      "pt": "emprestar",
+      "ru": "одалживать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U44",
+      "unique_key": "emprestar"
+    },
+    {
+      "unit": "GA1-U44",
+      "stage": "preview",
+      "pt": "oferecer",
+      "ru": "дарить",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U44",
+      "unique_key": "oferecer"
+    },
+    {
+      "unit": "GA1-U44",
+      "stage": "core",
+      "pt": "mandar",
+      "ru": "посылать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U44",
+      "unique_key": "mandar"
+    },
+    {
+      "unit": "GA1-U44",
+      "stage": "core",
+      "pt": "encomenda",
+      "ru": "посылка",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U44",
+      "unique_key": "encomenda"
+    },
+    {
+      "unit": "GA1-U44",
+      "stage": "core",
+      "pt": "recado",
+      "ru": "сообщение",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U44",
+      "unique_key": "recado"
+    },
+    {
+      "unit": "GA1-U44",
+      "stage": "core",
+      "pt": "chave",
+      "ru": "ключ",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U44",
+      "unique_key": "chave"
+    },
+    {
+      "unit": "GA1-U45",
+      "stage": "preview",
+      "pt": "comigo",
+      "ru": "со мной",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U45",
+      "unique_key": "comigo"
+    },
+    {
+      "unit": "GA1-U45",
+      "stage": "preview",
+      "pt": "contigo",
+      "ru": "с тобой",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U45",
+      "unique_key": "contigo"
+    },
+    {
+      "unit": "GA1-U45",
+      "stage": "preview",
+      "pt": "connosco",
+      "ru": "с нами",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U45",
+      "unique_key": "connosco"
+    },
+    {
+      "unit": "GA1-U45",
+      "stage": "preview",
+      "pt": "convosco",
+      "ru": "с вами",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U45",
+      "unique_key": "convosco"
+    },
+    {
+      "unit": "GA1-U45",
+      "stage": "core",
+      "pt": "para mim",
+      "ru": "для меня",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U45",
+      "unique_key": "para mim"
+    },
+    {
+      "unit": "GA1-U45",
+      "stage": "core",
+      "pt": "para ti",
+      "ru": "для тебя",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U45",
+      "unique_key": "para ti"
+    },
+    {
+      "unit": "GA1-U45",
+      "stage": "core",
+      "pt": "sem ele",
+      "ru": "без него",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U45",
+      "unique_key": "sem ele"
+    },
+    {
+      "unit": "GA1-U45",
+      "stage": "core",
+      "pt": "com ela",
+      "ru": "с ней",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U45",
+      "unique_key": "com ela"
+    },
+    {
+      "unit": "GA1-U46",
+      "stage": "preview",
+      "pt": "em cima de",
+      "ru": "наверху, на",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U46",
+      "unique_key": "em cima de"
+    },
+    {
+      "unit": "GA1-U46",
+      "stage": "preview",
+      "pt": "debaixo de",
+      "ru": "под",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U46",
+      "unique_key": "debaixo de"
+    },
+    {
+      "unit": "GA1-U46",
+      "stage": "preview",
+      "pt": "ao lado de",
+      "ru": "рядом с",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U46",
+      "unique_key": "ao lado de"
+    },
+    {
+      "unit": "GA1-U46",
+      "stage": "preview",
+      "pt": "à frente de",
+      "ru": "перед",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U46",
+      "unique_key": "à frente de"
+    },
+    {
+      "unit": "GA1-U46",
+      "stage": "core",
+      "pt": "atrás de",
+      "ru": "позади",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U46",
+      "unique_key": "atrás de"
+    },
+    {
+      "unit": "GA1-U46",
+      "stage": "core",
+      "pt": "entre",
+      "ru": "между",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U46",
+      "unique_key": "entre"
+    },
+    {
+      "unit": "GA1-U46",
+      "stage": "core",
+      "pt": "dentro de",
+      "ru": "внутри",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U46",
+      "unique_key": "dentro de"
+    },
+    {
+      "unit": "GA1-U46",
+      "stage": "core",
+      "pt": "perto de",
+      "ru": "около",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U46",
+      "unique_key": "perto de"
+    },
+    {
+      "unit": "GA1-U46",
+      "stage": "core",
+      "pt": "cadeira",
+      "ru": "стул",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U46",
+      "unique_key": "cadeira"
+    },
+    {
+      "unit": "GA1-U47",
+      "stage": "preview",
+      "pt": "a pé",
+      "ru": "пешком",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U47",
+      "unique_key": "a pé"
+    },
+    {
+      "unit": "GA1-U47",
+      "stage": "preview",
+      "pt": "de carro",
+      "ru": "на машине",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U47",
+      "unique_key": "de carro"
+    },
+    {
+      "unit": "GA1-U47",
+      "stage": "preview",
+      "pt": "de comboio",
+      "ru": "на поезде",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U47",
+      "unique_key": "de comboio"
+    },
+    {
+      "unit": "GA1-U47",
+      "stage": "preview",
+      "pt": "de autocarro",
+      "ru": "на автобусе",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U47",
+      "unique_key": "de autocarro"
+    },
+    {
+      "unit": "GA1-U47",
+      "stage": "core",
+      "pt": "para",
+      "ru": "в направлении, для",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U47",
+      "unique_key": "para"
+    },
+    {
+      "unit": "GA1-U47",
+      "stage": "core",
+      "pt": "por",
+      "ru": "через, по",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U47",
+      "unique_key": "por"
+    },
+    {
+      "unit": "GA1-U47",
+      "stage": "core",
+      "pt": "voltar",
+      "ru": "возвращаться",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U47",
+      "unique_key": "voltar"
+    },
+    {
+      "unit": "GA1-U47",
+      "stage": "core",
+      "pt": "viajar",
+      "ru": "путешествовать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U47",
+      "unique_key": "viajar"
+    },
+    {
+      "unit": "GA1-U48",
+      "stage": "preview",
+      "pt": "manhã",
+      "ru": "утро",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U48",
+      "unique_key": "manhã"
+    },
+    {
+      "unit": "GA1-U48",
+      "stage": "preview",
+      "pt": "tarde",
+      "ru": "день, вечер",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U48",
+      "unique_key": "tarde"
+    },
+    {
+      "unit": "GA1-U48",
+      "stage": "preview",
+      "pt": "noite",
+      "ru": "ночь",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U48",
+      "unique_key": "noite"
+    },
+    {
+      "unit": "GA1-U48",
+      "stage": "preview",
+      "pt": "semana",
+      "ru": "неделя",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U48",
+      "unique_key": "semana"
+    },
+    {
+      "unit": "GA1-U48",
+      "stage": "core",
+      "pt": "mês",
+      "ru": "месяц",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U48",
+      "unique_key": "mês"
+    },
+    {
+      "unit": "GA1-U48",
+      "stage": "core",
+      "pt": "ano",
+      "ru": "год",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U48",
+      "unique_key": "ano"
+    },
+    {
+      "unit": "GA1-U48",
+      "stage": "core",
+      "pt": "às",
+      "ru": "в (о времени)",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U48",
+      "unique_key": "às"
+    },
+    {
+      "unit": "GA1-U48",
+      "stage": "core",
+      "pt": "desde",
+      "ru": "с",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U48",
+      "unique_key": "desde"
+    },
+    {
+      "unit": "GA1-U48",
+      "stage": "core",
+      "pt": "durante",
+      "ru": "в течение",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U48",
+      "unique_key": "durante"
+    },
+    {
+      "unit": "GA1-U49",
+      "stage": "preview",
+      "pt": "gostar de",
+      "ru": "любить что-либо",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U49",
+      "unique_key": "gostar de"
+    },
+    {
+      "unit": "GA1-U49",
+      "stage": "preview",
+      "pt": "precisar de",
+      "ru": "нуждаться в",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U49",
+      "unique_key": "precisar de"
+    },
+    {
+      "unit": "GA1-U49",
+      "stage": "preview",
+      "pt": "pensar em",
+      "ru": "думать о",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U49",
+      "unique_key": "pensar em"
+    },
+    {
+      "unit": "GA1-U49",
+      "stage": "preview",
+      "pt": "falar com",
+      "ru": "говорить с",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U49",
+      "unique_key": "falar com"
+    },
+    {
+      "unit": "GA1-U49",
+      "stage": "core",
+      "pt": "concordar com",
+      "ru": "соглашаться с",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U49",
+      "unique_key": "concordar com"
+    },
+    {
+      "unit": "GA1-U49",
+      "stage": "core",
+      "pt": "insistir em",
+      "ru": "настаивать на",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U49",
+      "unique_key": "insistir em"
+    },
+    {
+      "unit": "GA1-U49",
+      "stage": "core",
+      "pt": "acreditar em",
+      "ru": "верить в",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U49",
+      "unique_key": "acreditar em"
+    },
+    {
+      "unit": "GA1-U49",
+      "stage": "core",
+      "pt": "depender de",
+      "ru": "зависеть от",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U49",
+      "unique_key": "depender de"
+    },
+    {
+      "unit": "GA1-U50",
+      "stage": "preview",
+      "pt": "cansado de",
+      "ru": "уставший от",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U50",
+      "unique_key": "cansado de"
+    },
+    {
+      "unit": "GA1-U50",
+      "stage": "preview",
+      "pt": "interessado em",
+      "ru": "заинтересованный в",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U50",
+      "unique_key": "interessado em"
+    },
+    {
+      "unit": "GA1-U50",
+      "stage": "preview",
+      "pt": "contente com",
+      "ru": "довольный чем-либо",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U50",
+      "unique_key": "contente com"
+    },
+    {
+      "unit": "GA1-U50",
+      "stage": "preview",
+      "pt": "preocupado com",
+      "ru": "обеспокоенный чем-либо",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U50",
+      "unique_key": "preocupado com"
+    },
+    {
+      "unit": "GA1-U50",
+      "stage": "core",
+      "pt": "fiel a",
+      "ru": "верный кому-либо",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U50",
+      "unique_key": "fiel a"
+    },
+    {
+      "unit": "GA1-U50",
+      "stage": "core",
+      "pt": "habituado a",
+      "ru": "привыкший к",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U50",
+      "unique_key": "habituado a"
+    },
+    {
+      "unit": "GA1-U50",
+      "stage": "core",
+      "pt": "capaz de",
+      "ru": "способный на",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U50",
+      "unique_key": "capaz de"
+    },
+    {
+      "unit": "GA1-U50",
+      "stage": "core",
+      "pt": "diferente de",
+      "ru": "отличающийся от",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U50",
+      "unique_key": "diferente de"
+    },
+    {
+      "unit": "GA1-U51",
+      "stage": "preview",
+      "pt": "mais",
+      "ru": "больше",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U51",
+      "unique_key": "mais"
+    },
+    {
+      "unit": "GA1-U51",
+      "stage": "preview",
+      "pt": "menos",
+      "ru": "меньше",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U51",
+      "unique_key": "menos"
+    },
+    {
+      "unit": "GA1-U51",
+      "stage": "preview",
+      "pt": "tão",
+      "ru": "такой же по степени",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U51",
+      "unique_key": "tão"
+    },
+    {
+      "unit": "GA1-U51",
+      "stage": "preview",
+      "pt": "como",
+      "ru": "как",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U51",
+      "unique_key": "como"
+    },
+    {
+      "unit": "GA1-U51",
+      "stage": "core",
+      "pt": "do que",
+      "ru": "чем",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U51",
+      "unique_key": "do que"
+    },
+    {
+      "unit": "GA1-U51",
+      "stage": "core",
+      "pt": "melhor",
+      "ru": "лучше",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U51",
+      "unique_key": "melhor"
+    },
+    {
+      "unit": "GA1-U51",
+      "stage": "core",
+      "pt": "pior",
+      "ru": "хуже",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U51",
+      "unique_key": "pior"
+    },
+    {
+      "unit": "GA1-U51",
+      "stage": "core",
+      "pt": "maior",
+      "ru": "больше по размеру",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U51",
+      "unique_key": "maior"
+    },
+    {
+      "unit": "GA1-U51",
+      "stage": "core",
+      "pt": "menor",
+      "ru": "меньше по размеру",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U51",
+      "unique_key": "menor"
+    },
+    {
+      "unit": "GA1-U52",
+      "stage": "preview",
+      "pt": "o mais",
+      "ru": "самый",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U52",
+      "unique_key": "o mais"
+    },
+    {
+      "unit": "GA1-U52",
+      "stage": "preview",
+      "pt": "o menos",
+      "ru": "наименее",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U52",
+      "unique_key": "o menos"
+    },
+    {
+      "unit": "GA1-U52",
+      "stage": "preview",
+      "pt": "muito",
+      "ru": "очень",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U52",
+      "unique_key": "muito"
+    },
+    {
+      "unit": "GA1-U52",
+      "stage": "preview",
+      "pt": "altíssimo",
+      "ru": "очень высокий",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U52",
+      "unique_key": "altíssimo"
+    },
+    {
+      "unit": "GA1-U52",
+      "stage": "core",
+      "pt": "ótimo",
+      "ru": "отличный",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U52",
+      "unique_key": "ótimo"
+    },
+    {
+      "unit": "GA1-U52",
+      "stage": "core",
+      "pt": "péssimo",
+      "ru": "ужасный",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U52",
+      "unique_key": "péssimo"
+    },
+    {
+      "unit": "GA1-U52",
+      "stage": "core",
+      "pt": "melhor",
+      "ru": "лучший",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U52",
+      "unique_key": "melhor"
+    },
+    {
+      "unit": "GA1-U52",
+      "stage": "core",
+      "pt": "pior",
+      "ru": "худший",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U52",
+      "unique_key": "pior"
+    },
+    {
+      "unit": "GA1-U52",
+      "stage": "core",
+      "pt": "cedíssimo",
+      "ru": "очень рано",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U52",
+      "unique_key": "cedíssimo"
+    },
+    {
+      "unit": "GA1-U53",
+      "stage": "preview",
+      "pt": "tão",
+      "ru": "так, настолько",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U53",
+      "unique_key": "tão"
+    },
+    {
+      "unit": "GA1-U53",
+      "stage": "preview",
+      "pt": "tanto",
+      "ru": "так много",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U53",
+      "unique_key": "tanto"
+    },
+    {
+      "unit": "GA1-U53",
+      "stage": "preview",
+      "pt": "tanta",
+      "ru": "так много (жен. р.)",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U53",
+      "unique_key": "tanta"
+    },
+    {
+      "unit": "GA1-U53",
+      "stage": "preview",
+      "pt": "tantos",
+      "ru": "так много (мн. ч.)",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U53",
+      "unique_key": "tantos"
+    },
+    {
+      "unit": "GA1-U53",
+      "stage": "core",
+      "pt": "tantas",
+      "ru": "так много (жен. мн. ч.)",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U53",
+      "unique_key": "tantas"
+    },
+    {
+      "unit": "GA1-U53",
+      "stage": "core",
+      "pt": "calor",
+      "ru": "жара",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U53",
+      "unique_key": "calor"
+    },
+    {
+      "unit": "GA1-U53",
+      "stage": "core",
+      "pt": "trabalho",
+      "ru": "работа",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U53",
+      "unique_key": "trabalho"
+    },
+    {
+      "unit": "GA1-U53",
+      "stage": "core",
+      "pt": "barulho",
+      "ru": "шум",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U53",
+      "unique_key": "barulho"
+    },
+    {
+      "unit": "GA1-U54",
+      "stage": "preview",
+      "pt": "desde",
+      "ru": "с (момента)",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U54",
+      "unique_key": "desde"
+    },
+    {
+      "unit": "GA1-U54",
+      "stage": "preview",
+      "pt": "há",
+      "ru": "тому назад, уже",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U54",
+      "unique_key": "há"
+    },
+    {
+      "unit": "GA1-U54",
+      "stage": "preview",
+      "pt": "desde que",
+      "ru": "с тех пор как",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U54",
+      "unique_key": "desde que"
+    },
+    {
+      "unit": "GA1-U54",
+      "stage": "preview",
+      "pt": "há quanto tempo",
+      "ru": "как давно",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U54",
+      "unique_key": "há quanto tempo"
+    },
+    {
+      "unit": "GA1-U54",
+      "stage": "core",
+      "pt": "ontem",
+      "ru": "вчера",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U54",
+      "unique_key": "ontem"
+    },
+    {
+      "unit": "GA1-U54",
+      "stage": "core",
+      "pt": "semana",
+      "ru": "неделя",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U54",
+      "unique_key": "semana"
+    },
+    {
+      "unit": "GA1-U54",
+      "stage": "core",
+      "pt": "mês",
+      "ru": "месяц",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U54",
+      "unique_key": "mês"
+    },
+    {
+      "unit": "GA1-U54",
+      "stage": "core",
+      "pt": "ano",
+      "ru": "год",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U54",
+      "unique_key": "ano"
+    },
+    {
+      "unit": "GA1-U54",
+      "stage": "core",
+      "pt": "começar",
+      "ru": "начинать",
+      "source_status": "adapted_from_book_topic",
+      "tags": "GA1,U54",
+      "unique_key": "começar"
+    }
+  ]
+}

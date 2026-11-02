@@ -49,12 +49,20 @@ export function scheduleReview(
   grade: ReviewGrade,
   reviewedAt: number,
 ): ReviewProgress {
-  const interval = nextInterval(progress, grade, hasLowerPresentationPriority(card));
+  return scheduleReviewProgress(card.id, progress, grade, reviewedAt, hasLowerPresentationPriority(card));
+}
+
+/** Shared calculation for saved words and the legacy frequency deck. */
+export function scheduleReviewProgress(
+  cardId: string, progress: ReviewProgress | undefined, grade: ReviewGrade,
+  reviewedAt: number, lowerPriority = false,
+): ReviewProgress {
+  const interval = nextInterval(progress, grade, lowerPriority);
   const easeDelta = grade === 0 ? -0.2 : grade === 1 ? -0.12 : grade === 3 ? 0.12 : 0;
   const ease = Math.min(3.2, Math.max(1.3, (progress?.ease ?? 2.5) + easeDelta));
 
   return {
-    cardId: card.id,
+    cardId,
     due: Math.round(reviewedAt + interval * DAY_IN_MILLISECONDS),
     interval,
     ease,

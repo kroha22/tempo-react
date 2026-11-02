@@ -1,0 +1,50 @@
+.course { max-width: 760px; margin: 0 auto; padding: 16px; color: #203c2d; overflow-wrap: anywhere; }
+.course > a { display: inline-block; margin-bottom: 14px; color: #285b36; }
+.course > :global(.tempo-kicker) { display: block; }
+.course h1 { font-size: clamp(1.5rem, 5vw, 2.15rem); line-height: 1.2; margin: 8px 0 16px; }
+.course h1:focus { outline: none; }
+.course p { line-height: 1.5; }
+.list { list-style: none; padding: 0; display: grid; gap: 12px; }
+.list a { display: grid; gap: 7px; border: 1px solid #aec8a6; background: #fcfff7; border-radius: 18px; padding: 18px; text-decoration: none; color: inherit; }
+.list span, .list b { color: #34643b; }
+.list strong { font-size: 1.15rem; }
+.card { border: 1px solid #c8d6bb; background: #fffffa; padding: clamp(14px, 3vw, 24px); border-radius: 20px; display: grid; gap: 14px; }
+.card h2, .card h3, .card p { margin: 0; }
+.progress { display: flex; justify-content: space-between; gap: 12px; font-size: .9rem; }
+.prompt { font-size: 1.17rem; font-weight: 800; }
+.options { display: grid; gap: 9px; padding: 0; margin: 0 0 14px; border: 0; }
+.options label { display: flex; align-items: center; gap: 10px; min-height: 48px; border: 1px solid #aebfa4; border-radius: 12px; padding: 10px 12px; cursor: pointer; }
+.options label:has(input:checked) { background: #e8f2d7; border: 2px solid #47723c; padding: 9px 11px; }
+.options input { width: 18px; height: 18px; flex-shrink: 0; accent-color: #38652d; }
+.inputLabel { display: grid; gap: 8px; font-weight: 700; margin-bottom: 14px; }
+.inputLabel input { min-width: 0; width: 100%; box-sizing: border-box; min-height: 48px; font: inherit; border: 1px solid #6f8865; border-radius: 10px; padding: 10px; color: #203c2d; background: white; }
+.course :is(input, button, a, summary):focus-visible { outline: 3px solid #365d90; outline-offset: 3px; }
+.feedback, .error, .notice { padding: 14px; border-radius: 12px; background: #e7f1db; border: 1px solid #adc897; }
+.error { background: #fff1df; border-color: #aa6e37; color: #653d16; }
+.notice { background: #fff7d3; }
+.examples { display: grid; gap: 12px; padding: 14px; background: #f1f6e6; border-radius: 12px; }
+.examples strong, .examples span { display: block; }
+.course dl { display: grid; gap: 10px; margin: 0; }
+.course dt { font-weight: 800; }
+.course dd { margin-left: 0; }
+.course summary { min-height: 44px; padding: 10px 0; cursor: pointer; font-weight: 700; }
+.cards { display: grid; gap: 8px; }
+.next { display: block; padding: 14px; border: 1px solid #afc498; border-radius: 12px; color: #285b36; }
+.srOnly { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.unitLinks { display: flex; flex-wrap: wrap; gap: 5px; margin: 14px 0; }
+.unitLinks a { min-width: 42px; min-height: 44px; display: grid; place-items: center; border: 1px solid #b1c4a5; border-radius: 9px; color: #285b36; text-decoration: none; }
+.filters { display: grid; grid-template-columns: 1fr auto; gap: 10px; margin-bottom: 16px; align-items: end; }
+.filters label:first-child { grid-column: 1 / -1; }
+.filters label { display: grid; gap: 5px; }
+.filters input, .filters select { box-sizing: border-box; width: 100%; min-height: 44px; padding: 8px; border: 1px solid #829779; border-radius: 10px; font: inherit; background: white; color: #203c2d; }
+.flashcard { display: grid; gap: 14px; padding: 24px 14px; min-height: 180px; border: 2px solid #90b579; border-radius: 16px; background: #f4f9e7; color: #203c2d; cursor: pointer; font: inherit; }
+.flashcard > strong { font-size: 1.4rem; }
+.flashcard > span { line-height: 1.5; }
+.reviewGrades { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+.reviewFace { min-height: 132px; padding: 16px 14px; }
+.unitCard { border: 1px solid #aec8a6; background: #fcfff7; border-radius: 18px; padding: 16px; display: grid; gap: 8px; }
+.unitCard h3, .unitCard p { margin: 0; }
+.unitCard a { padding: 12px; border-radius: 10px; }
+.batchWord { text-align: center; font-size: 1.5rem; padding: 18px 0; }
+.batchHint { font-size: .85rem; }
+.batchReceipt { min-height: 24px; margin: 8px 0; font-size: .9rem; }

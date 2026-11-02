@@ -5,6 +5,7 @@ import { getDb } from "@/db";
 import { errorPatterns, learningEvents } from "@/db/schema";
 import { authenticatedUserId, unauthorizedResponse } from "@/features/learning/progress/auth";
 import { expectedContentRevision, parseLearningEventInput } from "@/features/learning/progress/contracts";
+import { gramaticaLessons, grammarAnswerCorrect } from "@/features/content/gramatica-ativa";
 
 async function findExisting(userId: string, clientEventId: string) {
   return getDb().select().from(learningEvents).where(and(
@@ -33,9 +34,29 @@ export async function POST(request: Request) {
     return Response.json({ error: "Content revision mismatch", code: "REVISION_MISMATCH", expectedRevision }, { status: 409 });
   }
 
+  const grammarLesson = gramaticaLessons.find((lesson) => lesson.id === input.lessonId);
+  if (grammarLesson && input.eventType === "exercise_attempt") {
+    const task = grammarLesson.tasks.find((item) => item.id === input.entityId);
+    const answer = input.payload.answer;
+    if (!task || typeof answer !== "string" || !answer.trim() || answer.length > 500 ||
+        input.clientEventId !== `${input.sessionId}:${task.id}` ||
+        (task.options && !task.options.includes(answer))) {
+      return Response.json({ error: "Invalid grammar attempt", code: "INVALID_INPUT" }, { status: 400 });
+    }
+    // Never trust the browser's score or assistance claim.
+    input.payload = { answer, correct: grammarAnswerCorrect(task, answer), stage: task.stage };
+  }
+  function acknowledgement(event: { clientEventId: string; payloadJson: string }) {
+    if (grammarLesson && input!.eventType === "exercise_attempt") {
+      const payload: unknown = JSON.parse(event.payloadJson);
+      if (payload && typeof payload === "object" && "answer" in payload && typeof payload.answer === "string") return { clientEventId: event.clientEventId, answer: payload.answer };
+    }
+    return { clientEventId: event.clientEventId };
+  }
+
   try {
     const existing = await findExisting(userId, input.clientEventId);
-    if (existing) return Response.json({ event: { clientEventId: existing.clientEventId }, duplicate: true });
+    if (existing) return Response.json({ event: acknowledgement(existing), duplicate: true });
 
     const event = {
       id: `event:${crypto.randomUUID()}`,
@@ -64,10 +85,10 @@ export async function POST(request: Request) {
         }),
       ]);
     } else await getDb().insert(learningEvents).values(event);
-    return Response.json({ event: { clientEventId: event.clientEventId }, duplicate: false }, { status: 201 });
+    return Response.json({ event: acknowledgement(event), duplicate: false }, { status: 201 });
   } catch {
     const raced = await findExisting(userId, input.clientEventId).catch(() => undefined);
-    if (raced) return Response.json({ event: { clientEventId: raced.clientEventId }, duplicate: true });
+    if (raced) return Response.json({ event: acknowledgement(raced), duplicate: true });
     return internalErrorResponse("Learning event");
   }
 }

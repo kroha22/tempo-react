@@ -1,10 +1,11 @@
 import type { RouteLessonExperience } from "../../../content/first-vertical-slice/route-extension.ts";
 import { createPlacement } from "../../../scenes/domain.ts";
 import { validateScenePlacement } from "../../../scenes/validation.ts";
+import type { GrammarSnapshot } from "../../progress/dto.ts";
 
 export type BoundaryIntent = Readonly<{
   lessonId: string; sessionId: string; flowRevision: number; status: "active";
-  activePhaseId: string; snapshot: { stage: "activity" }; updatedAt: number;
+  activePhaseId: string; snapshot: { stage: "activity"; grammar?: GrammarSnapshot }; updatedAt: number;
 }>;
 export type EventIntent = Readonly<{
   lessonId: string; sessionId: string; clientEventId: string; contentRevision: number;
@@ -15,7 +16,7 @@ export type CompleteIntent = Readonly<{
   lessonId: string; sessionId: string; clientEventId: string; flowRevision: number; completedAt: number;
 }>;
 export type CardIntent = Readonly<{
-  studyItemId: string; sourceType: "lesson"; sourceId: string; clientEventId: string;
+  studyItemId: string; sourceType: "lesson" | "topic"; sourceId: string; sourceContextId?: string; clientEventId: string;
 }>;
 export type CompletionIntent = Readonly<{ selection: string; events: readonly EventIntent[]; completion: CompleteIntent }>;
 
