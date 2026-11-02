@@ -2,6 +2,9 @@ import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import test from "node:test";
 import { gramaticaLessons, grammarTasks } from "../features/content/gramatica-ativa.ts";
+import { presentGrammarLessons } from "../features/content/gramatica-present.ts";
+import { pageVocabularySources } from "../features/content/gramatica-page-vocabulary.ts";
+import { gramaticaVocabulary } from "../features/content/gramatica-vocabulary.ts";
 
 const origin = new URL(process.env.TEMPO_LOCAL_TEST_URL ?? "http://localhost:3000");
 assert(["localhost", "127.0.0.1", "[::1]"].includes(origin.hostname), "Synthetic users must only target a local Worker");
@@ -57,4 +60,39 @@ test("all six grammar lessons save/resume in D1, isolate users and grade first a
   const saved = await request("/api/study-items");
   assert.equal(saved.body.items.length, 6);
   assert.equal((await request("/api/study-items", undefined, `${user}:other`)).body.items.length, 0);
+});
+
+test("eight present lessons retain independent durable attempts without changing old lessons or review schedules", async () => {
+  const identity=`${user}:present`;
+  const old={cardId:"v0043",due:1_900_000_000_000,interval:17,ease:2.6,repetitions:8,lapses:1,lastGrade:2};
+  assert.equal((await request("/api/progress",old,identity)).status,200);
+  const previous={lessonId:"lesson:a1-1:introduce-yourself",sessionId:`session:${randomUUID()}`,flowRevision:1,status:"active",snapshot:{stage:"activity"},updatedAt:Date.now()};
+  assert.equal((await request("/api/learning/progress",previous,identity)).status,200);
+  for(const lesson of presentGrammarLessons) {
+    const sessionId=`session:${randomUUID()}`;
+    const grammar={sessionId,phase:"diagnostic",index:0,answers:{}};
+    assert.equal((await request("/api/learning/progress",{lessonId:lesson.id,sessionId,flowRevision:1,status:"active",snapshot:{stage:"activity",grammar},updatedAt:Date.now()},identity)).status,200);
+    const loaded=await request("/api/learning/progress",undefined,identity);
+    assert.deepEqual(loaded.body.progress.find(p=>p.lessonId===lesson.id).snapshot.grammar,grammar);
+    const complete={lessonId:lesson.id,sessionId,flowRevision:1,clientEventId:`complete:${sessionId}`,completedAt:Date.now()};
+    assert.equal((await request("/api/learning/complete",complete,identity)).status,409);
+    for(const task of grammarTasks(lesson,"exit")) assert.equal((await request("/api/learning/events",{lessonId:lesson.id,sessionId,clientEventId:`${sessionId}:${task.id}`,entityId:task.id,eventType:"exercise_attempt",contentRevision:1,payload:{answer:task.answers[0]},occurredAt:Date.now()},identity)).status,201);
+    assert.equal((await request("/api/learning/complete",complete,identity)).body.attemptCanDoResult,"demonstrated");
+  }
+  assert.deepEqual((await request("/api/progress",undefined,identity)).body.progress,[old]);
+  assert.deepEqual((await request("/api/learning/progress",undefined,identity)).body.progress.find(p=>p.lessonId===previous.lessonId).snapshot,previous.snapshot);
+  for(const source of pageVocabularySources) {
+    const entry=gramaticaVocabulary.find(e=>e.sourceRowIds.includes(source.id));
+    const save={studyItemId:entry.studyItemId,sourceType:"topic",sourceId:"course:ga1:pt-pt",sourceContextId:`unit:ga1:u${source.unit.slice(-2)}`,clientEventId:`card:${randomUUID()}`};
+    assert.equal((await request("/api/study-items",save,identity)).status,200);
+    assert.equal((await request("/api/study-items",save,identity)).status,200);
+  }
+  const queue=await request("/api/study-reviews",undefined,identity);
+  assert.equal(queue.body.cards.length,16);
+  const first=queue.body.cards[0];
+  const reviewed=await request("/api/study-reviews",{studyItemId:first.studyItemId,clientEventId:`review:${randomUUID()}`,expectedVersion:0,grade:2},identity);
+  assert.equal(reviewed.status,200);
+  assert.equal(reviewed.body.card.reviewItemId,first.reviewItemId);
+  assert.equal(reviewed.body.card.version,1);
+  assert.deepEqual((await request("/api/progress",undefined,identity)).body.progress,[old]);
 });

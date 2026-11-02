@@ -7,7 +7,7 @@ import { learningEvents, lessonProgress } from "@/db/schema";
 import { firstVerticalSliceContentPack } from "@/features/content/manifest";
 import { authenticatedUserId, unauthorizedResponse } from "@/features/learning/progress/auth";
 import { expectedContentRevision, parseCompleteLessonInput } from "@/features/learning/progress/contracts";
-import { gramaticaLessons, grammarExitResult } from "@/features/content/gramatica-ativa";
+import { allGramaticaLessons as gramaticaLessons, grammarExitResult } from "@/features/content/gramatica-ativa";
 
 export async function POST(request: Request) {
   const userId = authenticatedUserId(request);

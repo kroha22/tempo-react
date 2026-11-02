@@ -6,7 +6,7 @@ import { getDb } from "@/db";
 import { lessonProgress } from "@/db/schema";
 import { authenticatedUserId, unauthorizedResponse } from "@/features/learning/progress/auth";
 import { expectedContentRevision, parseLessonProgressInput } from "@/features/learning/progress/contracts";
-import { gramaticaLessons } from "@/features/content/gramatica-ativa";
+import { allGramaticaLessons as gramaticaLessons } from "@/features/content/gramatica-ativa";
 import { validGrammarSnapshot } from "@/features/learning/gramatica/session";
 
 export async function GET(request: Request) {

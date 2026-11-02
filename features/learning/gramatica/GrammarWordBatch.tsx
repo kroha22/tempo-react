@@ -56,6 +56,7 @@ export function GrammarWordBatch({ unit, practiceOnly = false }: { unit: number;
       <Button variant="secondary" onClick={() => { setChoices({}); setIndex(0); setReceipt(""); setRevealed(false); }}>Посмотреть слова ещё раз</Button>
     </article>}
     {lesson && <LegacyLessonLink className={styles.next} href={`/learning/practice?lesson=${lesson.lessonId}`}>К объяснению и практике: {lesson.title} →</LegacyLessonLink>}
+    {lesson?.practiceSlug && <LegacyLessonLink className={styles.next} href={`/learning/gramatica-ativa/${lesson.practiceSlug}`}>Проверить себя по уроку {unit} →</LegacyLessonLink>}
     <LegacyLessonLink href={vocabularyHref(unit)}>Открыть словарь урока →</LegacyLessonLink>
   </section>;
 }

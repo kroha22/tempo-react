@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { gramaticaLessons, diagnosticPassed, grammarAnswerCorrect, grammarExitResult, grammarTasks, type GrammarLesson } from "../../content/gramatica-ativa";
+import { allGramaticaLessons as gramaticaLessons, diagnosticPassed, grammarAnswerCorrect, grammarExitResult, grammarTasks, type GrammarLesson } from "../../content/gramatica-ativa";
 import { LegacyLessonLink } from "../../practice/LegacyLessonLink";
 import { Button } from "@/shared/ui/Button";
 import { currentGrammarTask } from "./session";
@@ -32,12 +32,12 @@ export function GrammarCourse({ slug, practiceOnly = false }: { slug?: string; p
     <LegacyLessonLink className={styles.next} href={vocabularyHref()}>Словарь и карточки всех 54 уроков →</LegacyLessonLink>
     <LegacyLessonLink className={styles.next} href={reviewHref()}>Повторить сохранённые карточки →</LegacyLessonLink>
     {practiceOnly && <p className={styles.notice}>В демо доступны все задания. Серверный прогресс и сохранение карточек здесь недоступны.</p>}
-    <h2>Уроки 1–3 · Повторение</h2>
-    <p>Готовые объяснения и практика SER/ESTAR. Выберите слова или сразу откройте урок.</p>
-    <ol className={styles.list}>{firstGrammarUnits.map((l) => <li key={l.unit} className={styles.unitCard}><span>Урок {l.unit}</span><h3>{l.title}</h3><p>{l.summary}</p><LegacyLessonLink href={wordBatchHref(l.unit)}>Разобрать слова →</LegacyLessonLink><LegacyLessonLink href={`/learning/practice?lesson=${l.lessonId}`}>Объяснение и практика →</LegacyLessonLink></li>)}</ol>
-    <p>Уроки 4–17 и 24–54 ещё готовятся к включению в книжный маршрут. Их словари уже доступны.</p>
+    <h2>Уроки 1–11 · Повторение</h2>
+    <p>Готовые объяснения и быстрые пачки слов. Для уроков 4–11 добавлена отдельная проверка с вводом ответа и разбором ошибок.</p>
+    <ol className={styles.list}>{firstGrammarUnits.map((l) => <li key={l.unit} className={styles.unitCard}><span>Урок {l.unit}</span><h3>{l.title}</h3><p>{l.summary}</p><LegacyLessonLink href={wordBatchHref(l.unit)}>Разобрать слова →</LegacyLessonLink><LegacyLessonLink href={`/learning/practice?lesson=${l.lessonId}`}>Объяснение и практика →</LegacyLessonLink>{l.practiceSlug && <LegacyLessonLink href={`/learning/gramatica-ativa/${l.practiceSlug}`}>Проверить себя →</LegacyLessonLink>}{l.unit === 7 && <LegacyLessonLink href="/learning/trazer">Ещё практика TRAZER →</LegacyLessonLink>}</li>)}</ol>
+    <p>Уроки 12–17 и 24–54 ещё готовятся к включению в книжный маршрут. Их словари уже доступны.</p>
     <h2>Уроки 18–23 · Диагностика и обучение</h2>
-    <ol className={styles.list}>{gramaticaLessons.map((l) => <li key={l.id}><LegacyLessonLink href={`/learning/gramatica-ativa/${l.slug}`}><span>Урок {l.unit}</span><strong>{l.title}</strong><small>{l.canDo}</small><b>Начать →</b></LegacyLessonLink></li>)}</ol>
+    <ol className={styles.list}>{gramaticaLessons.filter((l) => l.unit >= 18).map((l) => <li key={l.id}><LegacyLessonLink href={`/learning/gramatica-ativa/${l.slug}`}><span>Урок {l.unit}</span><strong>{l.title}</strong><small>{l.canDo}</small><b>Начать →</b></LegacyLessonLink></li>)}</ol>
   </section>;
 }
 function GrammarLessonView({ lesson, practiceOnly }: { lesson: GrammarLesson; practiceOnly: boolean }) {
@@ -59,6 +59,8 @@ function GrammarLessonView({ lesson, practiceOnly }: { lesson: GrammarLesson; pr
     <span className="tempo-kicker">Урок {lesson.unit} · Взрослый вариант</span>
     <h1 ref={heading} tabIndex={-1}>{lesson.title}</h1>
     <LegacyLessonLink href={vocabularyHref(lesson.unit)}>Слова и карточки урока {lesson.unit} →</LegacyLessonLink>
+    <LegacyLessonLink href={wordBatchHref(lesson.unit)}>Быстро разобрать слова →</LegacyLessonLink>
+    {firstGrammarUnits.find((l) => l.unit === lesson.unit) && <LegacyLessonLink href={`/learning/practice?lesson=${firstGrammarUnits.find((l) => l.unit === lesson.unit)!.lessonId}`}>Открыть прежнее объяснение и практику →</LegacyLessonLink>}
     {practiceOnly && <p className={styles.notice}>Тренировка в демо: результат не сохраняется на сервере.</p>}
     {error && <div role="alert" className={styles.error}><p>{error}</p><Button variant="secondary" onClick={session.retry} disabled={busy}>Повторить сохранение</Button></div>}
     {view.status === "loading" && <p role="status">Загружаем прогресс…</p>}
@@ -66,7 +68,7 @@ function GrammarLessonView({ lesson, practiceOnly }: { lesson: GrammarLesson; pr
       <h2>{diagnosticPassed(lesson, view.snapshot.answers) ? "Коротко освежим правило" : "Разберёмся по шагам"}</h2>
       <p>{lesson.canDo}</p><p>{lesson.rule}</p>
       <div className={styles.examples}>{lesson.examples.map((e) => <p key={e.pt}><strong lang="pt-PT">{e.pt}</strong><span>{e.ru}</span></p>)}</div>
-      <h3>Четыре выражения для урока</h3><dl>{lesson.vocabulary.map((v) => <div key={v.slug}><dt lang="pt-PT">{v.pt}</dt><dd>{v.ru}</dd></div>)}</dl>
+      {lesson.vocabulary.length > 0 && <><h3>Выражения для урока</h3><dl>{lesson.vocabulary.map((v) => <div key={v.slug}><dt lang="pt-PT">{v.pt}</dt><dd>{v.ru}</dd></div>)}</dl></>}
       <details><summary>Что повторяем</summary><p>{lesson.review.join(" · ")}</p></details>
       <Button onClick={() => { setAnswer(""); session.next(); }} disabled={busy || !!error}>{diagnosticPassed(lesson, view.snapshot.answers) ? "К самостоятельной проверке" : "Перейти к практике"}</Button>
     </article>}
@@ -80,7 +82,7 @@ function GrammarLessonView({ lesson, practiceOnly }: { lesson: GrammarLesson; pr
       </form>
       {checked && <div className={correct ? styles.feedback : styles.error} role="status"><strong>{correct ? "Верно" : "Нужно повторить"}</strong>{!correct && <p>Ответ: <span lang="pt-PT">{task.answers[0]}</span></p>}<p>{task.explanation}</p></div>}
       {checked && <Button onClick={() => { setAnswer(""); session.next(); }} disabled={busy || !!error}>{view.snapshot.phase === "exit" && view.snapshot.index === 4 ? "Посмотреть итог" : "Дальше"}</Button>}
-      {view.snapshot.phase !== "diagnostic" && <details><summary>Словарь урока</summary><dl>{lesson.vocabulary.map((v) => <div key={v.slug}><dt lang="pt-PT">{v.pt}</dt><dd>{v.ru}</dd></div>)}</dl></details>}
+      {view.snapshot.phase !== "diagnostic" && lesson.vocabulary.length > 0 && <details><summary>Словарь урока</summary><dl>{lesson.vocabulary.map((v) => <div key={v.slug}><dt lang="pt-PT">{v.pt}</dt><dd>{v.ru}</dd></div>)}</dl></details>}
     </article>}
     {view.status === "summary" && <article className={styles.card}>
       <h2>{view.demonstrated ? "Получилось!" : "Проверка завершена — есть что повторить"}</h2>
@@ -88,7 +90,7 @@ function GrammarLessonView({ lesson, practiceOnly }: { lesson: GrammarLesson; pr
       <p>{view.demonstrated ? lesson.canDo : "Нужно не менее 4 из 5 и верное ключевое задание. Повторите правило и попробуйте новую попытку."}</p>
       <p>{practiceOnly ? "Это результат текущей тренировки." : "Результат подтверждён сервером. Завершение урока не означает устойчивого освоения — вернитесь к теме после перерыва."}</p>
       {exitMistakes.length > 0 && <ul>{exitMistakes.map((t) => <li key={t.id}><b>{t.prompt}</b><p>{t.explanation}</p><span lang="pt-PT">{t.answers[0]}</span></li>)}</ul>}
-      {!practiceOnly && <><h3>Сохранить выражения в карточки</h3><div className={styles.cards}>{lesson.vocabulary.map((v) => { const id = `study:chunk:ga1:${v.slug}`; const saved = session.savedIds.includes(id); return <Button key={id} variant="secondary" disabled={busy || saved || !!error} onClick={() => session.saveCard(id)}><span lang="pt-PT">{v.pt}</span> · {saved ? "Сохранено ✓" : "+ В карточки"}</Button>; })}</div></>}
+      {!practiceOnly && lesson.vocabulary.length > 0 && <><h3>Сохранить выражения в карточки</h3><div className={styles.cards}>{lesson.vocabulary.map((v) => { const id = `study:chunk:ga1:${v.slug}`; const saved = session.savedIds.includes(id); return <Button key={id} variant="secondary" disabled={busy || saved || !!error} onClick={() => session.saveCard(id)}><span lang="pt-PT">{v.pt}</span> · {saved ? "Сохранено ✓" : "+ В карточки"}</Button>; })}</div></>}
       <Button variant="secondary" onClick={() => { setAnswer(""); session.restart(); }} disabled={busy || !!error}>Повторить урок</Button>
       {nextLesson && <LegacyLessonLink className={styles.next} href={`/learning/gramatica-ativa/${nextLesson.slug}`}>Урок {nextLesson.unit}: {nextLesson.title} →</LegacyLessonLink>}
     </article>}

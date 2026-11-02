@@ -1,7 +1,7 @@
 "use client";
 import { useMemo, useState } from "react";
-import { gramaticaLessons } from "../../content/gramatica-ativa";
-import { gramaticaVocabulary, vocabularyForUnit, vocabularyFront, vocabularyHref, vocabularySources } from "../../content/gramatica-vocabulary";
+import { allGramaticaLessons as gramaticaLessons } from "../../content/gramatica-ativa";
+import { gramaticaVocabulary, vocabularyForUnit, vocabularyFront, vocabularyHref, allVocabularySources as vocabularySources } from "../../content/gramatica-vocabulary";
 import type { WordClass } from "../../content/gramatica-vocabulary-editorial";
 import { LegacyLessonLink } from "../../practice/LegacyLessonLink";
 import { Button } from "@/shared/ui/Button";
@@ -46,6 +46,7 @@ export function GrammarVocabulary({ unit, practiceOnly = false }: { unit?: numbe
         <small>{flipped ? "Скрыть ответ" : "Нажмите, чтобы увидеть ответ"}</small>
       </button>
       {flipped && <div className={styles.examples} role="status"><strong lang={reverse ? "pt-PT" : "ru"}>{reverse ? vocabularyFront(entry) : entry.translation}</strong>
+        {vocabularySources.filter((r) => entry.sourceRowIds.includes(r.id) && r.pdfPages && (!unit || Number(r.unit.slice(-2)) === unit)).map((r) => <p key={r.id}>Проверено по книге: урок {Number(r.unit.slice(-2))}, стр. {r.printedPages?.join("–")} (PDF {r.pdfPages?.join("–")}).</p>)}
         {entry.noun?.pluralOnly && <p>Используется во множественном числе.</p>}
         {entry.government && <p lang="pt-PT">{entry.government}</p>}
         {entry.partOfSpeech === "verb" && entry.forms.some((f) => f !== entry.lemma) && <p>Формы в источнике: <span lang="pt-PT">{entry.forms.filter((f) => f !== entry.lemma).join(", ")}</span></p>}

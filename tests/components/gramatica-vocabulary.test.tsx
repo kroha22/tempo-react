@@ -10,7 +10,7 @@ vi.mock("../../features/cards/api/saved-items", () => ({ loadSavedItems: vi.fn()
 describe("adult vocabulary cards", () => {
   it("flips, filters both stages and provides all 54 unit destinations in the demo", async () => {
     render(<GrammarCourse slug="vocabulary" practiceOnly />);
-    expect(screen.getByText(/Всего значений: 362/)).toBeInTheDocument();
+    expect(screen.getByText(/Всего значений: 375/)).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "54", hidden: true })).toHaveAttribute("href", "/learning/gramatica-ativa/vocabulary/u54");
     fireEvent.click(screen.getByRole("button", { name: "Показать ответ" }));
     expect(screen.getByRole("status")).toHaveTextContent("врач");

@@ -5,7 +5,7 @@ import { getDb } from "@/db";
 import { errorPatterns, learningEvents } from "@/db/schema";
 import { authenticatedUserId, unauthorizedResponse } from "@/features/learning/progress/auth";
 import { expectedContentRevision, parseLearningEventInput } from "@/features/learning/progress/contracts";
-import { gramaticaLessons, grammarAnswerCorrect } from "@/features/content/gramatica-ativa";
+import { allGramaticaLessons as gramaticaLessons, grammarAnswerCorrect } from "@/features/content/gramatica-ativa";
 
 async function findExisting(userId: string, clientEventId: string) {
   return getDb().select().from(learningEvents).where(and(

@@ -1,4 +1,6 @@
 /** Authored pt-PT adaptations; source unit numbers are aliases, never progress IDs. */
+import { grammarLesson as lesson } from "./gramatica-lesson-factory.ts";
+import { presentGrammarLessons } from "./gramatica-present.ts";
 export type GrammarStage = "diagnostic" | "guided" | "exit";
 export type GrammarTask = {
   id: string; stage: GrammarStage; prompt: string; answers: string[];
@@ -10,23 +12,6 @@ export type GrammarLesson = {
   vocabulary: { slug: string; pt: string; ru: string; example: string; exampleRu: string }[];
   review: string[]; tasks: GrammarTask[];
 };
-type Seed = [slug: string, prompt: string, answer: string | string[], explanation: string, distractors?: string[]];
-function tasks(slug: string, stage: GrammarStage, rows: Seed[]): GrammarTask[] {
-  return rows.map(([key, prompt, answer, explanation, distractors], index) => {
-    const answers = Array.isArray(answer) ? answer : [answer];
-    const options = distractors ? [answers[0], ...distractors] : undefined;
-    // Keep authored order stable, without always placing the key first.
-    if (options) options.push(...options.splice(0, index % options.length));
-    return { id: `exercise:ga1:${slug}:${stage}:${key}`, stage, prompt, answers, options,
-      explanation, target: `grammar:ga1:${slug}`, critical: stage === "exit" && index === 4 };
-  });
-}
-function lesson(slug: string, unit: number, title: string, canDo: string, rule: string,
-  examples: GrammarLesson["examples"], vocabulary: GrammarLesson["vocabulary"], review: string[],
-  diagnostic: Seed[], guided: Seed[], exit: Seed[]): GrammarLesson {
-  return { id: `lesson:ga1:${slug}`, slug, unit, title, canDo, rule, examples, vocabulary, review,
-    tasks: [...tasks(slug, "diagnostic", diagnostic), ...tasks(slug, "guided", guided), ...tasks(slug, "exit", exit)] };
-}
 export const gramaticaLessons: GrammarLesson[] = [
   lesson("past-background", 18, "Возраст, часы и параллельные действия",
     "Я могу назвать возраст и время в прошлом и описать два одновременных действия.",
@@ -197,6 +182,8 @@ export const gramaticaLessons: GrammarLesson[] = [
       ["recent-we", "Впиши LER через ACABAR в perfeito + DE: Nós ___ o texto agora mesmo.", "acabámos de ler", "Nós acabámos de ler — только что прочитали; используется pt-PT acabámos."],
     ]),
 ];
+
+export const allGramaticaLessons = [...presentGrammarLessons, ...gramaticaLessons];
 
 export function normalizeGrammarAnswer(value: string) {
   return value.normalize("NFC").trim().toLocaleLowerCase("pt-PT").replace(/\s+/gu, " ").replace(/[.!?…]+$/u, "").trim();
