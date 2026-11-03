@@ -7,6 +7,7 @@ import { browserPracticePlanStorage } from "./practice-plan-storage";
 import { ProfileManager } from "./ProfileManager";
 import type { LocalProfile } from "./profiles";
 import {useProfileLearning} from "../features/practice/profile-learning";
+import {beingDestinationForHref} from "../features/practice/being-navigation";
 
 export function Demo() {
   return <ProfileManager>{profile=><ProfileDemo profile={profile}/>}</ProfileManager>;
@@ -50,7 +51,7 @@ function ProfileDemo({profile}:{profile?:LocalProfile}) {
     </header>
     <RelatedLearningNavigation value={navigate}>
       <div ref={main} hidden={!!href}><PracticeScreen profileName={profile?.name} initialChildMode={initialChildMode} initialSection={resumeTopic?"vocabulary":"lessons"} resumeTopicId={resumeTopic} resumePlan={!!profile&&!resumeTopic} /></div>
-      {!!href && <div ref={related}><RelatedLearning key={href} href={href} onBack={() => navigate("")} /></div>}
+      {!!href && <div ref={related}><RelatedLearning key={beingDestinationForHref(href)?"being-lesson":href} href={href} onBack={() => navigate("")} /></div>}
     </RelatedLearningNavigation>
   </div>;
 }

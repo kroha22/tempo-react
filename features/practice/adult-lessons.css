@@ -99,8 +99,8 @@
 .adult-practice-bridge > div { display: grid; gap: 3px; }
 .adult-practice-bridge > div span { color: #7a6840; font-size: 9px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
 .adult-practice-bridge > div strong { color: #214f3b; font-size: 15px; }
-.adult-practice-bridge button { min-height: 44px; padding: 9px 15px; flex: 0 0 auto; border: 0; border-radius: 999px; background: #2d7252; color: #fff; cursor: pointer; font: inherit; font-weight: 900; }
-.adult-practice-bridge button:focus-visible { outline: 3px solid #f0c83f; outline-offset: 2px; }
+.adult-practice-bridge button,.adult-practice-bridge a { display:inline-flex;align-items:center;justify-content:center;min-height: 44px; padding: 9px 15px; flex: 0 0 auto; border: 0; border-radius: 999px; background: #2d7252; color: #fff; cursor: pointer; font: inherit; font-weight: 900;text-decoration:none; }
+.adult-practice-bridge button:focus-visible,.adult-practice-bridge a:focus-visible { outline: 3px solid #f0c83f; outline-offset: 2px; }
 .adult-lesson-controls { display: flex; justify-content: space-between; gap: 10px; padding: 24px 38px 34px; }
 .adult-lesson-controls button { min-height: 44px; padding: 9px 16px; border: 1px solid #cddfd3; border-radius: 12px; color: #245e44; background: #f4faf5; font: inherit; font-weight: 900; cursor: pointer; }
 .adult-lesson-controls button:disabled { opacity: .35; cursor: default; }
@@ -163,7 +163,7 @@
   .adult-examples p { grid-template-columns: 1fr; gap: 3px; }
   .adult-check { padding: 20px; }
   .adult-practice-bridge { margin: 16px 20px 0; padding: 15px; align-items: stretch; flex-direction: column; gap: 12px; }
-  .adult-practice-bridge button { width: 100%; }
+  .adult-practice-bridge button,.adult-practice-bridge a { width: 100%; }
   .adult-check-options button { flex: 1 1 100px; }
   .adult-lesson-controls { padding: 16px; }
 }

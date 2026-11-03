@@ -5,10 +5,14 @@ import type { ChildStep } from "@/features/practice/practice-types";
 import { parsePresentationMode } from "@/features/learning/presentation-mode";
 import Link from "next/link";
 import {shortGrammarLessons} from "@/features/content/short-grammar-lessons";
+import {BeingLesson} from "@/features/practice/BeingLesson";
+import {beingDestination} from "@/features/practice/being-navigation";
 
-export default async function PracticePage({ searchParams }: { searchParams: Promise<{ mode?: string | string[]; verb?: string; tense?: string;lesson?:string }> }) {
+export default async function PracticePage({ searchParams }: { searchParams: Promise<{ mode?: string | string[]; verb?: string; tense?: string;lesson?:string;view?:string }> }) {
   const query = await searchParams;
   const presentationMode = parsePresentationMode(query.mode);
+  const being=beingDestination({...query,mode:typeof query.mode==="string"?query.mode:undefined});
+  if(being)return <AppShell current="learning"><BeingLesson {...being} childMode={presentationMode==="kingdoms"}/></AppShell>;
   const hasRequestedVerb = allVerbKeys.includes(query.verb as VerbKey);
   const verb = hasRequestedVerb ? query.verb as VerbKey : "fazer";
   const tense: Tense = query.tense === "past" ? "past" : "present";

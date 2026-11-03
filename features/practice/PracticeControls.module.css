@@ -108,7 +108,7 @@
 
 .adultBeingEntry > span { color: #71429b; }
 
-.adultBeingEntry button {
+.adultBeingEntry button,.adultBeingEntry a {
   min-height: 28px;
   padding: 4px 8px;
   border: 0;
@@ -119,10 +119,12 @@
   font-family: "Fredoka", sans-serif;
   font-size: 10px;
   font-weight: 800;
+  text-decoration: none;
 }
 
 .adultBeingEntry button:nth-of-type(2) { color: #187e7e; }
 .adultBeingEntry button:nth-of-type(3) { color: #8a5b15; }
+.adultBeingEntry a {display:inline-flex;align-items:center;min-height:44px;}
 
 .adultActionEntry {
   padding: 3px;
@@ -285,9 +287,9 @@
   .childLessonBar { min-height: 34px; padding: 3px 7px; border-radius: 14px 14px 0 0; }
   .childLessonBar button { min-height: 28px; padding: 3px 8px; font-size: 9px; }
   .chosenKingdom { max-width: 58%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 10px; }
-  .adultBeingEntry { display: grid; grid-template-columns: auto repeat(3, 1fr); }
+  .adultBeingEntry { display: grid; grid-template-columns: auto repeat(2, 1fr); }
   .adultBeingEntry > span { text-align: center; }
-  .adultBeingEntry button { min-height: 40px; padding: 6px 8px; font-size: 10px; }
+  .adultBeingEntry button,.adultBeingEntry a { min-height: 44px; padding: 6px 8px; font-size: 10px; }
   .adultActionEntry { display: grid; grid-template-columns: auto 1fr 1fr; }
   .adultActionEntry > span { text-align: center; }
   .adultActionEntry button { min-height: 40px; padding: 6px 8px; font-size: 10px; }

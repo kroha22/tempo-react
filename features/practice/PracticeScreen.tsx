@@ -48,9 +48,10 @@ type PracticeClientProps = {
   resumePlan?:boolean;
   initialGrammarLessonId?:string;
   onOpenLessons?:()=>void;
+  focusedBeing?:boolean;
 };
 
-export default function PracticeScreen({ initialVerbKey = "fazer", initialTense = "present", initialChildMode = false, initialChildStep, initialSection = "trainer",profileName,resumeTopicId,resumePlan=false,initialGrammarLessonId,onOpenLessons }: PracticeClientProps) {
+export default function PracticeScreen({ initialVerbKey = "fazer", initialTense = "present", initialChildMode = false, initialChildStep, initialSection = "trainer",profileName,resumeTopicId,resumePlan=false,initialGrammarLessonId,onOpenLessons,focusedBeing=false }: PracticeClientProps) {
   const learner=useProfileLearning();
   const plan=usePracticePlan();
   const [allLessons,setAllLessons]=useState(!!initialGrammarLessonId);
@@ -238,6 +239,18 @@ export default function PracticeScreen({ initialVerbKey = "fazer", initialTense 
     dispatch({ type: "nextQuestion", chips: shuffledChips() });
   }
 
+  const formExercise=(mode==="learn"||mode==="practice")?<SunFormExercise mode={mode} tense={tense} verb={verb} forms={forms} chips={chips} placed={placed} placedChipKeys={placedChipKeys} selectedChip={selectedChip} mistake={mistake} completed={completed} onPlace={tryPlace} onSelectChip={chip=>dispatch({type:"chipSelected",chip})} onRestartPractice={()=>reset("practice")}/>:<QuizExercise key={`${mode}:${verb.infinitive}:${tense}`} mode={mode} round={round} tense={tense} verb={verb} forms={forms} questionPerson={questionPerson} correctForm={correctForm} chooseOptions={chooseOptions} quizSelection={quizSelection} quizResult={quizResult} onAnswer={answerQuiz} onNext={nextQuestion}/>;
+
+  if(focusedBeing)return <ChildPresentation value={childMode}><section className={styles.beingForms} aria-label={`Тренажёр форм ${verb.infinitive.toUpperCase()}`}>
+    <div className={styles.beingModes} role="group" aria-label="Режим тренировки форм">
+      <button type="button" aria-pressed={mode==="learn"} onClick={()=>reset("learn")}>Смотреть формы</button>
+      <button type="button" aria-pressed={mode==="practice"} onClick={()=>reset("practice")}>Собрать формы</button>
+      <button type="button" aria-pressed={mode==="choose"} onClick={()=>reset("choose")}>Выбрать форму</button>
+      <button type="button" aria-pressed={mode==="reverse"} onClick={()=>reset("reverse")}>Узнать местоимение</button>
+    </div>
+    {formExercise}
+  </section></ChildPresentation>;
+
   return (
     <ChildPresentation value={childMode}><div className={`${styles.screen} practice-screen ${childMode ? "kids-mode kids-theme" : ""} kingdom-${group}`}>
       <PracticeTopbar
@@ -394,38 +407,7 @@ export default function PracticeScreen({ initialVerbKey = "fazer", initialTense 
         />
         {!childMode && <AdultRulePanel group={group} tense={tense} verb={verb} forms={forms} />}
 
-        {(mode === "learn" || mode === "practice") ? (
-          <SunFormExercise
-            mode={mode}
-            tense={tense}
-            verb={verb}
-            forms={forms}
-            chips={chips}
-            placed={placed}
-            placedChipKeys={placedChipKeys}
-            selectedChip={selectedChip}
-            mistake={mistake}
-            completed={completed}
-            onPlace={tryPlace}
-            onSelectChip={(chip) => dispatch({ type: "chipSelected", chip })}
-            onRestartPractice={() => reset("practice")}
-          />
-        ) : (
-          <QuizExercise key={`${mode}:${verb.infinitive}:${tense}`}
-            mode={mode}
-            round={round}
-            tense={tense}
-            verb={verb}
-            forms={forms}
-            questionPerson={questionPerson}
-            correctForm={correctForm}
-            chooseOptions={chooseOptions}
-            quizSelection={quizSelection}
-            quizResult={quizResult}
-            onAnswer={answerQuiz}
-            onNext={nextQuestion}
-          />
-        )}
+        {formExercise}
         </>}
       </section> : section === "lessons"&&planEnabled&&!allLessons ? <ChildPracticePlan key={launch.revision} initialStepId={launch.id} onOpenCatalog={()=>changeSection("vocabulary")}/> : section === "lessons"&&initialGrammarLessonId ? <><button type="button" onClick={openConjugationOverview}>Все спряжения →</button><AdultLessons singleLesson showPractice consolidateBeing childMode={childMode} activeLessonId={activeLessonId} onLessonChange={setActiveLessonId} onOpenPractice={openLessonPractice} onOpenConjugationOverview={openConjugationOverview}/></> : section === "vocabulary"||section === "lessons" ? <VocabularyHub key={catalogRevision} initialChildMode={childMode} initialTopicId={catalogRevision===0?resumeTopicId:null} onOpenPlan={plan?()=>changeSection("lessons"):undefined} onOpenCards={() => changeSection("cards")} /> : <Flashcards />}
 

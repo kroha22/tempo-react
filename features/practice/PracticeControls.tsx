@@ -2,6 +2,8 @@ import type { ConjugationVerb, Tense, VerbGroup } from "@/features/conjugation/d
 import { PracticeModeSwitch } from "@/features/practice/PracticeModeSwitch";
 import type { PracticeMode } from "./practice-types";
 import styles from "./PracticeControls.module.css";
+import {LegacyLessonLink} from "./LegacyLessonLink";
+import {beingHref} from "./being-navigation";
 
 type PracticeControlsProps = {
   childMode: boolean;
@@ -30,7 +32,6 @@ export function PracticeControls({
   onReturnToChildRules,
   onChangeTense,
   onChangeGroup,
-  onOpenBeingGuide,
   onOpenActionGuide,
   onOpenTerGuide,
   onStepVerb,
@@ -61,10 +62,9 @@ export function PracticeControls({
             </div>
             {!childMode && (
               <>
-                <div className={styles.adultBeingEntry} role="group" aria-label="Правила для ser, estar и ter">
+                <div className={styles.adultBeingEntry} role="group" aria-label="Объяснения SER/ESTAR и TER">
                   <span>Быть / иметь</span>
-                  <button onClick={() => onOpenBeingGuide("ser")}>SER</button>
-                  <button onClick={() => onOpenBeingGuide("estar")}>ESTAR</button>
+                  <LegacyLessonLink href={beingHref()}>Объяснение SER / ESTAR</LegacyLessonLink>
                   <button onClick={onOpenTerGuide}>TER</button>
                 </div>
                 <div className={styles.adultActionEntry} role="group" aria-label="Урок обычно или прямо сейчас">

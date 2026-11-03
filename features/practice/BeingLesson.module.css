@@ -1,0 +1,7 @@
+.lesson {min-width:0;}
+.navigation {display:flex;gap:8px;flex-wrap:wrap;margin:18px 0;}
+.navigation a,.back {display:inline-flex;align-items:center;min-height:44px;padding:8px 14px;border:1px solid #adc5b6;border-radius:14px;background:#fffdf5;color:#294b39;text-decoration:none;font-weight:800;}
+.navigation a[aria-current=page] {background:#d5eadc;outline:2px solid #52876b;}
+.navigation a:focus-visible,.back:focus-visible {outline:3px solid #8056a6;outline-offset:3px;}
+.lesson h1:not(:global(.sr-only)) {font-size:clamp(26px,4vw,38px);line-height:1.15;}
+@media(max-width:620px){.navigation{gap:6px}.navigation a{padding:8px 10px;font-size:14px}}

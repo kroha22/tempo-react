@@ -10,6 +10,8 @@ import {ShortGrammarQuiz} from "./ShortGrammarQuiz";
 import {DescriptionReading,DescriptionParagraph} from "./DescriptionReading";
 import {shortGrammarReading} from "../content/grammar-reading";
 import {readingSource} from "../content/reading-sources";
+import {LegacyLessonLink} from "./LegacyLessonLink";
+import {beingHref} from "./being-navigation";
 
 const pastPanels = {
   pps: {
@@ -110,7 +112,7 @@ export default function AdultLessons({ activeLessonId, onLessonChange, onOpenPra
 
         <article className="adult-lesson-card" key={lesson.id}>
           <header className="adult-lesson-heading">
-            <div><span>{lesson.chapter} · урок {activeIndex + 1}</span><h2>{lesson.title}</h2><p>{lesson.subtitle}</p></div>
+            <div><span>{lesson.chapter} · {combinedBeing?"SER / ESTAR":`урок ${activeIndex + 1}`}</span><h2>{lesson.title}</h2><p>{lesson.subtitle}</p></div>
           </header>
 
           {["ser","estar","ser-estar"].includes(lesson.id)?<div className="adult-being-explanation"><SerEstarExplanation childMode={learner?.profile.child??childMode} focus={combinedBeing?"both":lesson.id==="ser"?"ser":lesson.id==="estar"?"estar":"both"}/></div>:<div className="adult-rule">
@@ -153,12 +155,12 @@ export default function AdultLessons({ activeLessonId, onLessonChange, onOpenPra
 
           {checks.map(check=><ShortGrammarQuiz key={check.id} lesson={check}/>)}
 
-          {(!singleLesson||showPractice) && lesson.practice && <aside className="adult-practice-bridge" aria-label="Практика этого урока">
+          {(!singleLesson||showPractice) && lesson.practice && !combinedBeing && <aside className="adult-practice-bridge" aria-label="Практика этого урока">
             <div><span>Связано с уроком</span><strong>Закрепи это правило на тех же формах</strong></div>
             <button onClick={() => onOpenPractice(lesson.practice!)}>Потренировать формы <span aria-hidden="true">→</span></button>
           </aside>}
 
-          {combinedBeing&&showPractice&&<aside className="adult-practice-bridge" aria-label="Практика ESTAR"><strong>Формы ESTAR</strong><button onClick={()=>onOpenPractice(lessons.find(item=>item.id==="estar")!.practice!)}>Потренировать ESTAR →</button></aside>}
+          {combinedBeing&&showPractice&&<aside className="adult-practice-bridge" aria-label="Тренировка форм SER и ESTAR"><div><span>Дальше · спряжение</span><strong>Выберите глагол для тренировки форм</strong></div><div className="house-tools"><LegacyLessonLink href={beingHref("forms","ser",learner?.profile.child??childMode)}>Формы SER →</LegacyLessonLink><LegacyLessonLink href={beingHref("forms","estar",learner?.profile.child??childMode)}>Формы ESTAR →</LegacyLessonLink></div></aside>}
 
           {!singleLesson && <footer className="adult-lesson-controls">
             <button disabled={activeIndex === 0} onClick={() => openLesson(activeIndex - 1)}>← Предыдущий</button>

@@ -12,6 +12,8 @@ import { verbs, type VerbKey } from "@/features/conjugation/data";
 import {shortGrammarLessons} from "@/features/content/short-grammar-lessons";
 import { GrammarCourse } from "@/features/learning/gramatica/GrammarCourse";
 import { localTransport } from "../shared/http/local-transport";
+import {BeingLesson} from "@/features/practice/BeingLesson";
+import {beingDestination} from "@/features/practice/being-navigation";
 
 export function relatedDestination(href: string) {
   if(href.startsWith("/learning/practice?")){
@@ -38,6 +40,8 @@ export function RelatedLearning({ href, onBack }: { href: string; onBack: () => 
   const practiceParams = href.startsWith("/learning/practice?") ? new URLSearchParams(href.split("?")[1]) : null;
   const requestedVerb = practiceParams?.get("verb") ?? "fazer";
   const grammarLesson=shortGrammarLessons.find(lesson=>lesson.id===practiceParams?.get("lesson"));
+  const being=practiceParams?beingDestination(Object.fromEntries(practiceParams)):null;
+  if(being)return <section><button type="button" className="tempo-back" onClick={onBack}>← К списку уроков</button><BeingLesson {...being} childMode={practiceParams?.get("mode")==="kingdoms"}/></section>;
   if (destination?.kind === "everyday") return <section><button type="button" className="tempo-back" onClick={onBack}>← Назад</button><EverydayLesson key={href} lessonId={destination.lessonId}/></section>;
   const extra = practiceParams ? <PracticeScreen onOpenLessons={onBack} initialSection={grammarLesson?"lessons":"trainer"} initialGrammarLessonId={grammarLesson?.id} initialChildMode={practiceParams.get("mode")==="kingdoms"} initialChildStep="exercise" initialVerbKey={requestedVerb in verbs ? requestedVerb as VerbKey : "fazer"} initialTense={practiceParams.get("tense") === "past" ? "past" : "present"} /> : href === "/learning/time" ? <ClockLesson /> : href === "/learning/future" ? <FutureLesson /> : href === "/learning/past-suns" ? <PastSuns /> : href === "/learning/trazer" ? <TrazerLesson /> : null;
   if (extra) return <section><button type="button" className="tempo-back" onClick={onBack}>← К урокам</button>{extra}</section>;
