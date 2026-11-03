@@ -14,6 +14,7 @@ function setup(){let data=emptyLocalLearning();const store:LearningStore={read:a
 it.each(pastFoundationLessons)("opens $slug explanation without creating progress",async lesson=>{
   const {store}=setup();render(<GrammarCourse slug={`${lesson.slug}/explanation`}/>);
   expect(screen.getByRole("heading",{name:lesson.title})).toBeVisible();
+  fireEvent.click(screen.getByRole("button",{name:"Показать объяснение по-русски"}));
   expect(screen.getByText(lesson.rule)).toBeVisible();
   expect(screen.getByRole("link",{name:"К проверке и практике →"})).toHaveAttribute("href",`/learning/gramatica-ativa/${lesson.slug}`);
   expect((await store.read()).progress).toEqual([]);

@@ -3,6 +3,7 @@ import { SunFormExercise } from "@/features/practice/SunFormExercise";
 import type { ConjugationVerb, Forms, PersonKey } from "@/features/conjugation/data";
 import type { PracticeMode } from "./practice-types";
 import styles from "./IrGuide.module.css";
+import {DescriptionReading,DescriptionParagraph} from "./DescriptionReading";
 
 type IrGuideProps = {
   childMode: boolean;
@@ -113,7 +114,7 @@ export function IrGuide({
           <div className={styles.copy}>
             <span>Два полезных шаблона</span>
             <h2 id="ir-meanings-title">Куда идём и что будем делать</h2>
-            <p>Когда после формы IR стоит место, речь идёт о движении. Когда следом идёт другой глагол в инфинитиве, мы говорим о плане.</p>
+            <DescriptionReading><DescriptionParagraph pt="Quando depois de IR aparece um lugar, falamos de movimento. Quando aparece outro verbo no infinitivo, falamos de um plano." ru="Когда после формы IR стоит место, речь идёт о движении. Когда следом идёт другой глагол в инфинитиве, мы говорим о плане."/></DescriptionReading>
           </div>
           <div className={styles.patterns}>
             <article>

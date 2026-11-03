@@ -2,6 +2,8 @@ import type { ConjugationVerb, Forms, PersonKey } from "@/features/conjugation/d
 import { SunFormExercise } from "@/features/practice/SunFormExercise";
 import type { PracticeMode } from "./practice-types";
 import styles from "./TerGuide.module.css";
+import {DescriptionReading,DescriptionParagraph} from "./DescriptionReading";
+import {LessonText} from "./LessonText";
 
 type TerGuideProps = {
   childMode: boolean;
@@ -73,7 +75,7 @@ export function TerGuide({
         <div className={styles.explanation}>
           <span className={styles.question}>Что у кого есть?</span>
           <h2>TER связывает владельца и то, что у него есть</h2>
-          <p>С TER говорим о вещах, возрасте и частых состояниях. Возраст по-португальски тоже строится через TER, а не через SER.</p>
+          <DescriptionReading><DescriptionParagraph pt="Com TER falamos de coisas, idade e estados frequentes. Em português, também usamos TER para indicar a idade, não SER." ru="С TER говорим о вещах, возрасте и частых состояниях. Возраст по-португальски тоже строится через TER, а не через SER."/>
           <div className={styles.patternList}>
             {terPatterns.map(([icon, label, example]) => (
               <div key={label}><span aria-hidden="true">{icon}</span><p><strong>{label}</strong><b>{example}</b></p></div>
@@ -81,8 +83,9 @@ export function TerGuide({
           </div>
           <aside className={styles.memoryTip}>
             <strong>Главная подсказка</strong>
-            <p>Запомни форму целиком: <b>tenho</b>, <b>tens</b>, <b>tem</b>, <b>temos</b>, <b>têm</b>. У множественного числа есть знак: <b>têm</b>.</p>
+            <p><LessonText text="Aprende cada forma completa: tenho, tens, tem, temos, têm. A forma do plural tem um acento: têm." translation="Запомни форму целиком: tenho, tens, tem, temos, têm. У множественного числа есть знак: têm."/></p>
           </aside>
+          </DescriptionReading>
         </div>
       </div>
 

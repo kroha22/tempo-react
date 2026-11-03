@@ -7,6 +7,8 @@ import type { LessonPracticeTarget } from "./practice-types";
 
 import { shortGrammarLessons as lessons } from "../content/short-grammar-lessons";
 import {ShortGrammarQuiz} from "./ShortGrammarQuiz";
+import {DescriptionReading,DescriptionParagraph} from "./DescriptionReading";
+import {shortGrammarReading} from "../content/grammar-reading";
 
 const pastPanels = {
   pps: {
@@ -112,7 +114,7 @@ export default function AdultLessons({ activeLessonId, onLessonChange, onOpenPra
 
           {["ser","estar","ser-estar"].includes(lesson.id)?<SerEstarExplanation childMode={learner?.profile.child??childMode} focus={combinedBeing?"both":lesson.id==="ser"?"ser":lesson.id==="estar"?"estar":"both"}/>:<div className="adult-rule">
             <span>Суть</span>
-            <p>{lesson.rule}</p>
+            <DescriptionReading><DescriptionParagraph pt={shortGrammarReading[lesson.id]} ru={lesson.rule}/></DescriptionReading>
             {lesson.formula && <code>{lesson.formula}</code>}
           </div>}
 

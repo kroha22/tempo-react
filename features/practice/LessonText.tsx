@@ -16,7 +16,7 @@ export function LessonText({text,translation,audio=false,plain=false,keepPortugu
   else if(help.words&&!plain){
     const phrases=Object.keys(help.glossary).filter(key=>key.includes(" ")).sort((a,b)=>b.length-a.length);
     const escaped=phrases.map(p=>p.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"));
-    const pattern=new RegExp(`(${escaped.join("|")}|[\\p{L}]+(?:[-’'][\\p{L}]+)*)`,"giu");
+    const pattern=new RegExp(`(${[...escaped,"[\\p{L}]+(?:[-’'][\\p{L}]+)*"].join("|")})`,"giu");
     content=<span lang="pt-PT">{text.split(pattern).map((part,i)=>{const meaning=help.glossary[part.toLocaleLowerCase("pt-PT")];return meaning?<button key={i} type="button" className={styles.word} onClick={()=>help.select(part,meaning)} aria-label={`Перевод: ${part}`}>{part}</button>:part;})}</span>;
   }
   return <>{content}{audio&&help.listen&&<span className={styles.audio}><CardSpeechButton text={text}/></span>}</>;

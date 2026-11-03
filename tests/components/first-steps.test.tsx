@@ -11,10 +11,11 @@ it("uses the same explanation in Route and short grammar",()=>{
   expect(shortGrammarLessons.find(lesson=>lesson.id==="ser")!.rule).toBe(beingContent.ser.rule);
   expect(routeLessonExperiences.find(lesson=>lesson.id==="lesson:a1-1:ser-estar-description-state")!.cue).toBe(beingContent.contrast.rule);
 });
-it("keeps the old SER lesson quiz and replaces its explanation with the shared panel",()=>{
+it("keeps the old SER lesson quiz and offers the complete Russian explanation",async()=>{
   render(<AdultLessons singleLesson activeLessonId="ser" onLessonChange={vi.fn()} onOpenPractice={vi.fn()} onOpenConjugationOverview={vi.fn()}/>);
   expect(screen.getByRole("region",{name:"Общее объяснение SER и ESTAR"})).toBeVisible();
   expect(screen.getByRole("heading",{name:"O Rui ___ português."})).toBeVisible();
+  await userEvent.setup().click(screen.getByRole("button",{name:"Показать объяснение по-русски"}));
   expect(screen.getByText(beingContent.ser.rule)).toBeVisible();
 });
 it.each([false,true])("checks the entire pilot and preserves answers (child=%s)",async(child)=>{

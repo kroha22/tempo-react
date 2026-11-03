@@ -14,6 +14,7 @@ import { GrammarWordBatch } from "./GrammarWordBatch";
 import { firstGrammarUnits, wordBatchHref } from "./first-units";
 import { mixedReviewSkills } from "../../content/gramatica-mixed-review";
 import {pastGrammarUnits,grammarExplanationHref} from "./past-units";
+import {GrammarDescription} from "./GrammarDescription";
 
 export function GrammarCourse({ slug, practiceOnly = false }: { slug?: string; practiceOnly?: boolean }) {
   const explanation=slug?.endsWith("/explanation")?gramaticaLessons.find(l=>`${l.slug}/explanation`===slug):undefined;
@@ -49,7 +50,7 @@ export function GrammarCourse({ slug, practiceOnly = false }: { slug?: string; p
   </section>;
 }
 function GrammarExplanation({lesson}:{lesson:GrammarLesson}){
-  return <section className={styles.course}><LegacyLessonLink href="/learning/gramatica-ativa">← К курсу Gramática Ativa 1</LegacyLessonLink><span className="tempo-kicker">Урок {lesson.unit} · Объяснение</span><h1>{lesson.title}</h1><p>{lesson.canDo}</p><article className={styles.card}><p>{lesson.rule}</p><div className={styles.examples}>{lesson.examples.map(example=><p key={example.pt}><strong lang="pt-PT">{example.pt}</strong><span>{example.ru}</span></p>)}</div></article><LegacyLessonLink className={styles.next} href={wordBatchHref(lesson.unit)}>Разобрать слова урока →</LegacyLessonLink><LegacyLessonLink className={styles.next} href={`/learning/gramatica-ativa/${lesson.slug}`}>К проверке и практике →</LegacyLessonLink>{pastGrammarUnits.find(l=>l.unit===lesson.unit)?.related.map(link=><LegacyLessonLink key={link.href} href={link.href}>{link.title} →</LegacyLessonLink>)}</section>;
+  return <section className={styles.course}><LegacyLessonLink href="/learning/gramatica-ativa">← К курсу Gramática Ativa 1</LegacyLessonLink><span className="tempo-kicker">Урок {lesson.unit} · Объяснение</span><h1>{lesson.title}</h1><article className={styles.card}><GrammarDescription lesson={lesson}/></article><LegacyLessonLink className={styles.next} href={wordBatchHref(lesson.unit)}>Разобрать слова урока →</LegacyLessonLink><LegacyLessonLink className={styles.next} href={`/learning/gramatica-ativa/${lesson.slug}`}>К проверке и практике →</LegacyLessonLink>{pastGrammarUnits.find(l=>l.unit===lesson.unit)?.related.map(link=><LegacyLessonLink key={link.href} href={link.href}>{link.title} →</LegacyLessonLink>)}</section>;
 }
 function GrammarLessonView({ lesson, practiceOnly }: { lesson: GrammarLesson; practiceOnly: boolean }) {
   const session = useGrammarSession(lesson, practiceOnly);
@@ -79,8 +80,7 @@ function GrammarLessonView({ lesson, practiceOnly }: { lesson: GrammarLesson; pr
     {view.status === "loading" && <p role="status">Загружаем прогресс…</p>}
     {view.status === "ready" && view.snapshot.phase === "rule" && <article className={styles.card}>
       <h2>{diagnosticPassed(lesson, view.snapshot.answers) ? "Коротко освежим правило" : "Разберёмся по шагам"}</h2>
-      <p>{lesson.canDo}</p><p>{lesson.rule}</p>
-      <div className={styles.examples}>{lesson.examples.map((e) => <p key={e.pt}><strong lang="pt-PT">{e.pt}</strong><span>{e.ru}</span></p>)}</div>
+      <GrammarDescription lesson={lesson}/>
       {lesson.vocabulary.length > 0 && <><h3>Выражения для урока</h3><dl>{lesson.vocabulary.map((v) => <div key={v.slug}><dt lang="pt-PT">{v.pt}</dt><dd>{v.ru}</dd></div>)}</dl></>}
       <details><summary>Что повторяем</summary><p>{lesson.review.join(" · ")}</p></details>
       <Button onClick={() => { setAnswer(""); session.next(); }} disabled={busy || !!error}>{diagnosticPassed(lesson, view.snapshot.answers) ? "К самостоятельной проверке" : "Перейти к практике"}</Button>
