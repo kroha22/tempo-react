@@ -6,6 +6,7 @@ import { checkImageAnswers, placeImageWord, type ImageAnswers, type ImageMatchin
 import type { VocabularyWord } from "../content/vocabulary-model";
 import { WordCelebration } from "./WordCelebration";
 import motion from "./PracticeMotion.module.css";
+import {publicAssetUrl} from "../../shared/public-asset";
 
 export function ImageMatchingExercise({ definition, words, embedded=false }: { definition: ImageMatchingDefinition; words: readonly VocabularyWord[]; embedded?:boolean }) {
   const houseWords = definition.wordIds.map((id, index) => { const word = words.find(word => word.id === id); if (!word) throw new Error(`Unknown image word: ${id}`); return { ...word, number: index + 1 }; });
@@ -63,7 +64,7 @@ export function ImageMatchingExercise({ definition, words, embedded=false }: { d
     <div className="house-image-scroll"><div className={`house-image${zoom ? " is-zoomed" : ""}`} style={{ aspectRatio: `${houseIllustration.crop.width}/${houseIllustration.crop.height}` }}>
       {/* Crop metadata and hit targets use the same revised illustration coordinates. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={houseIllustration.src} alt={houseIllustration.alt} width={houseIllustration.width} height={houseIllustration.height} style={{ width: `${houseIllustration.width / houseIllustration.crop.width * 100}%`, left: `${-houseIllustration.crop.x / houseIllustration.crop.width * 100}%`, top: `${-houseIllustration.crop.y / houseIllustration.crop.height * 100}%` }} />
+      <img src={publicAssetUrl(houseIllustration.src)} alt={houseIllustration.alt} width={houseIllustration.width} height={houseIllustration.height} style={{ width: `${houseIllustration.width / houseIllustration.crop.width * 100}%`, left: `${-houseIllustration.crop.x / houseIllustration.crop.width * 100}%`, top: `${-houseIllustration.crop.y / houseIllustration.crop.height * 100}%` }} />
       {definition.spots.map((spot, index) => {
         const word = houseWords.find(item => item.id === answers[spot.id]);
         const result = (checked || instant) && word ? results[index].status : "";
