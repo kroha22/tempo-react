@@ -22,7 +22,7 @@ export function useGrammarSession(lesson: GrammarLesson, practiceOnly: boolean) 
     if (lock.current) return;
     lock.current = true; setBusy(true); setError(""); retryCommand.current = command;
     void command().then(() => { if (live.current) retryCommand.current = null; }).catch((cause: unknown) => {
-      if (live.current) setError(cause instanceof HttpError && (cause.status === 401 || cause.status === 403) ? "Для сохранения нужно войти. После входа повторите действие." : "Не удалось подтвердить действие на сервере. Проверьте соединение и повторите сохранение.");
+      if (live.current) setError(cause instanceof HttpError && (cause.status === 401 || cause.status === 403) ? "Для сохранения нужно войти. После входа повторите действие." : "Не удалось сохранить действие. Проверьте доступ к хранилищу и повторите сохранение.");
     }).finally(() => { lock.current = false; if (live.current) setBusy(false); });
   }
   useEffect(() => {

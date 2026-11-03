@@ -9,7 +9,12 @@ export type LocalProfile = {id:string;name:string;child:boolean;avatar?:ChildAva
 type Registry = {version:1;activeId:string|null;profiles:LocalProfile[]};
 export const profilesKey="tempo-react:github-pages:profiles:v1";
 const legacyCardsKey="tempo-react:github-pages:card-progress";
-const dataKey=(id:string)=>`tempo-react:github-pages:profile:${id}:v1`;
+export const profileDataKey=(id:string)=>`tempo-react:github-pages:profile:${id}:v1`;
+const dataKey=profileDataKey;
+export function parseProfileData(value:unknown){
+  if(!value||typeof value!=="object"||!("version" in value)||value.version!==1||!("plan" in value)||!("cards" in value))throw new Error("Invalid profile data");
+  return {version:1 as const,plan:parsePracticePlanProgress(value.plan),cards:readCards(value.cards),learning:parseProfileLearning("learning" in value?value.learning:undefined)};
+}
 function readCards(value:unknown){
   if(!Array.isArray(value))throw new Error("Invalid card progress");
   return value.map(row=>{const parsed=parseLegacyProgressPayload(row);if(!parsed)throw new Error("Invalid card progress");return parsed;});

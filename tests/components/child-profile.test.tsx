@@ -3,6 +3,7 @@ import {beforeEach,expect,it,vi} from "vitest";
 import {Demo} from "@/github-pages/Demo";
 import {loadProfiles,createProfile,profileStores} from "@/github-pages/profiles";
 import {feelingWords} from "@/features/content/feelings-lesson";
+vi.mock("@/github-pages/LocalLearningBoundary",()=>({LocalLearningBoundary:({children}:{children:React.ReactNode})=>children}));
 beforeEach(()=>{localStorage.clear();window.history.replaceState(null,"","/tempo-react/");vi.spyOn(window,"scrollTo").mockImplementation(()=>{});});
 it("preserves a legacy avatar and derives the album from that profile's saved results",()=>{
   createProfile("Аня",true,false,"owl");

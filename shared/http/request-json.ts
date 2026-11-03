@@ -1,3 +1,5 @@
+import { localTransport } from "./local-transport.ts";
+
 export class HttpError extends Error {
   readonly status: number;
 
@@ -25,6 +27,8 @@ export async function requestJson(
   init?: RequestInit,
   transport: typeof fetch = fetch,
 ): Promise<unknown> {
+  const local = localTransport();
+  if (local && url.startsWith("/api/")) return local(url, init);
   const response = await transport(url, withDemoAuth(url, init));
   if (!response.ok) throw new HttpError(response.status);
   return response.json();

@@ -16,7 +16,7 @@ export function useVocabularyCards(practiceOnly: boolean) {
     if (lock.current) return;
     lock.current = true; setPending(true); setError(""); retryJob.current = job;
     void job().then(() => { if (!controller.current?.signal.aborted) retryJob.current = null; }).catch(() => {
-      if (!controller.current?.signal.aborted) setError("Не удалось загрузить или сохранить карточку. Проверьте соединение и доступ, затем повторите действие.");
+      if (!controller.current?.signal.aborted) setError("Не удалось загрузить или сохранить карточку. Проверьте доступ к сохранениям, затем повторите действие.");
     }).finally(() => { lock.current = false; if (!controller.current?.signal.aborted) { setLoading(false); setPending(false); } });
   }, []);
   useEffect(() => {

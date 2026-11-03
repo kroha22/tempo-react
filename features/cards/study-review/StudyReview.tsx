@@ -29,7 +29,7 @@ function ReviewSession({ unit }: { unit?: number }) {
     {session.accessBlocked && <div className={styles.error} role="alert"><p>Для повторения и сохранения оценок нужно войти.</p><Button onClick={session.retry}>Повторить проверку доступа</Button></div>}
     {!session.accessBlocked && status === "loading" && <p role="status">Загружаем расписание…</p>}
     {!session.accessBlocked && status === "load-error" && <div className={styles.error} role="alert"><p>Не удалось загрузить расписание.</p><Button onClick={session.retry}>Повторить загрузку</Button></div>}
-    {!session.accessBlocked && status === "save-error" && <div className={styles.error} role="alert"><p>Сервер не подтвердил оценку. Карточка остаётся на месте.</p><Button onClick={session.retry}>Повторить сохранение оценки</Button></div>}
+    {!session.accessBlocked && status === "save-error" && <div className={styles.error} role="alert"><p>Не удалось сохранить оценку. Карточка остаётся на месте.</p><Button onClick={session.retry}>Повторить сохранение оценки</Button></div>}
     {!session.accessBlocked && status === "conflict" && <div className={styles.error} role="alert"><p>Расписание изменилось в другой сессии. Загрузите его заново перед новой оценкой.</p><Button onClick={session.reload}>Обновить расписание</Button></div>}
     {session.refreshError && <div className={styles.error} role="alert"><p>Не удалось обновить расписание. Показана последняя подтверждённая карточка.</p><Button onClick={session.reload}>Повторить обновление</Button></div>}
     {receipt?.progress && ready && <p role="status">Оценка сохранена. Следующее повторение: {new Date(receipt.progress.due).toLocaleString("ru-RU")}. Интервал: {intervalLabel(receipt.progress.interval)}.</p>}

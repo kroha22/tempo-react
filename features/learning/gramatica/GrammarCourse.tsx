@@ -88,7 +88,7 @@ function GrammarLessonView({ lesson, practiceOnly }: { lesson: GrammarLesson; pr
       <h2>{view.demonstrated ? "Получилось!" : "Проверка завершена — есть что повторить"}</h2>
       {view.snapshot && <p>Самостоятельная проверка: {grammarExitResult(lesson, view.snapshot.answers).correct} из 5.</p>}
       <p>{view.demonstrated ? lesson.canDo : "Нужно не менее 4 из 5 и верное ключевое задание. Повторите правило и попробуйте новую попытку."}</p>
-      <p>{practiceOnly ? "Это результат текущей тренировки." : "Результат подтверждён сервером. Завершение урока не означает устойчивого освоения — вернитесь к теме после перерыва."}</p>
+      <p>{practiceOnly ? "Это результат текущей тренировки." : "Результат сохранён. Завершение урока не означает устойчивого освоения — вернитесь к теме после перерыва."}</p>
       {exitMistakes.length > 0 && <ul>{exitMistakes.map((t) => <li key={t.id}><b>{t.prompt}</b><p>{t.explanation}</p><span lang="pt-PT">{t.answers[0]}</span></li>)}</ul>}
       {!practiceOnly && lesson.vocabulary.length > 0 && <><h3>Сохранить выражения в карточки</h3><div className={styles.cards}>{lesson.vocabulary.map((v) => { const id = `study:chunk:ga1:${v.slug}`; const saved = session.savedIds.includes(id); return <Button key={id} variant="secondary" disabled={busy || saved || !!error} onClick={() => session.saveCard(id)}><span lang="pt-PT">{v.pt}</span> · {saved ? "Сохранено ✓" : "+ В карточки"}</Button>; })}</div></>}
       <Button variant="secondary" onClick={() => { setAnswer(""); session.restart(); }} disabled={busy || !!error}>Повторить урок</Button>

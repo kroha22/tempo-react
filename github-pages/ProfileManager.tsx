@@ -9,6 +9,7 @@ import {rewardAlbum} from "../features/practice/learning-rewards";
 import type {ChildAvatarId} from "../features/practice/child-avatars";
 import {ProfileLearningContext,useProfileLearning,type ProfileLearning} from "../features/practice/profile-learning";
 import {isPracticeStepComplete,practicePlanSteps,nextPracticeStep} from "../features/practice/plan/model";
+import {LocalLearningBoundary} from "./LocalLearningBoundary";
 
 export function ProfileManager({children}:{children:(profile:LocalProfile)=>ReactNode}) {
   const [state,setState]=useState(()=>{try{const registry=loadProfiles();let profile=registry.profiles.find(p=>p.id===registry.activeId)??null;if(profile){try{profileStores(profile.id).learning.load();}catch{profile=null;}}return {profile,error:""};}catch{return {profile:null,error:"Не удалось прочитать профили. Данные сохранены. Попробуй перезагрузить страницу."};}});
@@ -17,11 +18,11 @@ export function ProfileManager({children}:{children:(profile:LocalProfile)=>Reac
   function choose(profile:LocalProfile){setState({profile,error:""});setRevision(n=>n+1);setManage(false);window.location.hash="";const url=new URL(window.location.href);if(profile.child)url.searchParams.set("mode","child");else url.searchParams.delete("mode");window.history.replaceState(null,"",url.pathname+url.search);window.scrollTo(0,0);}
   if(state.error)return <section className="profile-panel" role="alert"><p>{state.error}</p><button onClick={()=>window.location.reload()}>Перезагрузить</button></section>;
   if(!state.profile)return <ProfilePicker onChoose={choose}/>;
-  return <ProfileSession key={`${state.profile.id}:${revision}`} profile={state.profile}>
+  return <LocalLearningBoundary key={`${state.profile.id}:${revision}`} profile={state.profile}><ProfileSession profile={state.profile}>
     <ProfileControls profile={state.profile} onManage={()=>setManage(true)}/>
     {manage&&<ProfilePicker current={state.profile} onChoose={choose} onCancel={()=>setManage(false)}/>}
     <div hidden={manage}>{children(state.profile)}</div>
-  </ProfileSession>;
+  </ProfileSession></LocalLearningBoundary>;
 }
 function ProfileSession({profile,children}:{profile:LocalProfile;children:ReactNode}) {
   const stores=useMemo(()=>profileStores(profile.id),[profile.id]);

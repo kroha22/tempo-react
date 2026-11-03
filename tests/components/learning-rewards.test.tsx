@@ -76,3 +76,4 @@ it("does not unlock an unsaved badge and saves it through retry without losing c
   expect(stores.learning.load().activities?.[familyModule.id].total).toBe(familyModule.exercises.length);
   expect(stores.cards.load()).toEqual([]);
 });
+vi.mock("@/github-pages/LocalLearningBoundary",()=>({LocalLearningBoundary:({children}:{children:React.ReactNode})=>children}));

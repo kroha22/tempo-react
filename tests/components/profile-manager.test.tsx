@@ -4,6 +4,8 @@ import {Demo} from "@/github-pages/Demo";
 import {loadProfiles,profilesKey,createProfile,profileStores,selectProfile} from "@/github-pages/profiles";
 import {feelingWords} from "@/features/content/feelings-lesson";
 import {verbCards} from "@/features/cards/data/verb-cards";
+// These tests exercise the existing synchronous profile stores; IndexedDB is verified separately.
+vi.mock("@/github-pages/LocalLearningBoundary",()=>({LocalLearningBoundary:({children}:{children:React.ReactNode})=>children}));
 
 beforeEach(()=>{window.localStorage.clear();window.history.replaceState(null,"","/tempo-react/");vi.spyOn(window,"scrollTo").mockImplementation(()=>{});});
 it.each([true,false])("opens and restores a profile (child=%s) without the casing collision",child=>{
