@@ -7,6 +7,7 @@ import { LegacyLessonLink as Link } from "./LegacyLessonLink";
 import { people } from "../conjugation/data";
 import { pastSunAnswer, type SunLesson } from "../content/past-sun-lessons";
 import {DescriptionReading,DescriptionParagraph,DescriptionExamples} from "./DescriptionReading";
+import {readingSource} from "../content/reading-sources";
 import {LessonText} from "./LessonText";
 import {pastSunReading} from "../content/grammar-reading";
 
@@ -32,7 +33,7 @@ export function PastSunLesson({ lesson }: { lesson: SunLesson }) {
   return <section className="house-activity trazer-lesson">
     <Link href="/learning">← Уроки и правила</Link>
     <div className="house-heading"><div><span className="tempo-kicker">Прошедшее время · неправильный глагол</span><h1>{lesson.verb.toUpperCase()} <span aria-hidden="true">☀</span></h1></div><span lang="pt-PT">Pretérito Perfeito</span></div>
-    {stage === "learn" ? <DescriptionReading key={lesson.verb}>
+    {stage === "learn" ? <DescriptionReading key={lesson.verb} source={readingSource(`lesson:past:${lesson.verb}`)}>
       <DescriptionParagraph pt={`Aprende as formas do verbo ${lesson.verb} no pretérito perfeito e faz o exercício. Usamos este tempo para falar de um acontecimento concluído no passado.`} ru={`${lesson.verb} — ${lesson.translation}. Изучи формы в Pretérito Perfeito и выполни упражнение. В этом времени рассказываем о завершённом событии в прошлом.`}/>
       <DescriptionExamples examples={[{pt:lesson.example,ru:lesson.exampleTranslation}]}/>
       <div className="trazer-sun" aria-label={`Формы ${lesson.verb} в прошедшем времени`}>

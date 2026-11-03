@@ -5,6 +5,7 @@ import {publicAssetUrl} from "../../shared/public-asset";
 import {DescriptionReading,DescriptionParagraph,DescriptionExamples} from "./DescriptionReading";
 import {shortGrammarReading} from "../content/grammar-reading";
 import {LessonText} from "./LessonText";
+import {readingSource} from "../content/reading-sources";
 
 export function SerEstarExplanation({childMode=false,focus="both",showForms=true,illustrations=true}:{childMode?:boolean;focus?:"ser"|"estar"|"both";showForms?:boolean;illustrations?:boolean}) {
   const keys=focus==="both"?["ser","estar"] as const:[focus];
@@ -22,5 +23,5 @@ export function SerEstarExplanation({childMode=false,focus="both",showForms=true
     <details><summary>{childMode?"Почему здесь разные слова?":"Подробное объяснение"}</summary>{childMode?<>{keys.map(key=><p key={key}>{beingContent[key].rule}</p>)}<p>{beingContent.contrast.rule}</p></>:<DescriptionParagraph pt={shortGrammarReading["ser-estar"]} ru={beingContent.contrast.rule}/>}<p>{childMode?<>Для места: <b lang="pt-PT">O Rui está em casa.</b> — Руй дома. Для происхождения: <b lang="pt-PT">O Rui é de Lisboa.</b> — Руй из Лиссабона.</>:<LessonText text="Para indicar a localização: O Rui está em casa. Para indicar a origem: O Rui é de Lisboa." translation="Для места: O Rui está em casa. — Руй дома. Для происхождения: O Rui é de Lisboa. — Руй из Лиссабона."/>}</p></details>
     {showForms&&<details><summary>Формы настоящего времени</summary><div className={styles.contrast}>{keys.map(key=><div key={key}><h3>{key.toUpperCase()}</h3>{people.map(person=><p key={person.key}><span>{person.label}</span> — <b lang="pt-PT">{verbs[key].forms.present[person.key]}</b></p>)}</div>)}</div></details>}
   </section>;
-  return childMode?content:<DescriptionReading key={focus}>{content}</DescriptionReading>;
+  return childMode?content:<DescriptionReading key={focus} source={readingSource(`lesson:short:${focus==="both"?"ser-estar":focus}`)}>{content}</DescriptionReading>;
 }

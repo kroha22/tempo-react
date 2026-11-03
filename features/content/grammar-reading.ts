@@ -53,7 +53,7 @@ export const everydayReading:Record<string,GrammarReading>={
   likes:{goal:"Consigo dizer o que gosto e não gosto de comer.",rule:"Depois de GOSTAR usamos a preposição DE. Para falar de comida em geral, dizemos gosto de queijo ou gosto de maçãs, sem artigo antes do alimento. Para negar, colocamos NÃO antes do verbo. Para um alimento específico: gosto do queijo desta loja. Aqui, de + o = do."},
   body:{goal:"Consigo nomear partes do corpo e relacioná-las com ações simples.",rule:"COM pode indicar o meio: vejo com os olhos. O ouvido é o órgão da audição; a orelha é a parte exterior visível. Aqui reconhecemos as ações em frases prontas; não é necessário aprender já todas as conjugações."},
 };
-const glossaryRows=[
+export const grammarGlossaryRows=[
   ["característica,características","характеристика; признак"],["estado,estados","состояние"],["localização","местонахождение"],["origem","происхождение"],["profissão","профессия"],["material","материал"],["posse","владение; принадлежность"],["idade","возраст"],["identidade","идентичность; кто или что это"],
   ["identificar","определить, кто или что это"],["indicar,indica,indicam","указывать"],["indicar a idade","назвать возраст"],["apresentar,apresenta,apresentam","представлять; описывать"],["usamos","мы используем"],["escolhemos","мы выбираем"],["escolher,escolha","выбирать; выбор"],["significado","значение; смысл"],["descrever,descreve,descrevem","описывать"],["descrita","описана"],["exprime,exprimir","выражает; выражать"],["consegue","он/она может"],["consigo","я могу"],
   ["permanente","постоянный"],["temporário","временный"],["resultado","результат"],["mudança,mudanças","изменение"],["duração","длительность"],["depende","зависит"],["determina","определяет"],["situação,situações","ситуация"],["diferente,diferentes","разный; различный"],["maneiras","способы"],["objeto,objetos","предмет"],["feito","сделан"],["sempre","всегда"],["horas","часы; время"],["físicos","физические"],
@@ -72,4 +72,4 @@ for(const entry of gramaticaVocabulary)for(const form of entry.forms){
   if(basicWords.has(key)||key.length<2)continue;
   const meanings=vocabularyGlosses.get(key)??new Set<string>();meanings.add(entry.translation);vocabularyGlosses.set(key,meanings);
 }
-export const grammarReadingGlossary:Readonly<Record<string,string>>={...Object.fromEntries([...vocabularyGlosses].map(([form,meanings])=>[form,[...meanings].join("; ")])),...Object.fromEntries(glossaryRows.flatMap(([forms,meaning])=>forms.split(",").filter(word=>!basicWords.has(word)).map(word=>[word,meaning])))};
+export const grammarReadingGlossary:Readonly<Record<string,string>>={...Object.fromEntries([...vocabularyGlosses].map(([form,meanings])=>[form,[...meanings].join("; ")])),...Object.fromEntries(grammarGlossaryRows.flatMap(([forms,meaning])=>forms.split(",").filter(word=>!basicWords.has(word)).map(word=>[word,meaning])))};

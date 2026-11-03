@@ -15,8 +15,10 @@ import { firstGrammarUnits, wordBatchHref } from "./first-units";
 import { mixedReviewSkills } from "../../content/gramatica-mixed-review";
 import {pastGrammarUnits,grammarExplanationHref} from "./past-units";
 import {GrammarDescription} from "./GrammarDescription";
+import {SavedStudyItemLibrary} from "../../cards/saved-items/SavedStudyItemLibrary";
 
 export function GrammarCourse({ slug, practiceOnly = false }: { slug?: string; practiceOnly?: boolean }) {
+  if(slug==="saved")return <section><h1>Мои карточки из уроков</h1><p><LegacyLessonLink href={reviewHref()}>Повторять карточки →</LegacyLessonLink></p><SavedStudyItemLibrary/><LegacyLessonLink href="/learning/gramatica-ativa">К курсу Gramática Ativa 1 →</LegacyLessonLink></section>;
   const explanation=slug?.endsWith("/explanation")?gramaticaLessons.find(l=>`${l.slug}/explanation`===slug):undefined;
   if(explanation)return <GrammarExplanation lesson={explanation}/>;
   const wordUnit = slug?.match(/^words\/u(\d{2})$/);

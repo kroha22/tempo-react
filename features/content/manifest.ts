@@ -1,4 +1,5 @@
 import { ru } from "./locale/ru.ts";
+import {readingChunks,readingExamples,readingStudyItems,readingRu} from "./reading-cards.ts";
 import { vocabularyChunks, vocabularyExamples, vocabularyRu, vocabularyStudyItems } from "./gramatica-vocabulary-pack.ts";
 import { grammarBlocks, grammarCanDos, grammarChunks, grammarCourses, grammarDefinitions, grammarExamples, grammarFlows, grammarItems, grammarLessons, grammarLevels, grammarRu, grammarStudyItems, grammarTargets, grammarUnits, grammarUses } from "./gramatica-ativa-pack.ts";
 import {
@@ -46,6 +47,7 @@ const fullUnits = units.map((unit) => ({ ...unit, lessonIds: fullLessons.filter(
 const fullLevels = levels.map((level) => ({ ...level, completionCanDoIds: fullCanDos.map((canDo) => canDo.id) }));
 
 const canonicalEntities: CanonicalEntity[] = [
+  ...readingChunks,...readingExamples,...readingStudyItems,
   ...vocabularyChunks, ...vocabularyExamples, ...vocabularyStudyItems,
   ...grammarCourses, ...grammarLevels, ...grammarUnits, ...grammarCanDos, ...grammarTargets,
   ...grammarChunks, ...grammarExamples, ...grammarStudyItems, ...grammarBlocks, ...grammarDefinitions, ...grammarItems, ...grammarLessons,
@@ -75,15 +77,15 @@ export const firstVerticalSliceContentPack: ContentPack = {
     ),
   },
   publishedPresentationProfileIds: ["adult"],
-  locales: { ru: { ...ru, ...routeExtensionRu, ...grammarRu, ...vocabularyRu } },
+  locales: { ru: { ...ru, ...routeExtensionRu, ...grammarRu, ...vocabularyRu,...readingRu } },
   courses: [...courses, ...grammarCourses],
   levels: [...fullLevels, ...grammarLevels],
   units: [...fullUnits, ...grammarUnits],
   canDos: [...fullCanDos, ...grammarCanDos],
   knowledgeTargets: [...fullKnowledgeTargets, ...grammarTargets],
-  chunks: [...fullChunks, ...grammarChunks, ...vocabularyChunks],
-  examples: [...fullExamples, ...grammarExamples, ...vocabularyExamples],
-  studyItems: [...fullStudyItems, ...grammarStudyItems, ...vocabularyStudyItems],
+  chunks: [...fullChunks, ...grammarChunks, ...vocabularyChunks,...readingChunks],
+  examples: [...fullExamples, ...grammarExamples, ...vocabularyExamples,...readingExamples],
+  studyItems: [...fullStudyItems, ...grammarStudyItems, ...vocabularyStudyItems,...readingStudyItems],
   contentBlocks: [...fullContentBlocks, ...grammarBlocks],
   exerciseDefinitions: [...exerciseDefinitions, ...grammarDefinitions],
   exerciseItems: [...fullExerciseItems, ...grammarItems],

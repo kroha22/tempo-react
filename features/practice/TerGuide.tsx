@@ -3,6 +3,7 @@ import { SunFormExercise } from "@/features/practice/SunFormExercise";
 import type { PracticeMode } from "./practice-types";
 import styles from "./TerGuide.module.css";
 import {DescriptionReading,DescriptionParagraph} from "./DescriptionReading";
+import {readingSource} from "../content/reading-sources";
 import {LessonText} from "./LessonText";
 
 type TerGuideProps = {
@@ -75,7 +76,7 @@ export function TerGuide({
         <div className={styles.explanation}>
           <span className={styles.question}>Что у кого есть?</span>
           <h2>TER связывает владельца и то, что у него есть</h2>
-          <DescriptionReading><DescriptionParagraph pt="Com TER falamos de coisas, idade e estados frequentes. Em português, também usamos TER para indicar a idade, não SER." ru="С TER говорим о вещах, возрасте и частых состояниях. Возраст по-португальски тоже строится через TER, а не через SER."/>
+          <DescriptionReading source={readingSource("lesson:guide:ter")}><DescriptionParagraph pt="Com TER falamos de coisas, idade e estados frequentes. Em português, também usamos TER para indicar a idade, não SER." ru="С TER говорим о вещах, возрасте и частых состояниях. Возраст по-португальски тоже строится через TER, а не через SER."/>
           <div className={styles.patternList}>
             {terPatterns.map(([icon, label, example]) => (
               <div key={label}><span aria-hidden="true">{icon}</span><p><strong>{label}</strong><b>{example}</b></p></div>

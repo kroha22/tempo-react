@@ -4,6 +4,12 @@
 .help button[aria-pressed=true] {background:#d5eadc;outline:2px solid #52876b;}
 .popup {position:fixed;bottom:18px;left:50%;transform:translateX(-50%);width:min(90vw,540px);box-sizing:border-box;z-index:20;display:flex;gap:10px;align-items:center;padding:12px;background:#fffbea;border:2px solid #9eb9a4;border-radius:18px;box-shadow:0 8px 30px #294b3940;}
 .popup p {flex:1;margin:0;}
+.popup {max-height:calc(100dvh - 36px);overflow-y:auto;}
+.popupCopy {flex:1;min-width:0;overflow-wrap:anywhere;}
+.popupCopy button {min-height:44px;margin-top:8px;padding:8px 12px;border:1px solid #7da58b;border-radius:12px;background:#d5eadc;color:#294b39;font:inherit;cursor:pointer;}
+.popupCopy button:disabled {background:#edf2e8;cursor:default;}
+.popupCopy button:focus-visible {outline:3px solid #8056a6;outline-offset:2px;}
+.popupCopy small,.popupCopy [role="status"] {display:block;font-size:12px;}
 .popup>button {min-width:44px;min-height:44px;}
 .frame {position:relative;margin:12px 0;padding:0 16px;}
 .content {min-width:0;}
