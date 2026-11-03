@@ -33,6 +33,6 @@ test("full Russian mode closes word help and does not write progress",()=>{
   expect(JSON.stringify(localStorage)).toBe(before);expect(speak).not.toHaveBeenCalled();
 });
 test("all existing regular grammar descriptions have Portuguese companions",()=>{
-  expect(Object.keys(grammarReading)).toHaveLength(23);expect(Object.keys(shortGrammarReading)).toHaveLength(14);
+  expect(Object.keys(grammarReading)).toHaveLength(30);expect(Object.keys(shortGrammarReading)).toHaveLength(14);
   for(const item of Object.values(grammarReading)){expect(item.goal).not.toMatch(/[А-Яа-яЁё]/);expect(item.rule).not.toMatch(/[А-Яа-яЁё]/);expect(item.rule.length).toBeGreaterThan(80);}
 });

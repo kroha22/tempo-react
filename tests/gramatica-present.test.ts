@@ -11,7 +11,7 @@ import { firstVerticalSliceContentPack as pack } from "../features/content/manif
 test("eight present units reuse foundations and add separate, server-recognized independent evidence", () => {
   assert.deepEqual(presentGrammarLessons.map((l) => l.unit), [4,5,6,7,8,9,10,11]);
   assert.equal(presentGrammarLessons.flatMap((l) => l.tasks).length, 140);
-  assert.equal(new Set(allGramaticaLessons.flatMap((l) => l.tasks.map((t) => t.id))).size, 405);
+  assert.equal(new Set(allGramaticaLessons.flatMap((l) => l.tasks.map((t) => t.id))).size, 532);
   assert.deepEqual(gramaticaLessons.map((l) => l.unit), [18,19,20,21,22,23]);
   for (const lesson of presentGrammarLessons) {
     assert.equal(firstGrammarUnits.find((u) => u.unit === lesson.unit)?.practiceSlug, lesson.slug);
@@ -36,7 +36,7 @@ test("Portuguese alternatives and accents distinguish hearing, coming, seeing an
   assert(!grammarAnswerCorrect(plural,"tem"));
 });
 test("page additions reuse existing meanings and original review identities", () => {
-  assert.equal(pageVocabularySources.length,48); assert.equal(gramaticaVocabulary.length,379);
+  assert.equal(pageVocabularySources.length,48); assert.equal(gramaticaVocabulary.length,380);
   for (const row of pageVocabularySources.filter(row=>Number(row.unit.slice(-2))<=11)) {
     const links = vocabularySourceLinks.filter((l) => l.sourceRowId===row.id);
     assert.equal(links.length,1);

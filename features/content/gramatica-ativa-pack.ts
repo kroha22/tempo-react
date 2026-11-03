@@ -25,6 +25,6 @@ const unitFor = (id: string, label: string, early: boolean): Unit => {
   const lessons = gramaticaLessons.filter((l) => (l.unit <= 11) === early);
   return { ...base, id, kind: "unit", titleKey: text(`ga1.${early ? "present-unit" : "unit"}`, label), lessonIds: lessons.map((l) => l.id), primaryCanDoIds: lessons.map((l) => `cando:ga1:${l.slug}`) };
 };
-export const grammarUnits: Unit[] = [unitFor("unit:ga1:present-and-everyday", "Настоящее и повседневные ситуации · U01–U11", true), unitFor("unit:ga1:past-and-actions", "Прошлое и состояния действия · U12–U23", false)];
+export const grammarUnits: Unit[] = [unitFor("unit:ga1:present-and-everyday", "Настоящее и повседневные ситуации · U01–U11", true), unitFor("unit:ga1:past-and-actions", "Прошлое, будущее и конструкции · U12–U30", false)];
 export const grammarLevels: Level[] = grammarUnits.map((u, i) => ({ ...base, id: i === 0 ? "level:ga1:a1" : "level:ga1:a2", kind: "level", cefr: i === 0 ? "A1.2" : "A2", titleKey: text(i === 0 ? "ga1.present-level" : "ga1.level", "Грамматическая практика"), unitIds: [u.id], completionCanDoIds: u.primaryCanDoIds }));
-export const grammarCourses: Course[] = [{ ...base, id: "course:ga1:pt-pt", kind: "course", titleKey: text("ga1.course", "Gramática Ativa 1"), targetLocale: "pt-PT", explanationLocales: ["ru"], levelIds: grammarLevels.map((l) => l.id) }];
+export const grammarCourses: Course[] = [{ ...base, id: "course:ga1:pt-pt", kind: "course", titleKey: text("ga1.course", "Gramática Ativa 1"), targetLocale: "pt-PT", explanationLocales: ["ru","pt-PT"], levelIds: grammarLevels.map((l) => l.id) }];

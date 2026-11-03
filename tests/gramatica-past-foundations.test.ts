@@ -12,7 +12,7 @@ import {vocabularyForUnit,vocabularySourceLinks,gramaticaVocabulary} from "../fe
 test("six book units register independent evidence without changing the old runtime",()=>{
   assert.deepEqual(pastFoundationLessons.map(l=>l.unit),[12,13,14,15,16,17]);
   assert.equal(pastFoundationLessons.flatMap(l=>l.tasks).length,102);
-  assert.equal(new Set(allGramaticaLessons.flatMap(l=>l.tasks.map(t=>t.id))).size,405);
+  assert.equal(new Set(allGramaticaLessons.flatMap(l=>l.tasks.map(t=>t.id))).size,532);
   for(const lesson of pastFoundationLessons){
     assert.equal(pastGrammarUnits.find(u=>u.unit===lesson.unit)?.practiceSlug,lesson.slug);
     const diagnostic=grammarTasks(lesson,"diagnostic"),exit=grammarTasks(lesson,"exit");

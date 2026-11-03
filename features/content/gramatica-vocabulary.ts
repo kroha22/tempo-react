@@ -1,6 +1,7 @@
 import source from "./gramatica-vocabulary-source.json" with { type: "json" };
 import { vocabularyDecisions, type VocabularyDecision, type WordClass } from "./gramatica-vocabulary-editorial.ts";
 import { pageVocabularyDecisions, pageVocabularySources } from "./gramatica-page-vocabulary.ts";
+import {futurePageVocabularyDecisions,futurePageVocabularySources} from "./gramatica-future-page-vocabulary.ts";
 
 export type GrammarVocabularySource = {
   id: string; unit: string; stage: "preview" | "core"; pt: string; ru: string;
@@ -17,13 +18,13 @@ export const vocabularySources: GrammarVocabularySource[] = source.cards.map((r,
   if (r.stage !== "preview" && r.stage !== "core") throw new Error("Invalid vocabulary stage");
   return { ...r, stage: r.stage, id: `source:ga1:vocab:row-${String(i + 1).padStart(4, "0")}` };
 });
-export const allVocabularySources: GrammarVocabularySource[] = [...vocabularySources, ...pageVocabularySources];
+export const allVocabularySources: GrammarVocabularySource[] = [...vocabularySources, ...pageVocabularySources,...futurePageVocabularySources];
 const slug = (s: string) => s.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 const entries = new Map<string, GrammarVocabularyEntry>();
 export const vocabularySourceLinks: { sourceRowId: string; entryId: string }[] = [];
 for (const row of allVocabularySources) {
   const unit = Number(row.unit.slice(-2));
-  const decisions = [...vocabularyDecisions, ...pageVocabularyDecisions].filter((d) => d.surfaces.includes(row.pt) && (!d.units || d.units.includes(unit)));
+  const decisions = [...vocabularyDecisions, ...pageVocabularyDecisions,...futurePageVocabularyDecisions].filter((d) => d.surfaces.includes(row.pt) && (!d.units || d.units.includes(unit)));
   if (!decisions.length) throw new Error(`Unresolved vocabulary source: ${row.id}`);
   for (const d of decisions) {
     const identity = `${d.partOfSpeech}:${slug(d.lemma)}:${d.sense}`;

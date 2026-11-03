@@ -6,13 +6,14 @@ import { Button } from "@/shared/ui/Button";
 import { useVocabularyCards } from "./use-vocabulary-cards";
 import { firstGrammarUnits } from "./first-units";
 import {pastGrammarUnits,grammarExplanationHref} from "./past-units";
+import {futureGrammarUnits} from "./future-units";
 import { reviewHref } from "../../cards/study-review/catalog";
 import styles from "./grammar.module.css";
 
 export function GrammarWordBatch({ unit, practiceOnly = false }: { unit: number; practiceOnly?: boolean }) {
   const words = vocabularyForUnit(unit);
   const lesson = firstGrammarUnits.find((item) => item.unit === unit);
-  const pastLesson=pastGrammarUnits.find(item=>item.unit===unit);
+  const pastLesson=[...pastGrammarUnits,...futureGrammarUnits].find(item=>item.unit===unit);
   const cards = useVocabularyCards(practiceOnly);
   const [index, setIndex] = useState(0);
   const [revealed, setRevealed] = useState(false);

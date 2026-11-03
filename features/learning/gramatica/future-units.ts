@@ -1,0 +1,9 @@
+export const futureGrammarUnits=[
+  {unit:24,title:"Futuro · Прогноз и предположение",summary:"Будущие события, особые основы и вопросы о настоящем",practiceSlug:"future-predictions",reviewSuggested:false,related:[{href:"/learning/future",title:"Сравнить с планами через IR + infinitivo"}]},
+  {unit:25,title:"Condicional · Желания и советы",summary:"Вежливость, условное действие и будущее из прошлого",practiceSlug:"conditional-wishes",reviewSuggested:false,related:[{href:"/learning/gramatica-ativa/polite-requests/explanation",title:"Повторить вежливость через imperfeito"}]},
+  {unit:26,title:"Imperativo afirmativo",summary:"Адресат инструкции, формы tu / o senhor / vocês и местоимения",practiceSlug:"affirmative-instructions",reviewSuggested:true,related:[{href:"/learning/gramatica-ativa/reflexive-placement/explanation",title:"Повторить возвратные местоимения"}]},
+  {unit:27,title:"Imperativo negativo и особые формы",summary:"Запреты, SER/ESTAR/DAR/IR и местоимения после NÃO",practiceSlug:"negative-instructions",reviewSuggested:true,related:[{href:"/learning/gramatica-ativa/affirmative-instructions/explanation",title:"Сравнить с утвердительной инструкцией"}]},
+  {unit:28,title:"Infinitivo pessoal",summary:"Явный исполнитель после предлогов и безличных выражений",practiceSlug:"personal-infinitive",reviewSuggested:false,related:[]},
+  {unit:29,title:"Gerúndio / IR + gerúndio",summary:"Сопутствующее действие, способ и постепенность в pt-PT",practiceSlug:"gerund-gradual-actions",reviewSuggested:false,related:[{href:"/learning/gramatica-ativa/action-states/explanation",title:"Сравнить с vou fazer / estou a fazer"}]},
+  {unit:30,title:"HAVER / HAVER DE",summary:"Безличное наличие и личное намерение в одной теме",practiceSlug:"haver-existence-intention",reviewSuggested:false,related:[{href:"/learning/gramatica-ativa/possession-age-and-sensations/explanation",title:"Повторить TER: владение, возраст и ощущения"}]},
+] as const;
