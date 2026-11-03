@@ -5,12 +5,14 @@ import { LegacyLessonLink } from "../../practice/LegacyLessonLink";
 import { Button } from "@/shared/ui/Button";
 import { useVocabularyCards } from "./use-vocabulary-cards";
 import { firstGrammarUnits } from "./first-units";
+import {pastGrammarUnits,grammarExplanationHref} from "./past-units";
 import { reviewHref } from "../../cards/study-review/catalog";
 import styles from "./grammar.module.css";
 
 export function GrammarWordBatch({ unit, practiceOnly = false }: { unit: number; practiceOnly?: boolean }) {
   const words = vocabularyForUnit(unit);
   const lesson = firstGrammarUnits.find((item) => item.unit === unit);
+  const pastLesson=pastGrammarUnits.find(item=>item.unit===unit);
   const cards = useVocabularyCards(practiceOnly);
   const [index, setIndex] = useState(0);
   const [revealed, setRevealed] = useState(false);
@@ -57,6 +59,7 @@ export function GrammarWordBatch({ unit, practiceOnly = false }: { unit: number;
     </article>}
     {lesson && <LegacyLessonLink className={styles.next} href={`/learning/practice?lesson=${lesson.lessonId}`}>К объяснению и практике: {lesson.title} →</LegacyLessonLink>}
     {lesson?.practiceSlug && <LegacyLessonLink className={styles.next} href={`/learning/gramatica-ativa/${lesson.practiceSlug}`}>Проверить себя по уроку {unit} →</LegacyLessonLink>}
+    {pastLesson&&<><LegacyLessonLink className={styles.next} href={grammarExplanationHref(pastLesson.practiceSlug)}>К объяснению и практике: {pastLesson.title} →</LegacyLessonLink><LegacyLessonLink href={`/learning/gramatica-ativa/${pastLesson.practiceSlug}`}>Проверить себя по уроку {unit} →</LegacyLessonLink></>}
     <LegacyLessonLink href={vocabularyHref(unit)}>Открыть словарь урока →</LegacyLessonLink>
   </section>;
 }

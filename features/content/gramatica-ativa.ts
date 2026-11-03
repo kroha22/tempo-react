@@ -3,6 +3,7 @@ import { grammarLesson as lesson } from "./gramatica-lesson-factory.ts";
 import { presentGrammarLessons } from "./gramatica-present.ts";
 import { foundationGrammarLessons } from "./gramatica-foundations.ts";
 import { mixedGrammarReview } from "./gramatica-mixed-review.ts";
+import { pastFoundationLessons } from "./gramatica-past-foundations.ts";
 export type GrammarStage = "diagnostic" | "guided" | "exit";
 export type GrammarTask = {
   id: string; stage: GrammarStage; prompt: string; answers: string[];
@@ -186,7 +187,7 @@ export const gramaticaLessons: GrammarLesson[] = [
     ]),
 ];
 
-export const allGramaticaLessons = [...foundationGrammarLessons, ...presentGrammarLessons, ...gramaticaLessons, mixedGrammarReview];
+export const allGramaticaLessons = [...foundationGrammarLessons, ...presentGrammarLessons, ...pastFoundationLessons, ...gramaticaLessons, mixedGrammarReview];
 
 export function normalizeGrammarAnswer(value: string) {
   return value.normalize("NFC").trim().toLocaleLowerCase("pt-PT").replace(/\s+/gu, " ").replace(/[.!?…]+$/u, "").trim();

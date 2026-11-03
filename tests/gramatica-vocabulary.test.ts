@@ -44,7 +44,7 @@ test("semantic splits and morphological merges are explicit, not gloss string ma
   assert.equal(entries.filter((e) => e.lemma === "muito").length, 2);
   const querer = entries.find((e) => e.partOfSpeech === "verb" && e.lemma === "querer")!;
   assert(querer.forms.includes("queria"));
-  assert.deepEqual(querer.units, [7, 20]);
+  assert.deepEqual(querer.units, [7, 14, 20]);
   assert.equal(vocabularyFront(querer), "querer");
   assert(!entries.some((e) => e.partOfSpeech === "verb" && e.lemma === "queria"));
   assert.deepEqual(entries.find((e) => e.lemma === "tanto")?.forms, ["tanto", "tanta", "tantos", "tantas"]);

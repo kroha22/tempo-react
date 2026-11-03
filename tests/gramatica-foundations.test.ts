@@ -19,7 +19,7 @@ test("three new checks preserve old foundations and use separate stable evidence
     answers[exit[4].id]="wrong";assert(!grammarExitResult(lesson,answers).demonstrated);
     assert(pack.lessons.some(row=>row.id===lesson.id));
   }
-  assert.equal(new Set(allGramaticaLessons.flatMap(l=>l.tasks.map(t=>t.id))).size,303);
+  assert.equal(new Set(allGramaticaLessons.flatMap(l=>l.tasks.map(t=>t.id))).size,405);
 });
 test("mixed check covers eleven existing targets with separate recognition and production evidence",()=>{
   assert.equal(mixedGrammarReview.tasks.length,22);
