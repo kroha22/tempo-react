@@ -73,7 +73,7 @@ export default function AdultLessons({ activeLessonId, onLessonChange, onOpenPra
   };
 
   return (
-    <section className="adult-lessons" aria-label={singleLesson?lesson.title:undefined} aria-labelledby={singleLesson?undefined:"adult-lessons-title"}>
+    <section className={`adult-lessons${singleLesson?" adult-lessons-single":""}`} aria-label={singleLesson?lesson.title:undefined} aria-labelledby={singleLesson?undefined:"adult-lessons-title"}>
       {!singleLesson && <header className="adult-lessons-intro">
         <div>
           <span className="adult-kicker">Грамматика без лишнего</span>
@@ -113,7 +113,7 @@ export default function AdultLessons({ activeLessonId, onLessonChange, onOpenPra
             <div><span>{lesson.chapter} · урок {activeIndex + 1}</span><h2>{lesson.title}</h2><p>{lesson.subtitle}</p></div>
           </header>
 
-          {["ser","estar","ser-estar"].includes(lesson.id)?<SerEstarExplanation childMode={learner?.profile.child??childMode} focus={combinedBeing?"both":lesson.id==="ser"?"ser":lesson.id==="estar"?"estar":"both"}/>:<div className="adult-rule">
+          {["ser","estar","ser-estar"].includes(lesson.id)?<div className="adult-being-explanation"><SerEstarExplanation childMode={learner?.profile.child??childMode} focus={combinedBeing?"both":lesson.id==="ser"?"ser":lesson.id==="estar"?"estar":"both"}/></div>:<div className="adult-rule">
             <span>Суть</span>
             <DescriptionReading source={readingSource(`lesson:short:${lesson.id}`)}><DescriptionParagraph pt={shortGrammarReading[lesson.id]} ru={lesson.rule}/></DescriptionReading>
             {lesson.formula && <code>{lesson.formula}</code>}
