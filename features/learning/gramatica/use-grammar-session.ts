@@ -29,13 +29,13 @@ export function useGrammarSession(lesson: GrammarLesson, practiceOnly: boolean) 
     live.current = true;
     const abort = new AbortController(); controller.current = abort;
     const load = async () => {
-      if (practiceOnly) { if (live.current) setView({ status: "ready", snapshot: grammarStart() }); return; }
+      if (practiceOnly) { if (live.current) setView({ status: "ready", snapshot: grammarStart(lesson) }); return; }
       const progress = (await loadLearningProgress(abort.signal)).find((p) => p.lessonId === lesson.id);
       if (abort.signal.aborted) return;
-      if (progress?.status === "finished" && progress.flowRevision === 1 && !progress.snapshot?.grammar) setView({ status: "summary", demonstrated: (progress.snapshot?.canDoResult ?? progress.canDoResult) === "demonstrated" });
+      if (progress?.status === "finished" && progress.flowRevision === 1 && !progress.snapshot?.grammar) setView({ status: "summary", demonstrated: (progress.snapshot?.canDoResult ?? progress.canDoResult) === "demonstrated", ...(lesson.checkpoint&&progress.snapshot?.checkpointAnswers?{snapshot:{...grammarStart(lesson),answers:progress.snapshot.checkpointAnswers}}:{}) });
       else {
         const snapshot = progress?.flowRevision === 1 ? progress.snapshot?.grammar : undefined;
-        setView({ status: "ready", snapshot: snapshot && validGrammarSnapshot(lesson, snapshot) ? snapshot : grammarStart() });
+        setView({ status: "ready", snapshot: snapshot && validGrammarSnapshot(lesson, snapshot) ? snapshot : grammarStart(lesson) });
       }
     };
     // Keep StrictMode's discarded setup from issuing a second load.
@@ -78,7 +78,7 @@ export function useGrammarSession(lesson: GrammarLesson, practiceOnly: boolean) 
     });
   }
   function restart() {
-    const snapshot = grammarStart();
+    const snapshot = grammarStart(lesson);
     run(async () => { await persist(snapshot); if (live.current) setView({ status: "ready", snapshot }); });
   }
   function saveCard(id: string) {

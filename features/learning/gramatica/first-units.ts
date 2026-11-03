@@ -1,8 +1,8 @@
 type GrammarFoundation = { unit: number; title: string; summary: string; lessonId: string; practiceSlug?: string };
 export const firstGrammarUnits: readonly GrammarFoundation[] = [
-  { unit: 1, title: "SER · Кто я и откуда", summary: "Профессия, происхождение и характеристики", lessonId: "ser" },
-  { unit: 2, title: "ESTAR · Где я и как себя чувствую", summary: "Местоположение и состояние", lessonId: "estar" },
-  { unit: 3, title: "SER или ESTAR?", summary: "Характеристика и состояние в контексте", lessonId: "ser-estar" },
+  { unit: 1, title: "SER · Кто я и откуда", summary: "Профессия, происхождение и характеристики", lessonId: "ser", practiceSlug:"identity-and-origin" },
+  { unit: 2, title: "ESTAR · Где я и как себя чувствую", summary: "Местоположение и состояние", lessonId: "estar", practiceSlug:"location-and-state" },
+  { unit: 3, title: "SER или ESTAR?", summary: "Характеристика и состояние в контексте", lessonId: "ser-estar", practiceSlug:"identity-or-state" },
   { unit: 4, title: "ESTAR A · Действие сейчас", summary: "Что происходит прямо сейчас", lessonId: "estar-a", practiceSlug: "action-in-progress" },
   { unit: 5, title: "Presente · -AR", summary: "Повседневные занятия и распорядок", lessonId: "present-ar", practiceSlug: "everyday-ar" },
   { unit: 6, title: "Presente · -ER", summary: "Еда, учёба и знакомство", lessonId: "present-er", practiceSlug: "everyday-er" },

@@ -1,8 +1,8 @@
 import { diagnosticPassed, grammarTasks, type GrammarLesson } from "../../content/gramatica-ativa.ts";
 import type { GrammarSnapshot } from "../progress/dto.ts";
 
-export function grammarStart(): GrammarSnapshot {
-  return { sessionId: `session:${crypto.randomUUID()}`, phase: "diagnostic", index: 0, answers: {} };
+export function grammarStart(lesson?:GrammarLesson): GrammarSnapshot {
+  return { sessionId: `session:${crypto.randomUUID()}`, phase: lesson?.checkpoint?"exit":"diagnostic", index: 0, answers: {} };
 }
 export function currentGrammarTask(lesson: GrammarLesson, snapshot: GrammarSnapshot) {
   return snapshot.phase === "rule" ? undefined : grammarTasks(lesson, snapshot.phase)[snapshot.index];

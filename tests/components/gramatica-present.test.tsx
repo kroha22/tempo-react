@@ -7,11 +7,11 @@ import * as api from "../../features/learning/progress/api";
 
 vi.mock("../../features/learning/progress/api", () => ({ loadLearningProgress: vi.fn(), appendLearningEvent: vi.fn(), saveBoundary: vi.fn(), completeLesson: vi.fn(), saveStudyItem: vi.fn() }));
 describe("present book block", () => {
-  it("shows eight new practice destinations, eleven foundations and eleven word batches", () => {
+  it("shows eleven practice destinations, foundations and word batches", () => {
     render(<GrammarCourse practiceOnly />);
     expect(screen.getAllByRole("link",{name:"Объяснение и практика →"})).toHaveLength(11);
     expect(screen.getAllByRole("link",{name:"Разобрать слова →"})).toHaveLength(11);
-    expect(screen.getAllByRole("link",{name:"Проверить себя →"})).toHaveLength(8);
+    expect(screen.getAllByRole("link",{name:"Проверить себя →"})).toHaveLength(11);
   });
   it("completes diagnostic, rule and exit using input while retaining a link to the foundation", async () => {
     const lesson=presentGrammarLessons[7];

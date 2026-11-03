@@ -89,7 +89,7 @@ export function createLocalLearningApi(store: LearningStore) {
         const result = demonstrated ? "demonstrated" as const : "partial" as const;
         const old = data.progress.find(row => row.lessonId === input.lessonId);
         const canDoResult = old?.canDoResult === "demonstrated" ? old.canDoResult : result;
-        const progress: LocalLearning["progress"][number] = { lessonId: input.lessonId, flowRevision: input.flowRevision, status: "finished", canDoResult, snapshot: old && old.updatedAt>input.completedAt ? old.snapshot : { completed: true, canDoResult }, updatedAt: Math.max(input.completedAt, old?.updatedAt ?? 0) };
+        const progress: LocalLearning["progress"][number] = { lessonId: input.lessonId, flowRevision: input.flowRevision, status: "finished", canDoResult, snapshot: old && old.updatedAt>input.completedAt ? old.snapshot : { completed: true, canDoResult:lesson?.checkpoint?result:canDoResult, ...(lesson?.checkpoint?{checkpointAnswers:answers}:{}) }, updatedAt: Math.max(input.completedAt, old?.updatedAt ?? 0) };
         data.progress = [...data.progress.filter(row => row.lessonId !== input.lessonId), progress];
         response = { progress, ...(lesson ? { attemptCanDoResult: result } : {}) };
       } else throw new HttpError(404);

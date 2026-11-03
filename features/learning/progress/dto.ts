@@ -6,8 +6,8 @@ export const canDoResultSchema = z.enum(["demonstrated", "partial", "not_yet"]);
 export const grammarSnapshotSchema = z.strictObject({
   sessionId: z.string().regex(/^session:[a-f0-9-]{36}$/),
   phase: z.enum(["diagnostic", "rule", "guided", "exit"]),
-  index: z.int().min(0).max(6),
-  answers: z.record(z.string().max(160), z.string().max(500)).refine((value) => Object.keys(value).length <= 15),
+  index: z.int().min(0).max(21),
+  answers: z.record(z.string().max(160), z.string().max(500)).refine((value) => Object.keys(value).length <= 32),
 });
 export type GrammarSnapshot = z.infer<typeof grammarSnapshotSchema>;
 export const lessonSnapshotSchema = z.strictObject({
@@ -16,6 +16,7 @@ export const lessonSnapshotSchema = z.strictObject({
   completed: z.boolean().optional(),
   canDoResult: canDoResultSchema.optional(),
   grammar: grammarSnapshotSchema.optional(),
+  checkpointAnswers: z.record(z.string().max(160),z.string().max(500)).refine(value=>Object.keys(value).length<=22).optional(),
 });
 export type LessonSnapshot = z.infer<typeof lessonSnapshotSchema>;
 

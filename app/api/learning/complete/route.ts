@@ -56,6 +56,7 @@ export async function POST(request: Request) {
       independentCorrect = false;
     }
     const grammarLesson = gramaticaLessons.find((candidate) => candidate.id === input.lessonId);
+    let checkpointAnswers:Record<string,string>|undefined;
     if (grammarLesson) {
       const answers: Record<string, string> = {};
       // The stable event ID admits one independently checked answer per item/session.
@@ -68,6 +69,7 @@ export async function POST(request: Request) {
       }
       if (requiredItemIds.some((id) => !Object.hasOwn(answers, id))) return Response.json({ error: "Required answers missing", code: "MISSING_ATTEMPTS" }, { status: 409 });
       independentCorrect = grammarExitResult(grammarLesson, answers).demonstrated;
+      if(grammarLesson.checkpoint)checkpointAnswers=answers;
     }
     const canDoResult = independentCorrect ? "demonstrated" as const : "partial" as const;
     const completionEvent = {
@@ -93,7 +95,7 @@ export async function POST(request: Request) {
       canDoResult,
       activePhaseId: flow.terminalPhaseId,
       sessionId: input.sessionId,
-      snapshotJson: JSON.stringify({ completed: true, canDoResult }),
+      snapshotJson: JSON.stringify({ completed: true, canDoResult, ...(checkpointAnswers?{checkpointAnswers}:{}) }),
       startedAt: input.completedAt,
       updatedAt: input.completedAt,
       completedAt: input.completedAt,

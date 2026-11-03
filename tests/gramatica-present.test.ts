@@ -11,7 +11,7 @@ import { firstVerticalSliceContentPack as pack } from "../features/content/manif
 test("eight present units reuse foundations and add separate, server-recognized independent evidence", () => {
   assert.deepEqual(presentGrammarLessons.map((l) => l.unit), [4,5,6,7,8,9,10,11]);
   assert.equal(presentGrammarLessons.flatMap((l) => l.tasks).length, 140);
-  assert.equal(new Set(allGramaticaLessons.flatMap((l) => l.tasks.map((t) => t.id))).size, 230);
+  assert.equal(new Set(allGramaticaLessons.flatMap((l) => l.tasks.map((t) => t.id))).size, 303);
   assert.deepEqual(gramaticaLessons.map((l) => l.unit), [18,19,20,21,22,23]);
   for (const lesson of presentGrammarLessons) {
     assert.equal(firstGrammarUnits.find((u) => u.unit === lesson.unit)?.practiceSlug, lesson.slug);

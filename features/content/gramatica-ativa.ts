@@ -1,6 +1,8 @@
 /** Authored pt-PT adaptations; source unit numbers are aliases, never progress IDs. */
 import { grammarLesson as lesson } from "./gramatica-lesson-factory.ts";
 import { presentGrammarLessons } from "./gramatica-present.ts";
+import { foundationGrammarLessons } from "./gramatica-foundations.ts";
+import { mixedGrammarReview } from "./gramatica-mixed-review.ts";
 export type GrammarStage = "diagnostic" | "guided" | "exit";
 export type GrammarTask = {
   id: string; stage: GrammarStage; prompt: string; answers: string[];
@@ -11,6 +13,7 @@ export type GrammarLesson = {
   examples: { pt: string; ru: string }[];
   vocabulary: { slug: string; pt: string; ru: string; example: string; exampleRu: string }[];
   review: string[]; tasks: GrammarTask[];
+  checkpoint?: boolean;
 };
 export const gramaticaLessons: GrammarLesson[] = [
   lesson("past-background", 18, "Возраст, часы и параллельные действия",
@@ -183,7 +186,7 @@ export const gramaticaLessons: GrammarLesson[] = [
     ]),
 ];
 
-export const allGramaticaLessons = [...presentGrammarLessons, ...gramaticaLessons];
+export const allGramaticaLessons = [...foundationGrammarLessons, ...presentGrammarLessons, ...gramaticaLessons, mixedGrammarReview];
 
 export function normalizeGrammarAnswer(value: string) {
   return value.normalize("NFC").trim().toLocaleLowerCase("pt-PT").replace(/\s+/gu, " ").replace(/[.!?…]+$/u, "").trim();
@@ -200,5 +203,5 @@ export function diagnosticPassed(lesson: GrammarLesson, answers: Record<string, 
 export function grammarExitResult(lesson: GrammarLesson, answers: Record<string, string>) {
   const items = grammarTasks(lesson, "exit");
   const correct = items.filter((task) => grammarAnswerCorrect(task, answers[task.id] ?? "")).length;
-  return { correct, total: items.length, demonstrated: correct >= 4 && items.filter((task) => task.critical).every((task) => grammarAnswerCorrect(task, answers[task.id] ?? "")) };
+  return { correct, total: items.length, demonstrated: lesson.checkpoint ? items.every(task=>grammarAnswerCorrect(task,answers[task.id]??"")) : correct >= 4 && items.filter((task) => task.critical).every((task) => grammarAnswerCorrect(task, answers[task.id] ?? "")) };
 }
