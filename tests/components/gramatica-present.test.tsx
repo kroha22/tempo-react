@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { GrammarCourse } from "../../features/learning/gramatica/GrammarCourse";
 import { presentGrammarLessons } from "../../features/content/gramatica-present";
@@ -7,11 +7,13 @@ import * as api from "../../features/learning/progress/api";
 
 vi.mock("../../features/learning/progress/api", () => ({ loadLearningProgress: vi.fn(), appendLearningEvent: vi.fn(), saveBoundary: vi.fn(), completeLesson: vi.fn(), saveStudyItem: vi.fn() }));
 describe("present book block", () => {
-  it("retains eleven foundations and exposes twenty-four checks and word batches", () => {
+  it("opens the common plan with the first eleven book checks and the original short lessons", () => {
     render(<GrammarCourse practiceOnly />);
-    expect(screen.getAllByRole("link",{name:"Объяснение и практика →"})).toHaveLength(11);
-    expect(screen.getAllByRole("link",{name:"Разобрать слова →"})).toHaveLength(24);
-    expect(screen.getAllByRole("link",{name:"Проверить себя →"})).toHaveLength(24);
+    expect(screen.getByRole("heading",{name:"Общий план"})).toBeVisible();
+    const first=within(screen.getByText("U01–U11 · Основы и настоящее").closest("details")!);
+    expect(first.getAllByRole("link",{name:/^Короткий урок:/})).toHaveLength(11);
+    expect(first.getAllByRole("link",{name:/^Разобрать слова U/})).toHaveLength(11);
+    expect(first.getAllByRole("link",{name:/^Проверить себя U/})).toHaveLength(11);
   });
   it("completes diagnostic, rule and exit using input while retaining a link to the foundation", async () => {
     const lesson=presentGrammarLessons[7];

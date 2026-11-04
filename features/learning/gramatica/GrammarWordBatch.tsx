@@ -31,7 +31,7 @@ export function GrammarWordBatch({ unit, practiceOnly = false }: { unit: number;
   }
   const count = (choice: string) => Object.values(choices).filter((value) => value === choice).length;
   return <section className={styles.course}>
-    <LegacyLessonLink href="/learning/gramatica-ativa">← К курсу</LegacyLessonLink>
+    <LegacyLessonLink href="/learning/plan">← К общему плану</LegacyLessonLink>
     <span className="tempo-kicker">Урок {unit} · Слова перед уроком</span>
     <h1>Разберём слова</h1>
     <p>Знакомое пропускайте. Что хочется учить — сразу отправляйте в карточки.</p>

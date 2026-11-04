@@ -22,7 +22,7 @@ function ReviewSession({ unit }: { unit?: number }) {
   const ready = status === "ready" && !session.accessBlocked;
   const receipt = session.receipt;
   return <section className={styles.course}>
-    <LegacyLessonLink href="/learning/gramatica-ativa">← К курсу Gramática Ativa 1</LegacyLessonLink>
+    <LegacyLessonLink href="/learning/plan">← К общему плану</LegacyLessonLink>
     <span className="tempo-kicker">Взрослый вариант · интервальное повторение</span>
     <h1>Повторение{unit ? ` · урок ${unit}` : ""}</h1>
     <p>Только сохранённые карточки. Сначала просроченные, затем новые. Оценено за эту сессию: {session.count}.</p>

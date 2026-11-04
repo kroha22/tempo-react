@@ -17,6 +17,8 @@ it.each([true,false])("opens and restores a profile (child=%s) without the casin
   const registry=loadProfiles();
   expect(registry.profiles).toHaveLength(1);
   expect(registry.profiles[0].child).toBe(child);
+  expect(screen.getByRole("heading",{name:"Общий план"})).toBeVisible();
+  fireEvent.click(screen.getByRole("link",{name:"Короткий урок: SER →"}));
   if(child)expect(screen.getByRole("img",{name:"Мальчик"})).toHaveTextContent("👦");
   expect(screen.getByRole("img",{name:"Люди, роли и происхождение"})).toHaveAttribute("src",child?"/ser-guide-kingdoms.webp":"/ser-guide-adult.webp");
   const saved=window.localStorage.getItem(profilesKey);
@@ -31,6 +33,7 @@ it("isolates rewards and presentation, resumes the theme and preserves rewards t
   stores.learning.save({...learning,lastTopicId:"topic:people",feelings:{...learning.feelings,viewed:feelingWords.slice(1).map(word=>word.id)}});
   selectProfile(child.id);
   const view=render(<Demo/>);
+  fireEvent.click(screen.getByRole("link",{name:"Все темы"}));
   const lesson=screen.getByRole("region",{name:"Как я себя чувствую: слова и ESTAR"});
   expect(lesson).toHaveAttribute("data-presentation","child");
   expect(screen.queryByRole("button",{name:"Для взрослых"})).toBeNull();
@@ -40,9 +43,9 @@ it("isolates rewards and presentation, resumes the theme and preserves rewards t
   expect(stores.learning.load().feelings.viewed).toHaveLength(6);
   view.unmount();render(<Demo/>);
   expect(screen.getByLabelText("Знакомство: получено")).toBeVisible();
-  fireEvent.click(screen.getByRole("button",{name:"Карточки"}));
+  fireEvent.click(screen.getByRole("link",{name:"Карточки"}));
   expect(screen.getByRole("region",{name:"Колоды карточек"})).toBeVisible();
-  fireEvent.click(screen.getByRole("button",{name:"Уроки"}));
+  fireEvent.click(screen.getByRole("link",{name:"Все темы"}));
   expect(screen.getByRole("heading",{name:"Aulas — Уроки"})).toBeVisible();
   expect(stores.plan.load().completed["practice:grammar:ser"]).toEqual({revision:1,needsReview:false});
   expect(stores.learning.load().feelings.viewed).toHaveLength(6);
@@ -50,7 +53,7 @@ it("isolates rewards and presentation, resumes the theme and preserves rewards t
   expect(within(screen.getByRole("article",{name:"Профиль Ребёнок QA"})).getByText(/Награды: 2/)).toBeVisible();
   expect(within(screen.getByRole("article",{name:"Профиль Взрослый QA"})).getByText(/Награды: 0/)).toBeVisible();
   fireEvent.click(screen.getByRole("button",{name:"Продолжить — Взрослый QA"}));
-  fireEvent.click(screen.getByRole("button",{name:/^Уроки/}));
+  fireEvent.click(screen.getByRole("link",{name:"Все темы"}));
   fireEvent.click(screen.getByRole("button",{name:/^Como me sinto\?/}));
   expect(screen.getByRole("region",{name:"Как я себя чувствую: слова и ESTAR"})).toHaveAttribute("data-presentation","adult");
   expect(screen.getByLabelText("Знакомство: впереди")).toBeVisible();
@@ -60,6 +63,7 @@ it("does not award before storage succeeds and retries without losing the previo
   const profile=createProfile("Сохранение QA",true,false),stores=profileStores(profile.id),learning=stores.learning.load();
   stores.learning.save({...learning,lastTopicId:"topic:people",feelings:{...learning.feelings,viewed:feelingWords.slice(1).map(word=>word.id)}});
   render(<Demo/>);
+  fireEvent.click(screen.getByRole("link",{name:"Все темы"}));
   const save=vi.spyOn(Storage.prototype,"setItem").mockImplementation(()=>{throw new Error("quota");});
   fireEvent.click(screen.getByRole("button",{name:"Перевернуть карточку"}));
   expect(screen.getByLabelText("Знакомство: впереди")).toBeVisible();

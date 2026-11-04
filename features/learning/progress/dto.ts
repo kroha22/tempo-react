@@ -26,6 +26,7 @@ export const learningProgressSchema = z.object({
   status: lessonStatusSchema,
   snapshot: lessonSnapshotSchema.nullable(),
   canDoResult: canDoResultSchema.nullable(),
+  updatedAt:z.int().nonnegative().optional(),
 });
 export type LearningProgress = z.infer<typeof learningProgressSchema>;
 export const progressListSchema = z.object({ progress: z.array(learningProgressSchema) });
@@ -48,7 +49,7 @@ export const repairResponseSchema = z.object({ ok: z.literal(true) });
 
 /** Decode old stored JSON without letting an incompatible snapshot break the list. */
 export function progressDto(row: {
-  lessonId: string; flowRevision: number; status: string; snapshotJson: string; canDoResult: string | null;
+  lessonId: string; flowRevision: number; status: string; snapshotJson: string; canDoResult: string | null;updatedAt?:number;
 }): LearningProgress {
   let snapshot: LessonSnapshot | null = null;
   try {
@@ -57,6 +58,6 @@ export function progressDto(row: {
   } catch { /* null tells the UI to restart this lesson safely */ }
   return learningProgressSchema.parse({
     lessonId: row.lessonId, flowRevision: row.flowRevision, status: row.status,
-    snapshot, canDoResult: row.canDoResult,
+    snapshot, canDoResult: row.canDoResult,...(row.updatedAt!==undefined?{updatedAt:row.updatedAt}:{}),
   });
 }

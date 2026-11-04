@@ -14,7 +14,7 @@ beforeEach(() => {
 describe("quick word selection", () => {
   it("links the first three units to existing lessons without creating new lesson IDs", () => {
     render(<GrammarCourse practiceOnly />);
-    for (const id of ["ser", "estar", "ser-estar"]) expect(screen.getAllByRole("link", { name: "Объяснение и практика →" }).some((a) => a.getAttribute("href") === `/learning/practice?lesson=${id}`)).toBe(true);
+    for (const id of ["ser", "estar", "ser-estar"]) expect(screen.getAllByRole("link", { name: /^Короткий урок:/ }).some((a) => a.getAttribute("href") === `/learning/practice?lesson=${id}`)).toBe(true);
   });
   it("waits for save acknowledgement, blocks double taps and retries the identical intent", async () => {
     const words = vocabularyForUnit(1);

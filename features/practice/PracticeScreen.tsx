@@ -49,9 +49,11 @@ type PracticeClientProps = {
   initialGrammarLessonId?:string;
   onOpenLessons?:()=>void;
   focusedBeing?:boolean;
+  onOpenGeneralPlan?:()=>void;
+  onOpenGeneralCards?:()=>void;
 };
 
-export default function PracticeScreen({ initialVerbKey = "fazer", initialTense = "present", initialChildMode = false, initialChildStep, initialSection = "trainer",profileName,resumeTopicId,resumePlan=false,initialGrammarLessonId,onOpenLessons,focusedBeing=false }: PracticeClientProps) {
+export default function PracticeScreen({ initialVerbKey = "fazer", initialTense = "present", initialChildMode = false, initialChildStep, initialSection = "trainer",profileName,resumeTopicId,resumePlan=false,initialGrammarLessonId,onOpenLessons,focusedBeing=false,onOpenGeneralPlan,onOpenGeneralCards }: PracticeClientProps) {
   const learner=useProfileLearning();
   const plan=usePracticePlan();
   const [allLessons,setAllLessons]=useState(!!initialGrammarLessonId);
@@ -201,6 +203,7 @@ export default function PracticeScreen({ initialVerbKey = "fazer", initialTense 
   }
 
   function changeSection(nextSection: PracticeSection) {
+    if(nextSection==="lessons"&&onOpenGeneralPlan){onOpenGeneralPlan();return;}
     window.scrollTo(0,0);
     if(nextSection==="vocabulary"&&onOpenLessons){onOpenLessons();return;}
     if(nextSection==="vocabulary")setCatalogRevision(value=>value+1);
@@ -253,7 +256,7 @@ export default function PracticeScreen({ initialVerbKey = "fazer", initialTense 
 
   return (
     <ChildPresentation value={childMode}><div className={`${styles.screen} practice-screen ${childMode ? "kids-mode kids-theme" : ""} kingdom-${group}`}>
-      <PracticeTopbar
+      {!onOpenGeneralPlan&&<PracticeTopbar
         onHome={profileName?()=>setHome(true):onOpenLessons}
         home={home}
         profileMode={!!profileName||!!learner}
@@ -263,7 +266,7 @@ export default function PracticeScreen({ initialVerbKey = "fazer", initialTense 
         tense={tense}
         onSectionChange={changeSection}
         onToggleChildMode={toggleChildMode}
-      />
+      />}
 
       {childMode && !home && section !== "trainer" && !(section==="lessons"&&planEnabled&&!allLessons) && (
         <aside className={styles.childAccent} aria-label="Включено детское оформление">
@@ -409,7 +412,7 @@ export default function PracticeScreen({ initialVerbKey = "fazer", initialTense 
 
         {formExercise}
         </>}
-      </section> : section === "lessons"&&planEnabled&&!allLessons ? <ChildPracticePlan key={launch.revision} initialStepId={launch.id} onOpenCatalog={()=>changeSection("vocabulary")}/> : section === "lessons"&&initialGrammarLessonId ? <><button type="button" onClick={openConjugationOverview}>Все спряжения →</button><AdultLessons singleLesson showPractice consolidateBeing childMode={childMode} activeLessonId={activeLessonId} onLessonChange={setActiveLessonId} onOpenPractice={openLessonPractice} onOpenConjugationOverview={openConjugationOverview}/></> : section === "vocabulary"||section === "lessons" ? <VocabularyHub key={catalogRevision} initialChildMode={childMode} initialTopicId={catalogRevision===0?resumeTopicId:null} onOpenPlan={plan?()=>changeSection("lessons"):undefined} onOpenCards={() => changeSection("cards")} /> : <Flashcards />}
+      </section> : section === "lessons"&&planEnabled&&!allLessons ? <ChildPracticePlan key={launch.revision} initialStepId={launch.id} onOpenCatalog={()=>changeSection("vocabulary")}/> : section === "lessons"&&initialGrammarLessonId ? <><button type="button" onClick={openConjugationOverview}>Все спряжения →</button><AdultLessons singleLesson showPractice consolidateBeing childMode={childMode} activeLessonId={activeLessonId} onLessonChange={setActiveLessonId} onOpenPractice={openLessonPractice} onOpenConjugationOverview={openConjugationOverview}/></> : section === "vocabulary"||section === "lessons" ? <VocabularyHub key={catalogRevision} initialChildMode={childMode} initialTopicId={catalogRevision===0?resumeTopicId:null} onOpenPlan={onOpenGeneralPlan??(plan?()=>changeSection("lessons"):undefined)} planLabel={onOpenGeneralPlan?"Общий план":undefined} onOpenCards={onOpenGeneralCards??(() => changeSection("cards"))} /> : <Flashcards />}
 
       <footer><span>{section === "cards" ? "Колоды: базовые слова, глаголы и тематические наборы" : section === "vocabulary" ? "Темы, карточки, пары и задания на смысл" : section === "lessons" ? "Коротко о форме — сразу в живом примере" : "Учи форму вместе с местоимением"}</span><span>Português · A1–B2</span></footer>
     </div></ChildPresentation>

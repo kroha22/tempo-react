@@ -14,6 +14,8 @@ import { GrammarCourse } from "@/features/learning/gramatica/GrammarCourse";
 import { localTransport } from "../shared/http/local-transport";
 import {BeingLesson} from "@/features/practice/BeingLesson";
 import {beingDestination} from "@/features/practice/being-navigation";
+import {GeneralPlan} from "@/features/learning/plan/GeneralPlan";
+import {PlanActivity} from "@/features/learning/plan/PlanActivity";
 
 export function relatedDestination(href: string) {
   if(href.startsWith("/learning/practice?")){
@@ -36,7 +38,9 @@ export function RelatedLearning({ href, onBack }: { href: string; onBack: () => 
   const destination = relatedDestination(href);
   const [selected, setSelected] = useState<string | null>(null);
   const [checked, setChecked] = useState(false);
-  if (href === "/learning/gramatica-ativa" || href.startsWith("/learning/gramatica-ativa/")) return <GrammarCourse key={href} slug={href === "/learning/gramatica-ativa" ? undefined : href.slice("/learning/gramatica-ativa/".length)} practiceOnly={!localTransport()} />;
+  if(href==="/learning/plan"||href==="/learning/gramatica-ativa")return <GeneralPlan practiceOnly={!localTransport()}/>;
+  if(href.startsWith("/learning/plan/step/")){let id="";try{id=decodeURIComponent(href.slice("/learning/plan/step/".length));}catch{}return <PlanActivity id={id}/>;}
+  if (href.startsWith("/learning/gramatica-ativa/")) return <GrammarCourse key={href} slug={href.slice("/learning/gramatica-ativa/".length)} practiceOnly={!localTransport()} />;
   const practiceParams = href.startsWith("/learning/practice?") ? new URLSearchParams(href.split("?")[1]) : null;
   const requestedVerb = practiceParams?.get("verb") ?? "fazer";
   const grammarLesson=shortGrammarLessons.find(lesson=>lesson.id===practiceParams?.get("lesson"));

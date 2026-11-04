@@ -60,6 +60,10 @@ body {
   margin: 0 auto;
   padding: 12px 0 40px;
 }
+.general-navigation {display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 20px;}
+.general-navigation a {display:inline-flex;align-items:center;min-height:44px;padding:8px 14px;border:1px solid #adc5b6;border-radius:14px;background:#fffdf5;color:#294b39;font-weight:800;text-decoration:none;}
+.general-navigation a[aria-current=page] {background:#d5eadc;outline:2px solid #52876b;}
+.general-navigation a:focus-visible {outline:3px solid #8056a6;outline-offset:3px;}
 
 .demo-intro {
   position: relative;

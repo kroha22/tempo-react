@@ -9,7 +9,7 @@ import { isPracticeStepComplete, nextPracticeStep, practicePlanChapters, practic
 import { usePracticePlan } from "./PracticePlanContext";
 import styles from "./ChildPracticePlan.module.css";
 
-export function ChildPracticePlan({onOpenCatalog,initialStepId=null}:{onOpenCatalog:()=>void;initialStepId?:string|null}) {
+export function ChildPracticePlan({onOpenCatalog,initialStepId=null,onBackToPlan}:{onOpenCatalog:()=>void;initialStepId?:string|null;onBackToPlan?:()=>void}) {
   const plan=usePracticePlan();
   const [current,setCurrent]=useState<string|null>(initialStepId),[attempt,setAttempt]=useState(0),[wordPhase,setWordPhase]=useState<"learn"|"write">("learn");
   const [filter,setFilter]=useState<"all"|"done"|"review">("all");
@@ -28,7 +28,7 @@ export function ChildPracticePlan({onOpenCatalog,initialStepId=null}:{onOpenCata
     const after=practicePlanSteps.slice(practicePlanSteps.indexOf(selected)+1).find(step=>!isPracticeStepComplete(progress,step));
     const selectedWords=selected.kind==="words"?selected.wordIds.map(id=>pairVocabulary.find(word=>word.id===id)!):[];
     return <section ref={root} className={styles.plan} aria-label="Занятие моего плана">
-      <header className={styles.lessonHeader}><button type="button" onClick={()=>setCurrent(null)}>‹ К моему плану</button><span>{chapter?.title}</span></header>
+      <header className={styles.lessonHeader}><button type="button" onClick={()=>onBackToPlan?onBackToPlan():setCurrent(null)}>{onBackToPlan?"← К общему плану":"‹ К моему плану"}</button><span>{chapter?.title}</span></header>
       {chapter&&<aside className={styles.topicIntro} aria-label="Об этой теме"><strong>{chapter.title}</strong><p>{chapter.description}.</p><small>Шаг {chapter.steps.findIndex(step=>step.id===selected.id)+1} из {chapter.steps.length} · сначала разберёмся, затем проверим себя.</small></aside>}
       <div className={styles.lessonContent} key={`${selected.id}:${attempt}`}>
         {selected.kind==="grammar"?<><h1 tabIndex={-1}>{selected.title}</h1><AdultLessons singleLesson activeLessonId={selected.lessonId} onLessonChange={()=>{}} onOpenPractice={()=>{}} onOpenConjugationOverview={()=>{}}/></>:selected.kind==="everyday"?<EverydayLesson lessonId={selected.lessonId}/>:<>
@@ -38,7 +38,7 @@ export function ChildPracticePlan({onOpenCatalog,initialStepId=null}:{onOpenCata
           <div hidden={wordPhase!=="write"}><VocabularyWriting title={selected.title} words={selectedWords} active={wordPhase==="write"}/></div>
         </>}
       </div>
-      {done&&<aside className={styles.finished} aria-label="Занятие пройдено"><strong>✓ Занятие пройдено</strong>{progress.completed[selected.id].needsReview&&<span>Можно вернуться и повторить без подсказок.</span>}<button type="button" onClick={()=>after?open(after):setCurrent(null)}>{after?"Следующее занятие →":"К моему плану"}</button></aside>}
+      {done&&<aside className={styles.finished} aria-label="Занятие пройдено"><strong>✓ Занятие пройдено</strong>{progress.completed[selected.id].needsReview&&<span>Можно вернуться и повторить без подсказок.</span>}<button type="button" onClick={()=>onBackToPlan?onBackToPlan():after?open(after):setCurrent(null)}>{onBackToPlan?"К общему плану →":after?"Следующее занятие →":"К моему плану"}</button></aside>}
     </section>;
   }
   const recommendedChapter=practicePlanChapters.find(item=>item.steps.some(step=>step.id===recommended.id));

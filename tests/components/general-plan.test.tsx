@@ -1,0 +1,51 @@
+import {afterEach,beforeEach,expect,test,vi} from "vitest";
+import {cleanup,fireEvent,render,screen} from "@testing-library/react";
+import {LegacyDemo} from "@/github-pages/Demo";
+import {GeneralPlan} from "@/features/learning/plan/GeneralPlan";
+import {activateLocalTransport} from "@/shared/http/local-transport";
+import {createLocalLearningApi} from "@/github-pages/local-learning-api";
+import {emptyLocalLearning,localLearningSchema,type LearningStore} from "@/github-pages/local-learning-store";
+import {browserPracticePlanStorage} from "@/github-pages/practice-plan-storage";
+import {emptyPracticePlanProgress} from "@/features/practice/plan/model";
+import {grammarStart} from "@/features/learning/gramatica/session";
+import {allGramaticaLessons} from "@/features/content/gramatica-ativa";
+import {gramaticaVocabulary} from "@/features/content/gramatica-vocabulary";
+let deactivate:(()=>void)|undefined;
+afterEach(()=>{cleanup();deactivate?.();});
+beforeEach(()=>{localStorage.clear();window.history.replaceState(null,"","/tempo-react/#/learning/plan");vi.spyOn(window,"scrollTo").mockImplementation(()=>{});});
+function setup(){let data=emptyLocalLearning();const store:LearningStore={read:async()=>structuredClone(data),update:async change=>{data=localLearningSchema.parse(change(structuredClone(data)));return structuredClone(data);},close(){}};const api=createLocalLearningApi(store);deactivate=activateLocalTransport(api);return {store,api};}
+test("book practice returns to the common plan, resumes its saved answer and preserves prior learning and SRS",async()=>{
+  const {store,api}=setup(),lesson=allGramaticaLessons.find(row=>row.unit===27)!;
+  const old={lessonId:allGramaticaLessons[0].id,flowRevision:1,status:"finished" as const,canDoResult:"demonstrated" as const,snapshot:{completed:true},updatedAt:100};
+  await store.update(data=>({...data,progress:[old]}));
+  const id=gramaticaVocabulary[0].studyItemId;
+  const post=(body:unknown)=>({method:"POST",body:JSON.stringify(body)});
+  await api("/api/study-items",post({studyItemId:id,sourceType:"lesson",sourceId:old.lessonId,clientEventId:`card:${crypto.randomUUID()}`}));
+  await api("/api/study-reviews",post({studyItemId:id,clientEventId:`review:${crypto.randomUUID()}`,grade:2,expectedVersion:0}));
+  const review=(await store.read()).reviews[0];
+  const snapshot=grammarStart(lesson);
+  await api("/api/learning/progress",post({lessonId:lesson.id,flowRevision:1,status:"active",sessionId:snapshot.sessionId,snapshot:{grammar:snapshot},updatedAt:200}));
+  render(<LegacyDemo/>);
+  fireEvent.click(await screen.findByRole("link",{name:"Продолжить урок →"}));
+  await screen.findByRole("textbox");fireEvent.change(screen.getByRole("textbox"),{target:{value:"abras"}});fireEvent.click(screen.getByRole("button",{name:"Проверить"}));
+  await screen.findByText("Верно",{exact:true});fireEvent.click(screen.getByRole("link",{name:"← К общему плану"}));
+  expect(await screen.findByRole("heading",{name:"Общий план"})).toBeVisible();
+  const resume=await screen.findByRole("link",{name:"Продолжить урок →"});expect(resume).toHaveAttribute("href",`#/learning/gramatica-ativa/${lesson.slug}`);
+  fireEvent.click(resume);expect(await screen.findByText("Верно",{exact:true})).toBeVisible();
+  expect((await store.read()).progress.find(row=>row.lessonId===old.lessonId)).toEqual(old);expect((await store.read()).reviews[0]).toEqual(review);
+});
+test("short-lesson completion is shown without completing a book check; the legacy course URL is the same plan",async()=>{
+  const {store}=setup(),progress=emptyPracticePlanProgress();progress.completed["practice:grammar:ser"]={revision:1,needsReview:false};browserPracticePlanStorage.save(progress);
+  window.history.replaceState(null,"","/tempo-react/#/learning/gramatica-ativa");render(<LegacyDemo/>);
+  expect(await screen.findByText("0 из 30 проверок книги пройдено")).toBeVisible();
+  expect(screen.getByText("✓ Короткая практика пройдена")).toBeVisible();expect((await store.read()).progress).toEqual([]);
+  fireEvent.click(screen.getByRole("group",{name:"Показать темы"}).querySelector("button[aria-pressed=false]")!);
+  expect(screen.getByText("Таких тем пока нет.")).toBeVisible();
+});
+test("planned topics expose only vocabulary and all old supplemental IDs remain addressable",()=>{
+  render(<GeneralPlan practiceOnly/>);
+  fireEvent.click(screen.getByText("U31–U54 · Следующие темы книги"));
+  expect(screen.getByRole("link",{name:"Разобрать слова U54 →"})).toHaveAttribute("href","/learning/gramatica-ativa/words/u54");
+  expect(screen.queryByRole("link",{name:/Объяснение U54/})).not.toBeInTheDocument();
+  expect(document.querySelector('a[href="/learning/plan/step/practice%3Awords%3Aexpansion-family-close"]')).toBeInTheDocument();
+});

@@ -24,7 +24,7 @@ export function GrammarVocabulary({ unit, practiceOnly = false }: { unit?: numbe
   function reset() { setIndex(0); setFlipped(false); }
   function move(next: number) { setIndex(next); setFlipped(false); }
   return <section className={styles.course}>
-    <LegacyLessonLink href="/learning/gramatica-ativa">← К курсу Gramática Ativa 1</LegacyLessonLink>
+    <LegacyLessonLink href="/learning/plan">← К общему плану</LegacyLessonLink>
     <span className="tempo-kicker">Взрослый словарь · Все 54 урока</span>
     <h1 tabIndex={-1}>Слова и выражения{unit ? ` · урок ${unit}` : ""}</h1>
     <p>Всего значений: {gramaticaVocabulary.length}. Карточки связаны с уроками.</p>
