@@ -1,0 +1,1008 @@
+[
+  {
+    "unitId": "letters",
+    "home": "reading",
+    "availability": "local-reading",
+    "title": "Алфавит",
+    "subject": "portuguese",
+    "primaryActivityIds": [
+      "prep:phonics:letters:vowels",
+      "prep:phonics:letters:consonants"
+    ],
+    "keywordWordIds": [
+      "prep-keyword:letters:0",
+      "prep-keyword:letters:1",
+      "prep-keyword:letters:2",
+      "prep-keyword:letters:3",
+      "prep-keyword:letters:4",
+      "prep-keyword:letters:5"
+    ],
+    "pairsActivityId": "pairs:prep-keywords:letters",
+    "searchActivityContract": "wordActivityId(\"search\", board.words.map(word => word.id))",
+    "phonicsWords": [],
+    "target": null,
+    "questionCount": 2,
+    "shortQuizRendered": false,
+    "paperSheet": null
+  },
+  {
+    "unitId": "r-rr",
+    "home": "reading",
+    "availability": "local-reading",
+    "title": "R или RR?",
+    "subject": "portuguese",
+    "primaryActivityIds": [
+      "prep:phonics:r-rr"
+    ],
+    "keywordWordIds": [
+      "prep-keyword:r-rr:0",
+      "study:ga1:noun:carro:entry",
+      "prep-keyword:r-rr:2",
+      "general-vocabulary:noun:coracao"
+    ],
+    "pairsActivityId": "pairs:prep-keywords:r-rr",
+    "searchActivityContract": "wordActivityId(\"search\", board.words.map(word => word.id))",
+    "phonicsWords": [
+      {
+        "word": "caro",
+        "meaning": "дорогой",
+        "segment": "r",
+        "group": "r"
+      },
+      {
+        "word": "carro",
+        "meaning": "машина",
+        "segment": "rr",
+        "group": "rr"
+      },
+      {
+        "word": "pera",
+        "meaning": "груша",
+        "segment": "r",
+        "group": "r"
+      },
+      {
+        "word": "terra",
+        "meaning": "земля",
+        "segment": "rr",
+        "group": "rr"
+      },
+      {
+        "word": "barata",
+        "meaning": "таракан",
+        "segment": "r",
+        "group": "r"
+      },
+      {
+        "word": "barraca",
+        "meaning": "палатка",
+        "segment": "rr",
+        "group": "rr"
+      },
+      {
+        "word": "coração",
+        "meaning": "сердце",
+        "segment": "r",
+        "group": "r"
+      },
+      {
+        "word": "correr",
+        "meaning": "бежать",
+        "segment": "rr",
+        "group": "rr"
+      },
+      {
+        "word": "rato",
+        "meaning": "мышь",
+        "segment": "r",
+        "group": "r"
+      },
+      {
+        "word": "rua",
+        "meaning": "улица",
+        "segment": "r",
+        "group": "r"
+      },
+      {
+        "word": "garrafa",
+        "meaning": "бутылка",
+        "segment": "rr",
+        "group": "rr"
+      },
+      {
+        "word": "cachorro",
+        "meaning": "щенок",
+        "segment": "rr",
+        "group": "rr"
+      }
+    ],
+    "target": null,
+    "questionCount": 2,
+    "shortQuizRendered": false,
+    "paperSheet": null
+  },
+  {
+    "unitId": "s-ss",
+    "home": "reading",
+    "availability": "local-reading",
+    "title": "S или SS?",
+    "subject": "portuguese",
+    "primaryActivityIds": [
+      "prep:phonics:s-ss"
+    ],
+    "keywordWordIds": [
+      "scene-word:a-casa",
+      "vocabulary:noun:massa",
+      "prep-keyword:s-ss:2",
+      "prep-keyword:s-ss:3"
+    ],
+    "pairsActivityId": "pairs:prep-keywords:s-ss",
+    "searchActivityContract": "wordActivityId(\"search\", board.words.map(word => word.id))",
+    "phonicsWords": [
+      {
+        "word": "casa",
+        "meaning": "дом",
+        "segment": "s",
+        "group": "s"
+      },
+      {
+        "word": "massa",
+        "meaning": "макароны",
+        "segment": "ss",
+        "group": "ss"
+      },
+      {
+        "word": "rosa",
+        "meaning": "роза",
+        "segment": "s",
+        "group": "s"
+      },
+      {
+        "word": "pássaro",
+        "meaning": "птица",
+        "segment": "ss",
+        "group": "ss"
+      },
+      {
+        "word": "mesa",
+        "meaning": "стол",
+        "segment": "s",
+        "group": "s"
+      },
+      {
+        "word": "osso",
+        "meaning": "кость",
+        "segment": "ss",
+        "group": "ss"
+      },
+      {
+        "word": "camisa",
+        "meaning": "рубашка",
+        "segment": "s",
+        "group": "s"
+      },
+      {
+        "word": "pessoa",
+        "meaning": "человек",
+        "segment": "ss",
+        "group": "ss"
+      }
+    ],
+    "target": null,
+    "questionCount": 2,
+    "shortQuizRendered": false,
+    "paperSheet": null
+  },
+  {
+    "unitId": "c-cedilla",
+    "home": "reading",
+    "availability": "local-reading",
+    "title": "C и Ç",
+    "subject": "portuguese",
+    "primaryActivityIds": [
+      "prep:phonics:c-cedilla"
+    ],
+    "keywordWordIds": [
+      "study:ga1:noun:cidade:entry",
+      "vocabulary:noun:cabeca",
+      "prep-keyword:c-cedilla:2",
+      "prep-keyword:c-cedilla:3"
+    ],
+    "pairsActivityId": "pairs:prep-keywords:c-cedilla",
+    "searchActivityContract": "wordActivityId(\"search\", board.words.map(word => word.id))",
+    "phonicsWords": [
+      {
+        "word": "cidade",
+        "meaning": "город",
+        "segment": "c",
+        "group": "c"
+      },
+      {
+        "word": "cereja",
+        "meaning": "вишня",
+        "segment": "c",
+        "group": "c"
+      },
+      {
+        "word": "cinema",
+        "meaning": "кинотеатр",
+        "segment": "c",
+        "group": "c"
+      },
+      {
+        "word": "cenoura",
+        "meaning": "морковь",
+        "segment": "c",
+        "group": "c"
+      },
+      {
+        "word": "cabeça",
+        "meaning": "голова",
+        "segment": "ç",
+        "group": "ç"
+      },
+      {
+        "word": "açúcar",
+        "meaning": "сахар",
+        "segment": "ç",
+        "group": "ç"
+      },
+      {
+        "word": "laço",
+        "meaning": "бант",
+        "segment": "ç",
+        "group": "ç"
+      },
+      {
+        "word": "coração",
+        "meaning": "сердце",
+        "segment": "ç",
+        "group": "ç"
+      }
+    ],
+    "target": null,
+    "questionCount": 2,
+    "shortQuizRendered": false,
+    "paperSheet": null
+  },
+  {
+    "unitId": "s-z",
+    "home": "reading",
+    "availability": "local-reading",
+    "title": "Сочетания с S и Z",
+    "subject": "portuguese",
+    "primaryActivityIds": [
+      "prep:phonics:s-z"
+    ],
+    "keywordWordIds": [
+      "scene-word:o-lapis",
+      "clothing-vestido",
+      "prep-keyword:s-z:2",
+      "prep-keyword:s-z:3"
+    ],
+    "pairsActivityId": "pairs:prep-keywords:s-z",
+    "searchActivityContract": "wordActivityId(\"search\", board.words.map(word => word.id))",
+    "phonicsWords": [
+      {
+        "word": "vestido",
+        "meaning": "платье",
+        "segment": "s",
+        "group": "s"
+      },
+      {
+        "word": "escola",
+        "meaning": "школа",
+        "segment": "s",
+        "group": "s"
+      },
+      {
+        "word": "lápis",
+        "meaning": "карандаш",
+        "segment": "s",
+        "group": "s"
+      },
+      {
+        "word": "festa",
+        "meaning": "праздник",
+        "segment": "s",
+        "group": "s"
+      },
+      {
+        "word": "luz",
+        "meaning": "свет",
+        "segment": "z",
+        "group": "z"
+      },
+      {
+        "word": "noz",
+        "meaning": "грецкий орех",
+        "segment": "z",
+        "group": "z"
+      },
+      {
+        "word": "azul",
+        "meaning": "синий",
+        "segment": "z",
+        "group": "z"
+      },
+      {
+        "word": "dez",
+        "meaning": "десять",
+        "segment": "z",
+        "group": "z"
+      }
+    ],
+    "target": null,
+    "questionCount": 2,
+    "shortQuizRendered": false,
+    "paperSheet": null
+  },
+  {
+    "unitId": "g-gu",
+    "home": "reading",
+    "availability": "local-reading",
+    "title": "GE/GI и GUE/GUI",
+    "subject": "portuguese",
+    "primaryActivityIds": [
+      "prep:phonics:g-gu"
+    ],
+    "keywordWordIds": [
+      "prep-keyword:g-gu:0",
+      "prep-keyword:g-gu:1",
+      "prep-keyword:g-gu:2",
+      "prep-keyword:g-gu:3"
+    ],
+    "pairsActivityId": "pairs:prep-keywords:g-gu",
+    "searchActivityContract": "wordActivityId(\"search\", board.words.map(word => word.id))",
+    "phonicsWords": [
+      {
+        "word": "gelo",
+        "meaning": "лёд",
+        "segment": "g",
+        "group": "g"
+      },
+      {
+        "word": "girafa",
+        "meaning": "жираф",
+        "segment": "g",
+        "group": "g"
+      },
+      {
+        "word": "gema",
+        "meaning": "желток",
+        "segment": "g",
+        "group": "g"
+      },
+      {
+        "word": "gigante",
+        "meaning": "великан",
+        "segment": "g",
+        "group": "g"
+      },
+      {
+        "word": "guitarra",
+        "meaning": "гитара",
+        "segment": "gu",
+        "group": "gu"
+      },
+      {
+        "word": "foguete",
+        "meaning": "ракета",
+        "segment": "gu",
+        "group": "gu"
+      },
+      {
+        "word": "guerra",
+        "meaning": "война",
+        "segment": "gu",
+        "group": "gu"
+      },
+      {
+        "word": "guia",
+        "meaning": "гид",
+        "segment": "gu",
+        "group": "gu"
+      }
+    ],
+    "target": null,
+    "questionCount": 2,
+    "shortQuizRendered": false,
+    "paperSheet": null
+  },
+  {
+    "unitId": "nasal",
+    "home": "reading",
+    "availability": "local-reading",
+    "title": "M и N",
+    "subject": "portuguese",
+    "primaryActivityIds": [
+      "prep:phonics:nasal"
+    ],
+    "keywordWordIds": [
+      "prep-keyword:nasal:0",
+      "prep-keyword:nasal:1",
+      "prep-keyword:nasal:2",
+      "scene-word:o-vento"
+    ],
+    "pairsActivityId": "pairs:prep-keywords:nasal",
+    "searchActivityContract": "wordActivityId(\"search\", board.words.map(word => word.id))",
+    "phonicsWords": [
+      {
+        "word": "campo",
+        "meaning": "поле",
+        "segment": "m",
+        "group": "m"
+      },
+      {
+        "word": "tambor",
+        "meaning": "барабан",
+        "segment": "m",
+        "group": "m"
+      },
+      {
+        "word": "tempo",
+        "meaning": "время",
+        "segment": "m",
+        "group": "m"
+      },
+      {
+        "word": "sombra",
+        "meaning": "тень",
+        "segment": "m",
+        "group": "m"
+      },
+      {
+        "word": "dente",
+        "meaning": "зуб",
+        "segment": "n",
+        "group": "n"
+      },
+      {
+        "word": "vento",
+        "meaning": "ветер",
+        "segment": "n",
+        "group": "n"
+      },
+      {
+        "word": "ponte",
+        "meaning": "мост",
+        "segment": "n",
+        "group": "n"
+      },
+      {
+        "word": "mundo",
+        "meaning": "мир",
+        "segment": "n",
+        "group": "n"
+      }
+    ],
+    "target": null,
+    "questionCount": 2,
+    "shortQuizRendered": false,
+    "paperSheet": null
+  },
+  {
+    "unitId": "digraphs",
+    "home": "reading",
+    "availability": "local-reading",
+    "title": "NH, LH и CH",
+    "subject": "portuguese",
+    "primaryActivityIds": [
+      "prep:phonics:digraphs"
+    ],
+    "keywordWordIds": [
+      "prep-keyword:digraphs:0",
+      "scene-word:a-folha",
+      "scene-word:a-chuva",
+      "scene-word:a-galinha"
+    ],
+    "pairsActivityId": "pairs:prep-keywords:digraphs",
+    "searchActivityContract": "wordActivityId(\"search\", board.words.map(word => word.id))",
+    "phonicsWords": [
+      {
+        "word": "ninho",
+        "meaning": "гнездо",
+        "segment": "nh",
+        "group": "nh"
+      },
+      {
+        "word": "galinha",
+        "meaning": "курица",
+        "segment": "nh",
+        "group": "nh"
+      },
+      {
+        "word": "banho",
+        "meaning": "купание",
+        "segment": "nh",
+        "group": "nh"
+      },
+      {
+        "word": "folha",
+        "meaning": "лист",
+        "segment": "lh",
+        "group": "lh"
+      },
+      {
+        "word": "olho",
+        "meaning": "глаз",
+        "segment": "lh",
+        "group": "lh"
+      },
+      {
+        "word": "milho",
+        "meaning": "кукуруза",
+        "segment": "lh",
+        "group": "lh"
+      },
+      {
+        "word": "chuva",
+        "meaning": "дождь",
+        "segment": "ch",
+        "group": "ch"
+      },
+      {
+        "word": "chave",
+        "meaning": "ключ",
+        "segment": "ch",
+        "group": "ch"
+      },
+      {
+        "word": "mochila",
+        "meaning": "рюкзак",
+        "segment": "ch",
+        "group": "ch"
+      }
+    ],
+    "target": null,
+    "questionCount": 2,
+    "shortQuizRendered": false,
+    "paperSheet": null
+  },
+  {
+    "unitId": "x-sounds",
+    "home": "reading",
+    "availability": "local-reading",
+    "title": "Звуки X",
+    "subject": "portuguese",
+    "primaryActivityIds": [
+      "prep:phonics:x-sounds"
+    ],
+    "keywordWordIds": [
+      "vocabulary:noun:peixe",
+      "prep-keyword:x-sounds:1",
+      "prep-keyword:x-sounds:2",
+      "prep-keyword:x-sounds:3"
+    ],
+    "pairsActivityId": "pairs:prep-keywords:x-sounds",
+    "searchActivityContract": "wordActivityId(\"search\", board.words.map(word => word.id))",
+    "phonicsWords": [
+      {
+        "word": "peixe",
+        "meaning": "рыба",
+        "segment": "x",
+        "group": "ch"
+      },
+      {
+        "word": "caixa",
+        "meaning": "коробка",
+        "segment": "x",
+        "group": "ch"
+      },
+      {
+        "word": "ameixa",
+        "meaning": "слива",
+        "segment": "x",
+        "group": "ch"
+      },
+      {
+        "word": "exame",
+        "meaning": "экзамен",
+        "segment": "x",
+        "group": "z"
+      },
+      {
+        "word": "exemplo",
+        "meaning": "пример",
+        "segment": "x",
+        "group": "z"
+      },
+      {
+        "word": "próximo",
+        "meaning": "следующий",
+        "segment": "x",
+        "group": "s"
+      },
+      {
+        "word": "máximo",
+        "meaning": "максимальный",
+        "segment": "x",
+        "group": "s"
+      },
+      {
+        "word": "táxi",
+        "meaning": "такси",
+        "segment": "x",
+        "group": "c + s"
+      },
+      {
+        "word": "fixo",
+        "meaning": "неподвижный",
+        "segment": "x",
+        "group": "c + s"
+      }
+    ],
+    "target": null,
+    "questionCount": 2,
+    "shortQuizRendered": false,
+    "paperSheet": null
+  },
+  {
+    "unitId": "clusters",
+    "home": "reading",
+    "availability": "local-reading",
+    "title": "Сочетания согласных",
+    "subject": "portuguese",
+    "primaryActivityIds": [
+      "prep:phonics:clusters"
+    ],
+    "keywordWordIds": [
+      "prep-keyword:clusters:0",
+      "scene-word:o-prato",
+      "scene-word:a-flor",
+      "scene-word:o-livro"
+    ],
+    "pairsActivityId": "pairs:prep-keywords:clusters",
+    "searchActivityContract": "wordActivityId(\"search\", board.words.map(word => word.id))",
+    "phonicsWords": [
+      {
+        "word": "braço",
+        "meaning": "рука",
+        "segment": "br",
+        "group": "br"
+      },
+      {
+        "word": "cravo",
+        "meaning": "гвоздика",
+        "segment": "cr",
+        "group": "cr"
+      },
+      {
+        "word": "dragão",
+        "meaning": "дракон",
+        "segment": "dr",
+        "group": "dr"
+      },
+      {
+        "word": "fruta",
+        "meaning": "фрукт",
+        "segment": "fr",
+        "group": "fr"
+      },
+      {
+        "word": "grilo",
+        "meaning": "сверчок",
+        "segment": "gr",
+        "group": "gr"
+      },
+      {
+        "word": "prato",
+        "meaning": "тарелка",
+        "segment": "pr",
+        "group": "pr"
+      },
+      {
+        "word": "três",
+        "meaning": "три",
+        "segment": "tr",
+        "group": "tr"
+      },
+      {
+        "word": "livro",
+        "meaning": "книга",
+        "segment": "vr",
+        "group": "vr"
+      },
+      {
+        "word": "bloco",
+        "meaning": "блок",
+        "segment": "bl",
+        "group": "bl"
+      },
+      {
+        "word": "claro",
+        "meaning": "светлый",
+        "segment": "cl",
+        "group": "cl"
+      },
+      {
+        "word": "flor",
+        "meaning": "цветок",
+        "segment": "fl",
+        "group": "fl"
+      },
+      {
+        "word": "globo",
+        "meaning": "глобус",
+        "segment": "gl",
+        "group": "gl"
+      },
+      {
+        "word": "planta",
+        "meaning": "растение",
+        "segment": "pl",
+        "group": "pl"
+      }
+    ],
+    "target": null,
+    "questionCount": 2,
+    "shortQuizRendered": false,
+    "paperSheet": null
+  },
+  {
+    "unitId": "hours",
+    "home": "time-and-day",
+    "availability": "preparation-only",
+    "title": "Часы и сутки",
+    "subject": "math",
+    "primaryActivityIds": [
+      "prep:hours",
+      "clock:read",
+      "clock:set"
+    ],
+    "keywordWordIds": [
+      "prep-keyword:hours:0",
+      "prep-keyword:hours:1",
+      "prep-keyword:hours:2",
+      "prep-keyword:hours:3"
+    ],
+    "pairsActivityId": "pairs:prep-keywords:hours",
+    "searchActivityContract": "wordActivityId(\"search\", board.words.map(word => word.id))",
+    "phonicsWords": [],
+    "target": {
+      "topicId": "topic:vocabulary-calendar",
+      "mode": "calendar",
+      "calendarLessonId": "hours"
+    },
+    "questionCount": 2,
+    "shortQuizRendered": true,
+    "paperSheet": null
+  },
+  {
+    "unitId": "months",
+    "home": "time-and-day",
+    "availability": "preparation-only",
+    "title": "Месяцы и дни",
+    "subject": "math",
+    "primaryActivityIds": [
+      "prep:months",
+      "prep:months:order",
+      "prep:months:days"
+    ],
+    "keywordWordIds": [
+      "vocabulary:calendar:janeiro",
+      "vocabulary:calendar:fevereiro",
+      "vocabulary:calendar:março",
+      "vocabulary:calendar:abril",
+      "vocabulary:calendar:maio",
+      "vocabulary:calendar:junho",
+      "vocabulary:calendar:julho",
+      "vocabulary:calendar:agosto",
+      "vocabulary:calendar:setembro",
+      "vocabulary:calendar:outubro",
+      "vocabulary:calendar:novembro",
+      "vocabulary:calendar:dezembro"
+    ],
+    "pairsActivityId": "pairs:prep-keywords:months",
+    "searchActivityContract": "wordActivityId(\"search\", board.words.map(word => word.id))",
+    "phonicsWords": [],
+    "target": {
+      "topicId": "topic:vocabulary-calendar",
+      "mode": "calendar",
+      "calendarLessonId": "months-first"
+    },
+    "questionCount": 2,
+    "shortQuizRendered": true,
+    "paperSheet": null
+  },
+  {
+    "unitId": "ordinals-first",
+    "home": "school-ordinals",
+    "availability": "preparation-only",
+    "title": "С первого по десятый",
+    "subject": "math",
+    "primaryActivityIds": [
+      "prep:ordinals-first"
+    ],
+    "keywordWordIds": [
+      "prep-keyword:ordinals-first:0",
+      "prep-keyword:ordinals-first:1",
+      "prep-keyword:ordinals-first:2",
+      "prep-keyword:ordinals-first:3"
+    ],
+    "pairsActivityId": "pairs:prep-keywords:ordinals-first",
+    "searchActivityContract": "wordActivityId(\"search\", board.words.map(word => word.id))",
+    "phonicsWords": [],
+    "target": null,
+    "questionCount": 2,
+    "shortQuizRendered": true,
+    "paperSheet": null
+  },
+  {
+    "unitId": "ordinals-last",
+    "home": "school-ordinals",
+    "availability": "preparation-only",
+    "title": "До двадцатого",
+    "subject": "math",
+    "primaryActivityIds": [
+      "prep:ordinals-last"
+    ],
+    "keywordWordIds": [
+      "prep-keyword:ordinals-last:0",
+      "prep-keyword:ordinals-last:1",
+      "prep-keyword:ordinals-last:2",
+      "prep-keyword:ordinals-last:3"
+    ],
+    "pairsActivityId": "pairs:prep-keywords:ordinals-last",
+    "searchActivityContract": "wordActivityId(\"search\", board.words.map(word => word.id))",
+    "phonicsWords": [],
+    "target": null,
+    "questionCount": 2,
+    "shortQuizRendered": true,
+    "paperSheet": null
+  },
+  {
+    "unitId": "cooperation",
+    "home": "cooperation",
+    "availability": "preparation-only",
+    "title": "Общение и конфликты",
+    "subject": "world",
+    "primaryActivityIds": [
+      "prep:cooperation"
+    ],
+    "keywordWordIds": [
+      "vocabulary:cooperation:dialogue",
+      "prep-keyword:cooperation:1",
+      "prep-keyword:cooperation:2",
+      "prep-keyword:cooperation:3"
+    ],
+    "pairsActivityId": "pairs:prep-keywords:cooperation",
+    "searchActivityContract": "wordActivityId(\"search\", board.words.map(word => word.id))",
+    "phonicsWords": [],
+    "target": {
+      "topicId": "topic:vocabulary-cooperation",
+      "mode": "cooperation"
+    },
+    "questionCount": 2,
+    "shortQuizRendered": true,
+    "paperSheet": 1
+  },
+  {
+    "unitId": "bones",
+    "home": "body",
+    "availability": "preparation-only",
+    "title": "Кости и мышцы",
+    "subject": "world",
+    "primaryActivityIds": [
+      "prep:bones"
+    ],
+    "keywordWordIds": [
+      "vocabulary:noun:osso",
+      "vocabulary:noun:musculo",
+      "prep-keyword:bones:2",
+      "prep-keyword:bones:3"
+    ],
+    "pairsActivityId": "pairs:prep-keywords:bones",
+    "searchActivityContract": "wordActivityId(\"search\", board.words.map(word => word.id))",
+    "phonicsWords": [],
+    "target": {
+      "topicId": "topic:vocabulary-body",
+      "collectionId": "collection:expansion-body-inside",
+      "mode": "cards"
+    },
+    "questionCount": 2,
+    "shortQuizRendered": true,
+    "paperSheet": 2
+  },
+  {
+    "unitId": "organs",
+    "home": "body",
+    "availability": "preparation-only",
+    "title": "Органы и функции",
+    "subject": "world",
+    "primaryActivityIds": [
+      "prep:organs",
+      "image:image-body-inside"
+    ],
+    "keywordWordIds": [
+      "general-vocabulary:noun:coracao",
+      "vocabulary:noun:pulmao",
+      "vocabulary:noun:estomago",
+      "vocabulary:noun:rim"
+    ],
+    "pairsActivityId": "pairs:prep-keywords:organs",
+    "searchActivityContract": "wordActivityId(\"search\", board.words.map(word => word.id))",
+    "phonicsWords": [],
+    "target": {
+      "topicId": "topic:vocabulary-body",
+      "collectionId": "collection:expansion-body-inside",
+      "mode": "cards"
+    },
+    "questionCount": 2,
+    "shortQuizRendered": true,
+    "paperSheet": 2
+  },
+  {
+    "unitId": "prevention",
+    "home": "health",
+    "availability": "preparation-only",
+    "title": "Профилактика и лечение",
+    "subject": "world",
+    "primaryActivityIds": [
+      "prep:prevention"
+    ],
+    "keywordWordIds": [
+      "prep-keyword:prevention:0",
+      "prep-keyword:prevention:1",
+      "prep-keyword:prevention:2",
+      "prep-keyword:prevention:3"
+    ],
+    "pairsActivityId": "pairs:prep-keywords:prevention",
+    "searchActivityContract": "wordActivityId(\"search\", board.words.map(word => word.id))",
+    "phonicsWords": [],
+    "target": null,
+    "questionCount": 2,
+    "shortQuizRendered": true,
+    "paperSheet": 3
+  },
+  {
+    "unitId": "wellbeing",
+    "home": "health",
+    "availability": "preparation-only",
+    "title": "Полезные привычки",
+    "subject": "world",
+    "primaryActivityIds": [
+      "prep:wellbeing"
+    ],
+    "keywordWordIds": [
+      "prep-keyword:wellbeing:0",
+      "prep-keyword:wellbeing:1",
+      "prep-keyword:wellbeing:2",
+      "prep-keyword:wellbeing:3"
+    ],
+    "pairsActivityId": "pairs:prep-keywords:wellbeing",
+    "searchActivityContract": "wordActivityId(\"search\", board.words.map(word => word.id))",
+    "phonicsWords": [],
+    "target": {
+      "topicId": "topic:vocabulary-my-day",
+      "mode": "cards",
+      "collectionId": "collection:my-day-actions"
+    },
+    "questionCount": 2,
+    "shortQuizRendered": true,
+    "paperSheet": 3
+  },
+  {
+    "unitId": "timeline",
+    "home": "school-timeline",
+    "availability": "preparation-only",
+    "title": "Линия времени",
+    "subject": "world",
+    "primaryActivityIds": [
+      "prep:timeline"
+    ],
+    "keywordWordIds": [
+      "study:ga1:noun:ano:entry",
+      "prep-keyword:timeline:1",
+      "prep-keyword:timeline:2",
+      "prep-keyword:timeline:3"
+    ],
+    "pairsActivityId": "pairs:prep-keywords:timeline",
+    "searchActivityContract": "wordActivityId(\"search\", board.words.map(word => word.id))",
+    "phonicsWords": [],
+    "target": null,
+    "questionCount": 2,
+    "shortQuizRendered": true,
+    "paperSheet": null
+  }
+]
