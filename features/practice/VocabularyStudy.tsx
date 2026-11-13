@@ -32,6 +32,7 @@ import {ClockLesson} from "./ClockLesson";
 import {FeelingsLesson} from "./FeelingsLesson";
 import {FamilyLesson} from "./FamilyLesson";
 import {familyCardsHref} from "../content/family-cards";
+import {familyFlowHref} from "../content/family-flow";
 import {FirstSteps} from "./FirstSteps";
 import {useProfileLearning} from "./profile-learning";
 import {LearningLibrary} from "./LearningLibrary";
@@ -91,6 +92,7 @@ export function VocabularyStudy({ onOpenCards,initialChildMode=false,initialTopi
   const group = studyVocabularyGroups.find(group => group.id === groupId);
   const orderedGroups=[...studyVocabularyGroups.filter(group=>group.id==="topic:vocabulary-family"),...studyVocabularyGroups.filter(group=>group.id==="topic:people"),...studyVocabularyGroups.filter(group=>group.id!=="topic:vocabulary-family"&&group.id!=="topic:people")];
   const renderTopic=(group:(typeof studyVocabularyGroups)[number],index:number)=>{
+    if(group.id==="topic:vocabulary-family")return <div key={group.id}><LegacyLessonLink className={styles.topicCard} href={familyFlowHref()}><strong>Моя семья и близкие</strong><span>Близкие · родственники</span><small>Объяснение → слова → задания → повторение</small></LegacyLessonLink><details><summary>Отдельные материалы семьи</summary><button type="button" className={styles.topicCard} data-topic-id={group.id} onClick={()=>{setGroupId(group.id);setMode("family");}}><strong>Família e amigos</strong><small>Семья и друзья · прежние наборы и упражнения</small></button></details></div>;
     const wordCount = new Set(group.subgroups.flatMap(subgroup => subgroup.sets.flatMap(set => set.words))).size;
     return <button type="button" className={styles.topicCard} data-tone={(index+3)%5} key={group.id} data-topic-id={group.id} onClick={() => { setGroupId(group.id); setMode(group.id==="topic:vocabulary-cooperation"?"cooperation":group.id==="topic:vocabulary-calendar"?"calendar":group.id==="topic:people"?"feelings":group.id==="topic:vocabulary-my-day"?"routine":group.id==="topic:vocabulary-family"?"family":"cards"); }}><TopicCover group={group} words={pairVocabulary} images={images}/><strong lang="pt-PT">{group.id==="topic:people"?"Como me sinto?":vocabularyTitlesPt[group.title] ?? group.title}</strong><small className={styles.catalogTranslation}>{group.id==="topic:people"?"Как я себя чувствую":group.title}</small><span className={styles.topicCount}>{wordCount} слов</span></button>;
   };

@@ -13,14 +13,16 @@ import styles from "./FirstSteps.module.css";
 import {useProfileLearning} from "./profile-learning";
 import {publicAssetUrl} from "../../shared/public-asset";
 import {familyCardsHref} from "../content/family-cards";
+import {FamilyExplanation} from "./FamilyExplanation";
 
 const familyWords=closeFamilyKeys.map(key=>topicExpansion.byKey.get(key)!);
 const usage=learningCatalog.usageModules.find(item=>item.id==="usage:family")!;
-export function FamilyLesson({initialChildMode=false,onBack,onNext}:{initialChildMode?:boolean;onBack?:()=>void;onNext?:()=>void}) {
+export function FamilyLesson({initialChildMode=false,onBack,onNext,flowPhase,active=true}:{initialChildMode?:boolean;onBack?:()=>void;onNext?:()=>void;flowPhase?:"explanation"|"practice";active?:boolean}) {
   const learner=useProfileLearning();
   const [localChild,setChild]=useState(initialChildMode),[phase,setPhase]=useState<"words"|"possessives"|"professions"|"examples"|"practice">("words");
   const child=learner?.profile.child??localChild;
   const contextualUsage={...usage,relatedLinks:usage.relatedLinks.map(link=>link.kind==="practice"&&child?{...link,href:`${link.href}&mode=kingdoms`}:link)};
+  if(flowPhase)return <ChildPresentation value={child}><section aria-label="Моя семья: слова и SER"><div hidden={flowPhase!=="explanation"}><FamilyExplanation topic="close"/></div><div hidden={flowPhase!=="practice"}><UsagePractice module={contextualUsage} compact active={active&&flowPhase==="practice"} onComplete={onNext} completionLabel="К повторению →"/></div></section></ChildPresentation>;
   return <ChildPresentation value={child}><section className={styles.pilot} aria-label="Моя семья: слова и SER" data-presentation={child?"child":"adult"}>
     {onBack&&<button type="button" className="pair-back" onClick={onBack}>‹ К первым шагам</button>}
     <span className="tempo-kicker">A minha família · Моя семья</span>{onBack?<h1>Рассказываем о близких</h1>:<h2>Рассказываем о близких</h2>}

@@ -2,7 +2,7 @@
 
 import {ActivityCompletion} from "./ActivityCompletion";
 import {wordActivityId} from "./learning-rewards";
-import { useRef, useState } from "react";
+import { useId,useRef, useState } from "react";
 import { checkVocabularyWritingAnswer, type VocabularyWord } from "../content/vocabulary-model";
 import { CardSpeechButton } from "../cards/components/CardSpeechButton";
 import { SpeechHelpButton } from "../cards/components/SpeechHelpButton";
@@ -11,6 +11,7 @@ import { usePracticePlan } from "./plan/PracticePlanContext";
 
 export function VocabularyWriting({ words, active = true, title }: { words: readonly VocabularyWord[]; active?: boolean; title?:string }) {
   const plan=usePracticePlan();
+  const answerId=useId(),feedbackId=useId();
   const [index, setIndex] = useState(0);
   const [answer, setAnswer] = useState("");
   const [result, setResult] = useState<"correct" | "wrong" | "accent" | null>(null);
@@ -51,11 +52,11 @@ export function VocabularyWriting({ words, active = true, title }: { words: read
       if (correct && !hint && !hadMistake) setScore(score + 1);
       if(!correct)setHadMistake(true);
     }}>
-      <label htmlFor="vocabulary-writing-answer">Твой ответ</label>
-      <input id="vocabulary-writing-answer" ref={input} lang="pt-PT" value={answer} onChange={event => { setAnswer(event.target.value); if (!resolved) setResult(null); }} readOnly={resolved} autoComplete="off" autoCapitalize="none" spellCheck={false} placeholder="Напиши слово…" aria-describedby="vocabulary-writing-feedback" />
+      <label htmlFor={answerId}>Твой ответ</label>
+      <input id={answerId} ref={input} lang="pt-PT" value={answer} onChange={event => { setAnswer(event.target.value); if (!resolved) setResult(null); }} readOnly={resolved} autoComplete="off" autoCapitalize="none" spellCheck={false} placeholder="Напиши слово…" aria-describedby={feedbackId} />
       <div className={styles.letters} role="group" aria-label="Португальские буквы">{["á", "à", "â", "ã", "é", "ê", "í", "ó", "ô", "õ", "ú", "ç"].map(letter => <button type="button" key={letter} lang="pt-PT" aria-label={`Вставить ${letter}`} disabled={resolved} onPointerDown={event => event.preventDefault()} onClick={() => insertLetter(letter)}>{letter}</button>)}</div>
       <small>Можно без артикля. Знаки ударения важны, если меняют значение слова.</small>
-      <div id="vocabulary-writing-feedback" className={styles.feedback} role="status" aria-label="Результат проверки">
+      <div id={feedbackId} className={styles.feedback} role="status" aria-label="Результат проверки">
         {result === "wrong" && "Пока не так. Попробуй ещё раз или открой подсказку."}
         {result === "accent" && "Здесь знак ударения отличает одно слово от другого. Выбери нужную букву под полем или открой подсказку."}
         {(resolved || hint) && <><span>{resolved ? "Верно!" : "Подсказка:"} <strong lang="pt-PT">{word.label}</strong></span><CardSpeechButton text={word.label} disabled={!active} /></>}

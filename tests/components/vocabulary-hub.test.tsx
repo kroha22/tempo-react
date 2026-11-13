@@ -8,6 +8,8 @@ describe("VocabularyHub", () => {
     render(<VocabularyHub onOpenCards={vi.fn()} initialChildMode={child}/>);
     const user=userEvent.setup();
     expect(screen.queryByRole("button",{name:/Primeiros passos/})).toBeNull();
+    expect(screen.getByRole("link",{name:/Моя семья и близкие/})).toBeVisible();
+    await user.click(screen.getByText("Отдельные материалы семьи"));
     for(const name of [/^Olá!/,/^Quem sou\?/,/^Família e amigos/,/^Como me sinto\?/])expect(screen.getByRole("button",{name})).toBeVisible();
     for(const name of [/^Olá!/,/^Quem sou\?/]){
       await user.click(screen.getByRole("button",{name}));

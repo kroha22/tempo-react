@@ -2,10 +2,11 @@ import {topicNounSeeds} from "./topic-expansion.ts";
 import {professionWords} from "./identity.ts";
 import {gramaticaVocabulary,vocabularyFront} from "./gramatica-vocabulary.ts";
 import type {Chunk,Example,StudyItem} from "./types.ts";
+import {familyFlowHref} from "./family-flow.ts";
 
 export type FamilyCardTopic="close"|"relatives";
 export const familyCardsHref=(topic:FamilyCardTopic="close",review=false)=>`/learning/family/cards?topic=${topic}${review?"&mode=review":""}`;
-export const familyCardSources=(["close","relatives"] as const).map(topic=>({id:`lesson:family:${topic}`,title:topic==="close"?"Моя семья · Близкие":"Моя семья · Родственники",href:familyCardsHref(topic)}));
+export const familyCardSources=(["close","relatives"] as const).map(topic=>({id:`lesson:family:${topic}`,title:topic==="close"?"Моя семья · Близкие":"Моя семья · Родственники",href:familyFlowHref(topic,"words")}));
 const familyKeys={close:["mae","pai","irmao","irma","avo-f","avo-m"],relatives:["tio","tia","primo","prima","filho","filha"]} as const;
 const existingFamily=new Set<string>(["irmao","irma","filho","filha"]);
 const reusedRoles:Record<string,string>={professor:"study:ga1:noun:professor:entry","médico":"study:ga1:noun:medico:entry"};

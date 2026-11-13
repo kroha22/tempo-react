@@ -62,6 +62,7 @@ test("the old catalog and words stay accessible from the child plan",()=>{
   fireEvent.click(screen.getByRole("button",{name:"Мой план"}));
   expect(screen.getByRole("heading",{name:"Мой план"})).toBeVisible();
   fireEvent.click(screen.getByRole("button",{name:"Уроки"}));
+  fireEvent.click(screen.getByText("Отдельные материалы семьи"));
   expect(screen.getByRole("button",{name:/^Família e amigos/})).toBeVisible();
 });
 

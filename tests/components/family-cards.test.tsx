@@ -7,6 +7,7 @@ import {activateLocalTransport} from "@/shared/http/local-transport";
 import {createLocalLearningApi} from "@/github-pages/local-learning-api";
 import {emptyLocalLearning,localLearningSchema,type LearningStore} from "@/github-pages/local-learning-store";
 import {familyCardWords,familyCardsHref} from "@/features/content/family-cards";
+import {familyFlowHref} from "@/features/content/family-flow";
 import {gramaticaVocabulary} from "@/features/content/gramatica-vocabulary";
 import {exportProfile,importProfile,parseBackup} from "@/github-pages/local-backup";
 import {createProfile} from "@/github-pages/profiles";
@@ -56,7 +57,7 @@ it("retries a lost Card Save response with the same intent and returns from the 
   fireEvent.click(await within(article).findByRole("button",{name:"Повторить сохранение"}));await within(article).findByRole("button",{name:"Уже в карточках ✓"});
   expect(requests).toHaveLength(2);expect(requests[0]).toEqual(requests[1]);expect((await store.read()).items).toHaveLength(1);expect((await store.read()).sources).toHaveLength(1);
   view.unmount();render(<SavedStudyItemLibrary/>);
-  expect(await screen.findByRole("link",{name:"К словам: Моя семья · Родственники →"})).toHaveAttribute("href",familyCardsHref("relatives"));
+  expect(await screen.findByRole("link",{name:"К словам: Моя семья · Родственники →"})).toHaveAttribute("href",familyFlowHref("relatives","words"));
 });
 
 it("reviews only saved family cards and retains schedule and sources in a JSON backup round-trip",async()=>{
