@@ -126,8 +126,7 @@ it("keeps saved best scores but hides results from preparation cards",async()=>{
 
 it.each([false,true])("embeds existing clocks and keeps explanation, quiz and paper together (child=%s)",async child=>{
   const user=userEvent.setup();
-  render(<VocabularyHub initialChildMode={child} onOpenCards={vi.fn()}/>);
-  await user.click(screen.getByRole("button",{name:/Preparar o teste/}));
+  render(<VocabularyHub initialTopicId="school:preparation" initialChildMode={child} onOpenCards={vi.fn()}/>);
   const region=screen.getByRole("region",{name:"Набор подготовки к проверочной"});
   await user.click(within(region).getByRole("button",{name:"Matemática"}));
   const hours=preparationUnits.find(u=>u.id==="hours")!;

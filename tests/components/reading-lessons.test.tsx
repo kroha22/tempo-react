@@ -10,7 +10,7 @@ import {preparationUnits} from "@/features/content/test-preparation";
 import {TestPreparation} from "@/features/practice/TestPreparation";
 
 it("opens all ten language lessons and keeps the full preparation available",()=>{
-  render(<VocabularyHub onOpenCards={vi.fn()}/>);
+  const view=render(<VocabularyHub onOpenCards={vi.fn()}/>);
   fireEvent.click(screen.getByRole("button",{name:/Буквы и чтение/}));
   expect(screen.getByText("10 тем · 10 всего")).toBeVisible();
   expect(screen.queryByRole("navigation",{name:"Предмет подготовки"})).not.toBeInTheDocument();
@@ -21,8 +21,8 @@ it("opens all ten language lessons and keeps the full preparation available",()=
     fireEvent.click(screen.getByRole("button",{name:"← К буквам и чтению"}));
   }
   fireEvent.click(screen.getByRole("button",{name:"← Ко всем темам"}));
-  expect(screen.getByRole("button",{name:/Подготовка к тесту/})).toBeVisible();
-  fireEvent.click(screen.getByRole("button",{name:/Подготовка к тесту/}));
+  expect(screen.queryByRole("button",{name:/Подготовка к тесту/})).not.toBeInTheDocument();
+  view.unmount();render(<VocabularyHub initialTopicId="school:preparation" onOpenCards={vi.fn()}/>);
   expect(screen.getByText("6 тем · 20 всего")).toBeVisible();
 });
 
@@ -37,12 +37,14 @@ it.each(["c-cedilla","s-z","g-gu","nasal","digraphs","x-sounds","clusters"])("ke
   }
   const words=preparationPhonics[id],view=render(<Session/>);
   fireEvent.click(screen.getByRole("button",{name:"Praticar"}));
-  for(const word of words)fireEvent.click(screen.getByRole("button",{name:`${word.meaning}: ${word.group}`}));
+  const spelling=within(screen.getByRole("region",{name:"Вставь сочетания букв"}));
+  for(const word of words){const card=spelling.getByText(word.meaning,{exact:true}).closest("article")!;fireEvent.click(within(card).getByRole("button",{name:`${word.meaning}: ${word.group}`}));}
   fireEvent.click(screen.getByRole("button",{name:"Verificar"}));
   expect(stores.learning.load().activities?.[`prep:phonics:${id}`]).toMatchObject({correct:words.length,total:words.length});
   view.unmount();render(<Session reading={false}/>);
   fireEvent.click(screen.getByRole("button",{name:"Praticar"}));
-  for(const word of words){const wrong=words.find(other=>other.group!==word.group)!.group;fireEvent.click(screen.getByRole("button",{name:`${word.meaning}: ${wrong}`}));}
+  const repeatedSpelling=within(screen.getByRole("region",{name:"Вставь сочетания букв"}));
+  for(const word of words){const wrong=words.find(other=>other.group!==word.group)!.group;const card=repeatedSpelling.getByText(word.meaning,{exact:true}).closest("article")!;fireEvent.click(within(card).getByRole("button",{name:`${word.meaning}: ${wrong}`}));}
   fireEvent.click(screen.getByRole("button",{name:"Verificar"}));
   const results=stores.learning.load().activities!;
   expect(results[`prep:phonics:${id}`]).toMatchObject({correct:words.length,total:words.length});
@@ -52,11 +54,12 @@ it.each(["c-cedilla","s-z","g-gu","nasal","digraphs","x-sounds","clusters"])("ke
 
 it.each([false,true])("shares spelling results with preparation (previous best: %s)",async(previousBest)=>{
   const user=userEvent.setup();
-  function Session(){
-    const [learning,setLearning]=useState<ProfileLearning>({...emptyProfileLearning(),activities:previousBest?{"prep:phonics:r-rr":{title:"R/RR",group:"Слова в жизни",correct:12,total:12}}:{}});
-    return <ProfileLearningContext value={{profile:{id:"reading-test",child:false},learning,savingError:false,update:change=>{setLearning(change);return true;}}}><VocabularyHub onOpenCards={vi.fn()}/><output aria-label="Saved results">{JSON.stringify(learning.activities)}</output></ProfileLearningContext>;
+  let persisted:ProfileLearning={...emptyProfileLearning(),activities:previousBest?{"prep:phonics:r-rr":{title:"R/RR",group:"Слова в жизни",correct:12,total:12}}:{}};
+  function Session({legacy=false}:{legacy?:boolean}){
+    const [learning,setLearning]=useState<ProfileLearning>(()=>persisted);
+    return <ProfileLearningContext value={{profile:{id:"reading-test",child:false},learning,savingError:false,update:change=>{persisted=change(persisted);setLearning(persisted);return true;}}}><VocabularyHub initialTopicId={legacy?"school:preparation":undefined} onOpenCards={vi.fn()}/><output aria-label="Saved results">{JSON.stringify(learning.activities)}</output></ProfileLearningContext>;
   }
-  render(<Session/>);
+  const view=render(<Session/>);
   await user.click(screen.getByRole("button",{name:/Буквы и чтение/}));
   await user.click(screen.getByRole("button",{name:/R ou RR/}));
   await user.click(screen.getByRole("button",{name:"Praticar"}));
@@ -70,7 +73,8 @@ it.each([false,true])("shares spelling results with preparation (previous best: 
   expect(JSON.parse(screen.getByLabelText("Saved results").textContent!)["prep:phonics:r-rr"].correct).toBe(previousBest?12:11);
   await user.click(screen.getByRole("button",{name:"← К буквам и чтению"}));
   await user.click(screen.getByRole("button",{name:"← Ко всем темам"}));
-  await user.click(screen.getByRole("button",{name:/Подготовка к тесту/}));
+  expect(screen.queryByRole("button",{name:/Подготовка к тесту/})).not.toBeInTheDocument();
+  view.unmount();render(<Session legacy/>);
   await user.click(within(screen.getByRole("navigation",{name:"Предмет подготовки"})).getByRole("button",{name:"Português"}));
   await user.click(screen.getByRole("button",{name:/R ou RR/}));
   await user.click(screen.getByRole("button",{name:"Praticar"}));

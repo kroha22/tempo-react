@@ -12,6 +12,7 @@ it("maps all twenty source units exactly once and exposes all ten language lesso
   expect(new Set(rows.map(row=>row.unitId)).size).toBe(20);
   expect(rows.map(row=>row.unitId)).toEqual(preparationUnits.map(unit=>unit.id));
   expect(rows.filter(row=>row.home==="reading")).toHaveLength(10);
+  expect(rows.filter(row=>row.availability==="permanent-lesson")).toHaveLength(10);
   expect(rows.filter(row=>row.availability==="local-reading").map(row=>row.unitId)).toEqual([...readingLessonIds]);
   expect(preparationMigrationHomes).toHaveLength(rows.length);
 });

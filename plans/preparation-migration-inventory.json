@@ -22,6 +22,8 @@
     "phonicsWords": [],
     "target": null,
     "questionCount": 2,
+    "entryTopicId": "topic:reading",
+    "homeTopicId": "topic:reading",
     "shortQuizRendered": false,
     "paperSheet": null
   },
@@ -118,6 +120,8 @@
     ],
     "target": null,
     "questionCount": 2,
+    "entryTopicId": "topic:reading",
+    "homeTopicId": "topic:reading",
     "shortQuizRendered": false,
     "paperSheet": null
   },
@@ -190,6 +194,8 @@
     ],
     "target": null,
     "questionCount": 2,
+    "entryTopicId": "topic:reading",
+    "homeTopicId": "topic:reading",
     "shortQuizRendered": false,
     "paperSheet": null
   },
@@ -262,6 +268,8 @@
     ],
     "target": null,
     "questionCount": 2,
+    "entryTopicId": "topic:reading",
+    "homeTopicId": "topic:reading",
     "shortQuizRendered": false,
     "paperSheet": null
   },
@@ -334,6 +342,8 @@
     ],
     "target": null,
     "questionCount": 2,
+    "entryTopicId": "topic:reading",
+    "homeTopicId": "topic:reading",
     "shortQuizRendered": false,
     "paperSheet": null
   },
@@ -406,6 +416,8 @@
     ],
     "target": null,
     "questionCount": 2,
+    "entryTopicId": "topic:reading",
+    "homeTopicId": "topic:reading",
     "shortQuizRendered": false,
     "paperSheet": null
   },
@@ -478,6 +490,8 @@
     ],
     "target": null,
     "questionCount": 2,
+    "entryTopicId": "topic:reading",
+    "homeTopicId": "topic:reading",
     "shortQuizRendered": false,
     "paperSheet": null
   },
@@ -556,6 +570,8 @@
     ],
     "target": null,
     "questionCount": 2,
+    "entryTopicId": "topic:reading",
+    "homeTopicId": "topic:reading",
     "shortQuizRendered": false,
     "paperSheet": null
   },
@@ -634,6 +650,8 @@
     ],
     "target": null,
     "questionCount": 2,
+    "entryTopicId": "topic:reading",
+    "homeTopicId": "topic:reading",
     "shortQuizRendered": false,
     "paperSheet": null
   },
@@ -736,13 +754,15 @@
     ],
     "target": null,
     "questionCount": 2,
+    "entryTopicId": "topic:reading",
+    "homeTopicId": "topic:reading",
     "shortQuizRendered": false,
     "paperSheet": null
   },
   {
     "unitId": "hours",
     "home": "time-and-day",
-    "availability": "preparation-only",
+    "availability": "permanent-lesson",
     "title": "Часы и сутки",
     "subject": "math",
     "primaryActivityIds": [
@@ -765,13 +785,15 @@
       "calendarLessonId": "hours"
     },
     "questionCount": 2,
+    "entryTopicId": "lesson:preparation:hours",
+    "homeTopicId": "topic:vocabulary-calendar",
     "shortQuizRendered": true,
     "paperSheet": null
   },
   {
     "unitId": "months",
     "home": "time-and-day",
-    "availability": "preparation-only",
+    "availability": "permanent-lesson",
     "title": "Месяцы и дни",
     "subject": "math",
     "primaryActivityIds": [
@@ -802,13 +824,15 @@
       "calendarLessonId": "months-first"
     },
     "questionCount": 2,
+    "entryTopicId": "lesson:preparation:months",
+    "homeTopicId": "topic:vocabulary-calendar",
     "shortQuizRendered": true,
     "paperSheet": null
   },
   {
     "unitId": "ordinals-first",
     "home": "school-ordinals",
-    "availability": "preparation-only",
+    "availability": "permanent-lesson",
     "title": "С первого по десятый",
     "subject": "math",
     "primaryActivityIds": [
@@ -825,13 +849,15 @@
     "phonicsWords": [],
     "target": null,
     "questionCount": 2,
+    "entryTopicId": "lesson:preparation:ordinals-first",
+    "homeTopicId": "topic:school-ordinals",
     "shortQuizRendered": true,
     "paperSheet": null
   },
   {
     "unitId": "ordinals-last",
     "home": "school-ordinals",
-    "availability": "preparation-only",
+    "availability": "permanent-lesson",
     "title": "До двадцатого",
     "subject": "math",
     "primaryActivityIds": [
@@ -848,13 +874,15 @@
     "phonicsWords": [],
     "target": null,
     "questionCount": 2,
+    "entryTopicId": "lesson:preparation:ordinals-last",
+    "homeTopicId": "topic:school-ordinals",
     "shortQuizRendered": true,
     "paperSheet": null
   },
   {
     "unitId": "cooperation",
     "home": "cooperation",
-    "availability": "preparation-only",
+    "availability": "permanent-lesson",
     "title": "Общение и конфликты",
     "subject": "world",
     "primaryActivityIds": [
@@ -874,13 +902,15 @@
       "mode": "cooperation"
     },
     "questionCount": 2,
+    "entryTopicId": "lesson:preparation:cooperation",
+    "homeTopicId": "topic:vocabulary-cooperation",
     "shortQuizRendered": true,
     "paperSheet": 1
   },
   {
     "unitId": "bones",
     "home": "body",
-    "availability": "preparation-only",
+    "availability": "permanent-lesson",
     "title": "Кости и мышцы",
     "subject": "world",
     "primaryActivityIds": [
@@ -901,13 +931,15 @@
       "mode": "cards"
     },
     "questionCount": 2,
+    "entryTopicId": "lesson:preparation:bones",
+    "homeTopicId": "topic:vocabulary-body",
     "shortQuizRendered": true,
     "paperSheet": 2
   },
   {
     "unitId": "organs",
     "home": "body",
-    "availability": "preparation-only",
+    "availability": "permanent-lesson",
     "title": "Органы и функции",
     "subject": "world",
     "primaryActivityIds": [
@@ -929,13 +961,15 @@
       "mode": "cards"
     },
     "questionCount": 2,
+    "entryTopicId": "lesson:preparation:organs",
+    "homeTopicId": "topic:vocabulary-body",
     "shortQuizRendered": true,
     "paperSheet": 2
   },
   {
     "unitId": "prevention",
     "home": "health",
-    "availability": "preparation-only",
+    "availability": "permanent-lesson",
     "title": "Профилактика и лечение",
     "subject": "world",
     "primaryActivityIds": [
@@ -952,13 +986,15 @@
     "phonicsWords": [],
     "target": null,
     "questionCount": 2,
+    "entryTopicId": "lesson:preparation:prevention",
+    "homeTopicId": "topic:school-health",
     "shortQuizRendered": true,
     "paperSheet": 3
   },
   {
     "unitId": "wellbeing",
     "home": "health",
-    "availability": "preparation-only",
+    "availability": "permanent-lesson",
     "title": "Полезные привычки",
     "subject": "world",
     "primaryActivityIds": [
@@ -979,13 +1015,15 @@
       "collectionId": "collection:my-day-actions"
     },
     "questionCount": 2,
+    "entryTopicId": "lesson:preparation:wellbeing",
+    "homeTopicId": "topic:school-health",
     "shortQuizRendered": true,
     "paperSheet": 3
   },
   {
     "unitId": "timeline",
     "home": "school-timeline",
-    "availability": "preparation-only",
+    "availability": "permanent-lesson",
     "title": "Линия времени",
     "subject": "world",
     "primaryActivityIds": [
@@ -1002,6 +1040,8 @@
     "phonicsWords": [],
     "target": null,
     "questionCount": 2,
+    "entryTopicId": "lesson:preparation:timeline",
+    "homeTopicId": "topic:school-timeline",
     "shortQuizRendered": true,
     "paperSheet": null
   }

@@ -57,7 +57,7 @@ function PreparationVisuals({id}:{id:string}){
   return !!words.length&&<div className={styles.visualWords}>{words.map(word=><article key={word.id}><VocabularyIllustration illustration={word.illustration!}/><b><LessonText text={word.label} translation={word.translation} audio/></b></article>)}</div>;
 }
 
-export function TestPreparation({initialUnitId,onUnitChange,onBack,onOpen,initialChildMode=false,active=true,reading=false}:{reading?:boolean;initialUnitId:string|null;onUnitChange:(id:string|null)=>void;onBack:()=>void;onOpen:(target:PrepTarget)=>void;initialChildMode?:boolean;active?:boolean}){
+export function TestPreparation({initialUnitId,onUnitChange,onBack,onOpen,initialChildMode=false,active=true,reading=false,permanentTitle}:{permanentTitle?:string;reading?:boolean;initialUnitId:string|null;onUnitChange:(id:string|null)=>void;onBack:()=>void;onOpen:(target:PrepTarget)=>void;initialChildMode?:boolean;active?:boolean}){
   const [subject,setSubject]=useState<keyof typeof subjects>(preparationUnits.find(u=>u.id===initialUnitId)?.subject??"world");
   const [unitId,setUnitId]=useState(initialUnitId);
   const [page,setPage]=useState<"theory"|"practice">("theory");
@@ -70,12 +70,12 @@ export function TestPreparation({initialUnitId,onUnitChange,onBack,onOpen,initia
   const guide=unit&&preparationGuides[unit.id];
   const sheetNumber:Record<string,number>={cooperation:1,bones:2,organs:2,prevention:3,wellbeing:3};
   const sheet=unit&&sheetNumber[unit.id];
-  useEffect(()=>{if(!active)return;if(returnFocus.current?.isConnected){returnFocus.current.focus({preventScroll:true});returnFocus.current.scrollIntoView?.({block:"center"});returnFocus.current=null;return;}if(first.current){first.current=false;return;}heading.current?.focus({preventScroll:true});heading.current?.scrollIntoView?.({block:"start"});},[unitId,active]);
+  useEffect(()=>{if(!active)return;if(returnFocus.current?.isConnected){returnFocus.current.focus({preventScroll:true});returnFocus.current.scrollIntoView?.({block:"center"});returnFocus.current=null;return;}if(first.current){first.current=false;if(!permanentTitle)return;}heading.current?.focus({preventScroll:true});heading.current?.scrollIntoView?.({block:"start"});},[unitId,active,permanentTitle]);
   function open(id:string|null){setUnitId(id);setPage("theory");setPreviewFailed(false);onUnitChange(id);help.reset();}
   function goToPaper(){paper.current?.focus({preventScroll:true});paper.current?.scrollIntoView?.({block:"start",behavior:"smooth"});}
-  return <ChildPresentation value={learner?.profile.child??initialChildMode}><LessonTextContext value={help}><section className="house-activity" aria-label={reading?"Буквы и чтение":"Набор подготовки к проверочной"} onKeyDown={e=>{if(e.key==="Escape")close();}}>
-    <button type="button" className="pair-back" onClick={unit?()=>open(null):onBack}>{unit?(reading?"← К буквам и чтению":"← К списку подготовки"):"← Ко всем темам"}</button>
-    <h1 ref={heading} tabIndex={-1}>{reading?"Буквы и чтение":<LessonText text="Preparar o teste" audio/>}</h1>{controls}
+  return <ChildPresentation value={learner?.profile.child??initialChildMode}><LessonTextContext value={help}><section className="house-activity" aria-label={permanentTitle??(reading?"Буквы и чтение":"Набор подготовки к проверочной")} onKeyDown={e=>{if(e.key==="Escape")close();}}>
+    <button type="button" className="pair-back" onClick={permanentTitle?onBack:unit?()=>open(null):onBack}>{permanentTitle?"← К теме":unit?(reading?"← К буквам и чтению":"← К списку подготовки"):"← Ко всем темам"}</button>
+    <h1 ref={heading} tabIndex={-1}>{permanentTitle??(reading?"Буквы и чтение":<LessonText text="Preparar o teste" audio/>)}</h1>{controls}
     {!unit?<><p>{reading?"Алфавит, звуки и сочетания букв. Выбери тему, послушай примеры и потренируй написание.":"Выбери тему: сначала теория, затем практика и игры. Бумажные листы — только для окружающего мира."}</p>{!reading&&<nav className={styles.subjects} aria-label="Предмет подготовки">{Object.entries(subjects).map(([id,[pt,ru]])=><button type="button" key={id} aria-pressed={subject===id} onClick={()=>setSubject(id as keyof typeof subjects)}>{help.translated?ru:pt}</button>)}</nav>}<p>{availableUnits.filter(item=>reading||item.subject===subject).length} тем · {availableUnits.length} всего</p><div className={styles.grid}>{availableUnits.filter(item=>reading||item.subject===subject).map(item=>{return <button type="button" className={styles.unit} key={item.id} onClick={()=>open(item.id)}><b>{help.translated?item.title[1]:item.title[0]}</b><small>{unitDescriptions[item.id]}</small></button>;})}</div></>:<div key={unit.id} className={styles.topicPage}>
       <h2><LessonText text={unit.title[0]} translation={unit.title[1]} audio/></h2>
       {guide&&<p className={styles.goal}><LessonText text={guide.goal[0]} translation={guide.goal[1]} audio/></p>}

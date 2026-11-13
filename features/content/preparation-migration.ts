@@ -2,9 +2,10 @@ import {preparationUnits} from "./test-preparation";
 import {preparationPhonics} from "./preparation-phonics";
 import {preparationWords} from "./preparation-words";
 import {insideBodyImage} from "./body-scenes";
+import {permanentLessonTopic,sectionForUnit} from "./permanent-preparation-lessons";
 
-// F-01 inventory only. Destinations are planned homes, not registered routes,
-// completion IDs or a replacement for preparationUnits.
+// Compatibility inventory, not a replacement for preparationUnits or progress.
+// Entry keys are resolved by permanent-preparation-lessons and VocabularyStudy.
 export const preparationMigrationHomes = [
   {unitId:"letters",home:"reading",availability:"local-reading"},
   {unitId:"r-rr",home:"reading",availability:"local-reading"},
@@ -16,16 +17,16 @@ export const preparationMigrationHomes = [
   {unitId:"digraphs",home:"reading",availability:"local-reading"},
   {unitId:"x-sounds",home:"reading",availability:"local-reading"},
   {unitId:"clusters",home:"reading",availability:"local-reading"},
-  {unitId:"hours",home:"time-and-day",availability:"preparation-only"},
-  {unitId:"months",home:"time-and-day",availability:"preparation-only"},
-  {unitId:"ordinals-first",home:"school-ordinals",availability:"preparation-only"},
-  {unitId:"ordinals-last",home:"school-ordinals",availability:"preparation-only"},
-  {unitId:"cooperation",home:"cooperation",availability:"preparation-only"},
-  {unitId:"bones",home:"body",availability:"preparation-only"},
-  {unitId:"organs",home:"body",availability:"preparation-only"},
-  {unitId:"prevention",home:"health",availability:"preparation-only"},
-  {unitId:"wellbeing",home:"health",availability:"preparation-only"},
-  {unitId:"timeline",home:"school-timeline",availability:"preparation-only"},
+  {unitId:"hours",home:"time-and-day",availability:"permanent-lesson"},
+  {unitId:"months",home:"time-and-day",availability:"permanent-lesson"},
+  {unitId:"ordinals-first",home:"school-ordinals",availability:"permanent-lesson"},
+  {unitId:"ordinals-last",home:"school-ordinals",availability:"permanent-lesson"},
+  {unitId:"cooperation",home:"cooperation",availability:"permanent-lesson"},
+  {unitId:"bones",home:"body",availability:"permanent-lesson"},
+  {unitId:"organs",home:"body",availability:"permanent-lesson"},
+  {unitId:"prevention",home:"health",availability:"permanent-lesson"},
+  {unitId:"wellbeing",home:"health",availability:"permanent-lesson"},
+  {unitId:"timeline",home:"school-timeline",availability:"permanent-lesson"},
 ] as const;
 
 export function preparationMigrationInventory(){
@@ -42,6 +43,8 @@ export function preparationMigrationInventory(){
       phonicsWords:(preparationPhonics[unit.id]??[]).map(word=>({...word})),
       // Retain links even when an embedded exercise currently hides its button.
       target:unit.target??null,questionCount:unit.questions.length,
+      entryTopicId:unit.subject==="portuguese"?"topic:reading":permanentLessonTopic(unit.id),
+      homeTopicId:unit.subject==="portuguese"?"topic:reading":sectionForUnit(unit.id)!.topicId,
       shortQuizRendered:unit.subject!=="portuguese",
       paperSheet:({cooperation:1,bones:2,organs:2,prevention:3,wellbeing:3} as Record<string,number>)[unit.id]??null,
     };
