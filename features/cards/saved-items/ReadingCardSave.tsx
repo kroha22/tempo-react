@@ -13,6 +13,9 @@ export function ReadingCardSave({pt,source}:{pt:string;source:ReadingSource}){
   const choices=readingCardChoices(pt);
   return <EnsureCardsQueryScope><div>{choices.length>1&&<p>Выберите значение:</p>}{choices.map(choice=><SaveChoice key={`${source.id}:${choice.studyItemId}`} choice={choice} source={source} multiple={choices.length>1}/>)}</div></EnsureCardsQueryScope>;
 }
+export function StudyItemCardSave({choice,source}:{choice:ReadingCardChoice;source:ReadingSource}){
+  return <EnsureCardsQueryScope><SaveChoice choice={choice} source={source} multiple={false}/></EnsureCardsQueryScope>;
+}
 function SaveChoice({choice,source,multiple}:{choice:ReadingCardChoice;source:ReadingSource;multiple:boolean}){
   const scope=useCardsScope(),query=useSavedItemsQuery();
   const busy=useRef(false);

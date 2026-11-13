@@ -18,7 +18,8 @@ import {identityWords} from "./identity.ts";
 import {feelingWords,feelingsGroup,withFeelingIllustration} from "./feelings-lesson.ts";
 
 // IDs reference existing content. This registry does not own translations or review state.
-const lessonWords: PairWord[] = lessonContent.studyItems.map(item => {
+// Time-day StudyItems adapt existing words for personal cards; they are not new exercise words.
+const lessonWords: PairWord[] = lessonContent.studyItems.filter(item=>!item.id.startsWith("study:time-day:")).map(item => {
   const display = item.display;
   return { id: item.id, label: display.type === "noun" ? `${display.definiteArticle} ${display.lemma}` : display.type === "verb" ? display.infinitive : display.text, translation: lessonContent.locales.ru[display.translationKey] };
 });

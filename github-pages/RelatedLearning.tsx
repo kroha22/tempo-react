@@ -13,9 +13,10 @@ import {shortGrammarLessons} from "@/features/content/short-grammar-lessons";
 import { GrammarCourse } from "@/features/learning/gramatica/GrammarCourse";
 import { localTransport } from "../shared/http/local-transport";
 import {BeingLesson} from "@/features/practice/BeingLesson";
-import {beingDestination} from "@/features/practice/being-navigation";
+import {beingDestination,beingDestinationForHref} from "@/features/practice/being-navigation";
 import {GeneralPlan} from "@/features/learning/plan/GeneralPlan";
 import {PlanActivity} from "@/features/learning/plan/PlanActivity";
+import {TimeDayFlow} from "@/features/practice/TimeDayFlow";
 
 export function relatedDestination(href: string) {
   if(href.startsWith("/learning/practice?")){
@@ -38,6 +39,7 @@ export function RelatedLearning({ href, onBack }: { href: string; onBack: () => 
   const destination = relatedDestination(href);
   const [selected, setSelected] = useState<string | null>(null);
   const [checked, setChecked] = useState(false);
+  if(href.split("?")[0]==="/learning/time-day"){const params=new URLSearchParams(href.split("?")[1]);return <TimeDayFlow topic={params.get("topic")??undefined} phase={params.get("phase")??undefined} related={params.get("related")??undefined} onBack={onBack} renderRelated={(target,back)=><RelatedLearning key={beingDestinationForHref(target)?"being-lesson":target} href={target} onBack={back}/>}/>;}
   if(href==="/learning/plan"||href==="/learning/gramatica-ativa")return <GeneralPlan practiceOnly={!localTransport()}/>;
   if(href.startsWith("/learning/plan/step/")){let id="";try{id=decodeURIComponent(href.slice("/learning/plan/step/".length));}catch{}return <PlanActivity id={id}/>;}
   if (href.startsWith("/learning/gramatica-ativa/")) return <GrammarCourse key={href} slug={href.slice("/learning/gramatica-ativa/".length)} practiceOnly={!localTransport()} />;

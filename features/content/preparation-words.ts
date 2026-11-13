@@ -1,5 +1,5 @@
-import {preparationKeywords} from "./preparation-support";
-import {catalogWords} from "./learning-catalog-view";
+import {preparationKeywords} from "./preparation-support.ts";
+import {catalogWords} from "./learning-catalog-view.ts";
 
 // Compatibility resolver shared by the existing view and the migration inventory.
 // Keep label + meaning matching, keyword order and fallback IDs unchanged.

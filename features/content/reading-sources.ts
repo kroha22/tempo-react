@@ -1,7 +1,9 @@
 import {allGramaticaLessons} from "./gramatica-ativa.ts";
 import {shortGrammarLessons} from "./short-grammar-lessons.ts";
+import {timeDaySources} from "./time-day.ts";
 export type ReadingSource={id:string;title:string;href:string;unit?:number};
 const sources:ReadingSource[]=[
+  ...timeDaySources,
   ...allGramaticaLessons.map(lesson=>({id:lesson.id,title:lesson.title,href:`/learning/gramatica-ativa/${lesson.slug}/explanation`,unit:lesson.unit})),
   ...shortGrammarLessons.map(lesson=>({id:`lesson:short:${lesson.id}`,title:lesson.title,href:`/learning/practice?lesson=${lesson.id}`})),
   ...["ir","ter"].map(verb=>({id:`lesson:guide:${verb}`,title:`${verb.toUpperCase()} · объяснение`,href:`/learning/practice?verb=${verb}`})),

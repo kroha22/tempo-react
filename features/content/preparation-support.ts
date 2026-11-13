@@ -1,5 +1,5 @@
-import type {PrepText} from "./test-preparation";
-import {calendarMonths} from "./calendar";
+import type {PrepText} from "./test-preparation.ts";
+import {calendarMonths} from "./calendar.ts";
 
 export const preparationSheets=[
   {number:1,title:["Regras de boa convivência","Правила общения"],color:"Зелёный",printed:"As regras de boa convivência"},

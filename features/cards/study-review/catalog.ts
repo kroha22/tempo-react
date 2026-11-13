@@ -4,6 +4,7 @@ import { verbCards } from "../data/verb-cards.ts";
 import { hasLowerPresentationPriority } from "../scheduler.ts";
 import {readingStudyItems,readingRu,readingCardChoices} from "../../content/reading-cards.ts";
 import {grammarReading,grammarReadingGlossary} from "../../content/grammar-reading.ts";
+import {timeDayWords} from "../../content/time-day.ts";
 
 export type StudyReviewCard = {
   studyItemId: string; front: string; back: string; examples: { pt: string; ru: string }[]; units: number[]; lowerPriority: boolean;
@@ -33,6 +34,10 @@ for(const lesson of allGramaticaLessons){
     if(!new RegExp(`(?<![\\p{L}])${escaped}(?![\\p{L}])`,"iu").test(text))continue;
     for(const choice of readingCardChoices(form)){const card=cards.get(choice.studyItemId);if(card&&!card.units.includes(lesson.unit))card.units.push(lesson.unit);}
   }
+}
+for(const word of timeDayWords.filter(word=>!word.reused)){
+  const frequency=frequencyByInfinitive.get(word.pt);
+  cards.set(word.studyItemId,{studyItemId:word.studyItemId,front:word.pt,back:word.ru,examples:[word.example],units:[],lowerPriority:frequency?hasLowerPresentationPriority(frequency):false});
 }
 export const studyReviewCards = [...cards.values()];
 export const studyReviewCardById = new Map(cards);

@@ -31,7 +31,9 @@ it.each(preparationUnits)("reaches $id from the catalogue and keeps its original
   }else{
     const section=sectionForUnit(unit.id)!;
     const entry=document.querySelector<HTMLButtonElement>(`button[data-topic-id="${section.topicId}"]`);
-    expect(entry).not.toBeNull();fireEvent.click(entry!);
+    expect(entry).not.toBeNull();
+    const library=entry?.closest("details");if(library&&!library.open)fireEvent.click(within(library).getByText("Отдельные материалы времени и распорядка"));
+    fireEvent.click(entry!);
     fireEvent.click(within(screen.getByRole("region",{name:"Постоянные уроки темы"})).getByRole("button",{name:new RegExp(unit.title[1])}));
     expect(screen.getByRole("heading",{level:1,name:section.title})).toHaveFocus();
     fireEvent.click(screen.getByRole("button",{name:"Praticar"}));

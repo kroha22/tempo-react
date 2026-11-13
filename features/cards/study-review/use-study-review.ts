@@ -4,15 +4,16 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { HttpError } from "@/shared/http/request-json";
 import { useQueryScope } from "@/shared/query/SessionQueryBoundary";
 import { gradeStudyReview, loadStudyReviews } from "./api";
-import type { StudyReviewCommand } from "./contracts";
+import type { StudyReviewCommand,StudyReviewRow } from "./contracts";
 import type { ReviewGrade } from "../scheduler";
 import { initialStudySession, studySessionReducer } from "./session";
 import { studyReviewCardById } from "./catalog";
 
-export function useStudyReview(unit?: number) {
+export function useStudyReview(unit?: number,studyItemIds?:readonly string[]) {
   const scope = useQueryScope();
   const key = ["cards", scope.scopeKey, "study-reviews"] as const;
   const query = useQuery({ queryKey: key, enabled: !scope.blocked, queryFn: ({ signal }) => loadStudyReviews(signal), staleTime: 0 });
+  const selectedRows=useCallback((rows:StudyReviewRow[])=>studyItemIds?rows.filter(row=>studyItemIds.includes(row.studyItemId)):rows,[studyItemIds]);
   const [state, dispatch] = useReducer(studySessionReducer, initialStudySession);
   const busy = useRef(false);
   const mounted = useRef(true);
@@ -30,9 +31,9 @@ export function useStudyReview(unit?: number) {
   const empty = state.active === null;
   useEffect(() => {
     if (scope.blocked) return;
-    if (query.data && query.isSuccess && query.fetchStatus === "idle" && (state.status === "loading" || state.status === "load-error" || (state.status === "ready" && empty))) dispatch({ type: "loaded", rows: query.data.cards, now: query.data.serverNow, unit });
+    if (query.data && query.isSuccess && query.fetchStatus === "idle" && (state.status === "loading" || state.status === "load-error" || (state.status === "ready" && empty))) dispatch({ type: "loaded", rows: selectedRows(query.data.cards), now: query.data.serverNow, unit });
     else if (query.isError && query.fetchStatus === "idle" && state.status === "loading") dispatch({ type: "load-error" });
-  }, [query.data, query.isSuccess, query.isError, query.fetchStatus, state.status, empty, scope.blocked, unit]);
+  }, [query.data, query.isSuccess, query.isError, query.fetchStatus, state.status, empty, scope.blocked, unit,selectedRows]);
 
   // Refresh the empty queue at the next deadline; browser time never grades a card.
   useEffect(() => {
@@ -49,7 +50,7 @@ export function useStudyReview(unit?: number) {
     try {
       const { card } = await mutation.mutateAsync(command);
       const latest = scope.client.getQueryData<Awaited<ReturnType<typeof loadStudyReviews>>>(key);
-      if (mounted.current && scope.isActive()) dispatch({ type: "saved", card, now: Math.max(card.reviewedAt ?? state.now, latest?.serverNow ?? 0), latestRows: latest?.cards, unit });
+      if (mounted.current && scope.isActive()) dispatch({ type: "saved", card, now: Math.max(card.reviewedAt ?? state.now, latest?.serverNow ?? 0), latestRows: latest?selectedRows(latest.cards):undefined, unit });
     } catch (error) {
       if (mounted.current && scope.isActive()) dispatch({ type: "save-error", conflict: error instanceof HttpError && error.status === 409 });
     } finally { busy.current = false; }
