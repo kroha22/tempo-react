@@ -2,8 +2,10 @@ import {allGramaticaLessons} from "./gramatica-ativa.ts";
 import {shortGrammarLessons} from "./short-grammar-lessons.ts";
 import {timeDaySources} from "./time-day.ts";
 import {familyCardSources} from "./family-cards.ts";
+import {foodCardSources} from "./food-cards.ts";
 export type ReadingSource={id:string;title:string;href:string;unit?:number};
 const sources:ReadingSource[]=[
+  ...foodCardSources,
   ...familyCardSources,
   ...timeDaySources,
   ...allGramaticaLessons.map(lesson=>({id:lesson.id,title:lesson.title,href:`/learning/gramatica-ativa/${lesson.slug}/explanation`,unit:lesson.unit})),

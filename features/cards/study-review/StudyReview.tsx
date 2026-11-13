@@ -39,7 +39,7 @@ function ReviewSession({ unit,studyItemIds,embedded }: { unit?: number;studyItem
         <strong lang="pt-PT">{card.front}</strong><span lang="pt-PT">{card.examples[0]?.pt}</span>
         <small>{session.flipped ? "Скрыть ответ" : "Вспомните значение и откройте ответ"}</small>
       </button>
-      {session.flipped && <div className={styles.examples}><strong>{card.back}</strong>{card.examples.map((e) => <p key={e.pt}><strong lang="pt-PT">{e.pt}</strong><span>{e.ru}</span></p>)}</div>}
+      {session.flipped && <div className={styles.examples}><strong>{card.back}</strong>{card.usageNote&&<p>{card.usageNote}</p>}{card.examples.map((e) => <p key={e.pt}><strong lang="pt-PT">{e.pt}</strong><span>{e.ru}</span></p>)}</div>}
       {session.flipped && <div className={styles.reviewGrades} aria-label="Как вспомнилось?">{grades.map(({ grade, label }) => <Button key={grade} variant="secondary" disabled={!ready} onClick={() => session.rate(grade)}>{label} · {intervalLabel(nextInterval(active.progress ?? undefined, grade, card.lowerPriority))}</Button>)}</div>}
       {status === "saving" && <p role="status">Сохраняем оценку…</p>}
       {!embedded&&!!card.units.length&&<details><summary>Уроки: {card.units.join(", ")}</summary>{card.units.map((u) => <p key={u}><LegacyLessonLink href={vocabularyHref(u)}>Словарь урока {u} →</LegacyLessonLink></p>)}</details>}

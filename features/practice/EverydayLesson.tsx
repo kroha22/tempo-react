@@ -10,6 +10,8 @@ import { usePracticePlan } from "./plan/PracticePlanContext";
 import {DescriptionReading,DescriptionParagraph} from "./DescriptionReading";
 import {everydayReading} from "../content/grammar-reading";
 import {readingSource} from "../content/reading-sources";
+import {foodCardsHref} from "../content/food-cards";
+import {LegacyLessonLink} from "./LegacyLessonLink";
 
 export function EverydayLesson({ lessonId }: { lessonId: EverydayLessonId }) {
   const plan=usePracticePlan();
@@ -26,6 +28,7 @@ export function EverydayLesson({ lessonId }: { lessonId: EverydayLessonId }) {
     <nav className="vocabulary-modes" aria-label="Этап урока"><button type="button" aria-pressed={mode==="learn"} onClick={()=>setMode("learn")}>Разобраться</button><button type="button" aria-pressed={mode==="check"} onClick={()=>setMode("check")}>Потренироваться</button></nav>
     {mode==="learn"?<>
       <DescriptionReading key={lessonId} source={readingSource(`lesson:everyday:${lessonId}`)}><DescriptionParagraph pt={everydayReading[lessonId].goal} ru={lesson.canDo}/><details className={styles.rule}><summary>Как это устроено</summary><DescriptionParagraph pt={everydayReading[lessonId].rule} ru={lesson.rule}/></details></DescriptionReading>
+      {lessonId==="likes"&&<p><LegacyLessonLink href={foodCardsHref("preferences")}>Слова предпочтений в личные карточки →</LegacyLessonLink></p>}
       {lessonId==="likes"?<div className={styles.builder}>
         <div className={styles.options} role="group" aria-label="Кто говорит">{preferencePeople.map((item,index)=><button type="button" key={item.id} aria-pressed={person===index} onClick={()=>setPerson(index)}>{item.label}</button>)}</div>
         <div className={styles.options} role="group" aria-label="Предпочтение"><button type="button" aria-pressed={!negative} onClick={()=>setNegative(false)}>Нравится</button><button type="button" aria-pressed={negative} onClick={()=>setNegative(true)}>Не нравится</button></div>

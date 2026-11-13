@@ -6,9 +6,10 @@ import {readingStudyItems,readingRu,readingCardChoices} from "../../content/read
 import {grammarReading,grammarReadingGlossary} from "../../content/grammar-reading.ts";
 import {timeDayWords} from "../../content/time-day.ts";
 import {familyCardWords} from "../../content/family-cards.ts";
+import {foodProductWords} from "../../content/food-cards.ts";
 
 export type StudyReviewCard = {
-  studyItemId: string; front: string; back: string; examples: { pt: string; ru: string }[]; units: number[]; lowerPriority: boolean;
+  studyItemId: string; front: string; back: string; examples: { pt: string; ru: string }[]; units: number[]; lowerPriority: boolean; usageNote?:string;
 };
 const cards = new Map<string, StudyReviewCard>();
 const frequencyByInfinitive = new Map(verbCards.map((card) => [card.pt, card]));
@@ -42,6 +43,9 @@ for(const word of timeDayWords.filter(word=>!word.reused)){
 }
 for(const word of familyCardWords.filter(word=>!word.reused)){
   cards.set(word.studyItemId,{studyItemId:word.studyItemId,front:word.pt,back:word.ru,examples:[word.example],units:[],lowerPriority:false});
+}
+for(const word of foodProductWords){
+  cards.set(word.studyItemId,{studyItemId:word.studyItemId,front:word.pt,back:word.ru,examples:[word.example],units:[],lowerPriority:false,...(word.usageNote?{usageNote:word.usageNote}:{})});
 }
 export const studyReviewCards = [...cards.values()];
 export const studyReviewCardById = new Map(cards);
