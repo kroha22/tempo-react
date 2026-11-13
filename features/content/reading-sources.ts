@@ -1,8 +1,10 @@
 import {allGramaticaLessons} from "./gramatica-ativa.ts";
 import {shortGrammarLessons} from "./short-grammar-lessons.ts";
 import {timeDaySources} from "./time-day.ts";
+import {familyCardSources} from "./family-cards.ts";
 export type ReadingSource={id:string;title:string;href:string;unit?:number};
 const sources:ReadingSource[]=[
+  ...familyCardSources,
   ...timeDaySources,
   ...allGramaticaLessons.map(lesson=>({id:lesson.id,title:lesson.title,href:`/learning/gramatica-ativa/${lesson.slug}/explanation`,unit:lesson.unit})),
   ...shortGrammarLessons.map(lesson=>({id:`lesson:short:${lesson.id}`,title:lesson.title,href:`/learning/practice?lesson=${lesson.id}`})),

@@ -12,6 +12,7 @@ import {LegacyLessonLink} from "./LegacyLessonLink";
 import styles from "./FirstSteps.module.css";
 import {useProfileLearning} from "./profile-learning";
 import {publicAssetUrl} from "../../shared/public-asset";
+import {familyCardsHref} from "../content/family-cards";
 
 const familyWords=closeFamilyKeys.map(key=>topicExpansion.byKey.get(key)!);
 const usage=learningCatalog.usageModules.find(item=>item.id==="usage:family")!;
@@ -44,6 +45,6 @@ export function FamilyLesson({initialChildMode=false,onBack,onNext}:{initialChil
       <button type="button" onClick={()=>setPhase("practice")}>Попробовать составить фразы →</button>
     </div>
     <div hidden={phase!=="practice"}><UsagePractice module={contextualUsage} active={phase==="practice"} onComplete={onNext} completionLabel="Дальше: Как я себя чувствую →"/></div>
-    <aside className={styles.links}><LegacyLessonLink href={`/learning/practice?verb=ser&tense=present${child?"&mode=kingdoms":""}`}>Потренировать SER →</LegacyLessonLink></aside>
+    <aside className={styles.links}><LegacyLessonLink href={familyCardsHref()}>Семейные слова в личные карточки →</LegacyLessonLink><LegacyLessonLink href={`/learning/practice?verb=ser&tense=present${child?"&mode=kingdoms":""}`}>Потренировать SER →</LegacyLessonLink></aside>
   </section></ChildPresentation>;
 }
