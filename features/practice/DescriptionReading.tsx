@@ -8,8 +8,8 @@ import {ReadingCardSave} from "../cards/saved-items/ReadingCardSave";
 import type {ReadingSource} from "../content/reading-sources";
 
 /** Reading mode is presentation-only; explicit word saves use the shared card store. */
-export function DescriptionReading({children,source}:{children:ReactNode;source?:ReadingSource}){
-  const {help,controls,popup,close}=useTextHelp({},grammarReadingGlossary,{simple:true,translationLabel:"Показать объяснение по-русски",portugueseLabel:"Читать по-португальски",wordAction:source?(pt)=><ReadingCardSave key={`${source.id}:${pt}`} pt={pt} source={source}/>:undefined});
+export function DescriptionReading({children,source,glossary,wordAction}:{children:ReactNode;source?:ReadingSource;glossary?:Readonly<Record<string,string>>;wordAction?:(pt:string,ru:string)=>ReactNode}){
+  const {help,controls,popup,close}=useTextHelp({},glossary?{...grammarReadingGlossary,...glossary}:grammarReadingGlossary,{simple:true,translationLabel:"Показать объяснение по-русски",portugueseLabel:"Читать по-португальски",wordAction:wordAction??(source?(pt)=><ReadingCardSave key={`${source.id}:${pt}`} pt={pt} source={source}/>:undefined)});
   return <LessonTextContext value={help}><div className={styles.reading} data-language={help.translated?"ru":"pt-PT"} onKeyDown={event=>{if(event.key==="Escape")close();}}>
     {controls}<p className={styles.hint}>{help.translated?"Полное объяснение по-русски.":"Нажмите на подчёркнутое слово: перевод и произношение."}</p>
     {children}{popup}

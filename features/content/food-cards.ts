@@ -2,12 +2,13 @@ import {topicNounSeeds} from "./topic-expansion.ts";
 import {generalVocabulary} from "./general-vocabulary.ts";
 import {gramaticaVocabulary,vocabularyFront} from "./gramatica-vocabulary.ts";
 import type {Example,NounStudyItem} from "./types.ts";
+import {foodFlowHref} from "./food-flow.ts";
 
 export type FoodCardTopic="fruit"|"meals"|"preferences";
 export const foodCardsHref=(topic:FoodCardTopic="fruit",review=false)=>`/learning/food/cards?topic=${topic}${review?"&mode=review":""}`;
-export const foodCardSources=[{id:"lesson:food:fruit",title:"Еда · Фрукты",href:foodCardsHref("fruit")},{id:"lesson:food:meals",title:"Еда · Продукты и напитки",href:foodCardsHref("meals")}];
-// Existing source: keep its ID, title and return address unchanged.
-export const foodPreferenceSource={id:"lesson:everyday:likes",title:"Что мне нравится",href:"/learning/everyday/likes"};
+export const foodCardSources=[{id:"lesson:food:fruit",title:"Еда · Фрукты",href:foodFlowHref("fruit","words")},{id:"lesson:food:meals",title:"Еда · Продукты и напитки",href:foodFlowHref("meals","words")}];
+// Source identity stays stable; old standalone lesson URL remains supported.
+export const foodPreferenceSource={id:"lesson:everyday:likes",title:"Что мне нравится",href:foodFlowHref("preferences","explanation")};
 const rows=[
   ["fruit","maca","scene-word:a-maca","entry"], ["fruit","banana","scene-word:a-banana","entry"],
   ["fruit","laranja","scene-word:a-laranja","fruit"], ["fruit","pera","vocabulary:noun:pera","entry"],

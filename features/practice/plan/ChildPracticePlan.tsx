@@ -9,6 +9,7 @@ import { isPracticeStepComplete, nextPracticeStep, practicePlanChapters, practic
 import { usePracticePlan } from "./PracticePlanContext";
 import styles from "./ChildPracticePlan.module.css";
 import {familyFlowHref} from "../../content/family-flow";
+import {foodFlowHref} from "../../content/food-flow";
 import {LegacyLessonLink} from "../LegacyLessonLink";
 
 export function ChildPracticePlan({onOpenCatalog,initialStepId=null,onBackToPlan}:{onOpenCatalog:()=>void;initialStepId?:string|null;onBackToPlan?:()=>void}) {
@@ -33,6 +34,8 @@ export function ChildPracticePlan({onOpenCatalog,initialStepId=null,onBackToPlan
       <header className={styles.lessonHeader}><button type="button" onClick={()=>onBackToPlan?onBackToPlan():setCurrent(null)}>{onBackToPlan?"← К общему плану":"‹ К моему плану"}</button><span>{chapter?.title}</span></header>
       {chapter&&<aside className={styles.topicIntro} aria-label="Об этой теме"><strong>{chapter.title}</strong><p>{chapter.description}.</p><small>Шаг {chapter.steps.findIndex(step=>step.id===selected.id)+1} из {chapter.steps.length} · сначала разберёмся, затем проверим себя.</small></aside>}
       <div className={styles.lessonContent} key={`${selected.id}:${attempt}`}>
+        {selected.kind==="words"&&["expansion-food-fruit","expansion-food-meals"].includes(selected.setId)&&<p><LegacyLessonLink href={foodFlowHref(selected.setId.endsWith("fruit")?"fruit":"meals")}>Еда и предпочтения · весь урок →</LegacyLessonLink></p>}
+        {selected.kind==="everyday"&&selected.lessonId==="likes"&&<p><LegacyLessonLink href={foodFlowHref("preferences")}>Еда и предпочтения · весь урок →</LegacyLessonLink></p>}
         {selected.kind==="words"&&["expansion-family-close","expansion-family-relatives"].includes(selected.setId)&&<p><LegacyLessonLink href={familyFlowHref(selected.setId.endsWith("relatives")?"relatives":"close")}>Моя семья и близкие · весь урок →</LegacyLessonLink></p>}
         {selected.kind==="grammar"?<><h1 tabIndex={-1}>{selected.title}</h1><AdultLessons singleLesson activeLessonId={selected.lessonId} onLessonChange={()=>{}} onOpenPractice={()=>{}} onOpenConjugationOverview={()=>{}}/></>:selected.kind==="everyday"?<EverydayLesson lessonId={selected.lessonId}/>:<>
           <h1 tabIndex={-1}>{selected.title}</h1><p>Сначала посмотри карточки, затем напиши каждое слово по-португальски.</p>

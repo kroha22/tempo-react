@@ -7,6 +7,7 @@ import {activateLocalTransport} from "@/shared/http/local-transport";
 import {createLocalLearningApi} from "@/github-pages/local-learning-api";
 import {emptyLocalLearning,localLearningSchema,type LearningStore} from "@/github-pages/local-learning-store";
 import {foodProductWords,foodPreferenceCard,foodCardsHref} from "@/features/content/food-cards";
+import {foodFlowHref} from "@/features/content/food-flow";
 import {gramaticaVocabulary} from "@/features/content/gramatica-vocabulary";
 import {exportProfile,importProfile,parseBackup} from "@/github-pages/local-backup";
 import {createProfile,profileDataKey} from "@/github-pages/profiles";
@@ -43,7 +44,7 @@ it("retries a lost save with one intent and exposes the original plural note and
   const {store,api}=setup(),requests:string[]=[];let fail=true;deactivate=activateLocalTransport(async(url,init)=>{const result=await api(url,init);if(url==="/api/study-items"&&init?.method==="POST"){requests.push(init.body as string);if(fail){fail=false;throw Error("response lost");}}return result;});
   const view=render(<FoodCards topic="meals"/>),word=foodProductWords.find(word=>word.key==="leite")!,article=screen.getByText(word.pt,{selector:"strong"}).closest("article")!;
   expect(within(article).getByText(word.usageNote)).toBeVisible();fireEvent.click(await within(article).findByRole("button",{name:"В карточки"}));fireEvent.click(await within(article).findByRole("button",{name:"Повторить сохранение"}));await within(article).findByRole("button",{name:"Уже в карточках ✓"});expect(requests).toHaveLength(2);expect(requests[0]).toEqual(requests[1]);expect((await store.read()).sources).toHaveLength(1);
-  view.unmount();render(<SavedStudyItemLibrary/>);fireEvent.click(await screen.findByRole("button",{name:`Показать перевод: ${word.pt}`}));expect(screen.getByText(word.usageNote)).toBeVisible();expect(screen.getByRole("link",{name:"К словам: Еда · Продукты и напитки →"})).toHaveAttribute("href",foodCardsHref("meals"));
+  view.unmount();render(<SavedStudyItemLibrary/>);fireEvent.click(await screen.findByRole("button",{name:`Показать перевод: ${word.pt}`}));expect(screen.getByText(word.usageNote)).toBeVisible();expect(screen.getByRole("link",{name:"К словам: Еда · Продукты и напитки →"})).toHaveAttribute("href",foodFlowHref("meals","words"));
 });
 
 it("keeps unrelated SRS intact, hides usage notes until flip and round-trips the food review",async()=>{

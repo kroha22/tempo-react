@@ -12,31 +12,34 @@ import {everydayReading} from "../content/grammar-reading";
 import {readingSource} from "../content/reading-sources";
 import {foodCardsHref} from "../content/food-cards";
 import {LegacyLessonLink} from "./LegacyLessonLink";
+import {foodGlossary} from "../content/food-flow";
+import {FoodCardHint} from "../cards/saved-items/FoodCardHint";
 
-export function EverydayLesson({ lessonId }: { lessonId: EverydayLessonId }) {
+export function EverydayLesson({ lessonId,flowMode,onPractice,onLearn,onComplete }: { lessonId: EverydayLessonId;flowMode?:"learn"|"check";onPractice?:()=>void;onLearn?:()=>void;onComplete?:()=>void }) {
   const plan=usePracticePlan();
   const lesson=everydayLessons[lessonId];
-  const [mode,setMode]=useState<"learn"|"check">("learn");
+  const [localMode,setMode]=useState<"learn"|"check">("learn");
+  const mode=flowMode??localMode;
   const [person,setPerson]=useState(0),[food,setFood]=useState(0),[negative,setNegative]=useState(false),[body,setBody]=useState(0);
   const [step,setStep]=useState(0),[choice,setChoice]=useState<string|null>(null),[checked,setChecked]=useState(false),[score,setScore]=useState(0);
   const sentence=lessonId==="likes"?preferenceSentence(person,food,negative):bodyFunctions[body];
   const task=lesson.checks[step];
   function restart(){setStep(0);setChoice(null);setChecked(false);setScore(0);setMode("check");}
   return <section className={`house-activity ${styles.lesson}`} aria-label={lesson.title}>
-    <header className={styles.heading}><div><span className="tempo-kicker">Слова в жизни</span><h1 tabIndex={-1}>{lesson.title}</h1></div><SpeechHelpButton /></header>
+    <header className={styles.heading}><div><span className="tempo-kicker">Слова в жизни</span>{flowMode?<h3>{lesson.title}</h3>:<h1 tabIndex={-1}>{lesson.title}</h1>}</div><SpeechHelpButton /></header>
     {mode==="check"&&<p>{lesson.canDo}</p>}
-    <nav className="vocabulary-modes" aria-label="Этап урока"><button type="button" aria-pressed={mode==="learn"} onClick={()=>setMode("learn")}>Разобраться</button><button type="button" aria-pressed={mode==="check"} onClick={()=>setMode("check")}>Потренироваться</button></nav>
+    {!flowMode&&<nav className="vocabulary-modes" aria-label="Этап урока"><button type="button" aria-pressed={mode==="learn"} onClick={()=>setMode("learn")}>Разобраться</button><button type="button" aria-pressed={mode==="check"} onClick={()=>setMode("check")}>Потренироваться</button></nav>}
     {mode==="learn"?<>
-      <DescriptionReading key={lessonId} source={readingSource(`lesson:everyday:${lessonId}`)}><DescriptionParagraph pt={everydayReading[lessonId].goal} ru={lesson.canDo}/><details className={styles.rule}><summary>Как это устроено</summary><DescriptionParagraph pt={everydayReading[lessonId].rule} ru={lesson.rule}/></details></DescriptionReading>
-      {lessonId==="likes"&&<p><LegacyLessonLink href={foodCardsHref("preferences")}>Слова предпочтений в личные карточки →</LegacyLessonLink></p>}
+      <DescriptionReading key={lessonId} source={readingSource(`lesson:everyday:${lessonId}`)} glossary={flowMode&&lessonId==="likes"?foodGlossary:undefined} wordAction={flowMode&&lessonId==="likes"?pt=><FoodCardHint pt={pt} source={readingSource("lesson:everyday:likes")!}/>:undefined}><DescriptionParagraph pt={everydayReading[lessonId].goal} ru={lesson.canDo}/><details className={styles.rule} open={flowMode?true:undefined}><summary>Как это устроено</summary><DescriptionParagraph pt={everydayReading[lessonId].rule} ru={lesson.rule}/></details></DescriptionReading>
+      {lessonId==="likes"&&!flowMode&&<p><LegacyLessonLink href={foodCardsHref("preferences")}>Слова предпочтений в личные карточки →</LegacyLessonLink></p>}
       {lessonId==="likes"?<div className={styles.builder}>
         <div className={styles.options} role="group" aria-label="Кто говорит">{preferencePeople.map((item,index)=><button type="button" key={item.id} aria-pressed={person===index} onClick={()=>setPerson(index)}>{item.label}</button>)}</div>
         <div className={styles.options} role="group" aria-label="Предпочтение"><button type="button" aria-pressed={!negative} onClick={()=>setNegative(false)}>Нравится</button><button type="button" aria-pressed={negative} onClick={()=>setNegative(true)}>Не нравится</button></div>
         <div className={styles.foods} role="group" aria-label="Выбери продукт">{preferenceFoods.map((item,index)=><button type="button" key={item.wordId} aria-pressed={food===index} onClick={()=>setFood(index)}><span aria-hidden="true">{item.symbol}</span><span lang="pt-PT">{item.phrase}</span></button>)}</div>
       </div>:<div className={styles.bodyTiles} role="group" aria-label="Части тела и действия">{bodyFunctions.map((item,index)=><button type="button" key={item.wordId} aria-pressed={body===index} onClick={()=>setBody(index)}><SenseIcon name={item.icon}/><strong lang="pt-PT">{item.part}</strong><span lang="pt-PT">→ {item.action}</span></button>)}</div>}
       <div className={styles.sentence} aria-live="polite"><div><strong lang="pt-PT">{sentence.pt}</strong><span>{sentence.ru}</span></div><CardSpeechButton text={sentence.pt} /></div>
-      <button type="button" className="house-primary" onClick={restart}>Попробовать самому</button>
-    </>:!task?<ActivityCompletion id={`practice:everyday:${lessonId}`} title={lesson.title} group="Слова в жизни" correct={score} total={lesson.checks.length}><div className={styles.summary} role="status"><h2>Практика пройдена!</h2><p>Верно с первой попытки: {score} из {lesson.checks.length}</p><button type="button" onClick={restart}>Повторить</button><button type="button" onClick={()=>setMode("learn")}>Вернуться к примерам</button></div></ActivityCompletion>:<form className={styles.task} onSubmit={event=>{event.preventDefault();if(!choice)return;if(checked){if(step===lesson.checks.length-1)plan?.complete(`practice:everyday:${lessonId}`,score<lesson.checks.length);setStep(step+1);setChoice(null);setChecked(false);}else{setChecked(true);if(choice===task.answer)setScore(score+1);}}}>
+      <button type="button" className="house-primary" onClick={()=>flowMode?onPractice?.():restart()}>Попробовать самому</button>
+    </>:!task?<ActivityCompletion id={`practice:everyday:${lessonId}`} title={lesson.title} group="Слова в жизни" correct={score} total={lesson.checks.length}><div className={styles.summary} role="status"><h2>Практика пройдена!</h2><p>Верно с первой попытки: {score} из {lesson.checks.length}</p><button type="button" onClick={restart}>Повторить</button><button type="button" onClick={()=>flowMode?onLearn?.():setMode("learn")}>Вернуться к примерам</button>{onComplete&&<button type="button" onClick={onComplete}>К повторению →</button>}</div></ActivityCompletion>:<form className={styles.task} onSubmit={event=>{event.preventDefault();if(!choice)return;if(checked){if(step===lesson.checks.length-1)plan?.complete(`practice:everyday:${lessonId}`,score<lesson.checks.length);setStep(step+1);setChoice(null);setChecked(false);}else{setChecked(true);if(choice===task.answer)setScore(score+1);}}}>
       <span>{step+1} / {lesson.checks.length}</span><h2>{task.prompt}</h2>
       {(task.before||task.after)&&<p className={styles.gap} lang="pt-PT">{task.before}<strong>{choice??"…"}</strong>{task.after}</p>}
       <div className={styles.answers} role="group" aria-label="Варианты ответа">{task.options.map(option=><button type="button" key={option} lang="pt-PT" disabled={checked} aria-pressed={choice===option} onClick={()=>setChoice(option)}>{option}</button>)}</div>
