@@ -7,6 +7,7 @@ import {grammarReading,grammarReadingGlossary} from "../../content/grammar-readi
 import {timeDayWords} from "../../content/time-day.ts";
 import {familyCardWords} from "../../content/family-cards.ts";
 import {foodProductWords} from "../../content/food-cards.ts";
+import {bodyCardWords} from "../../content/body-cards.ts";
 
 export type StudyReviewCard = {
   studyItemId: string; front: string; back: string; examples: { pt: string; ru: string }[]; units: number[]; lowerPriority: boolean; usageNote?:string;
@@ -46,6 +47,9 @@ for(const word of familyCardWords.filter(word=>!word.reused)){
 }
 for(const word of foodProductWords){
   cards.set(word.studyItemId,{studyItemId:word.studyItemId,front:word.pt,back:word.ru,examples:[word.example],units:[],lowerPriority:false,...(word.usageNote?{usageNote:word.usageNote}:{})});
+}
+for(const word of bodyCardWords.filter(word=>!word.reused)){
+  cards.set(word.studyItemId,{studyItemId:word.studyItemId,front:word.pt,back:word.ru,examples:[word.example],units:[],lowerPriority:false});
 }
 export const studyReviewCards = [...cards.values()];
 export const studyReviewCardById = new Map(cards);

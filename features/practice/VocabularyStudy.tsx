@@ -35,6 +35,7 @@ import {familyCardsHref} from "../content/family-cards";
 import {familyFlowHref} from "../content/family-flow";
 import {foodCardsHref} from "../content/food-cards";
 import {foodFlowHref} from "../content/food-flow";
+import {bodyCardsHref} from "../content/body-cards";
 import {FirstSteps} from "./FirstSteps";
 import {useProfileLearning} from "./profile-learning";
 import {LearningLibrary} from "./LearningLibrary";
@@ -118,6 +119,8 @@ export function VocabularyStudy({ onOpenCards,initialChildMode=false,initialTopi
     <div className="vocabulary-topic-heading"><button type="button" className="pair-back" aria-label={returnToPrep?(permanentUnitId?"Назад к уроку":"Назад к заданию подготовки"):"Назад ко всем темам"} onClick={() => { if(returnToPrep){returnToSource();return;} setGroupId(null); setSetId(null); setMode(null); setUsageId(null); }}><svg aria-hidden="true" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="m15 6-6 6 6 6" /></svg></button><div><span className="tempo-kicker">Palavras · Слова</span><h1><TopicTitle title={group.title} /></h1></div><span>{words.length} слов</span></div>
     <SchoolLessonLinks section={topicSection} onOpen={openPermanentLesson}/>
     {group.id==="topic:food"&&<p><LegacyLessonLink href={foodCardsHref(setId==="collection:expansion-food-meals"?"meals":"fruit")}>Продукты в личные карточки и повторение →</LegacyLessonLink></p>}
+    {group.id==="topic:vocabulary-body"&&<p><LegacyLessonLink href={bodyCardsHref(setId==="collection:expansion-body-movement"?"movement":"face")}>Тело в личные карточки и повторение →</LegacyLessonLink></p>}
+    {group.id==="topic:people"&&<p><LegacyLessonLink href={bodyCardsHref("feelings")}>Состояния в личные карточки и повторение →</LegacyLessonLink></p>}
     {group.id==="topic:vocabulary-family"&&<p><LegacyLessonLink href={familyCardsHref(setId==="collection:expansion-family-relatives"?"relatives":"close")}>Семейные карточки и повторение →</LegacyLessonLink></p>}
     {timeLibraryTopics.includes(group.id)&&<p><LegacyLessonLink href={timeDayHref(group.id==="topic:vocabulary-my-day"?"routine":"hours")}>Время и мой день · единый урок →</LegacyLessonLink></p>}
     <div className={styles.selector}><div className={styles.label}><b lang="pt-PT">Conjuntos</b><span>· Наборы слов</span></div><div className={styles.tags} role="group" aria-label="Набор слов">
