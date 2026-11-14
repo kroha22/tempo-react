@@ -16,6 +16,7 @@
     "test:server": "vitest run tests/server",
     "test:visual": "playwright test",
     "test:visual:update": "playwright test --update-snapshots",
+    "test:browser": "npm run build:pages && playwright test --config playwright.learning.config.ts",
     "test:components:watch": "vitest",
     "test:smoke": "node --test tests/rendered-html.test.mjs",
     "test:integration": "node --test tests/progress-integration.test.mjs",

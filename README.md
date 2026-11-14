@@ -129,11 +129,14 @@ http://127.0.0.1:3101/learning
 | `npm run test:components` | React-компоненты, keyboard/click flows, retry и UI states |
 | `npm run test:server` | Route handlers, auth boundary и безопасные ошибки |
 | `npm run test:visual` | Playwright visual baselines и mobile overflow каталога UI |
+| `npm run test:browser` | свежая Pages-сборка; взрослые lesson → word → Cards → SRS → reload, legacy activation, JSON и профили на mobile/desktop |
 | `npm run build` | content validation и production build |
 | `npm run check` | полный локальный quality gate |
 | `npm run test:smoke` | основные HTML routes и anonymous API behavior на запущенном сервере |
 
-Последний полный прогон:
+Функциональный браузерный gate [Q-03/D-02](plans/LEARNING-BROWSER-Q03-D02.md) использует отдельный loopback preview и синтетические профили. Запуск: `npm run test:browser` (Node из `.nvmrc`, установленные зависимости и Chromium Playwright). В CI это отдельный job `Quality / browser`; существующий `test:visual` сохраняет свой каталог и снимки. Подробности, точечный запуск и артефакты — в отчёте gate.
+
+Исторический прогон базовой архитектуры (текущие результаты — в Quality и отчётах этапов):
 
 ```text
 npm run check
@@ -167,8 +170,8 @@ Tempo использует тёплую визуальную систему: з�
 2. **Добавить ещё один meaning-specific lesson**
    После SER/ESTAR, Action и TER хороший следующий кандидат — `HÁ` как безличное “есть в комнате”, с явным контрастом к TER possession. `dar` оставить как отдельный irregular drill, когда появится понятная мини-ситуация.
 
-4. **Добавить browser regression tests**
-   Зафиксировать сценарии: взрослый practice, kids mode, переход из lesson summary к солнцам, card save retry. Сейчас это проверяется вручную и частично компонентными тестами.
+4. **Расширять browser regression tests**
+   Взрослый lesson → word → Cards → SRS → reload, все 17 legacy targets, JSON и смена профилей закреплены в [Q-03/D-02](plans/LEARNING-BROWSER-Q03-D02.md). Kids mode, переход из lesson summary к солнцам и потеря ответа при Card Save остаются за границей этого browser gate; retry покрыт компонентными тестами.
 
 5. **Усилить demo-readiness**
    Подготовить аккуратные seed/demo states, пустые состояния, loading/error screens и короткий список demo routes для README.
