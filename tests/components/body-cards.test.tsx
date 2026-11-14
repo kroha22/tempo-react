@@ -7,6 +7,7 @@ import {activateLocalTransport} from "@/shared/http/local-transport";
 import {createLocalLearningApi} from "@/github-pages/local-learning-api";
 import {emptyLocalLearning,localLearningSchema,type LearningStore} from "@/github-pages/local-learning-store";
 import {bodyCardWords,bodyCardsHref} from "@/features/content/body-cards";
+import {bodyFlowHref} from "@/features/content/body-flow";
 import {exportProfile,importProfile,parseBackup} from "@/github-pages/local-backup";
 import {createProfile} from "@/github-pages/profiles";
 
@@ -34,7 +35,7 @@ it("adds the new feelings source to all three rated GA1 targets without resettin
 it("retries a lost save idempotently and returns from the saved library to the correct source",async()=>{
   const {store,api}=setup(),requests:string[]=[];let fail=true;deactivate=activateLocalTransport(async(url,init)=>{const result=await api(url,init);if(url==="/api/study-items"&&init?.method==="POST"){requests.push(init.body as string);if(fail){fail=false;throw Error("response lost");}}return result;});
   const view=render(<BodyCards topic="movement"/>),word=bodyCardWords.find(word=>word.key==="braco")!,article=screen.getByText(word.pt,{selector:"strong"}).closest("article")!;fireEvent.click(await within(article).findByRole("button",{name:"В карточки"}));fireEvent.click(await within(article).findByRole("button",{name:"Повторить сохранение"}));await within(article).findByRole("button",{name:"Уже в карточках ✓"});expect(requests).toHaveLength(2);expect(requests[0]).toEqual(requests[1]);expect((await store.read()).sources).toHaveLength(1);
-  view.unmount();render(<SavedStudyItemLibrary/>);fireEvent.click(await screen.findByRole("button",{name:`Показать перевод: ${word.pt}`}));expect(screen.getByRole("link",{name:"К словам: Тело и самочувствие · Тело и движение →"})).toHaveAttribute("href",bodyCardsHref("movement"));
+  view.unmount();render(<SavedStudyItemLibrary/>);fireEvent.click(await screen.findByRole("button",{name:`Показать перевод: ${word.pt}`}));expect(screen.getByRole("link",{name:"К словам: Тело и самочувствие · Тело и движение →"})).toHaveAttribute("href",bodyFlowHref("movement","words"));
 });
 it("rates only saved body cards and round-trips JSON without changing unrelated reviews or another profile",async()=>{
   const {store,api}=setup(),word=bodyCardWords[0],other="study:ga1:chunk:gostar-de:entry";

@@ -10,6 +10,7 @@ import { usePracticePlan } from "./PracticePlanContext";
 import styles from "./ChildPracticePlan.module.css";
 import {familyFlowHref} from "../../content/family-flow";
 import {foodFlowHref} from "../../content/food-flow";
+import {bodyFlowHref} from "../../content/body-flow";
 import {LegacyLessonLink} from "../LegacyLessonLink";
 
 export function ChildPracticePlan({onOpenCatalog,initialStepId=null,onBackToPlan}:{onOpenCatalog:()=>void;initialStepId?:string|null;onBackToPlan?:()=>void}) {
@@ -36,6 +37,8 @@ export function ChildPracticePlan({onOpenCatalog,initialStepId=null,onBackToPlan
       <div className={styles.lessonContent} key={`${selected.id}:${attempt}`}>
         {selected.kind==="words"&&["expansion-food-fruit","expansion-food-meals"].includes(selected.setId)&&<p><LegacyLessonLink href={foodFlowHref(selected.setId.endsWith("fruit")?"fruit":"meals")}>Еда и предпочтения · весь урок →</LegacyLessonLink></p>}
         {selected.kind==="everyday"&&selected.lessonId==="likes"&&<p><LegacyLessonLink href={foodFlowHref("preferences")}>Еда и предпочтения · весь урок →</LegacyLessonLink></p>}
+        {selected.kind==="words"&&["expansion-body-face","expansion-body-movement"].includes(selected.setId)&&<p><LegacyLessonLink href={bodyFlowHref(selected.setId.endsWith("face")?"face":"movement")}>Тело и самочувствие · весь урок →</LegacyLessonLink></p>}
+        {selected.kind==="everyday"&&selected.lessonId==="body"&&<p><LegacyLessonLink href={bodyFlowHref()}>Тело и самочувствие · весь урок →</LegacyLessonLink></p>}
         {selected.kind==="words"&&["expansion-family-close","expansion-family-relatives"].includes(selected.setId)&&<p><LegacyLessonLink href={familyFlowHref(selected.setId.endsWith("relatives")?"relatives":"close")}>Моя семья и близкие · весь урок →</LegacyLessonLink></p>}
         {selected.kind==="grammar"?<><h1 tabIndex={-1}>{selected.title}</h1><AdultLessons singleLesson activeLessonId={selected.lessonId} onLessonChange={()=>{}} onOpenPractice={()=>{}} onOpenConjugationOverview={()=>{}}/></>:selected.kind==="everyday"?<EverydayLesson lessonId={selected.lessonId}/>:<>
           <h1 tabIndex={-1}>{selected.title}</h1><p>Сначала посмотри карточки, затем напиши каждое слово по-португальски.</p>

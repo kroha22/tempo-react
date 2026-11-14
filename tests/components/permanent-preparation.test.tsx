@@ -32,7 +32,7 @@ it.each(preparationUnits)("reaches $id from the catalogue and keeps its original
     const section=sectionForUnit(unit.id)!;
     const entry=document.querySelector<HTMLButtonElement>(`button[data-topic-id="${section.topicId}"]`);
     expect(entry).not.toBeNull();
-    const library=entry?.closest("details");if(library&&!library.open)fireEvent.click(within(library).getByText("Отдельные материалы времени и распорядка"));
+    const library=entry?.closest("details");if(library&&!library.open)fireEvent.click(library.querySelector("summary")!);
     fireEvent.click(entry!);
     fireEvent.click(within(screen.getByRole("region",{name:"Постоянные уроки темы"})).getByRole("button",{name:new RegExp(unit.title[1])}));
     expect(screen.getByRole("heading",{level:1,name:section.title})).toHaveFocus();

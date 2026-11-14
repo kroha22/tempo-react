@@ -10,6 +10,7 @@ import {readingSourceById} from "../features/content/reading-sources.ts";
 import {practicePlanSteps} from "../features/practice/plan/model.ts";
 import {bodyFunctions} from "../features/content/everyday-lessons.ts";
 import {gramaticaVocabulary,vocabularyFront} from "../features/content/gramatica-vocabulary.ts";
+import {bodyFlowHref} from "../features/content/body-flow.ts";
 
 test("body bridge registers 17 new targets and reuses three GA1 cards with exact original words",()=>{
   assert.equal(bodyCardWords.length,20);assert.equal(bodyStudyItems.length,17);assert.equal(new Set(bodyStudyItemIds).size,20);
@@ -38,6 +39,6 @@ test("writing owners 8 and 6 and the six body appearances keep their original ID
 });
 test("body sources resolve to three live word batches and preserve the old body source",()=>{
   assert.equal(bodyCardSources.length,3);for(const source of bodyCardSources)assert.deepEqual(readingSourceById.get(source.id),source);
-  assert.deepEqual(readingSourceById.get("lesson:everyday:body"),{id:"lesson:everyday:body",title:"Тело и действия",href:"/learning/everyday/body"});
+  assert.deepEqual(readingSourceById.get("lesson:everyday:body"),{id:"lesson:everyday:body",title:"Тело и действия",href:bodyFlowHref()});
   for(const key of ["triste","cansado","pronto"])assert.deepEqual(studyReviewCardById.get(`study:ga1:adjective:${key}:entry`)?.units,key==="cansado"?[3,2]:[2]);
 });

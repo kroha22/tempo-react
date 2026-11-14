@@ -36,6 +36,7 @@ import {familyFlowHref} from "../content/family-flow";
 import {foodCardsHref} from "../content/food-cards";
 import {foodFlowHref} from "../content/food-flow";
 import {bodyCardsHref} from "../content/body-cards";
+import {bodyFlowHref} from "../content/body-flow";
 import {FirstSteps} from "./FirstSteps";
 import {useProfileLearning} from "./profile-learning";
 import {LearningLibrary} from "./LearningLibrary";
@@ -95,6 +96,7 @@ export function VocabularyStudy({ onOpenCards,initialChildMode=false,initialTopi
   const group = studyVocabularyGroups.find(group => group.id === groupId);
   const orderedGroups=[...studyVocabularyGroups.filter(group=>group.id==="topic:vocabulary-family"),...studyVocabularyGroups.filter(group=>group.id==="topic:people"),...studyVocabularyGroups.filter(group=>group.id!=="topic:vocabulary-family"&&group.id!=="topic:people")];
   const renderTopic=(group:(typeof studyVocabularyGroups)[number],index:number)=>{
+    if(group.id==="topic:vocabulary-body")return <div key={group.id}><LegacyLessonLink className={styles.topicCard} href={bodyFlowHref()}><strong>Тело и самочувствие</strong><span>Части тела · действия · состояния</span><small>Объяснение → слова → задания → повторение</small></LegacyLessonLink><details><summary>Отдельные материалы тела</summary><button type="button" data-topic-id={group.id} className={styles.topicCard} onClick={()=>{setGroupId(group.id);setMode("cards");}}><TopicCover group={group} words={pairVocabulary} images={images}/><strong lang="pt-PT">O corpo</strong><small>Тело · схемы и прежние упражнения</small></button></details></div>;
     if(group.id==="topic:food")return <div key={group.id}><LegacyLessonLink className={styles.topicCard} href={foodFlowHref()}><strong>Еда и предпочтения</strong><span>Фрукты · продукты · GOSTAR DE</span><small>Объяснение → слова → задания → повторение</small></LegacyLessonLink><details><summary>Отдельные материалы еды</summary><button type="button" className={styles.topicCard} data-topic-id={group.id} onClick={()=>{setGroupId(group.id);setMode("cards");}}><strong>{vocabularyTitlesPt[group.title]??group.title}</strong><small>{group.title} · прежние наборы и упражнения</small></button></details></div>;
     if(group.id==="topic:vocabulary-family")return <div key={group.id}><LegacyLessonLink className={styles.topicCard} href={familyFlowHref()}><strong>Моя семья и близкие</strong><span>Близкие · родственники</span><small>Объяснение → слова → задания → повторение</small></LegacyLessonLink><details><summary>Отдельные материалы семьи</summary><button type="button" className={styles.topicCard} data-topic-id={group.id} onClick={()=>{setGroupId(group.id);setMode("family");}}><strong>Família e amigos</strong><small>Семья и друзья · прежние наборы и упражнения</small></button></details></div>;
     const wordCount = new Set(group.subgroups.flatMap(subgroup => subgroup.sets.flatMap(set => set.words))).size;
@@ -121,6 +123,7 @@ export function VocabularyStudy({ onOpenCards,initialChildMode=false,initialTopi
     {group.id==="topic:food"&&<p><LegacyLessonLink href={foodCardsHref(setId==="collection:expansion-food-meals"?"meals":"fruit")}>Продукты в личные карточки и повторение →</LegacyLessonLink></p>}
     {group.id==="topic:vocabulary-body"&&<p><LegacyLessonLink href={bodyCardsHref(setId==="collection:expansion-body-movement"?"movement":"face")}>Тело в личные карточки и повторение →</LegacyLessonLink></p>}
     {group.id==="topic:people"&&<p><LegacyLessonLink href={bodyCardsHref("feelings")}>Состояния в личные карточки и повторение →</LegacyLessonLink></p>}
+    {group.id==="topic:people"&&<p><LegacyLessonLink href={bodyFlowHref("feelings")}>Тело и самочувствие · весь урок →</LegacyLessonLink></p>}
     {group.id==="topic:vocabulary-family"&&<p><LegacyLessonLink href={familyCardsHref(setId==="collection:expansion-family-relatives"?"relatives":"close")}>Семейные карточки и повторение →</LegacyLessonLink></p>}
     {timeLibraryTopics.includes(group.id)&&<p><LegacyLessonLink href={timeDayHref(group.id==="topic:vocabulary-my-day"?"routine":"hours")}>Время и мой день · единый урок →</LegacyLessonLink></p>}
     <div className={styles.selector}><div className={styles.label}><b lang="pt-PT">Conjuntos</b><span>· Наборы слов</span></div><div className={styles.tags} role="group" aria-label="Набор слов">

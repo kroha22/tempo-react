@@ -2,12 +2,13 @@ import {topicNounSeeds} from "./topic-expansion.ts";
 import {feelingWords} from "./feelings-lesson.ts";
 import {gramaticaVocabulary,vocabularyFront} from "./gramatica-vocabulary.ts";
 import type {Example,StudyItem} from "./types.ts";
+import {bodyFlowHref} from "./body-flow.ts";
 
 export type BodyCardTopic="face"|"movement"|"feelings";
 export const bodyCardsHref=(topic:BodyCardTopic="face",review=false)=>`/learning/body/cards?topic=${topic}${review?"&mode=review":""}`;
 export const bodyCardTopics=["face","movement","feelings"] as const;
 export const bodyCardTitles={face:"Лицо и руки",movement:"Тело и движение",feelings:"Как я себя чувствую"};
-export const bodyCardSources=bodyCardTopics.map(topic=>({id:`lesson:body:${topic}`,title:`Тело и самочувствие · ${bodyCardTitles[topic]}`,href:bodyCardsHref(topic)}));
+export const bodyCardSources=bodyCardTopics.map(topic=>({id:`lesson:body:${topic}`,title:`Тело и самочувствие · ${bodyCardTitles[topic]}`,href:bodyFlowHref(topic,"words")}));
 type BodyCardWord={topic:BodyCardTopic;key:string;wordId:string;studyItemId:string;pt:string;ru:string;forms:string;example:{pt:string;ru:string};reused:boolean;noun?:{lemma:string;article:"o"|"a";plural:string;pluralArticle:"os"|"as"}};
 const rows=[
   ["face","cabeca","entry"],["face","olho","entry"],["face","orelha","outer-ear"],["face","ouvido","hearing"],

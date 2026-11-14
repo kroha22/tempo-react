@@ -8,14 +8,14 @@ import {StudyItemCardSave} from "./ReadingCardSave";
 import {StudyReview} from "../study-review/StudyReview";
 import {CardSpeechButton} from "../components/CardSpeechButton";
 import styles from "./FamilyCards.module.css";
-export function BodyCards({topic:requestedTopic,mode,source:requestedSource,onBack}:{topic?:string;mode?:string;source?:string;onBack?:()=>void}){
+export function BodyCards({topic:requestedTopic,mode,source:requestedSource,onBack,embedded=false,onViewed,viewed=[]}:{topic?:string;mode?:string;source?:string;onBack?:()=>void;embedded?:boolean;onViewed?:(wordId:string)=>void;viewed?:readonly string[]}){
   const topic:BodyCardTopic=bodyCardTopics.find(id=>id===requestedTopic)??"face",review=mode==="review",heading=useRef<HTMLHeadingElement>(null);
   const actions=requestedSource==="body",source=actions?readingSource("lesson:everyday:body")!:bodyCardSources.find(source=>source.id===`lesson:body:${topic}`)!,words=bodyCardWords.filter(word=>actions?bodyActionWordIds.includes(word.wordId):word.topic===topic);
-  useEffect(()=>{heading.current?.focus({preventScroll:true});heading.current?.scrollIntoView?.({block:"start"});},[topic,review]);
+  useEffect(()=>{if(!embedded){heading.current?.focus({preventScroll:true});heading.current?.scrollIntoView?.({block:"start"});}},[topic,review,embedded]);
   return <EnsureQueryScope><section className={styles.panel} aria-label="Тело и самочувствие: личные карточки и повторение">
-    {onBack?<button type="button" onClick={onBack}>← Назад</button>:<LegacyLessonLink href="/learning/topics">← Все темы</LegacyLessonLink>}
+    {!embedded&&<>{onBack?<button type="button" onClick={onBack}>← Назад</button>:<LegacyLessonLink href="/learning/topics">← Все темы</LegacyLessonLink>}
     <h1 ref={heading} tabIndex={-1}>{review?"Тело и самочувствие · Повторение":actions?"Тело и действия · 6 знакомых слов":`Тело и самочувствие · ${bodyCardTitles[topic]}`}</h1>
-    <nav className={styles.navigation} aria-label="Карточки тела и самочувствия">{bodyCardTopics.map(id=><LegacyLessonLink key={id} href={bodyCardsHref(id)} current={!actions&&!review&&topic===id}>{bodyCardTitles[id]} · {id==="face"?8:6} слов</LegacyLessonLink>)}<LegacyLessonLink href={bodyCardsHref(topic,true)} current={review}>Повторение темы</LegacyLessonLink></nav>
+    <nav className={styles.navigation} aria-label="Карточки тела и самочувствия">{bodyCardTopics.map(id=><LegacyLessonLink key={id} href={bodyCardsHref(id)} current={!actions&&!review&&topic===id}>{bodyCardTitles[id]} · {id==="face"?8:6} слов</LegacyLessonLink>)}<LegacyLessonLink href={bodyCardsHref(topic,true)} current={review}>Повторение темы</LegacyLessonLink></nav></>}
     {review?<><p>Только сохранённые слова этих трёх пачек, когда наступает срок. Задания и отметки знакомства сохраняют самостоятельные результаты.</p><StudyReview studyItemIds={bodyStudyItemIds} embedded/></>:<>
       <p>Добавьте нужные слова. Повторное добавление дополняет источники той же карточки без сброса расписания.</p>
       {topic==="face"&&<p>O ouvido — орган слуха, a orelha — наружная часть уха. A língua здесь означает часть тела.</p>}
@@ -24,9 +24,10 @@ export function BodyCards({topic:requestedTopic,mode,source:requestedSource,onBa
       <div className={styles.words}>{words.map(word=><article key={word.studyItemId}>
         <strong lang="pt-PT">{word.pt}</strong><p>{word.ru}</p>{word.forms!==word.pt&&<p>Формы: <span lang="pt-PT">{word.forms}</span></p>}<p lang="pt-PT">{word.example.pt}</p><p>{word.example.ru}</p>
         <CardSpeechButton text={word.pt}/><StudyItemCardSave choice={word} source={source}/>
+        {onViewed&&<button type="button" aria-label={`Отметить знакомство: ${word.forms}`} aria-pressed={viewed.includes(word.wordId)} onClick={()=>onViewed(word.wordId)}>{viewed.includes(word.wordId)?"Знакомство отмечено ✓":"Отметить знакомство"}</button>}
       </article>)}</div>
-      <LegacyLessonLink href={bodyCardsHref(topic,true)}>К повторению сохранённых карточек →</LegacyLessonLink>
-      <p><LegacyLessonLink href="/learning/everyday/body">Тело и действия: объяснение и задания →</LegacyLessonLink></p>
+      {!embedded&&<><LegacyLessonLink href={bodyCardsHref(topic,true)}>К повторению сохранённых карточек →</LegacyLessonLink>
+      <p><LegacyLessonLink href="/learning/everyday/body">Тело и действия: объяснение и задания →</LegacyLessonLink></p></>}
     </>}
   </section></EnsureQueryScope>;
 }

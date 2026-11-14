@@ -21,6 +21,7 @@ import {FamilyCards} from "@/features/cards/saved-items/FamilyCards";
 import {FamilyFlow} from "@/features/practice/FamilyFlow";
 import {FoodCards} from "@/features/cards/saved-items/FoodCards";
 import {BodyCards} from "@/features/cards/saved-items/BodyCards";
+import {BodyFlow} from "@/features/practice/BodyFlow";
 import {FoodFlow} from "@/features/practice/FoodFlow";
 
 export function relatedDestination(href: string) {
@@ -44,6 +45,7 @@ export function RelatedLearning({ href, onBack }: { href: string; onBack: () => 
   const destination = relatedDestination(href);
   const [selected, setSelected] = useState<string | null>(null);
   const [checked, setChecked] = useState(false);
+  if(href.split("?")[0]==="/learning/body"){const params=new URLSearchParams(href.split("?")[1]);return <BodyFlow topic={params.get("topic")??undefined} phase={params.get("phase")??undefined} related={params.get("related")??undefined} onBack={onBack} renderRelated={(target,back)=><RelatedLearning key={beingDestinationForHref(target)?"being-lesson":target} href={target} onBack={back}/>}/>;}
   if(href.split("?")[0]==="/learning/body/cards"){const params=new URLSearchParams(href.split("?")[1]);return <BodyCards topic={params.get("topic")??undefined} mode={params.get("mode")??undefined} source={params.get("source")??undefined} onBack={onBack}/>;}
   if(href.split("?")[0]==="/learning/food"){const params=new URLSearchParams(href.split("?")[1]);return <FoodFlow topic={params.get("topic")??undefined} phase={params.get("phase")??undefined} related={params.get("related")??undefined} onBack={onBack} renderRelated={(target,back)=><RelatedLearning key={beingDestinationForHref(target)?"being-lesson":target} href={target} onBack={back}/>}/>;}
   if(href.split("?")[0]==="/learning/food/cards"){const params=new URLSearchParams(href.split("?")[1]);return <FoodCards topic={params.get("topic")??undefined} mode={params.get("mode")??undefined} onBack={onBack}/>;}

@@ -1,7 +1,7 @@
 "use client";
 
 import {ActivityCompletion} from "./ActivityCompletion";
-import { useState } from "react";
+import { useState,type ReactNode } from "react";
 import { bodyFunctions, everydayLessons, preferenceFoods, preferencePeople, preferenceSentence, type EverydayLessonId } from "../content/everyday-lessons";
 import { CardSpeechButton } from "../cards/components/CardSpeechButton";
 import { SpeechHelpButton } from "../cards/components/SpeechHelpButton";
@@ -15,8 +15,10 @@ import {LegacyLessonLink} from "./LegacyLessonLink";
 import {foodGlossary} from "../content/food-flow";
 import {FoodCardHint} from "../cards/saved-items/FoodCardHint";
 import {bodyCardsHref} from "../content/body-cards";
+import {bodyGlossary} from "../content/body-flow";
+import {BodyCardHint} from "../cards/saved-items/BodyCardHint";
 
-export function EverydayLesson({ lessonId,flowMode,onPractice,onLearn,onComplete }: { lessonId: EverydayLessonId;flowMode?:"learn"|"check";onPractice?:()=>void;onLearn?:()=>void;onComplete?:()=>void }) {
+export function EverydayLesson({ lessonId,flowMode,onPractice,onLearn,onComplete,readingIntroduction }: { lessonId: EverydayLessonId;flowMode?:"learn"|"check";onPractice?:()=>void;onLearn?:()=>void;onComplete?:()=>void;readingIntroduction?:ReactNode }) {
   const plan=usePracticePlan();
   const lesson=everydayLessons[lessonId];
   const [localMode,setMode]=useState<"learn"|"check">("learn");
@@ -31,9 +33,9 @@ export function EverydayLesson({ lessonId,flowMode,onPractice,onLearn,onComplete
     {mode==="check"&&<p>{lesson.canDo}</p>}
     {!flowMode&&<nav className="vocabulary-modes" aria-label="Этап урока"><button type="button" aria-pressed={mode==="learn"} onClick={()=>setMode("learn")}>Разобраться</button><button type="button" aria-pressed={mode==="check"} onClick={()=>setMode("check")}>Потренироваться</button></nav>}
     {mode==="learn"?<>
-      <DescriptionReading key={lessonId} source={readingSource(`lesson:everyday:${lessonId}`)} glossary={flowMode&&lessonId==="likes"?foodGlossary:undefined} wordAction={flowMode&&lessonId==="likes"?pt=><FoodCardHint pt={pt} source={readingSource("lesson:everyday:likes")!}/>:undefined}><DescriptionParagraph pt={everydayReading[lessonId].goal} ru={lesson.canDo}/><details className={styles.rule} open={flowMode?true:undefined}><summary>Как это устроено</summary><DescriptionParagraph pt={everydayReading[lessonId].rule} ru={lesson.rule}/></details></DescriptionReading>
+      <DescriptionReading key={lessonId} source={readingSource(`lesson:everyday:${lessonId}`)} glossary={flowMode?(lessonId==="likes"?foodGlossary:bodyGlossary):undefined} wordAction={flowMode?pt=>lessonId==="likes"?<FoodCardHint pt={pt} source={readingSource("lesson:everyday:likes")!}/>:<BodyCardHint pt={pt} source={readingSource("lesson:everyday:body")!}/>:undefined}>{readingIntroduction}<DescriptionParagraph pt={everydayReading[lessonId].goal} ru={lesson.canDo}/><details className={styles.rule} open={flowMode?true:undefined}><summary>Как это устроено</summary><DescriptionParagraph pt={everydayReading[lessonId].rule} ru={lesson.rule}/></details></DescriptionReading>
       {lessonId==="likes"&&!flowMode&&<p><LegacyLessonLink href={foodCardsHref("preferences")}>Слова предпочтений в личные карточки →</LegacyLessonLink></p>}
-      {lessonId==="body"&&<p><LegacyLessonLink href={`${bodyCardsHref()}&source=body`}>Слова этого урока в личные карточки →</LegacyLessonLink></p>}
+      {lessonId==="body"&&!flowMode&&<p><LegacyLessonLink href={`${bodyCardsHref()}&source=body`}>Слова этого урока в личные карточки →</LegacyLessonLink></p>}
       {lessonId==="likes"?<div className={styles.builder}>
         <div className={styles.options} role="group" aria-label="Кто говорит">{preferencePeople.map((item,index)=><button type="button" key={item.id} aria-pressed={person===index} onClick={()=>setPerson(index)}>{item.label}</button>)}</div>
         <div className={styles.options} role="group" aria-label="Предпочтение"><button type="button" aria-pressed={!negative} onClick={()=>setNegative(false)}>Нравится</button><button type="button" aria-pressed={negative} onClick={()=>setNegative(true)}>Не нравится</button></div>

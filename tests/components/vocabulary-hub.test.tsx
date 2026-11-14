@@ -25,6 +25,7 @@ describe("VocabularyHub", () => {
   it("keeps internal anatomy behind its explicit set selection", async () => {
     const {container}=render(<VocabularyHub onOpenCards={vi.fn()}/>);
     const user=userEvent.setup();
+    await user.click(screen.getByText("Отдельные материалы тела"));
     const body=screen.getByRole("button",{name:/^O corpo/});
     expect(body.querySelector("img")).toHaveAttribute("src","/images/covers/body-v1.webp");
     await user.click(body);
