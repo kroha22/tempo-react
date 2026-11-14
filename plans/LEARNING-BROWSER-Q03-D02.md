@@ -43,4 +43,8 @@ npx --no-install playwright test --config playwright.learning.config.ts --projec
 
 ## Локальный результат
 
-`npm run check`: lint/typecheck, 140 domain / 364 component / 20 server tests и production build прошли. `npm run test:browser`: финальные 6/6, 39,2 с, без retries; включая page-error/network guards. Финальный typecheck прошёл. Pages/public-assets validation: 87 referenced paths / 114 public files. Все 117 dist-файлов структурно и побайтно совпали с точной сборкой A02.2. Относительные ссылки проверены; consistency script сообщает девять прежних структурных предупреждений. Remote CI и точный SHA фиксируются в приватном каноническом roadmap после отправки коммита.
+`npm run check`: lint/typecheck, 140 domain / 364 component / 20 server tests и production build прошли. `npm run test:browser`: 6/6, 39,2 с, без retries; включая page-error/network guards. Финальный typecheck прошёл. Pages/public-assets validation: 87 referenced paths / 114 public files. Все 117 dist-файлов структурно и побайтно совпали с точной сборкой A02.2. Относительные ссылки проверены; consistency script сообщает девять прежних структурных предупреждений. Remote CI и точный SHA фиксируются в приватном каноническом roadmap после отправки коммита.
+
+Первый CI прогон выявил ошибку селектора теста: `role=status` находил также сообщения загрузки голосов, которые дольше остаются видимыми на Linux. Проверка уточнена до результата задания «Верно»; озвучивание не замокано, приложение и таймауты не менялись. Остальные четыре CI cases уже проходили. Повторный прогон проверяет эту исправленную версию.
+
+После исправления локально повторены все шесть cases: 6/6, 37,6 с, без retries; lint/typecheck прошли.

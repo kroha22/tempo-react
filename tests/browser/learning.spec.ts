@@ -19,7 +19,7 @@ test("lesson → word → Cards → SRS → reload keeps the lesson result, sour
   const lesson=page.getByRole("region",{name:"Представиться",exact:true});
   await lesson.getByRole("button",{name:"Chamo-me...",exact:true}).click();
   await lesson.getByRole("button",{name:"Проверить",exact:true}).click();
-  await expect(lesson.getByRole("status")).toContainText("Верно");
+  await expect(lesson.getByRole("status").filter({hasText:/^Верно/})).toBeVisible();
   const completed=await exportBackup(page);
   expect(completed.browser.learning.activities?.[introduction]).toMatchObject({correct:1,total:1});
   const link=lesson.getByRole("link",{name:"Дополнительные карточки и подключение повторения →",exact:true});
