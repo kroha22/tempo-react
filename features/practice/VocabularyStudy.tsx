@@ -37,6 +37,7 @@ import {foodCardsHref} from "../content/food-cards";
 import {foodFlowHref} from "../content/food-flow";
 import {bodyCardsHref} from "../content/body-cards";
 import {bodyFlowHref} from "../content/body-flow";
+import {homeCardsHref} from "../content/home-cards";
 import {FirstSteps} from "./FirstSteps";
 import {useProfileLearning} from "./profile-learning";
 import {LearningLibrary} from "./LearningLibrary";
@@ -124,6 +125,8 @@ export function VocabularyStudy({ onOpenCards,initialChildMode=false,initialTopi
     {group.id==="topic:vocabulary-body"&&<p><LegacyLessonLink href={bodyCardsHref(setId==="collection:expansion-body-movement"?"movement":"face")}>Тело в личные карточки и повторение →</LegacyLessonLink></p>}
     {group.id==="topic:people"&&<p><LegacyLessonLink href={bodyCardsHref("feelings")}>Состояния в личные карточки и повторение →</LegacyLessonLink></p>}
     {group.id==="topic:people"&&<p><LegacyLessonLink href={bodyFlowHref("feelings")}>Тело и самочувствие · весь урок →</LegacyLessonLink></p>}
+    {group.id==="topic:vocabulary-house"&&<p><LegacyLessonLink href={homeCardsHref()}>Дом в личные карточки и повторение →</LegacyLessonLink></p>}
+    {group.id==="topic:vocabulary-space"&&<p><LegacyLessonLink href={homeCardsHref("location")}>Расположение в личные карточки и повторение →</LegacyLessonLink></p>}
     {group.id==="topic:vocabulary-family"&&<p><LegacyLessonLink href={familyCardsHref(setId==="collection:expansion-family-relatives"?"relatives":"close")}>Семейные карточки и повторение →</LegacyLessonLink></p>}
     {timeLibraryTopics.includes(group.id)&&<p><LegacyLessonLink href={timeDayHref(group.id==="topic:vocabulary-my-day"?"routine":"hours")}>Время и мой день · единый урок →</LegacyLessonLink></p>}
     <div className={styles.selector}><div className={styles.label}><b lang="pt-PT">Conjuntos</b><span>· Наборы слов</span></div><div className={styles.tags} role="group" aria-label="Набор слов">

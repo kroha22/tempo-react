@@ -5,9 +5,11 @@ import {familyCardSources} from "./family-cards.ts";
 import {foodCardSources,foodPreferenceSource} from "./food-cards.ts";
 import {bodyCardSources} from "./body-cards.ts";
 import {bodyFlowHref} from "./body-flow.ts";
+import {homeCardSources} from "./home-cards.ts";
 export type ReadingSource={id:string;title:string;href:string;unit?:number};
 const sources:ReadingSource[]=[
   ...foodCardSources,
+  ...homeCardSources,
   ...bodyCardSources,
   ...familyCardSources,
   ...timeDaySources,

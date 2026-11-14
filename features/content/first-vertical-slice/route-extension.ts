@@ -300,7 +300,9 @@ const nounStudyItems: StudyItem[] = nounStudySpecs.map(([lemma, definiteArticle,
   return { ...base, id: `study:noun:${slug}`, kind: "study-item", target: { type: "lexeme-sense", senseId: `sense:noun:${slug}`, partOfSpeech: "noun" }, display: { type: "noun", lemma, definiteArticle, plural, pluralDefiniteArticle, translationKey: `study.${slug}.ru` }, defaultExampleId, cardEligible: true };
 });
 
-export const extraStudyItems: StudyItem[] = [...nonNounStudyItems, ...nounStudyItems];
+// F-12.1 repairs only these defaults; targets, displays and Route flow revisions stay stable.
+const homeExampleRepairs:Record<string,string>={"study:noun:quarto":"example:home:quarto","study:noun:caixa":"example:home:caixa","study:noun:porta":"example:home:porta","study:chunk:onde-esta":"example:home:onde-esta"};
+export const extraStudyItems: StudyItem[] = [...nonNounStudyItems, ...nounStudyItems].map(item=>homeExampleRepairs[item.id]?{...item,contentRevision:2,defaultExampleId:homeExampleRepairs[item.id]}:item);
 
 export const extraContentBlocks: ContentBlock[] = extraExperiences.map((experience) => ({ ...base, id: `block:${experience.id.split(":").slice(2).join("-")}:orientation`, kind: "content-block", blockType: "orientation", bodyKey: `body.${experience.id}`, exampleIds: [] }));
 

@@ -13,10 +13,10 @@ export function ReadingCardSave({pt,source}:{pt:string;source:ReadingSource}){
   const choices=readingCardChoices(pt);
   return <EnsureCardsQueryScope><div>{choices.length>1&&<p>Выберите значение:</p>}{choices.map(choice=><SaveChoice key={`${source.id}:${choice.studyItemId}`} choice={choice} source={source} multiple={choices.length>1}/>)}</div></EnsureCardsQueryScope>;
 }
-export function StudyItemCardSave({choice,source}:{choice:ReadingCardChoice;source:ReadingSource}){
-  return <EnsureCardsQueryScope><SaveChoice choice={choice} source={source} multiple={false}/></EnsureCardsQueryScope>;
+export function StudyItemCardSave({choice,source,existingItemHint}:{choice:ReadingCardChoice;source:ReadingSource;existingItemHint?:string}){
+  return <EnsureCardsQueryScope><SaveChoice choice={choice} source={source} multiple={false} existingItemHint={existingItemHint}/></EnsureCardsQueryScope>;
 }
-function SaveChoice({choice,source,multiple}:{choice:ReadingCardChoice;source:ReadingSource;multiple:boolean}){
+function SaveChoice({choice,source,multiple,existingItemHint}:{choice:ReadingCardChoice;source:ReadingSource;multiple:boolean;existingItemHint?:string}){
   const scope=useCardsScope(),query=useSavedItemsQuery();
   const busy=useRef(false);
   const [intent]=useState(()=>({studyItemId:choice.studyItemId,sourceType:"lesson" as const,sourceId:source.id,...(source.unit?{sourceContextId:`unit:ga1:u${String(source.unit).padStart(2,"0")}`}:{ }),clientEventId:`card:${crypto.randomUUID()}`}));
@@ -29,5 +29,5 @@ function SaveChoice({choice,source,multiple}:{choice:ReadingCardChoice;source:Re
   const matches=(row:SourceRow)=>row.studyItemId===choice.studyItemId&&row.sourceType===intent.sourceType&&row.sourceId===intent.sourceId&&row.sourceContextId===intent.sourceContextId;
   const saved=query.data?.sources.some(matches)||mutation.data?.sources.some(matches);
   if(query.isError||scope.blocked)return <div><p role="alert">Не удалось загрузить карточки.</p><button type="button" onClick={()=>scope.blocked?scope.retryAccess():void query.refetch()}>Повторить загрузку</button></div>;
-  return <div>{multiple&&<p lang="ru"><b lang="pt-PT">{choice.pt}</b> — {choice.ru}</p>}<button type="button" disabled={query.isPending||mutation.isPending||!!saved} onClick={()=>{if(busy.current)return;busy.current=true;mutation.mutate();}}>{query.isPending?"Загружаем…":mutation.isPending?"Сохраняем…":saved?"Уже в карточках ✓":mutation.isError?"Повторить сохранение":"В карточки"}</button>{saved&&<span role="status"> Сохранено · {source.title}</span>}{!saved&&query.data?.items.some(item=>item.studyItemId===choice.studyItemId)&&<small>Карточка уже есть. Добавим только источник урока.</small>}{mutation.isError&&<p role="alert">Не удалось сохранить. Повторите действие.</p>}</div>;
+  return <div>{multiple&&<p lang="ru"><b lang="pt-PT">{choice.pt}</b> — {choice.ru}</p>}<button type="button" disabled={query.isPending||mutation.isPending||!!saved} onClick={()=>{if(busy.current)return;busy.current=true;mutation.mutate();}}>{query.isPending?"Загружаем…":mutation.isPending?"Сохраняем…":saved?"Уже в карточках ✓":mutation.isError?"Повторить сохранение":"В карточки"}</button>{saved&&<span role="status"> Сохранено · {source.title}</span>}{!saved&&query.data?.items.some(item=>item.studyItemId===choice.studyItemId)&&<small>Карточка уже есть. {existingItemHint??"Добавим только источник урока."}</small>}{mutation.isError&&<p role="alert">Не удалось сохранить. Повторите действие.</p>}</div>;
 }
