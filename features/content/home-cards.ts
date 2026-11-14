@@ -1,3 +1,4 @@
+import {homeFlowHref} from "./home-flow.ts";
 import {houseWords} from "./house.ts";
 import {extraStudyItems,routeExtensionRu,extraExamples,routeLessonExperiences} from "./first-vertical-slice/route-extension.ts";
 import {gramaticaVocabulary,vocabularyFront} from "./gramatica-vocabulary.ts";
@@ -7,7 +8,7 @@ export type HomeCardTopic="rooms"|"objects"|"location";
 export const homeCardTopics=["rooms","objects","location"] as const;
 export const homeCardTitles={rooms:"Комнаты",objects:"Знакомые предметы",location:"Где находится?"};
 export const homeCardsHref=(topic:HomeCardTopic="rooms",review=false)=>`/learning/home/cards?topic=${topic}${review?"&mode=review":""}`;
-export const homeBatchSources=homeCardTopics.map(topic=>({id:`lesson:home:${topic}`,title:`Дом · ${homeCardTitles[topic]}`,href:homeCardsHref(topic)}));
+export const homeBatchSources=homeCardTopics.map(topic=>({id:`lesson:home:${topic}`,title:`Дом · ${homeCardTitles[topic]}`,href:homeFlowHref(topic,"words")}));
 export const homeRouteSources=[
   {topic:"rooms",id:"lesson:a1-1:possession-and-presence",title:"TER и HÁ",href:"/learning/lessons/lesson%3Aa1-1%3Apossession-and-presence"},
   {topic:"objects",id:"lesson:a1-1:name-familiar-objects",title:"Знакомые предметы",href:"/learning/lessons/lesson%3Aa1-1%3Aname-familiar-objects"},

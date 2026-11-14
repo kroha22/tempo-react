@@ -1,5 +1,6 @@
 "use client";
 
+import {LegacyLessonLink} from "./LegacyLessonLink";
 import {ActivityCompletion} from "./ActivityCompletion";
 import { useRef, useState } from "react";
 import { checkImageAnswers, placeImageWord, type ImageAnswers, type ImageMatchingDefinition } from "./image-matching";
@@ -58,7 +59,7 @@ export function ImageMatchingExercise({ definition, words, embedded=false }: { d
   }
   return <section className="house-activity" style={{position:"relative"}} onClick={event => { if (!(event.target as HTMLElement).closest(".house-info,.house-hint")) setHint(null); }} onKeyDown={event => { if (event.key === "Escape") { setHint(null); setResetPrompt(false); } }}>
     {celebrate&&<WordCelebration word={{id:"image-complete",label:"Muito bem!",translation:"Всё верно"}} onFinish={()=>setCelebrate(false)}/>}
-    {!embedded&&<div className="house-heading"><div><span className="tempo-kicker">Задание по картинке · {houseWords.length} слов</span><h1 lang={definition.titleLang ?? "pt-PT"}>{definition.title}</h1></div>{definition.cardsHref && <a href={definition.cardsHref}>Изучить слова в карточках →</a>}</div>}
+    {!embedded&&<div className="house-heading"><div><span className="tempo-kicker">Задание по картинке · {houseWords.length} слов</span><h1 lang={definition.titleLang ?? "pt-PT"}>{definition.title}</h1></div>{definition.cardsHref && <LegacyLessonLink href={definition.cardsHref}>Изучить слова в карточках →</LegacyLessonLink>}</div>}
     <p className="house-status" aria-live="polite">{selectedWord ? `${selectedWord.number} · ${selectedWord.label} — нажми на квадрат.` : message}</p>
     <div className="house-tools"><button type="button" aria-pressed={zoom} onClick={() => setZoom(!zoom)}>{zoom ? "Показать целиком" : "Увеличить картинку"}</button><span>{Object.keys(answers).length} из {total}</span>{zoom && <small>Прокручивай картинку вбок</small>}</div>
     <div className="house-image-scroll"><div className={`house-image${zoom ? " is-zoomed" : ""}`} style={{ aspectRatio: `${houseIllustration.crop.width}/${houseIllustration.crop.height}` }}>
