@@ -1,0 +1,726 @@
+{
+  "status": "proposed-map-only",
+  "baseSha": "b784d1274522aaefe7f8cbc1625c42244b972e8e",
+  "date": "2026-11-14",
+  "expected": {
+    "studyItems": 665,
+    "reviewDefinitionsBefore": 648,
+    "reviewDefinitionsAfter": 665,
+    "readingSourcesBefore": 69,
+    "readingSourcesAfter": 72,
+    "newStudyItems": 0,
+    "newReviewDefinitions": 17,
+    "defaultRepairs": 11,
+    "newExampleEntities": 11,
+    "newSourceMetadata": 3
+  },
+  "sourceForGroup": {
+    "intro": "lesson:a1-1:introduce-yourself",
+    "being": "lesson:a1-1:ser-estar-description-state",
+    "presence": "lesson:a1-1:possession-and-presence",
+    "places": "lesson:a1-1:ask-place-location"
+  },
+  "targets": [
+    {
+      "studyItemId": "study:chunk:ola",
+      "group": "intro",
+      "display": {
+        "type": "chunk",
+        "text": "Olá!",
+        "translationKey": "chunk.ola.gloss"
+      },
+      "target": {
+        "type": "chunk",
+        "chunkId": "chunk:ola"
+      },
+      "translation": "Привет! / Здравствуйте!",
+      "sourceId": "lesson:a1-1:introduce-yourself",
+      "sourcePolicy": "explicit-vocabulary-appearance-only; do not extend old saveItemIds",
+      "existingExampleId": "example:ola-chamo-me-rita",
+      "proposedReviewItemId": "saved:study:chunk:ola",
+      "reviewDefinitionPolicy": "register under unchanged StudyItem ID; no merge or target substitution",
+      "units": [],
+      "lowerPriority": false,
+      "legacyVerbCard": null,
+      "relatedGa1": [],
+      "example": {
+        "pt": "Olá! Chamo-me Rita. Muito prazer.",
+        "ru": "Привет! Меня зовут Рита. Очень приятно.",
+        "origin": "example:ola-chamo-me-rita",
+        "proposedId": "example:ola-chamo-me-rita"
+      }
+    },
+    {
+      "studyItemId": "study:chunk:como-te-chamas",
+      "group": "intro",
+      "display": {
+        "type": "chunk",
+        "text": "Como te chamas?",
+        "translationKey": "chunk.como-te-chamas.gloss"
+      },
+      "target": {
+        "type": "chunk",
+        "chunkId": "chunk:como-te-chamas"
+      },
+      "translation": "Как тебя зовут?",
+      "sourceId": "lesson:a1-1:introduce-yourself",
+      "sourcePolicy": "original-route-save-target",
+      "existingExampleId": "example:como-te-chamas-rita",
+      "proposedReviewItemId": "saved:study:chunk:como-te-chamas",
+      "reviewDefinitionPolicy": "register under unchanged StudyItem ID; no merge or target substitution",
+      "units": [],
+      "lowerPriority": false,
+      "legacyVerbCard": null,
+      "relatedGa1": [],
+      "example": {
+        "pt": "Como te chamas? — Chamo-me Rita.",
+        "ru": "Как тебя зовут? — Меня зовут Рита.",
+        "origin": "example:como-te-chamas-rita",
+        "proposedId": "example:como-te-chamas-rita"
+      }
+    },
+    {
+      "studyItemId": "study:chunk:chamo-me",
+      "group": "intro",
+      "display": {
+        "type": "chunk",
+        "text": "Chamo-me ...",
+        "translationKey": "chunk.chamo-me.gloss"
+      },
+      "target": {
+        "type": "chunk",
+        "chunkId": "chunk:chamo-me"
+      },
+      "translation": "Меня зовут ...",
+      "sourceId": "lesson:a1-1:introduce-yourself",
+      "sourcePolicy": "original-route-save-target",
+      "existingExampleId": "example:ola-chamo-me-rita",
+      "proposedReviewItemId": "saved:study:chunk:chamo-me",
+      "reviewDefinitionPolicy": "register under unchanged StudyItem ID; no merge or target substitution",
+      "units": [],
+      "lowerPriority": false,
+      "legacyVerbCard": null,
+      "relatedGa1": [],
+      "example": {
+        "pt": "Olá! Chamo-me Rita. Muito prazer.",
+        "ru": "Привет! Меня зовут Рита. Очень приятно.",
+        "origin": "example:ola-chamo-me-rita",
+        "proposedId": "example:ola-chamo-me-rita"
+      }
+    },
+    {
+      "studyItemId": "study:chunk:sou-name",
+      "group": "intro",
+      "display": {
+        "type": "chunk",
+        "text": "Sou ...",
+        "translationKey": "chunk.sou-name.gloss"
+      },
+      "target": {
+        "type": "chunk",
+        "chunkId": "chunk:sou-name"
+      },
+      "translation": "Я ...",
+      "sourceId": "lesson:a1-1:introduce-yourself",
+      "sourcePolicy": "explicit-vocabulary-appearance-only; do not extend old saveItemIds",
+      "existingExampleId": "example:eu-sou-rita",
+      "proposedReviewItemId": "saved:study:chunk:sou-name",
+      "reviewDefinitionPolicy": "register under unchanged StudyItem ID; no merge or target substitution",
+      "units": [],
+      "lowerPriority": false,
+      "legacyVerbCard": null,
+      "relatedGa1": [],
+      "example": {
+        "pt": "Eu sou a Rita.",
+        "ru": "Я Рита.",
+        "origin": "example:eu-sou-rita",
+        "proposedId": "example:eu-sou-rita"
+      }
+    },
+    {
+      "studyItemId": "study:chunk:muito-prazer",
+      "group": "intro",
+      "display": {
+        "type": "chunk",
+        "text": "Muito prazer.",
+        "translationKey": "chunk.muito-prazer.gloss"
+      },
+      "target": {
+        "type": "chunk",
+        "chunkId": "chunk:muito-prazer"
+      },
+      "translation": "Очень приятно.",
+      "sourceId": "lesson:a1-1:introduce-yourself",
+      "sourcePolicy": "explicit-vocabulary-appearance-only; do not extend old saveItemIds",
+      "existingExampleId": "example:ola-chamo-me-rita",
+      "proposedReviewItemId": "saved:study:chunk:muito-prazer",
+      "reviewDefinitionPolicy": "register under unchanged StudyItem ID; no merge or target substitution",
+      "units": [],
+      "lowerPriority": false,
+      "legacyVerbCard": null,
+      "relatedGa1": [],
+      "example": {
+        "pt": "Olá! Chamo-me Rita. Muito prazer.",
+        "ru": "Привет! Меня зовут Рита. Очень приятно.",
+        "origin": "example:ola-chamo-me-rita",
+        "proposedId": "example:ola-chamo-me-rita"
+      }
+    },
+    {
+      "studyItemId": "study:verb:ser:identity",
+      "group": "being",
+      "display": {
+        "type": "verb",
+        "infinitive": "ser",
+        "translationKey": "study.ser.ru"
+      },
+      "target": {
+        "type": "lexeme-sense",
+        "senseId": "sense:verb:ser:identity",
+        "partOfSpeech": "verb"
+      },
+      "translation": "быть: идентичность или характеристика",
+      "sourceId": "lesson:a1-1:ser-estar-description-state",
+      "sourcePolicy": "original-route-save-target",
+      "existingExampleId": "example:rui-ser-calmo",
+      "proposedReviewItemId": "saved:study:verb:ser:identity",
+      "reviewDefinitionPolicy": "register under unchanged StudyItem ID; no merge or target substitution",
+      "units": [],
+      "lowerPriority": true,
+      "legacyVerbCard": "v0001",
+      "relatedGa1": [
+        {
+          "id": "study:ga1:verb:ser:entry",
+          "sense": "entry",
+          "translation": "быть; являться",
+          "example": {
+            "pt": "A viagem foi boa.",
+            "ru": "Поездка была хорошей."
+          },
+          "policy": "related only; retain separate meaning/progress"
+        }
+      ],
+      "example": {
+        "pt": "O Rui é calmo.",
+        "ru": "Руй спокойный по характеру.",
+        "origin": "example:rui-ser-calmo",
+        "proposedId": "example:rui-ser-calmo"
+      }
+    },
+    {
+      "studyItemId": "study:verb:estar:state",
+      "group": "being",
+      "display": {
+        "type": "verb",
+        "infinitive": "estar",
+        "translationKey": "study.estar.ru"
+      },
+      "target": {
+        "type": "lexeme-sense",
+        "senseId": "sense:verb:estar:state",
+        "partOfSpeech": "verb"
+      },
+      "translation": "быть: состояние сейчас",
+      "sourceId": "lesson:a1-1:ser-estar-description-state",
+      "sourcePolicy": "original-route-save-target",
+      "existingExampleId": "example:rui-ser-calmo",
+      "proposedReviewItemId": "saved:study:verb:estar:state",
+      "reviewDefinitionPolicy": "register under unchanged StudyItem ID; no merge or target substitution",
+      "units": [],
+      "lowerPriority": true,
+      "legacyVerbCard": "v0003",
+      "relatedGa1": [
+        {
+          "id": "study:ga1:verb:estar:entry",
+          "sense": "entry",
+          "translation": "будет, вероятно находится",
+          "example": {
+            "pt": "Ela estará em casa amanhã.",
+            "ru": "Завтра она будет дома."
+          },
+          "policy": "related only; retain separate meaning/progress"
+        }
+      ],
+      "example": {
+        "pt": "O Rui está calmo.",
+        "ru": "Сейчас Руй спокоен.",
+        "origin": "beingContent.estar.example",
+        "proposedId": "example:legacy-srs:verb-estar-state"
+      }
+    },
+    {
+      "studyItemId": "study:verb:ter:possession",
+      "group": "presence",
+      "display": {
+        "type": "verb",
+        "infinitive": "ter",
+        "translationKey": "study.ter.ru"
+      },
+      "target": {
+        "type": "lexeme-sense",
+        "senseId": "sense:verb:ter:possession",
+        "partOfSpeech": "verb"
+      },
+      "translation": "иметь",
+      "sourceId": "lesson:a1-1:possession-and-presence",
+      "sourcePolicy": "original-route-save-target",
+      "existingExampleId": "example:ha-mesa-sala",
+      "proposedReviewItemId": "saved:study:verb:ter:possession",
+      "reviewDefinitionPolicy": "register under unchanged StudyItem ID; no merge or target substitution",
+      "units": [],
+      "lowerPriority": true,
+      "legacyVerbCard": "v0002",
+      "relatedGa1": [
+        {
+          "id": "study:ga1:verb:ter:entry",
+          "sense": "entry",
+          "translation": "иметь",
+          "example": {
+            "pt": "Tive muito trabalho ontem.",
+            "ru": "Вчера у меня было много работы."
+          },
+          "policy": "related only; retain separate meaning/progress"
+        }
+      ],
+      "example": {
+        "pt": "A Rita tem uma chave.",
+        "ru": "У Риты есть ключ.",
+        "origin": "routeLessonExperiences:possession-and-presence.examples",
+        "proposedId": "example:legacy-srs:verb-ter-possession"
+      }
+    },
+    {
+      "studyItemId": "study:verb:ficar:location",
+      "group": "places",
+      "display": {
+        "type": "verb",
+        "infinitive": "ficar",
+        "translationKey": "study.ficar.ru"
+      },
+      "target": {
+        "type": "lexeme-sense",
+        "senseId": "sense:verb:ficar:location",
+        "partOfSpeech": "verb"
+      },
+      "translation": "находиться, быть расположенным",
+      "sourceId": "lesson:a1-1:ask-place-location",
+      "sourcePolicy": "original-route-save-target",
+      "existingExampleId": "example:estacao-centro",
+      "proposedReviewItemId": "saved:study:verb:ficar:location",
+      "reviewDefinitionPolicy": "register under unchanged StudyItem ID; no merge or target substitution",
+      "units": [],
+      "lowerPriority": true,
+      "legacyVerbCard": "v0013",
+      "relatedGa1": [
+        {
+          "id": "study:ga1:verb:ficar:entry",
+          "sense": "entry",
+          "translation": "оставаться",
+          "example": {
+            "pt": "Vou ficar em casa.",
+            "ru": "Я останусь дома."
+          },
+          "policy": "related only; retain separate meaning/progress"
+        }
+      ],
+      "example": {
+        "pt": "A estação fica no centro.",
+        "ru": "Станция находится в центре.",
+        "origin": "example:estacao-centro",
+        "proposedId": "example:estacao-centro"
+      }
+    },
+    {
+      "studyItemId": "study:chunk:onde-fica",
+      "group": "places",
+      "display": {
+        "type": "chunk",
+        "text": "Onde fica...?",
+        "translationKey": "study.onde-fica.ru"
+      },
+      "target": {
+        "type": "chunk",
+        "chunkId": "chunk:onde-fica"
+      },
+      "translation": "Где расположено...?",
+      "sourceId": "lesson:a1-1:ask-place-location",
+      "sourcePolicy": "original-route-save-target",
+      "existingExampleId": "example:estacao-centro",
+      "proposedReviewItemId": "saved:study:chunk:onde-fica",
+      "reviewDefinitionPolicy": "register under unchanged StudyItem ID; no merge or target substitution",
+      "units": [],
+      "lowerPriority": false,
+      "legacyVerbCard": null,
+      "relatedGa1": [],
+      "example": {
+        "pt": "Onde fica a farmácia?",
+        "ru": "Где находится аптека?",
+        "origin": "routeLessonExperiences:ask-place-location.activity option",
+        "proposedId": "example:legacy-srs:chunk-onde-fica"
+      }
+    },
+    {
+      "studyItemId": "study:noun:cama",
+      "group": "presence",
+      "display": {
+        "type": "noun",
+        "lemma": "cama",
+        "definiteArticle": "a",
+        "plural": "camas",
+        "pluralDefiniteArticle": "as",
+        "translationKey": "study.cama.ru"
+      },
+      "target": {
+        "type": "lexeme-sense",
+        "senseId": "sense:noun:cama",
+        "partOfSpeech": "noun"
+      },
+      "translation": "кровать",
+      "sourceId": "lesson:a1-1:possession-and-presence",
+      "sourcePolicy": "original-route-save-target",
+      "existingExampleId": "example:ha-mesa-sala",
+      "proposedReviewItemId": "saved:study:noun:cama",
+      "reviewDefinitionPolicy": "register under unchanged StudyItem ID; no merge or target substitution",
+      "units": [],
+      "lowerPriority": false,
+      "legacyVerbCard": null,
+      "relatedGa1": [],
+      "example": {
+        "pt": "A cama está no quarto.",
+        "ru": "Кровать находится в спальне.",
+        "origin": "existing house-quarto/example:home:quarto text",
+        "proposedId": "example:legacy-srs:noun-cama"
+      }
+    },
+    {
+      "studyItemId": "study:noun:armario",
+      "group": "presence",
+      "display": {
+        "type": "noun",
+        "lemma": "armário",
+        "definiteArticle": "o",
+        "plural": "armários",
+        "pluralDefiniteArticle": "os",
+        "translationKey": "study.armario.ru"
+      },
+      "target": {
+        "type": "lexeme-sense",
+        "senseId": "sense:noun:armario",
+        "partOfSpeech": "noun"
+      },
+      "translation": "шкаф",
+      "sourceId": "lesson:a1-1:possession-and-presence",
+      "sourcePolicy": "original-route-save-target",
+      "existingExampleId": "example:ha-mesa-sala",
+      "proposedReviewItemId": "saved:study:noun:armario",
+      "reviewDefinitionPolicy": "register under unchanged StudyItem ID; no merge or target substitution",
+      "units": [],
+      "lowerPriority": false,
+      "legacyVerbCard": null,
+      "relatedGa1": [],
+      "example": {
+        "pt": "O armário está no quarto.",
+        "ru": "Шкаф находится в спальне.",
+        "origin": "proposed authored example",
+        "proposedId": "example:legacy-srs:noun-armario"
+      }
+    },
+    {
+      "studyItemId": "study:noun:copo",
+      "group": "presence",
+      "display": {
+        "type": "noun",
+        "lemma": "copo",
+        "definiteArticle": "o",
+        "plural": "copos",
+        "pluralDefiniteArticle": "os",
+        "translationKey": "study.copo.ru"
+      },
+      "target": {
+        "type": "lexeme-sense",
+        "senseId": "sense:noun:copo",
+        "partOfSpeech": "noun"
+      },
+      "translation": "стакан",
+      "sourceId": "lesson:a1-1:possession-and-presence",
+      "sourcePolicy": "original-route-save-target",
+      "existingExampleId": "example:ha-mesa-sala",
+      "proposedReviewItemId": "saved:study:noun:copo",
+      "reviewDefinitionPolicy": "register under unchanged StudyItem ID; no merge or target substitution",
+      "units": [],
+      "lowerPriority": false,
+      "legacyVerbCard": null,
+      "relatedGa1": [],
+      "example": {
+        "pt": "O copo está na mesa.",
+        "ru": "Стакан на столе.",
+        "origin": "proposed authored example",
+        "proposedId": "example:legacy-srs:noun-copo"
+      }
+    },
+    {
+      "studyItemId": "study:noun:estacao",
+      "group": "places",
+      "display": {
+        "type": "noun",
+        "lemma": "estação",
+        "definiteArticle": "a",
+        "plural": "estações",
+        "pluralDefiniteArticle": "as",
+        "translationKey": "study.estacao.ru"
+      },
+      "target": {
+        "type": "lexeme-sense",
+        "senseId": "sense:noun:estacao",
+        "partOfSpeech": "noun"
+      },
+      "translation": "станция",
+      "sourceId": "lesson:a1-1:ask-place-location",
+      "sourcePolicy": "original-route-save-target",
+      "existingExampleId": "example:estacao-centro",
+      "proposedReviewItemId": "saved:study:noun:estacao",
+      "reviewDefinitionPolicy": "register under unchanged StudyItem ID; no merge or target substitution",
+      "units": [],
+      "lowerPriority": false,
+      "legacyVerbCard": null,
+      "relatedGa1": [],
+      "example": {
+        "pt": "A estação fica no centro.",
+        "ru": "Станция находится в центре.",
+        "origin": "example:estacao-centro",
+        "proposedId": "example:estacao-centro"
+      }
+    },
+    {
+      "studyItemId": "study:noun:hotel",
+      "group": "places",
+      "display": {
+        "type": "noun",
+        "lemma": "hotel",
+        "definiteArticle": "o",
+        "plural": "hotéis",
+        "pluralDefiniteArticle": "os",
+        "translationKey": "study.hotel.ru"
+      },
+      "target": {
+        "type": "lexeme-sense",
+        "senseId": "sense:noun:hotel",
+        "partOfSpeech": "noun"
+      },
+      "translation": "отель",
+      "sourceId": "lesson:a1-1:ask-place-location",
+      "sourcePolicy": "original-route-save-target",
+      "existingExampleId": "example:estacao-centro",
+      "proposedReviewItemId": "saved:study:noun:hotel",
+      "reviewDefinitionPolicy": "register under unchanged StudyItem ID; no merge or target substitution",
+      "units": [],
+      "lowerPriority": false,
+      "legacyVerbCard": null,
+      "relatedGa1": [],
+      "example": {
+        "pt": "O hotel fica no centro.",
+        "ru": "Отель находится в центре.",
+        "origin": "proposed authored example",
+        "proposedId": "example:legacy-srs:noun-hotel"
+      }
+    },
+    {
+      "studyItemId": "study:noun:farmacia",
+      "group": "places",
+      "display": {
+        "type": "noun",
+        "lemma": "farmácia",
+        "definiteArticle": "a",
+        "plural": "farmácias",
+        "pluralDefiniteArticle": "as",
+        "translationKey": "study.farmacia.ru"
+      },
+      "target": {
+        "type": "lexeme-sense",
+        "senseId": "sense:noun:farmacia",
+        "partOfSpeech": "noun"
+      },
+      "translation": "аптека",
+      "sourceId": "lesson:a1-1:ask-place-location",
+      "sourcePolicy": "original-route-save-target",
+      "existingExampleId": "example:estacao-centro",
+      "proposedReviewItemId": "saved:study:noun:farmacia",
+      "reviewDefinitionPolicy": "register under unchanged StudyItem ID; no merge or target substitution",
+      "units": [],
+      "lowerPriority": false,
+      "legacyVerbCard": null,
+      "relatedGa1": [],
+      "example": {
+        "pt": "A farmácia fica ao lado do hotel.",
+        "ru": "Аптека находится рядом с отелем.",
+        "origin": "proposed authored example",
+        "proposedId": "example:legacy-srs:noun-farmacia"
+      }
+    },
+    {
+      "studyItemId": "study:noun:centro",
+      "group": "places",
+      "display": {
+        "type": "noun",
+        "lemma": "centro",
+        "definiteArticle": "o",
+        "plural": "centros",
+        "pluralDefiniteArticle": "os",
+        "translationKey": "study.centro.ru"
+      },
+      "target": {
+        "type": "lexeme-sense",
+        "senseId": "sense:noun:centro",
+        "partOfSpeech": "noun"
+      },
+      "translation": "центр",
+      "sourceId": "lesson:a1-1:ask-place-location",
+      "sourcePolicy": "original-route-save-target",
+      "existingExampleId": "example:estacao-centro",
+      "proposedReviewItemId": "saved:study:noun:centro",
+      "reviewDefinitionPolicy": "register under unchanged StudyItem ID; no merge or target substitution",
+      "units": [],
+      "lowerPriority": false,
+      "legacyVerbCard": null,
+      "relatedGa1": [],
+      "example": {
+        "pt": "A estação fica no centro.",
+        "ru": "Станция находится в центре.",
+        "origin": "example:estacao-centro",
+        "proposedId": "example:estacao-centro"
+      }
+    }
+  ],
+  "defaultRepairs": [
+    {
+      "studyItemId": "study:verb:estar:state",
+      "existingDefaultExampleId": "example:rui-ser-calmo",
+      "proposedExampleId": "example:legacy-srs:verb-estar-state",
+      "pt": "O Rui está calmo.",
+      "ru": "Сейчас Руй спокоен.",
+      "origin": "beingContent.estar.example",
+      "revisionPolicy": "StudyItem contentRevision 1 -> 2; IDs, target, display, existing Example entities and flow revisions unchanged",
+      "priority": "required correction"
+    },
+    {
+      "studyItemId": "study:verb:ter:possession",
+      "existingDefaultExampleId": "example:ha-mesa-sala",
+      "proposedExampleId": "example:legacy-srs:verb-ter-possession",
+      "pt": "A Rita tem uma chave.",
+      "ru": "У Риты есть ключ.",
+      "origin": "routeLessonExperiences:possession-and-presence.examples",
+      "revisionPolicy": "StudyItem contentRevision 1 -> 2; IDs, target, display, existing Example entities and flow revisions unchanged",
+      "priority": "required correction"
+    },
+    {
+      "studyItemId": "study:noun:chave",
+      "existingDefaultExampleId": "example:ha-mesa-sala",
+      "proposedExampleId": "example:legacy-srs:noun-chave",
+      "pt": "A chave está aqui.",
+      "ru": "Ключ здесь.",
+      "origin": "existing studyReviewCardById",
+      "revisionPolicy": "StudyItem contentRevision 1 -> 2; IDs, target, display, existing Example entities and flow revisions unchanged",
+      "priority": "required correction"
+    },
+    {
+      "studyItemId": "study:noun:livro",
+      "existingDefaultExampleId": "example:janela-aberta",
+      "proposedExampleId": "example:legacy-srs:noun-livro",
+      "pt": "Estou a ler um livro.",
+      "ru": "Я читаю книгу.",
+      "origin": "existing studyReviewCardById",
+      "revisionPolicy": "StudyItem contentRevision 1 -> 2; IDs, target, display, existing Example entities and flow revisions unchanged",
+      "priority": "required correction"
+    },
+    {
+      "studyItemId": "study:noun:cadeira",
+      "existingDefaultExampleId": "example:ha-mesa-sala",
+      "proposedExampleId": "example:legacy-srs:noun-cadeira",
+      "pt": "A cadeira está ao lado da mesa.",
+      "ru": "Стул стоит рядом со столом.",
+      "origin": "existing studyReviewCardById",
+      "revisionPolicy": "StudyItem contentRevision 1 -> 2; IDs, target, display, existing Example entities and flow revisions unchanged",
+      "priority": "required correction"
+    },
+    {
+      "studyItemId": "study:noun:cama",
+      "existingDefaultExampleId": "example:ha-mesa-sala",
+      "proposedExampleId": "example:legacy-srs:noun-cama",
+      "pt": "A cama está no quarto.",
+      "ru": "Кровать находится в спальне.",
+      "origin": "existing house-quarto/example:home:quarto text",
+      "revisionPolicy": "StudyItem contentRevision 1 -> 2; IDs, target, display, existing Example entities and flow revisions unchanged",
+      "priority": "required correction"
+    },
+    {
+      "studyItemId": "study:noun:armario",
+      "existingDefaultExampleId": "example:ha-mesa-sala",
+      "proposedExampleId": "example:legacy-srs:noun-armario",
+      "pt": "O armário está no quarto.",
+      "ru": "Шкаф находится в спальне.",
+      "origin": "proposed authored example",
+      "revisionPolicy": "StudyItem contentRevision 1 -> 2; IDs, target, display, existing Example entities and flow revisions unchanged",
+      "priority": "required correction"
+    },
+    {
+      "studyItemId": "study:noun:copo",
+      "existingDefaultExampleId": "example:ha-mesa-sala",
+      "proposedExampleId": "example:legacy-srs:noun-copo",
+      "pt": "O copo está na mesa.",
+      "ru": "Стакан на столе.",
+      "origin": "proposed authored example",
+      "revisionPolicy": "StudyItem contentRevision 1 -> 2; IDs, target, display, existing Example entities and flow revisions unchanged",
+      "priority": "required correction"
+    },
+    {
+      "studyItemId": "study:noun:hotel",
+      "existingDefaultExampleId": "example:estacao-centro",
+      "proposedExampleId": "example:legacy-srs:noun-hotel",
+      "pt": "O hotel fica no centro.",
+      "ru": "Отель находится в центре.",
+      "origin": "proposed authored example",
+      "revisionPolicy": "StudyItem contentRevision 1 -> 2; IDs, target, display, existing Example entities and flow revisions unchanged",
+      "priority": "required correction"
+    },
+    {
+      "studyItemId": "study:noun:farmacia",
+      "existingDefaultExampleId": "example:estacao-centro",
+      "proposedExampleId": "example:legacy-srs:noun-farmacia",
+      "pt": "A farmácia fica ao lado do hotel.",
+      "ru": "Аптека находится рядом с отелем.",
+      "origin": "proposed authored example",
+      "revisionPolicy": "StudyItem contentRevision 1 -> 2; IDs, target, display, existing Example entities and flow revisions unchanged",
+      "priority": "required correction"
+    },
+    {
+      "studyItemId": "study:chunk:onde-fica",
+      "existingDefaultExampleId": "example:estacao-centro",
+      "proposedExampleId": "example:legacy-srs:chunk-onde-fica",
+      "pt": "Onde fica a farmácia?",
+      "ru": "Где находится аптека?",
+      "origin": "routeLessonExperiences:ask-place-location.activity option",
+      "revisionPolicy": "StudyItem contentRevision 1 -> 2; IDs, target, display, existing Example entities and flow revisions unchanged",
+      "priority": "recommended question-context improvement"
+    }
+  ],
+  "sourceMetadata": [
+    {
+      "id": "lesson:a1-1:introduce-yourself",
+      "title": "Представиться",
+      "href": "/learning/lessons/lesson%3Aa1-1%3Aintroduce-yourself",
+      "policy": "metadata addition only; preserve existing saved source rows"
+    },
+    {
+      "id": "lesson:a1-1:ser-estar-description-state",
+      "title": "SER или ESTAR",
+      "href": "/learning/lessons/lesson%3Aa1-1%3Aser-estar-description-state",
+      "policy": "metadata addition only; preserve existing saved source rows"
+    },
+    {
+      "id": "lesson:a1-1:ask-place-location",
+      "title": "Где расположено место",
+      "href": "/learning/lessons/lesson%3Aa1-1%3Aask-place-location",
+      "policy": "metadata addition only; preserve existing saved source rows"
+    }
+  ]
+}

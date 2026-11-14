@@ -1,3 +1,4 @@
+import {legacySrsWords} from "../../content/legacy-srs.ts";
 import { gramaticaVocabulary, vocabularyFront, vocabularyHref } from "../../content/gramatica-vocabulary.ts";
 import { gramaticaLessons,allGramaticaLessons } from "../../content/gramatica-ativa.ts";
 import { verbCards } from "../data/verb-cards.ts";
@@ -55,6 +56,11 @@ for(const word of bodyCardWords.filter(word=>!word.reused)){
 for(const word of homeCardWords){
   if(cards.has(word.studyItemId))continue;
   cards.set(word.studyItemId,{studyItemId:word.studyItemId,front:word.pt,back:word.ru,examples:[word.example],units:[],lowerPriority:false});
+}
+for(const word of legacySrsWords){
+  if(cards.has(word.studyItemId))continue;
+  const frequency=word.infinitive?frequencyByInfinitive.get(word.infinitive):undefined;
+  cards.set(word.studyItemId,{studyItemId:word.studyItemId,front:word.pt,back:word.ru,examples:[word.example],units:[],lowerPriority:frequency?hasLowerPresentationPriority(frequency):false});
 }
 export const studyReviewCards = [...cards.values()];
 export const studyReviewCardById = new Map(cards);

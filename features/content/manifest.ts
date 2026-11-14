@@ -1,3 +1,4 @@
+import {legacyExamples,legacyExampleRu} from "./legacy-example-repairs.ts";
 import { ru } from "./locale/ru.ts";
 import {foodExamples,foodStudyItems,foodCardRu} from "./food-cards.ts";
 import {bodyExamples,bodyStudyItems,bodyCardRu} from "./body-cards.ts";
@@ -52,6 +53,7 @@ const fullUnits = units.map((unit) => ({ ...unit, lessonIds: fullLessons.filter(
 const fullLevels = levels.map((level) => ({ ...level, completionCanDoIds: fullCanDos.map((canDo) => canDo.id) }));
 
 const canonicalEntities: CanonicalEntity[] = [
+  ...legacyExamples,
   ...foodExamples,...foodStudyItems,...bodyExamples,...bodyStudyItems,...homeExamples,...homeStudyItems,
   ...familyChunks,...familyExamples,...familyStudyItems,
   ...timeDayChunks,...timeDayExamples,...timeDayStudyItems,
@@ -85,14 +87,14 @@ export const firstVerticalSliceContentPack: ContentPack = {
     ),
   },
   publishedPresentationProfileIds: ["adult"],
-  locales: { ru: { ...ru, ...routeExtensionRu, ...grammarRu, ...vocabularyRu,...readingRu,...timeDayRu,...familyCardRu,...foodCardRu,...bodyCardRu,...homeCardRu } },
+  locales: { ru: { ...ru, ...routeExtensionRu, ...grammarRu, ...vocabularyRu,...readingRu,...timeDayRu,...familyCardRu,...foodCardRu,...bodyCardRu,...homeCardRu,...legacyExampleRu } },
   courses: [...courses, ...grammarCourses],
   levels: [...fullLevels, ...grammarLevels],
   units: [...fullUnits, ...grammarUnits],
   canDos: [...fullCanDos, ...grammarCanDos],
   knowledgeTargets: [...fullKnowledgeTargets, ...grammarTargets],
   chunks: [...fullChunks, ...grammarChunks, ...vocabularyChunks,...readingChunks,...timeDayChunks,...familyChunks],
-  examples: [...fullExamples, ...grammarExamples, ...vocabularyExamples,...readingExamples,...timeDayExamples,...familyExamples,...foodExamples,...bodyExamples,...homeExamples],
+  examples: [...fullExamples, ...grammarExamples, ...vocabularyExamples,...readingExamples,...timeDayExamples,...familyExamples,...foodExamples,...bodyExamples,...homeExamples,...legacyExamples],
   studyItems: [...fullStudyItems, ...grammarStudyItems, ...vocabularyStudyItems,...readingStudyItems,...timeDayStudyItems,...familyStudyItems,...foodStudyItems,...bodyStudyItems,...homeStudyItems],
   contentBlocks: [...fullContentBlocks, ...grammarBlocks],
   exerciseDefinitions: [...exerciseDefinitions, ...grammarDefinitions],

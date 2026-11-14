@@ -1,3 +1,4 @@
+import {legacyRouteSources} from "./legacy-srs.ts";
 import {allGramaticaLessons} from "./gramatica-ativa.ts";
 import {shortGrammarLessons} from "./short-grammar-lessons.ts";
 import {timeDaySources} from "./time-day.ts";
@@ -8,6 +9,7 @@ import {bodyFlowHref} from "./body-flow.ts";
 import {homeCardSources} from "./home-cards.ts";
 export type ReadingSource={id:string;title:string;href:string;unit?:number};
 const sources:ReadingSource[]=[
+  ...legacyRouteSources,
   ...foodCardSources,
   ...homeCardSources,
   ...bodyCardSources,
