@@ -42,7 +42,7 @@ function ProfileDemo({profile}:{profile?:LocalProfile}) {
   useEffect(() => {
     if (isRelated) {
       previousHref.current = href;
-      if(!["/learning/house","/cards/house","/learning/time-day","/learning/family","/learning/food","/learning/body","/learning/home"].includes(href.split("?")[0]))related.current?.querySelector("h1")?.focus();
+      if(!["/learning/house","/cards/house","/learning/time-day","/learning/family","/learning/food","/learning/body","/learning/home","/learning/legacy-cards"].includes(href.split("?")[0]))related.current?.querySelector("h1")?.focus();
     } else if(isPlan){main.current?.querySelector<HTMLHeadingElement>("h1")?.focus();originLink.current=null;
     } else if (previousHref.current) {
       const origin=originLink.current?.isConnected?originLink.current:Array.from(main.current?.querySelectorAll("a") ?? []).find(link => link.getAttribute("href") === `#${previousHref.current}`);
@@ -66,7 +66,7 @@ function ProfileDemo({profile}:{profile?:LocalProfile}) {
         <div hidden={!isTopics}><PracticeScreen initialChildMode={initialChildMode} initialSection="vocabulary" resumeTopicId={resumeTopic} onOpenGeneralPlan={()=>navigate(generalPlanHref)} onOpenGeneralCards={()=>navigate("/cards")}/></div>
         <div hidden={!isCards}><Flashcards/></div>
       </>:<PracticeScreen initialChildMode={initialChildMode} initialSection={resumeTopic?"vocabulary":"lessons"} resumeTopicId={resumeTopic}/>}</div>
-      {isRelated && <div ref={related}><RelatedLearning key={href==="/learning/house"||href==="/cards/house"?"/learning/home":["/learning/time-day","/learning/family","/learning/food","/learning/body","/learning/home"].includes(href.split("?")[0])?href.split("?")[0]:beingDestinationForHref(href)?"being-lesson":href} href={href} onBack={() => navigate(returnHref.current)} /></div>}
+      {isRelated && <div ref={related}><RelatedLearning key={href==="/learning/house"||href==="/cards/house"?"/learning/home":["/learning/time-day","/learning/family","/learning/food","/learning/body","/learning/home","/learning/legacy-cards"].includes(href.split("?")[0])?href.split("?")[0]:beingDestinationForHref(href)?"being-lesson":href} href={href} onBack={() => navigate(returnHref.current)} /></div>}
     </RelatedLearningNavigation>
   </div>;
 }

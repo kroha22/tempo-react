@@ -1,7 +1,8 @@
 import { requestJson } from "@/shared/http/request-json";
 import { eventAcknowledgementSchema, progressListSchema, progressResponseSchema } from "./dto";
 import { saveItemResponseSchema } from "@/features/cards/api/saved-items-dto";
-import type { BoundaryIntent, CardIntent, CompleteIntent, EventIntent } from "../lesson-engine/model/intents";
+import type { BoundaryIntent, CompleteIntent, EventIntent } from "../lesson-engine/model/intents";
+import type {SaveStudyItemInput} from "./contracts";
 export type { LearningProgress } from "./dto";
 
 export class LearningResponseError extends Error {}
@@ -33,7 +34,7 @@ export async function completeLesson(input: CompleteIntent, signal?: AbortSignal
   return result;
 }
 
-export async function saveStudyItem(input: CardIntent, signal?: AbortSignal) {
+export async function saveStudyItem(input: SaveStudyItemInput, signal?: AbortSignal) {
   const result = saveItemResponseSchema.parse(await jsonRequest("/api/study-items", input, signal));
   if (result.item.studyItemId !== input.studyItemId) throw new LearningResponseError("Saved item response mismatch");
   return result;

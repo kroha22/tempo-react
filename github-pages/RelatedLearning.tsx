@@ -26,6 +26,8 @@ import {BodyFlow} from "@/features/practice/BodyFlow";
 import {HomeCards} from "@/features/cards/saved-items/HomeCards";
 import {HomeFlow} from "@/features/practice/HomeFlow";
 import {homeRouteSources,homeCardsHref} from "@/features/content/home-cards";
+import {LegacyCards} from "@/features/cards/saved-items/LegacyCards";
+import {legacyCardGroups,legacyCardsHref} from "@/features/content/legacy-cards";
 import {FoodFlow} from "@/features/practice/FoodFlow";
 
 export function relatedDestination(href: string) {
@@ -49,6 +51,7 @@ export function RelatedLearning({ href, onBack }: { href: string; onBack: () => 
   const destination = relatedDestination(href);
   const [selected, setSelected] = useState<string | null>(null);
   const [checked, setChecked] = useState(false);
+  if(href.split("?")[0]==="/learning/legacy-cards"){const params=new URLSearchParams(href.split("?")[1]);return <LegacyCards group={params.get("group")??undefined} mode={params.get("mode")??undefined} onBack={onBack}/>;}
   if(["/learning/home","/learning/house","/cards/house"].includes(href.split("?")[0])){const params=new URLSearchParams(href.split("?")[1]);return <HomeFlow legacyWords={href==="/cards/house"} topic={params.get("topic")??undefined} phase={href==="/cards/house"?"words":params.get("phase")??undefined} related={params.get("related")??undefined} renderRelated={(href,back)=><RelatedLearning key={href} href={href} onBack={back}/>} onBack={onBack}/>;}
   if(href.split("?")[0]==="/learning/home/cards"){const params=new URLSearchParams(href.split("?")[1]);return <HomeCards topic={params.get("topic")??undefined} mode={params.get("mode")??undefined} source={params.get("source")??undefined} onBack={onBack}/>;}
   if(href.split("?")[0]==="/learning/body"){const params=new URLSearchParams(href.split("?")[1]);return <BodyFlow topic={params.get("topic")??undefined} phase={params.get("phase")??undefined} related={params.get("related")??undefined} onBack={onBack} renderRelated={(target,back)=><RelatedLearning key={beingDestinationForHref(target)?"being-lesson":target} href={target} onBack={back}/>}/>;}
@@ -86,6 +89,7 @@ export function RelatedLearning({ href, onBack }: { href: string; onBack: () => 
     <h2>Примеры</h2>
     <div className="usage-examples">{lesson.examples.map(example => <article key={example.pt}><div className="usage-example-copy"><strong lang="pt-PT">{example.pt}</strong><span>{example.ru}</span></div><CardSpeechButton text={example.pt} /></article>)}</div>
     {!!lesson.vocabulary?.length && <><h2>Слова и выражения</h2><dl className="related-lesson-vocabulary">{lesson.vocabulary.map(item => <div key={item.pt}><dt lang="pt-PT">{item.pt}</dt><dd>{item.ru}{item.note && <small>{item.note}</small>}</dd></div>)}</dl></>}
+    {legacyCardGroups.filter(group=>group.source.id===lesson.id).map(group=><p key={group.id}><LegacyLessonLink href={legacyCardsHref(group.id)}>Дополнительные карточки и подключение повторения →</LegacyLessonLink></p>)}
     {homeRouteSources.filter(source=>source.id===lesson.id).map(source=><p key={source.id}><LegacyLessonLink href={`${homeCardsHref(source.topic)}&source=route`}>Слова в личные карточки и повторение →</LegacyLessonLink></p>)}
     <div className="usage-task"><h2>Попробуй сам</h2><p>{activity.prompt}</p>{activity.support && <p>{activity.support}</p>}
       <div className="usage-options" aria-label="Варианты ответа">{activity.options.map(option => <button type="button" key={option.id} aria-pressed={selected === option.id} disabled={checked} onClick={() => setSelected(option.id)}>{option.label}</button>)}</div>

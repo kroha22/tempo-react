@@ -114,7 +114,7 @@ describe("Cards server cache and local session", () => {
       if (init?.method === "POST") return Promise.resolve(json({ error: "unavailable" }, 503));
       if (denied) return Promise.resolve(json({ error: "no access" }, status));
       return Promise.resolve(String(url).includes("study-items")
-        ? json({ items: [{ studyItemId: item.id, savedAt: 1 }], sources: [] }) : json({ progress: [] }));
+        ? json({ items: [{ studyItemId: item.id, savedAt: 1 }], sources: [] }) : String(url).includes("study-reviews") ? json({ cards: [] }) : json({ progress: [] }));
     });
     vi.stubGlobal("fetch", fetchMock);
     render(<CardsQueryBoundary><Capture onScope={(value) => { scope = value; }} /><Flashcards /><SavedStudyItemLibrary /></CardsQueryBoundary>);
@@ -133,11 +133,11 @@ describe("Cards server cache and local session", () => {
     expect(retired.client.getMutationCache().getAll()).toHaveLength(0);
     expect(screen.getByText("0 карточек")).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Повторить сохранение" })).not.toBeInTheDocument();
-    expect(fetchMock).toHaveBeenCalledTimes(4);
+    expect(fetchMock).toHaveBeenCalledTimes(5); // Includes the legacy card's review-status read.
     denied = false;
     await user.click(screen.getByRole("button", { name: "Загрузить ещё раз" }));
     await screen.findByText("1 карточек");
-    expect(fetchMock).toHaveBeenCalledTimes(5);
+    await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(7));
   });
 
   it("drops a rejected review when the write itself reports lost access", async () => {

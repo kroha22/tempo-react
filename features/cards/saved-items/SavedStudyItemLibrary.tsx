@@ -7,6 +7,9 @@ import { useSavedItemsQuery } from "../query/queries";
 import { gramaticaVocabulary, vocabularyHref } from "@/features/content/gramatica-vocabulary";
 import { LegacyLessonLink } from "@/features/practice/LegacyLessonLink";
 import {readingSourceById} from "@/features/content/reading-sources";
+import {LegacyCardSave} from "./LegacyCardSave";
+import {legacySrsIds} from "@/features/content/legacy-srs";
+import {legacyCardsHref} from "@/features/content/legacy-cards";
 import {studyReviewCardById} from "../study-review/catalog";
 
 const emptyItems: NonNullable<ReturnType<typeof useSavedItemsQuery>["data"]>["items"] = [];
@@ -30,6 +33,7 @@ function SavedItemList() {
   const items = useMemo(() => rows.map((row) => firstVerticalSliceContentPack.studyItems.find((item) => item.id === row.studyItemId)).filter((item): item is NonNullable<typeof item> => Boolean(item)).filter((item) => filter === "all" || item.display.type === filter), [filter, rows]);
   return <section className="saved-library" aria-labelledby="saved-library-title">
     <div className="saved-library__heading"><div><span className="tempo-kicker">Личная библиотека</span><h2 id="saved-library-title">Сохранённые из уроков</h2></div><span>{rows.length} карточек</span></div>
+    <p><LegacyLessonLink href={legacyCardsHref()}>Слова прежних уроков · сохранить и подключить повторение →</LegacyLessonLink></p>
     <div className="card-filters" aria-label="Фильтр карточек">{(["all", "noun", "verb", "chunk", "word"] as Filter[]).map((value) => <button key={value} aria-pressed={filter === value} onClick={() => setFilter(value)}>{value === "all" ? "Все" : value === "noun" ? "Существительные" : value === "verb" ? "Глаголы" : value === "word" ? "Другие слова" : "Выражения"}</button>)}</div>
     {loading && <p className="library-note" role="status">Загружаем сохранённые карточки…</p>}
     {(!available || query.isError) && <div className="library-note"><p role="alert">{!available ? "Для загрузки сохранённых карточек нужно войти." : query.data ? "Не удалось обновить библиотеку. Показаны последние загруженные данные." : "Не удалось загрузить сохранённые карточки."}</p><button type="button" onClick={retry} disabled={query.isFetching}>Повторить загрузку библиотеки</button></div>}
@@ -47,6 +51,7 @@ function SavedItemList() {
         <button type="button" aria-label={`${open ? "Скрыть перевод" : "Показать перевод"}: ${front}`} aria-expanded={open} onClick={() => setFlipped((ids) => open ? ids.filter((id) => id !== item.id) : [...ids, item.id])}>{open ? "Скрыть перевод" : "Показать перевод"}</button>
         {open && <div><p>{firstVerticalSliceContentPack.locales.ru[display.translationKey]}</p>{dictionaryEntry ? <p><strong lang="pt-PT">{dictionaryEntry.examples[0].pt}</strong><br />{dictionaryEntry.examples[0].ru}</p> : example && <p><strong lang="pt-PT">{example.text}</strong><br />{firstVerticalSliceContentPack.locales.ru[example.translationKey]}</p>}</div>}
         {open&&studyReviewCardById.get(item.id)?.usageNote&&<p>{studyReviewCardById.get(item.id)?.usageNote}</p>}
+        {(legacySrsIds as readonly string[]).includes(item.id)&&<LegacyCardSave studyItemId={item.id}/>}
         <small>{itemSources.length ? `Источников: ${itemSources.length}` : "Из маршрута"}</small>
         {itemSources.flatMap(source=>{const lesson=readingSourceById.get(source.sourceId);return lesson?[<LegacyLessonLink key={`reading:${source.sourceId}`} href={lesson.href}>{source.sourceId.startsWith("lesson:time-day:")||source.sourceId.startsWith("lesson:family:")||source.sourceId.startsWith("lesson:food:")||source.sourceId.startsWith("lesson:body:")||source.sourceId.startsWith("lesson:home:")?"К словам":"К объяснению"}: {lesson.title} →</LegacyLessonLink>]:[];})}
         {dictionaryEntry && <LegacyLessonLink href={vocabularyHref()}>Gramática Ativa 1 · уроки {dictionaryEntry.units.join(", ")} →</LegacyLessonLink>}
