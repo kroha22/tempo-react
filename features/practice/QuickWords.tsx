@@ -11,7 +11,7 @@ import type {QuickSetKind} from "../content/quick-word-expansion";
 import {QuickVerbDetails} from "./QuickVerbDetails";
 import {searchWords} from "./word-search";
 
-type Mode = "cards" | "pairs" | "writing" | "search";
+type Mode = "pairs" | "writing" | "search";
 export function QuickWords({ child = false, onBack }: { child?: boolean; onBack: () => void }) {
   const screen = useRef<HTMLDialogElement>(null);
   useEffect(() => {
@@ -27,26 +27,28 @@ export function QuickWords({ child = false, onBack }: { child?: boolean; onBack:
   const sets = quickSetsFor(isChild);
   const [selected, setSelected] = useState<string | null>(null);
   const [filter,setFilter]=useState<"all"|QuickSetKind>("all");
+  const [stage,setStage]=useState<"cards"|"choice"|"training">("cards");
   const heading = useRef<HTMLHeadingElement>(null);
   useEffect(() => {
     heading.current?.focus({preventScroll:true});
     screen.current?.scrollTo?.(0,0);
-  }, [selected]);
-  const [mode, setMode] = useState<Mode>("cards");
+  }, [selected,stage]);
+  const [mode, setMode] = useState<Mode>("pairs");
   const pack = sets.find(item => item.id === selected);
   const canSearch=!!pack&&pack.kind!=="phrases"&&searchWords(pack.words).length>=4;
-  const visibleMode = !isChild && mode !== "cards" && mode !== "pairs" ? "cards" : mode;
-  function back() { if(pack) setSelected(null); else onBack(); }
+  const visibleMode = !isChild ? "pairs" : mode;
+  function back() { if(pack&&stage==="training")setStage("choice");else if(pack) setSelected(null); else onBack(); }
   return <dialog ref={screen} className={styles.screen} aria-label="Учить слова" onCancel={event => {event.preventDefault();back();}}><section className={styles.root}>
-    <header className={styles.header}><button type="button" className={styles.back} aria-label={pack ? "Все наборы" : "К урокам"} onClick={back}>←</button><h1 ref={heading} tabIndex={-1}>{pack ? pack.title : "Учить слова"}</h1></header>
-    {!pack ? <><div className={styles.modes} role="group" aria-label="Вид подборок">{(["all","words","verbs","phrases"] as const).map(value=><button type="button" key={value} aria-pressed={filter===value} onClick={()=>setFilter(value)}>{({all:"Все",words:"Слова",verbs:"Глаголы",phrases:"Фразы"})[value]}</button>)}</div><div className={styles.grid}>{sets.filter(item=>filter==="all"||item.kind===filter).map((item, index) => <button type="button" className={styles.pack} data-tone={index % 5} key={item.id} onClick={() => { setSelected(item.id); setMode("cards"); screen.current?.scrollTo?.(0,0); }}><strong lang="pt-PT">{item.pt}</strong><span>{item.title}</span><small>{item.words.length} карточек</small></button>)}</div></> : <>
-      <div className={styles.modes} role="group" aria-label="Занятие со словами">{(["cards", "pairs", ...(isChild ? ["writing", ...(canSearch ? ["search"] as const : [])] as const : [])] as const).map(value => <button type="button" key={value} aria-pressed={visibleMode === value} onClick={() => setMode(value)}>{({cards:"▣ Карточки",pairs:"↔ Пары",writing:"✎ Написать",search:"⌕ Поиск"})[value]}</button>)}</div>
-      {(pack.id==="child-classroom"||pack.id==="child-friends"||pack.id==="adult-everyday"||pack.id==="adult-small-talk")&&<p className={styles.cue}>{pack.cue}</p>}
+    <header className={styles.header}><button type="button" className={styles.back} aria-label={pack ? stage==="training"?"Назад":"Все наборы" : "К урокам"} onClick={back}>←</button><h1 ref={heading} tabIndex={-1}>{pack ? pack.title : "Учить слова"}</h1></header>
+    {!pack ? <><div className={styles.modes} role="group" aria-label="Вид подборок">{(["all","words","verbs","phrases"] as const).map(value=><button type="button" key={value} aria-pressed={filter===value} onClick={()=>setFilter(value)}>{({all:"Все",words:"Слова",verbs:"Глаголы",phrases:"Фразы"})[value]}</button>)}</div><div className={styles.grid}>{sets.filter(item=>filter==="all"||item.kind===filter).map((item, index) => <button type="button" className={styles.pack} data-tone={index % 5} key={item.id} onClick={() => { setSelected(item.id); setStage("cards"); setMode("pairs"); screen.current?.scrollTo?.(0,0); }}><strong lang="pt-PT">{item.pt}</strong><span>{item.title}</span><small>{item.words.length} карточек</small></button>)}</div></> : <>
+      {stage==="training"&&isChild&&<div className={styles.modes} role="group" aria-label="Тренировка">{(["pairs", "writing", ...(canSearch ? ["search"] as const : [])] as const).map(value => <button type="button" key={value} aria-pressed={visibleMode === value} onClick={() => setMode(value)}>{({pairs:"↔ Пары",writing:"✎ Написать",search:"⌕ Поиск"})[value]}</button>)}</div>}
+      {stage==="choice"&&<div className={styles.choices}><button type="button" onClick={()=>setStage("cards")}>Повторить</button><button type="button" onClick={()=>{setMode("pairs");setStage("training");}}>Тренировать</button></div>}
+      {stage==="cards"&&(pack.id==="child-classroom"||pack.id==="child-friends"||pack.id==="adult-everyday"||pack.id==="adult-small-talk")&&<p className={styles.cue}>{pack.cue}</p>}
       <div key={pack.id} className={styles.exercise}>
-        <div hidden={visibleMode !== "cards"}><VocabularyCards words={pack.words} active={visibleMode === "cards"} textOnly={!pack.words.some(word=>word.illustration)} renderDetails={pack.kind==="verbs"?word=><QuickVerbDetails key={word.id} wordId={word.id} active={visibleMode==="cards"}/>:undefined}/></div>
-        {visibleMode === "pairs" && <WordPairs key={pack.id} words={pack.words} blocks={[{ id: `quick:${pack.id}`, title: pack.title, words: pack.words.map(word => word.id) }]} embedded maxVisible={4}/>}
-        {isChild && visibleMode === "writing" && <VocabularyWriting words={pack.words} title={pack.title} phrases={pack.kind==="phrases"}/>}
-        {isChild && visibleMode === "search" && canSearch && <WordSearch words={pack.words} title={pack.title} embedded/>}
+        {stage==="cards"&&<VocabularyCards words={pack.words} onComplete={()=>setStage("choice")} textOnly={!pack.words.some(word=>word.illustration)} renderDetails={pack.kind==="verbs"?word=><QuickVerbDetails key={word.id} wordId={word.id} active/>:undefined}/> }
+        {stage==="training"&&visibleMode === "pairs" && <WordPairs key={pack.id} words={pack.words} blocks={[{ id: `quick:${pack.id}`, title: pack.title, words: pack.words.map(word => word.id) }]} embedded minimal maxVisible={4} onComplete={()=>setStage("choice")}/>}
+        {stage==="training"&&isChild && visibleMode === "writing" && <VocabularyWriting words={pack.words} title={pack.title} phrases={pack.kind==="phrases"}/>}
+        {stage==="training"&&isChild && visibleMode === "search" && canSearch && <WordSearch words={pack.words} title={pack.title} embedded/>}
       </div>
     </>}
   </section></dialog>;

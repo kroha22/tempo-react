@@ -18,6 +18,9 @@
 .modes button { flex:1; min-width:0; padding:6px 4px; border:1px solid transparent; border-radius:12px; background:transparent; color:#31553d; font-size:13px; white-space:nowrap; }
 .modes button[aria-pressed="true"] { background:#fffef9; border-color:#9db89c; box-shadow:0 2px 4px #28452c12; font-weight:800; }
 .cue { margin:4px 4px 8px; font-size:12px; line-height:1.35; color:#49634e; }
+.choices { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:24px 0; }
+.choices button { padding:16px 8px; border:1px solid #9db89c; border-radius:18px; background:#e6efdf; color:#234b35; font-size:17px; font-weight:800; }
+.choices button:last-child { background:#ffe6a9; border-color:#c6aa58; }
 .verbDetails { max-width:32rem; margin:8px auto; padding:8px 12px; border-radius:16px; border:1px solid #d7c6a4; background:#fff9e9; }
 .spoken { display:flex; align-items:center; justify-content:space-between; gap:8px; min-height:44px; }
 .verbDetails small { display:block; color:#49634e; font-size:14px; }
