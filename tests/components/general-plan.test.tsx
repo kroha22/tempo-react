@@ -37,14 +37,20 @@ test("book practice returns to the common plan, resumes its saved answer and pre
 test("short-lesson completion is shown without completing a book check; the legacy course URL is the same plan",async()=>{
   const {store}=setup(),progress=emptyPracticePlanProgress();progress.completed["practice:grammar:ser"]={revision:1,needsReview:false};browserPracticePlanStorage.save(progress);
   window.history.replaceState(null,"","/tempo-react/#/learning/gramatica-ativa");render(<LegacyDemo/>);
-  expect(await screen.findByText("0 из 30 проверок книги пройдено")).toBeVisible();
+  await screen.findByText("По книге · 0/30");
+  fireEvent.click(screen.getByText("Курс по книге",{exact:true}));
+  expect(screen.getByText(/0 из 30 проверок книги пройдено/)).toBeVisible();
+  fireEvent.click(screen.getByText("U01–U11 · Основы и настоящее"));
+  fireEvent.click(screen.getByText("SER · Кто, откуда и что это",{exact:true}));
   expect(screen.getByText("✓ Короткая практика пройдена")).toBeVisible();expect((await store.read()).progress).toEqual([]);
   fireEvent.click(screen.getByRole("group",{name:"Показать темы"}).querySelector("button[aria-pressed=false]")!);
   expect(screen.getByText("Таких тем пока нет.")).toBeVisible();
 });
 test("planned topics expose only vocabulary and all old supplemental IDs remain addressable",()=>{
   render(<GeneralPlan practiceOnly/>);
+  fireEvent.click(screen.getByText("Курс по книге",{exact:true}));
   fireEvent.click(screen.getByText("U31–U54 · Следующие темы книги"));
+  fireEvent.click(screen.getByText("DESDE / HÁ",{exact:true}));
   expect(screen.getByRole("link",{name:"Разобрать слова U54 →"})).toHaveAttribute("href","/learning/gramatica-ativa/words/u54");
   expect(screen.queryByRole("link",{name:/Объяснение U54/})).not.toBeInTheDocument();
   expect(document.querySelector('a[href="/learning/plan/step/practice%3Awords%3Aexpansion-family-close"]')).toBeInTheDocument();

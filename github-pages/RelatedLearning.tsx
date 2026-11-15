@@ -16,6 +16,8 @@ import { localTransport } from "../shared/http/local-transport";
 import {BeingLesson} from "@/features/practice/BeingLesson";
 import {beingDestination,beingDestinationForHref} from "@/features/practice/being-navigation";
 import {GeneralPlan} from "@/features/learning/plan/GeneralPlan";
+import {PlanWords} from "@/features/learning/plan/PlanWords";
+import {PlanSchoolLesson} from "@/features/learning/plan/PlanSchoolLesson";
 import {PlanActivity} from "@/features/learning/plan/PlanActivity";
 import {TimeDayFlow} from "@/features/practice/TimeDayFlow";
 import {FamilyCards} from "@/features/cards/saved-items/FamilyCards";
@@ -52,6 +54,8 @@ export function RelatedLearning({ href, onBack }: { href: string; onBack: () => 
   const destination = relatedDestination(href);
   const [selected, setSelected] = useState<string | null>(null);
   const [checked, setChecked] = useState(false);
+  if(href==="/learning/plan/words")return <PlanWords/>;
+  if(href.split("?")[0]==="/learning/plan/school"){const params=new URLSearchParams(href.split("?")[1]);return <PlanSchoolLesson key={href} unitId={params.get("unit")??undefined} wordsOnly={params.get("words")==="1"}/>;}
   if(href==="/learning/quick-words")return <QuickWords onBack={onBack}/>;
   if(href.split("?")[0]==="/learning/legacy-cards"){const params=new URLSearchParams(href.split("?")[1]);return <LegacyCards group={params.get("group")??undefined} mode={params.get("mode")??undefined} onBack={onBack}/>;}
   if(["/learning/home","/learning/house","/cards/house"].includes(href.split("?")[0])){const params=new URLSearchParams(href.split("?")[1]);return <HomeFlow legacyWords={href==="/cards/house"} topic={params.get("topic")??undefined} phase={href==="/cards/house"?"words":params.get("phase")??undefined} related={params.get("related")??undefined} renderRelated={(href,back)=><RelatedLearning key={href} href={href} onBack={back}/>} onBack={onBack}/>;}

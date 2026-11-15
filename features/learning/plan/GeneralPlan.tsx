@@ -9,8 +9,16 @@ import {shortGrammarLessons} from "../../content/short-grammar-lessons";
 import {LegacyLessonLink} from "../../practice/LegacyLessonLink";
 import {generalPlanBlocks,generalPlanUnits,generalPlanSummary,bookState,bookPassed,planStepHref,supplementalSteps,extraUnitLinks} from "./model";
 import {wordBatchHref} from "../gramatica/first-units";
+import {schoolPlanGroups,schoolLessonHref} from "./school-plan";
 import styles from "./GeneralPlan.module.css";
 
+const everyday=[
+  {title:"Дом и расположение",href:"/learning/home?topic=rooms&phase=explanation",steps:[]},
+  {title:"Моя семья и близкие",href:"/learning/family?topic=close&phase=explanation",steps:supplementalSteps.filter(s=>s.id.includes("family"))},
+  {title:"Еда и предпочтения",href:"/learning/food?topic=fruit&phase=explanation",steps:supplementalSteps.filter(s=>s.id.includes("food")||s.id.endsWith(":likes"))},
+  {title:"Тело и самочувствие",href:"/learning/body?topic=face&phase=explanation",steps:supplementalSteps.filter(s=>s.id.includes("body"))},
+  {title:"Время и мой день",href:"/learning/time-day?topic=hours&phase=explanation",steps:[]},
+];
 export function GeneralPlan({practiceOnly=false}:{practiceOnly?:boolean}){return <EnsureQueryScope><Plan practiceOnly={practiceOnly}/></EnsureQueryScope>;}
 function Plan({practiceOnly}:{practiceOnly:boolean}){
   const scope=useQueryScope(),practice=usePracticePlan();
@@ -20,32 +28,37 @@ function Plan({practiceOnly}:{practiceOnly:boolean}){
   const known=!practiceOnly&&!!query.data&&!query.isError&&!scope.blocked;
   const matches=(unit:typeof generalPlanUnits[number])=>filter==="all"||(known&&unit.lesson&&(filter==="done"?bookPassed(state.rowById.get(unit.lesson.id)):bookState(unit.lesson,state.rowById.get(unit.lesson.id))===filter));
   return <section className={styles.plan} aria-label="Общий план обучения">
-    <header className={styles.intro}><span className="tempo-kicker">Португальский · единый маршрут</span><h1 tabIndex={-1}>Общий план</h1><p>Книга, объяснения, тренировка и слова — в одном месте. Возвращайтесь сюда из любого занятия.</p>
-      {known&&<><strong>{state.done.length} из {state.ready.length} проверок книги пройдено</strong><progress aria-label="Пройденные проверки книги" value={state.done.length} max={state.ready.length}/></>}
-      <small>В книге 54 темы. Готовы объяснения и задания U01–U30; слова доступны для всех 54 тем.</small>
-    </header>
-    <nav className={styles.tools} aria-label="Связные бытовые уроки"><LegacyLessonLink href="/learning/home?topic=rooms&phase=explanation">Дом и расположение · единый урок →</LegacyLessonLink><LegacyLessonLink href="/learning/family?topic=close&phase=explanation">Моя семья и близкие · единый урок →</LegacyLessonLink><LegacyLessonLink href="/learning/food?topic=fruit&phase=explanation">Еда и предпочтения · единый урок →</LegacyLessonLink><LegacyLessonLink href="/learning/body?topic=face&phase=explanation">Тело и самочувствие · единый урок →</LegacyLessonLink></nav>
+    <header className={styles.intro}><h1 tabIndex={-1}>Общий план</h1>{known&&<div><small>По книге · {state.done.length}/{state.ready.length}</small><progress aria-label="Пройденные проверки книги" value={state.done.length} max={state.ready.length}/></div>}</header>
+    {known&&<article className={styles.continue}><span>{bookState(state.next.lesson,state.rowById.get(state.next.lesson.id))==="active"?"Продолжить начатое":"Следующая тема по книге"}</span><h2>U{String(state.next.unit).padStart(2,"0")} · {state.next.title}</h2><LegacyLessonLink className={styles.primary} href={`/learning/gramatica-ativa/${state.next.lesson.slug}`}>{bookState(state.next.lesson,state.rowById.get(state.next.lesson.id))==="active"?"Продолжить урок →":"Начать проверку →"}</LegacyLessonLink><LegacyLessonLink className={styles.secondary} href={`/learning/gramatica-ativa/${state.next.lesson.slug}/explanation`}>Сначала прочитать объяснение →</LegacyLessonLink></article>}
     {!practiceOnly&&query.isFetching&&<p role="status">Обновляем прогресс…</p>}
-    {!practiceOnly&&(query.isError||scope.blocked)&&<div role="alert"><p>Не удалось загрузить прогресс книги. Сохранения не изменены; уроки можно открыть по ссылкам.</p><button type="button" onClick={()=>scope.blocked?scope.retryAccess():void query.refetch()}>Повторить загрузку прогресса</button></div>}
-    {known&&<article className={styles.continue}><span>{bookState(state.next.lesson,state.rowById.get(state.next.lesson.id))==="active"?"Продолжить начатое":"Следующая тема"}</span><h2>U{String(state.next.unit).padStart(2,"0")} · {state.next.title}</h2><LegacyLessonLink href={`/learning/gramatica-ativa/${state.next.lesson.slug}`}>{bookState(state.next.lesson,state.rowById.get(state.next.lesson.id))==="active"?"Продолжить урок →":"Начать проверку →"}</LegacyLessonLink><LegacyLessonLink href={`/learning/gramatica-ativa/${state.next.lesson.slug}/explanation`}>Сначала прочитать объяснение →</LegacyLessonLink></article>}
-    <nav className={styles.tools} aria-label="Материалы общего плана"><LegacyLessonLink href="/learning/legacy-cards?group=intro">Слова прежних уроков · подключить повторение</LegacyLessonLink><LegacyLessonLink href="/learning/time-day?topic=hours&phase=explanation">Время и мой день · единый урок</LegacyLessonLink><LegacyLessonLink href="/learning/gramatica-ativa/saved">Мои карточки из уроков</LegacyLessonLink><LegacyLessonLink href="/learning/gramatica-ativa/review">Интервальное повторение</LegacyLessonLink><LegacyLessonLink href="/learning/gramatica-ativa/review-foundations">Смешанное повторение U01–U11</LegacyLessonLink></nav>
-    <h2>Темы по порядку · Gramática Ativa 1</h2><p>Короткая практика и проверка по книге отмечаются отдельно: знакомое объяснение помогает повторить тему, а результат проверки показывает её освоение.</p>
-    <div className={styles.filters} role="group" aria-label="Показать темы">{([['all','Все'],['active','В процессе'],['done','Пройдено'],['review','Повторить']] as const).map(([value,label])=><button key={value} type="button" disabled={value!=="all"&&!known} aria-pressed={filter===value} onClick={()=>setFilter(value)}>{label}</button>)}</div>
-    {generalPlanBlocks.map(block=>{
-      const units=generalPlanUnits.filter(unit=>unit.unit>=block.from&&unit.unit<=block.to).filter(matches);
-      if(!units.length)return null;
-      return <details className={styles.block} key={block.from} open={filter!=="all"||(state.next.unit>=block.from&&state.next.unit<=block.to)}><summary><strong>U{String(block.from).padStart(2,"0")}–U{block.to} · {block.title}</strong><span>{units.length} тем</span></summary><ol>{units.map(unit=>{
-        const status=unit.lesson&&known?bookState(unit.lesson,state.rowById.get(unit.lesson.id)):undefined;
-        return <li key={unit.unit}><div className={styles.unitHeading}><span className={styles.number}>U{String(unit.unit).padStart(2,"0")}</span><h3>{unit.title}</h3></div><p>{!unit.lesson?"Объяснение и задания готовятся · слова доступны":!known?"Прогресс не загружен":status==="done"?"✓ Проверка по книге пройдена":status==="active"?bookPassed(state.rowById.get(unit.lesson.id))?"Повторение в процессе · проверка ранее пройдена":"В процессе · можно продолжить":status==="review"?"Проверка завершена · стоит повторить":"Проверка по книге ещё не пройдена"}</p>
-          <div className={styles.links}><LegacyLessonLink href={wordBatchHref(unit.unit)}>Разобрать слова U{String(unit.unit).padStart(2,"0")} →</LegacyLessonLink>{unit.lesson&&<><LegacyLessonLink href={`/learning/gramatica-ativa/${unit.lesson.slug}/explanation`}>Объяснение U{String(unit.unit).padStart(2,"0")} →</LegacyLessonLink><LegacyLessonLink href={`/learning/gramatica-ativa/${unit.lesson.slug}`}>{status==="active"?"Продолжить проверку":status==="done"||status==="review"?"Повторить проверку":"Проверить себя"} U{String(unit.unit).padStart(2,"0")} →</LegacyLessonLink></>}</div>
-          {unit.shortLessonIds.map(id=>{const short=shortGrammarLessons.find(lesson=>lesson.id===id)!;const completed=practice?.progress.completed[`practice:grammar:${id}`];return <div className={styles.related} key={id}><LegacyLessonLink href={`/learning/practice?lesson=${id}`}>Короткий урок: {short.title} →</LegacyLessonLink><small>{completed?.revision===1?completed.needsReview?"Короткая практика пройдена · стоит повторить":"✓ Короткая практика пройдена":"Дополнительное объяснение и тренировка"}</small></div>;})}
-          {extraUnitLinks(unit).map(link=><div className={styles.related} key={link.href}><LegacyLessonLink href={link.href}>{link.title} →</LegacyLessonLink></div>)}
-        </li>;
-      })}</ol></details>;
-    })}
-    {filter!=="all"&&!generalPlanUnits.some(matches)&&<p>Таких тем пока нет.</p>}
-    <h2>Слова и повседневные ситуации</h2><p>Дополнительные занятия: {state.supplementalDone.length} из {supplementalSteps.length} пройдено. Прежние результаты сохранены.</p>
-    <ul className={styles.supplements}>{supplementalSteps.map(step=>{const done=practice&&isPracticeStepComplete(practice.progress,step);return <li key={step.id}><LegacyLessonLink href={planStepHref(step.id)}>{step.title} →</LegacyLessonLink><small>{done?practice.progress.completed[step.id].needsReview?"Пройдено · повторить":"✓ Пройдено":`${step.minutes} минут`}</small></li>;})}</ul>
-    <div className={styles.tools}><LegacyLessonLink href="/learning/topics">Все темы и свободная практика →</LegacyLessonLink><LegacyLessonLink href="/cards">Колоды карточек →</LegacyLessonLink></div>
+    {!practiceOnly&&(query.isError||scope.blocked)&&<div role="alert"><p>Не удалось загрузить прогресс книги. Сохранения не изменены; уроки можно открыть ниже.</p><button type="button" onClick={()=>scope.blocked?scope.retryAccess():void query.refetch()}>Повторить загрузку прогресса</button></div>}
+    <details className={styles.section}><summary><strong>Курс по книге</strong><span>54 темы</span></summary><div className={styles.content}>
+      <p>Gramática Ativa 1 · {known?`${state.done.length} из ${state.ready.length} проверок книги пройдено`:"Прогресс не загружен"}</p>
+      <div className={styles.filters} role="group" aria-label="Показать темы">{([['all','Все'],['active','В процессе'],['done','Пройдено'],['review','Повторить']] as const).map(([value,label])=><button key={value} type="button" disabled={value!=="all"&&!known} aria-pressed={filter===value} onClick={()=>setFilter(value)}>{label}</button>)}</div>
+      {generalPlanBlocks.map(block=>{
+        const units=generalPlanUnits.filter(unit=>unit.unit>=block.from&&unit.unit<=block.to).filter(matches);
+        if(!units.length)return null;
+        return <details className={styles.block} key={`${block.from}:${filter}`} open={filter!=="all"}><summary><strong>U{String(block.from).padStart(2,"0")}–U{block.to} · {block.title}</strong><span>{units.length} тем</span></summary><ol>{units.map(unit=>{
+          const status=unit.lesson&&known?bookState(unit.lesson,state.rowById.get(unit.lesson.id)):undefined;
+          const label=!unit.lesson?"Только слова":!known?"Прогресс не загружен":status==="done"?"✓ Пройдено":status==="active"?"В процессе":status==="review"?"Повторить":"Не начато";
+          return <li key={unit.unit}><details className={styles.unit}><summary><span className={styles.unitHeading}><span className={styles.number}>U{String(unit.unit).padStart(2,"0")}</span><span><strong>{unit.title}</strong><small>{label}</small></span></span></summary><div className={styles.content}>
+            <p>{!unit.lesson?"Объяснение и задания готовятся · слова доступны":status==="active"&&bookPassed(state.rowById.get(unit.lesson.id))?"Повторение в процессе · проверка ранее пройдена":"Объяснение, слова и проверка по книге"}</p>
+            <nav className={styles.links} aria-label={`Материалы U${String(unit.unit).padStart(2,"0")}`}><LegacyLessonLink href={wordBatchHref(unit.unit)}>Разобрать слова U{String(unit.unit).padStart(2,"0")} →</LegacyLessonLink>{unit.lesson&&<><LegacyLessonLink href={`/learning/gramatica-ativa/${unit.lesson.slug}/explanation`}>Объяснение U{String(unit.unit).padStart(2,"0")} →</LegacyLessonLink><LegacyLessonLink href={`/learning/gramatica-ativa/${unit.lesson.slug}`}>{status==="active"?"Продолжить проверку":status==="done"||status==="review"?"Повторить проверку":"Проверить себя"} U{String(unit.unit).padStart(2,"0")} →</LegacyLessonLink></>}</nav>
+            {unit.shortLessonIds.map(id=>{const short=shortGrammarLessons.find(lesson=>lesson.id===id)!;const completed=practice?.progress.completed[`practice:grammar:${id}`];return <div className={styles.related} key={id}><LegacyLessonLink href={`/learning/practice?lesson=${id}`}>Короткий урок: {short.title} →</LegacyLessonLink><small>{completed?.revision===1?completed.needsReview?"Короткая практика пройдена · стоит повторить":"✓ Короткая практика пройдена":"Дополнительное объяснение и тренировка"}</small></div>;})}
+            {extraUnitLinks(unit).map(link=><div className={styles.related} key={link.href}><LegacyLessonLink href={link.href}>{link.title} →</LegacyLessonLink></div>)}
+          </div></details></li>;
+        })}</ol></details>;
+      })}
+      {filter!=="all"&&!generalPlanUnits.some(matches)&&<p>Таких тем пока нет.</p>}
+      <LegacyLessonLink href="/learning/gramatica-ativa/review-foundations">Смешанное повторение U01–U11 →</LegacyLessonLink>
+      <details className={styles.info}><summary>О курсе и отметках</summary><p>Готовы объяснения и задания U01–U30; слова доступны для всех 54 тем. Короткая практика и проверка по книге отмечаются отдельно.</p></details>
+    </div></details>
+    <details className={styles.section}><summary><strong>Повседневные темы</strong><span>5 тем</span></summary><div className={styles.content}>
+      {everyday.map(topic=><details className={styles.block} key={topic.href}><summary><strong>{topic.title}</strong></summary><div className={styles.content}><LegacyLessonLink href={topic.href}>Открыть урок: {topic.title} →</LegacyLessonLink>{topic.steps.map(step=>{const done=practice&&isPracticeStepComplete(practice.progress,step);return <div className={styles.related} key={step.id}><LegacyLessonLink href={planStepHref(step.id)}>{step.title} →</LegacyLessonLink><small>{done?practice.progress.completed[step.id].needsReview?"Пройдено · повторить":"✓ Пройдено":`${step.minutes} минут`}</small></div>;})}</div></details>)}
+      <small>Дополнительные занятия: {state.supplementalDone.length} из {supplementalSteps.length} пройдено.</small>
+    </div></details>
+    <details className={styles.section}><summary><strong>Буквы и школьные темы</strong><span>20 уроков</span></summary><div className={styles.content}>{schoolPlanGroups.map(group=><details className={styles.block} key={group.title}><summary><strong>{group.title}</strong><span>{group.units.length}</span></summary><nav className={styles.links} aria-label={group.title}>{group.units.map(unit=><LegacyLessonLink key={unit.id} href={schoolLessonHref(unit.id)}>{unit.title[1]} →</LegacyLessonLink>)}</nav></details>)}</div></details>
+    <LegacyLessonLink className={styles.wordsEntry} href="/learning/plan/words"><strong>Слова и повторение</strong><span aria-hidden="true">→</span></LegacyLessonLink>
+    <footer className={styles.footer}><LegacyLessonLink href="/learning/topics">Все темы и свободная практика →</LegacyLessonLink></footer>
   </section>;
 }

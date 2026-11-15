@@ -72,16 +72,16 @@ function FoundationCover({src}:{src:string|NonNullable<VocabularyWord["illustrat
   return <img src={publicAssetUrl(src)} alt="" loading="lazy"/>;
 }
 
-export function VocabularyStudy({ onOpenCards,initialChildMode=false,initialTopicId }: { onOpenCards?: () => void;initialChildMode?:boolean;initialTopicId?:string|null } = {}) {
+export function VocabularyStudy({ onOpenCards,initialChildMode=false,initialTopicId,initialTarget }: { onOpenCards?: () => void;initialChildMode?:boolean;initialTopicId?:string|null;initialTarget?:import("../content/test-preparation").PrepTarget } = {}) {
   const learner=useProfileLearning();
   const [groupId, setCurrentGroup] = useState<string | null>(initialTopicId??null);
   function setGroupId(id:string|null){if(id)learner?.update(current=>({...current,lastTopicId:id}));setCurrentGroup(id);}
   const [prepUnitId,setPrepUnitId]=useState<string|null>(()=>permanentLessonForTopic(initialTopicId)?.id??null);
   const [permanentUnitId,setPermanentUnitId]=useState<string|null>(()=>permanentLessonForTopic(initialTopicId)?.id??null);
   const [returnToPrep,setReturnToPrep]=useState(false);
-  const [calendarStart,setCalendarStart]=useState("hours");
-  const [setId, setSetId] = useState<string | null>(null);
-  const [mode, setMode] = useState<Mode | null>(initialTopicId==="topic:vocabulary-cooperation"?"cooperation":initialTopicId==="topic:vocabulary-calendar"?"calendar":initialTopicId==="topic:people"?"feelings":initialTopicId==="topic:vocabulary-family"?"family":initialTopicId==="topic:vocabulary-my-day"?"routine":"cards");
+  const [calendarStart,setCalendarStart]=useState(initialTarget?.calendarLessonId??"hours");
+  const [setId, setSetId] = useState<string | null>(initialTarget?.collectionId??null);
+  const [mode, setMode] = useState<Mode | null>(initialTarget?.mode??(initialTopicId==="topic:vocabulary-cooperation"?"cooperation":initialTopicId==="topic:vocabulary-calendar"?"calendar":initialTopicId==="topic:people"?"feelings":initialTopicId==="topic:vocabulary-family"?"family":initialTopicId==="topic:vocabulary-my-day"?"routine":"cards"));
   const [imageId, setImageId] = useState<string | null>(null);
   const [usageId, setUsageId] = useState<string | null>(null);
   const lessonActive=groupId==="school:preparation"||!!permanentLessonForTopic(groupId);
