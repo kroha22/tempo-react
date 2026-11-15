@@ -29,6 +29,7 @@ import {homeRouteSources,homeCardsHref} from "@/features/content/home-cards";
 import {LegacyCards} from "@/features/cards/saved-items/LegacyCards";
 import {legacyCardGroups,legacyCardsHref} from "@/features/content/legacy-cards";
 import {FoodFlow} from "@/features/practice/FoodFlow";
+import {QuickWords} from "@/features/practice/QuickWords";
 
 export function relatedDestination(href: string) {
   if(href.startsWith("/learning/practice?")){
@@ -51,6 +52,7 @@ export function RelatedLearning({ href, onBack }: { href: string; onBack: () => 
   const destination = relatedDestination(href);
   const [selected, setSelected] = useState<string | null>(null);
   const [checked, setChecked] = useState(false);
+  if(href==="/learning/quick-words")return <QuickWords onBack={onBack}/>;
   if(href.split("?")[0]==="/learning/legacy-cards"){const params=new URLSearchParams(href.split("?")[1]);return <LegacyCards group={params.get("group")??undefined} mode={params.get("mode")??undefined} onBack={onBack}/>;}
   if(["/learning/home","/learning/house","/cards/house"].includes(href.split("?")[0])){const params=new URLSearchParams(href.split("?")[1]);return <HomeFlow legacyWords={href==="/cards/house"} topic={params.get("topic")??undefined} phase={href==="/cards/house"?"words":params.get("phase")??undefined} related={params.get("related")??undefined} renderRelated={(href,back)=><RelatedLearning key={href} href={href} onBack={back}/>} onBack={onBack}/>;}
   if(href.split("?")[0]==="/learning/home/cards"){const params=new URLSearchParams(href.split("?")[1]);return <HomeCards topic={params.get("topic")??undefined} mode={params.get("mode")??undefined} source={params.get("source")??undefined} onBack={onBack}/>;}

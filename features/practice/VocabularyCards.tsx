@@ -7,14 +7,14 @@ import { SpeechHelpButton } from "../cards/components/SpeechHelpButton";
 import styles from "./VocabularyCards.module.css";
 import { VocabularyIllustration } from "./VocabularyIllustration";
 
-export function VocabularyCards({ words, active = true,onReveal }: { words: readonly VocabularyWord[]; active?: boolean;onReveal?:(wordId:string)=>void }) {
+export function VocabularyCards({ words, active = true,onReveal,textOnly=false }: { words: readonly VocabularyWord[]; active?: boolean;onReveal?:(wordId:string)=>void;textOnly?:boolean }) {
   const [index, setIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const word = words[index];
   const showTranslation = flipped;
   const textVariants = [...new Set(words.flatMap(item=>[item.label,item.translation]))];
   function move(nextIndex: number) { setIndex(nextIndex); setFlipped(false); }
-  return <section className={`house-activity vocabulary-cards ${styles.compact}`}>
+  return <section className={`house-activity vocabulary-cards ${styles.compact}`} data-text-only={textOnly||undefined}>
     <div className="vocabulary-card-counter" aria-live="polite">{index + 1} / {words.length}</div>
     <div className="vocabulary-card-carousel">
       <button type="button" className="vocabulary-page-arrow" aria-label="Предыдущая карточка" disabled={index === 0} onClick={() => move(index - 1)}><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m15 6-6 6 6 6" /></svg></button>

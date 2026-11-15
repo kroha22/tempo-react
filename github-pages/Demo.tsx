@@ -60,7 +60,7 @@ function ProfileDemo({profile}:{profile?:LocalProfile}) {
       <details className="demo-info"><summary aria-label="О демо-версии">i</summary><div><strong>Интерактивное демо</strong><p>Короткие уроки, тренировка форм и колоды карточек. Прогресс сохраняется только в этом браузере.</p><a href="https://github.com/kroha22/tempo-react">Исходный код на GitHub →</a></div></details>
     </header>
     <RelatedLearningNavigation value={navigate}>
-      {profile&&<nav className="general-navigation" aria-label="Разделы Tempo"><LegacyLessonLink href={generalPlanHref} current={!isTopics&&!isCards}>Общий план</LegacyLessonLink><LegacyLessonLink href="/learning/topics" current={isTopics}>Все темы</LegacyLessonLink><LegacyLessonLink href="/cards" current={isCards}>Карточки</LegacyLessonLink></nav>}
+      {profile&&<nav className="general-navigation" aria-label="Разделы Tempo"><LegacyLessonLink href={generalPlanHref} current={!isTopics&&!isCards&&href!=="/learning/quick-words"}>Общий план</LegacyLessonLink><LegacyLessonLink href="/learning/topics" current={isTopics}>Все темы</LegacyLessonLink><LegacyLessonLink href="/learning/quick-words" current={href==="/learning/quick-words"}>Учить слова</LegacyLessonLink><LegacyLessonLink href="/cards" current={isCards}>Карточки</LegacyLessonLink></nav>}
       <div ref={main} hidden={isRelated}>{profile?<>
         {isPlan&&<GeneralPlan/>}
         <div hidden={!isTopics}><PracticeScreen initialChildMode={initialChildMode} initialSection="vocabulary" resumeTopicId={resumeTopic} onOpenGeneralPlan={()=>navigate(generalPlanHref)} onOpenGeneralCards={()=>navigate("/cards")}/></div>

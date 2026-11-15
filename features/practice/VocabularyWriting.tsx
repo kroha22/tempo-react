@@ -9,7 +9,7 @@ import { SpeechHelpButton } from "../cards/components/SpeechHelpButton";
 import styles from "./VocabularyWriting.module.css";
 import { usePracticePlan } from "./plan/PracticePlanContext";
 
-export function VocabularyWriting({ words, active = true, title }: { words: readonly VocabularyWord[]; active?: boolean; title?:string }) {
+export function VocabularyWriting({ words, active = true, title, phrases = false }: { words: readonly VocabularyWord[]; active?: boolean; title?:string; phrases?:boolean }) {
   const plan=usePracticePlan();
   const answerId=useId(),feedbackId=useId();
   const [index, setIndex] = useState(0);
@@ -38,7 +38,7 @@ export function VocabularyWriting({ words, active = true, title }: { words: read
     requestAnimationFrame(() => field.setSelectionRange(start + letter.length, start + letter.length));
   }
   if (finished) return <ActivityCompletion id={wordActivityId("writing",words.map(word=>word.id))} title={title?`${title} · письмо`:`Напиши слова · ${words.length} слов`} group="Слова и игры" correct={score} total={words.length}><section className={styles.panel}><h2>Набор пройден!</h2><p>Вспомнилось: {score} из {words.length}</p><button type="button" onClick={() => { setIndex(0); setAnswer(""); setResult(null); setHint(false); setScore(0); setHadMistake(false); setFinished(false); }}>Повторить набор</button></section></ActivityCompletion>;
-  return <section className={styles.panel} aria-label="Напиши слово">
+  return <section className={styles.panel} aria-label={phrases ? "Напиши фразу" : "Напиши слово"}>
     <header><span>{index + 1} / {words.length}</span><SpeechHelpButton /></header>
     <p className={styles.prompt}>Как это по-португальски?</p>
     <h2>{word.translation}</h2>
@@ -53,9 +53,9 @@ export function VocabularyWriting({ words, active = true, title }: { words: read
       if(!correct)setHadMistake(true);
     }}>
       <label htmlFor={answerId}>Твой ответ</label>
-      <input id={answerId} ref={input} lang="pt-PT" value={answer} onChange={event => { setAnswer(event.target.value); if (!resolved) setResult(null); }} readOnly={resolved} autoComplete="off" autoCapitalize="none" spellCheck={false} placeholder="Напиши слово…" aria-describedby={feedbackId} />
+      <input id={answerId} ref={input} lang="pt-PT" value={answer} onChange={event => { setAnswer(event.target.value); if (!resolved) setResult(null); }} readOnly={resolved} autoComplete="off" autoCapitalize="none" spellCheck={false} placeholder={phrases ? "Напиши фразу…" : "Напиши слово…"} aria-describedby={feedbackId} />
       <div className={styles.letters} role="group" aria-label="Португальские буквы">{["á", "à", "â", "ã", "é", "ê", "í", "ó", "ô", "õ", "ú", "ç"].map(letter => <button type="button" key={letter} lang="pt-PT" aria-label={`Вставить ${letter}`} disabled={resolved} onPointerDown={event => event.preventDefault()} onClick={() => insertLetter(letter)}>{letter}</button>)}</div>
-      <small>Можно без артикля. Знаки ударения важны, если меняют значение слова.</small>
+      <small>{phrases ? "Напиши фразу целиком. В конце можно не ставить точку или вопросительный знак." : "Можно без артикля. Знаки ударения важны, если меняют значение слова."}</small>
       <div id={feedbackId} className={styles.feedback} role="status" aria-label="Результат проверки">
         {result === "wrong" && "Пока не так. Попробуй ещё раз или открой подсказку."}
         {result === "accent" && "Здесь знак ударения отличает одно слово от другого. Выбери нужную букву под полем или открой подсказку."}

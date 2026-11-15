@@ -8,9 +8,9 @@ export function shufflePairWords<T>(items: readonly T[]): T[] {
   for (let i = result.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [result[i], result[j]] = [result[j], result[i]]; }
   return result;
 }
-export function makePairBoard(order: readonly string[]): PairBoard {
-  const first = order.slice(0, 7);
-  return { left: first, right: [...first.slice(3), ...first.slice(0, 3)], queue: order.slice(7), completed: 0 };
+export function makePairBoard(order: readonly string[], maxVisible = 7): PairBoard {
+  const first = order.slice(0, maxVisible);
+  return { left: first, right: [...first.slice(3), ...first.slice(0, 3)], queue: order.slice(maxVisible), completed: 0 };
 }
 export function matchPair(board: PairBoard, left: string, right: string, positionSample = 0): PairBoard {
   if (left !== right || !board.left.includes(left) || !board.right.includes(right)) return board;

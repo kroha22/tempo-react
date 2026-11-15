@@ -6,14 +6,14 @@ import { makePairBoard, matchPair, shufflePairWords, type PairBoard, type PairWo
 import { VocabularyIllustration } from "./VocabularyIllustration";
 import styles from "./WordPairs.module.css";
 
-export function WordPairs({ words, blocks, catalog = false, onComplete, completionLabel = "Готово", footer, embedded=false }: { words: readonly PairWord[]; blocks: readonly PairBlock[]; catalog?: boolean; onComplete?: () => void; completionLabel?: string; footer?: ReactNode; embedded?:boolean }) {
+export function WordPairs({ words, blocks, catalog = false, onComplete, completionLabel = "Готово", footer, embedded=false, maxVisible=7 }: { words: readonly PairWord[]; blocks: readonly PairBlock[]; catalog?: boolean; onComplete?: () => void; completionLabel?: string; footer?: ReactNode; embedded?:boolean; maxVisible?:number }) {
   const packs = blocks.map(block => block.words);
   const wordMap = new Map(words.map(word => [word.id, word]));
   function practiceWord(id: string) { const word = wordMap.get(id); if (!word) throw new Error(`Unknown pair word: ${id}`); return word; }
   const [missed,setMissed]=useState<Record<string,boolean>>({});
   const [choosing, setChoosing] = useState(catalog);
   const [pack, setPack] = useState(0);
-  const [board, setBoard] = useState(() => makePairBoard(packs[0]));
+  const [board, setBoard] = useState(() => makePairBoard(packs[0], maxVisible));
   const [savedBoards, setSavedBoards] = useState<Record<number, PairBoard>>({});
   const [left, setLeft] = useState<string | null>(null);
   const [right, setRight] = useState<string | null>(null);
@@ -72,7 +72,7 @@ export function WordPairs({ words, blocks, catalog = false, onComplete, completi
     if (timer.current) clearTimeout(timer.current);
     busy.current = false;
     const settled = matched ? matchPair(board, matched, matched, pendingPosition.current) : board;
-    const next = restart ? makePairBoard(shufflePairWords(packs[index])) : savedBoards[index] ?? makePairBoard(shufflePairWords(packs[index]));
+    const next = restart ? makePairBoard(shufflePairWords(packs[index]), maxVisible) : savedBoards[index] ?? makePairBoard(shufflePairWords(packs[index]), maxVisible);
     setSavedBoards(previous => ({ ...previous, [pack]: settled, [index]: next }));
     setPack(index); setBoard(next);
     setLeft(null); setRight(null); setMatched(null); setWrong(null); setAnnouncement("");
