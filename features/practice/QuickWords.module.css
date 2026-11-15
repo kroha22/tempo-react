@@ -18,6 +18,13 @@
 .modes button { flex:1; min-width:0; padding:6px 4px; border:1px solid transparent; border-radius:12px; background:transparent; color:#31553d; font-size:13px; white-space:nowrap; }
 .modes button[aria-pressed="true"] { background:#fffef9; border-color:#9db89c; box-shadow:0 2px 4px #28452c12; font-weight:800; }
 .cue { margin:4px 4px 8px; font-size:12px; line-height:1.35; color:#49634e; }
+.verbDetails { max-width:32rem; margin:8px auto; padding:8px 12px; border-radius:16px; border:1px solid #d7c6a4; background:#fff9e9; }
+.spoken { display:flex; align-items:center; justify-content:space-between; gap:8px; min-height:44px; }
+.verbDetails small { display:block; color:#49634e; font-size:14px; }
+.verbDetails summary { cursor:pointer; min-height:44px; display:flex; align-items:center; font-weight:700; }
+.verbDetails dl { margin:0; }
+.verbDetails dl>div { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:8px; padding:5px 0; border-top:1px solid #e3d7be; }
+.verbDetails dd { margin:0; overflow-wrap:anywhere; }
 .exercise { min-width:0; }
 .exercise :global(.house-activity) { margin:0; padding:4px; }
 .exercise :global(.house-heading) { margin:4px 0; }

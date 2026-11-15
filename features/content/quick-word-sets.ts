@@ -3,6 +3,7 @@ import { greetingSets } from "./greetings";
 import { schoolInstructionCards } from "./school-content";
 import { sceneWords } from "./picture-scenes";
 import type { VocabularyWord } from "./vocabulary-model";
+import {quickExpansionSets,type QuickWordSet} from "./quick-word-expansion";
 
 // A selection of canonical words, not another copy of the vocabulary catalogue.
 // Whole classroom commands are chunks; they must not reuse infinitive card IDs.
@@ -128,6 +129,6 @@ export const quickPhraseSets = [
     ["agreed", "Combinado!", "Договорились!"],
   ]),
 ];
-export const quickWordSets = [...starterSets.map(set => ({...set, audience: ["backpack", "instructions", "requests"].includes(set.id) ? "child" as const : "all" as const})), ...quickPhraseSets];
-export type QuickWordSet = (typeof quickWordSets)[number];
+export const quickWordSets:readonly QuickWordSet[] = [...starterSets.map(set => ({...set, kind: set.id==="backpack"?"words" as const:"phrases" as const, audience: ["backpack", "instructions", "requests"].includes(set.id) ? "child" as const : "all" as const})), ...quickPhraseSets.map(set=>({...set,kind:"phrases" as const})),...quickExpansionSets];
+export type {QuickWordSet} from "./quick-word-expansion";
 export function quickSetsFor(child: boolean) { return quickWordSets.filter(set => set.audience === "all" || set.audience === (child ? "child" : "adult")); }

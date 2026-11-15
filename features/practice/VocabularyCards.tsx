@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import type { VocabularyWord } from "../content/vocabulary-model";
 import { CardSpeechButton } from "../cards/components/CardSpeechButton";
 import { SpeechHelpButton } from "../cards/components/SpeechHelpButton";
 import styles from "./VocabularyCards.module.css";
 import { VocabularyIllustration } from "./VocabularyIllustration";
 
-export function VocabularyCards({ words, active = true,onReveal,textOnly=false }: { words: readonly VocabularyWord[]; active?: boolean;onReveal?:(wordId:string)=>void;textOnly?:boolean }) {
+export function VocabularyCards({ words, active = true,onReveal,textOnly=false,renderDetails }: { words: readonly VocabularyWord[]; active?: boolean;onReveal?:(wordId:string)=>void;textOnly?:boolean;renderDetails?:(word:VocabularyWord)=>ReactNode }) {
   const [index, setIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const word = words[index];
@@ -32,5 +32,6 @@ export function VocabularyCards({ words, active = true,onReveal,textOnly=false }
         {lang:"ru",text:flipped&&word.noun?word.example?.ru??"":"",variants:words.filter(item=>item.noun).map(item=>item.example?.ru??"")},
       ]:[],
     ].map((row,i)=><div className={styles.detailSlot} key={i}><span lang={row.lang}>{row.text}</span>{[...new Set(row.variants)].map(text=><span key={text} className={styles.textMeasure} data-text={text} aria-hidden="true"/>)}</div>)}</div>}
+    {renderDetails?.(word)}
   </section>;
 }

@@ -6,9 +6,12 @@ import {quickWordSets,quickSetsFor} from "@/features/content/quick-word-sets";
 import {catalogWords} from "@/features/content/learning-catalog-view";
 import {makePairBoard,matchPair} from "@/features/practice/word-pairs";
 import {ProfileLearningContext,emptyProfileLearning} from "@/features/practice/profile-learning";
+import {quickExpansionSets,quickIrregularWords,quickVerbSupport,quickColorWords} from "@/features/content/quick-word-expansion";
+import {verbCards} from "@/features/cards/data/verb-cards";
+import {verbs} from "@/features/conjugation/data";
 
 it("has bounded shared sets and one object per repeated phrase",()=>{
-  expect(quickWordSets).toHaveLength(14);
+  expect(quickWordSets).toHaveLength(22);
   const seen=new Map();
   for(const pack of quickWordSets){
     expect(pack.words.length).toBeGreaterThanOrEqual(6);expect(pack.words.length).toBeLessThanOrEqual(8);
@@ -18,22 +21,62 @@ it("has bounded shared sets and one object per repeated phrase",()=>{
   }
   expect(quickWordSets[1].words.find(word=>word.label==="Preciso de ajuda.")).toBe(quickWordSets[4].words.find(word=>word.label==="Preciso de ajuda."));
 });
+it("reuses existing nouns and verb IDs with the canonical present forms",()=>{
+  for(const pack of quickExpansionSets.filter(set=>!["verbs"].includes(set.kind)&&!set.id.startsWith("colors"))){
+    for(const word of pack.words)expect(word).toBe(catalogWords.find(item=>item.id===word.id));
+  }
+  expect(quickIrregularWords).toHaveLength(8);
+  for(const word of quickIrregularWords){
+    expect(verbCards.find(card=>card.id===word.id)?.pt).toBe(word.label);
+    expect(quickVerbSupport[word.id].example.pt).toBeTruthy();
+    const original=verbs[word.label as keyof typeof verbs];
+    if(original)expect(quickVerbSupport[word.id].firstPerson).toBe(original.forms.present.eu);
+  }
+  expect(quickIrregularWords.map(word=>quickVerbSupport[word.id].firstPerson)).toEqual(["sou","estou","tenho","vou","venho","faço","posso","quero"]);
+  expect(new Set(quickColorWords.map(word=>word.id)).size).toBe(12);
+  expect(quickColorWords[0].acceptedAnswers?.pt).toContain("vermelha");
+});
+it("filters shared sets, keeps the chosen filter on return and shows spoken verb examples",async()=>{
+  const user=userEvent.setup();render(<QuickWords onBack={()=>{}}/>);
+  await user.click(screen.getByRole("button",{name:"Глаголы"}));
+  expect(screen.queryByRole("button",{name:/Животные фермы/})).not.toBeInTheDocument();
+  await user.click(screen.getByRole("button",{name:/Основные неправильные/}));
+  expect(screen.getByText("Eu sou.")).toBeVisible();
+  expect(screen.getByRole("button",{name:"Послушать: Sou de Portugal."})).toBeVisible();
+  await user.click(screen.getByText("Формы · Presente"));
+  expect(screen.getByText("somos")).toBeVisible();
+  await user.click(screen.getByRole("button",{name:"Следующая карточка"}));
+  expect(screen.getByText("Eu estou.")).toBeVisible();
+  await user.click(screen.getByRole("button",{name:"Все наборы"}));
+  expect(screen.getByRole("button",{name:"Глаголы"})).toHaveAttribute("aria-pressed","true");
+  await user.click(screen.getByRole("button",{name:"Слова"}));
+  expect(screen.getByRole("button",{name:/Животные фермы/})).toBeVisible();
+  expect(screen.queryByRole("button",{name:/Основные неправильные/})).not.toBeInTheDocument();
+});
+it("offers child search for the new word sets but no extra games to adults",async()=>{
+  const user=userEvent.setup();render(<QuickWords child onBack={()=>{}}/>);
+  await user.click(screen.getByRole("button",{name:/Основные цвета/}));
+  expect(screen.getByRole("button",{name:"⌕ Поиск"})).toBeVisible();
+  await user.click(screen.getByRole("button",{name:"✎ Написать"}));
+  expect(screen.getByRole("region",{name:"Напиши слово"})).toBeVisible();
+  await user.click(screen.getByRole("textbox")).then(()=>user.keyboard("vermelha"));
+  await user.click(screen.getByRole("button",{name:"Проверить"}));
+  expect(screen.getByRole("status",{name:"Результат проверки"})).toHaveTextContent("Верно!");
+});
 it("keeps four pairs visible and finishes the complete set",()=>{
   const ids=quickWordSets[3].words.map(word=>word.id);let board=makePairBoard(ids,4);
   expect(board.left).toHaveLength(4);
   for(const id of ids){expect(board.left).toContain(id);board=matchPair(board,id,id);}
   expect(board.completed).toBe(8);expect(board.queue).toHaveLength(0);
 });
-it("opens all adult packs with cards and pairs only and returns",async()=>{
+it.each(quickSetsFor(false))("opens adult $id with cards and pairs only and returns",async(pack)=>{
   const user=userEvent.setup(),back=vi.fn();render(<QuickWords onBack={back}/>);
-  for(const pack of quickSetsFor(false)){
     await user.click(screen.getByRole("button",{name:new RegExp(pack.title)}));
     expect(screen.getByRole("button",{name:"Перевернуть карточку"})).toBeVisible();
     expect(screen.queryByText("Поиграть ещё")).not.toBeInTheDocument();
     await user.click(screen.getByRole("button",{name:"↔ Пары"}));
     expect(within(screen.getByLabelText("Португальские слова")).getAllByRole("button")).toHaveLength(4);
     await user.click(screen.getByRole("button",{name:"Все наборы"}));
-  }
   await user.click(screen.getByRole("button",{name:"К урокам"}));expect(back).toHaveBeenCalledOnce();
 });
 it("uses the profile presentation and limits search to individual school words",async()=>{
