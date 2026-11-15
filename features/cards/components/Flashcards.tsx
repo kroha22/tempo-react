@@ -1,4 +1,5 @@
 "use client";
+import {WordLearningRoute} from "../../practice/WordLearningEntry";
 import { basicWordCards } from "../data/basic-word-cards";
 import { LegacyLessonLink } from "@/features/practice/LegacyLessonLink";
 
@@ -26,7 +27,8 @@ const gradeLabels: Array<{ grade: ReviewGrade; label: string; className: string 
   { grade: 3, label: "Легко", className: "easy" },
 ];
 
-export default function Flashcards() {
+export default function Flashcards(){return <WordLearningRoute/>;}
+export function LegacyFlashcards() {
   const [deck, setDeck] = useState<string | null>(null);
   const [category, setCategory] = useState<"main" | "phrases" | "forms">("main");
   if (deck === "words") return <GeneralVocabularyDeck onBack={() => setDeck(null)} />;

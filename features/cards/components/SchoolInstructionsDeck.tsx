@@ -1,4 +1,5 @@
 "use client";
+import {WordLearningRoute} from "../../practice/WordLearningEntry";
 
 import { useMemo, useState } from "react";
 import { schoolInstructionCards } from "@/features/content/school-content";
@@ -13,7 +14,8 @@ const confidenceOptions: Array<{ value: Confidence; label: string }> = [
   { value: "easy", label: "Легко" },
 ];
 
-export function SchoolInstructionsDeck({ onBack }: { onBack: () => void }) {
+export function SchoolInstructionsDeck({onBack}:{onBack:()=>void}){return <WordLearningRoute sources={["collection:pairs-school-instructions"]} onBack={onBack}/>;}
+export function LegacySchoolInstructionsDeck({ onBack }: { onBack: () => void }) {
   const [index, setIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [confidenceByCard, setConfidenceByCard] = useState<Record<string, Confidence>>({});

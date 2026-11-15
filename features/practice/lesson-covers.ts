@@ -1,6 +1,6 @@
 // Decorative catalog art only. Assessed scene images keep their own registry.
 export const lessonCovers: Readonly<Record<string, string>> = {
-  "foundation:hello": "/images/covers/hello-v1.webp",
+  "foundation:hello": "/images/learning-covers/greetings-v1.png",
   "foundation:identity": "/images/covers/identity-v1.webp",
   "topic:vocabulary-space": "/images/covers/space-objects-v2.webp",
   "topic:vocabulary-cooperation": "/images/covers/cooperation-v2.webp",

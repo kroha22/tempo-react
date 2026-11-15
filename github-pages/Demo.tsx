@@ -11,10 +11,12 @@ import {beingDestinationForHref} from "../features/practice/being-navigation";
 import {GeneralPlan} from "../features/learning/plan/GeneralPlan";
 import {generalPlanHref} from "../features/learning/plan/model";
 import {LegacyLessonLink} from "../features/practice/LegacyLessonLink";
+import {WordLearningReturn} from "../features/practice/WordLearningEntry";
 import Flashcards from "../features/cards/components/Flashcards";
+import "../shared/ui/tempo-appearance.css";
 
 export function Demo() {
-  return <ProfileManager>{profile=><ProfileDemo profile={profile}/>}</ProfileManager>;
+  return <div className="tempo-appearance"><ProfileManager>{profile=><ProfileDemo profile={profile}/>}</ProfileManager></div>;
 }
 
 // Existing unprofiled entry is retained only for focused legacy integration tests.
@@ -60,13 +62,13 @@ function ProfileDemo({profile}:{profile?:LocalProfile}) {
       <details className="demo-info"><summary aria-label="О демо-версии">i</summary><div><strong>Интерактивное демо</strong><p>Короткие уроки, тренировка форм и колоды карточек. Прогресс сохраняется только в этом браузере.</p><a href="https://github.com/kroha22/tempo-react">Исходный код на GitHub →</a></div></details>
     </header>
     <RelatedLearningNavigation value={navigate}>
-      {profile&&<nav className="general-navigation" aria-label="Разделы Tempo"><LegacyLessonLink href={generalPlanHref} current={!isTopics&&!isCards&&href!=="/learning/quick-words"}>Общий план</LegacyLessonLink><LegacyLessonLink href="/learning/topics" current={isTopics}>Все темы</LegacyLessonLink><LegacyLessonLink href="/learning/quick-words" current={href==="/learning/quick-words"}>Учить слова</LegacyLessonLink><LegacyLessonLink href="/cards" current={isCards}>Карточки</LegacyLessonLink></nav>}
+      {profile&&<nav className="general-navigation" aria-label="Разделы Tempo"><LegacyLessonLink href={generalPlanHref} current={!isTopics&&!isCards&&href!=="/learning/quick-words"}>Общий план</LegacyLessonLink><LegacyLessonLink href="/learning/topics" current={isTopics}>Все темы</LegacyLessonLink><LegacyLessonLink href="/learning/quick-words" current={href==="/learning/quick-words"||isCards}>Учить слова</LegacyLessonLink></nav>}
       <div ref={main} hidden={isRelated}>{profile?<>
         {isPlan&&<GeneralPlan/>}
         <div hidden={!isTopics}><PracticeScreen initialChildMode={initialChildMode} initialSection="vocabulary" resumeTopicId={resumeTopic} onOpenGeneralPlan={()=>navigate(generalPlanHref)} onOpenGeneralCards={()=>navigate("/cards")}/></div>
-        <div hidden={!isCards}><Flashcards/></div>
+        {isCards&&<Flashcards/>}
       </>:<PracticeScreen initialChildMode={initialChildMode} initialSection={resumeTopic?"vocabulary":"lessons"} resumeTopicId={resumeTopic}/>}</div>
-      {isRelated && <div ref={related}><RelatedLearning key={href==="/learning/house"||href==="/cards/house"?"/learning/home":["/learning/time-day","/learning/family","/learning/food","/learning/body","/learning/home","/learning/legacy-cards"].includes(href.split("?")[0])?href.split("?")[0]:beingDestinationForHref(href)?"being-lesson":href} href={href} onBack={() => navigate(returnHref.current)} /></div>}
+      {isRelated && <div ref={related}><WordLearningReturn value={()=>navigate(returnHref.current)}><RelatedLearning key={href==="/learning/house"||href==="/cards/house"?"/learning/home":["/learning/time-day","/learning/family","/learning/food","/learning/body","/learning/home","/learning/legacy-cards"].includes(href.split("?")[0])?href.split("?")[0]:beingDestinationForHref(href)?"being-lesson":href} href={href} onBack={() => navigate(returnHref.current)} /></WordLearningReturn></div>}
     </RelatedLearningNavigation>
   </div>;
 }

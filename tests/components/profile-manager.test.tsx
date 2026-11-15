@@ -43,8 +43,8 @@ it("isolates rewards and presentation, resumes the theme and preserves rewards t
   expect(stores.learning.load().feelings.viewed).toHaveLength(6);
   view.unmount();render(<Demo/>);
   expect(screen.getByLabelText("Знакомство: получено")).toBeVisible();
-  fireEvent.click(screen.getByRole("link",{name:"Карточки"}));
-  expect(screen.getByRole("region",{name:"Колоды карточек"})).toBeVisible();
+  fireEvent.click(screen.getByRole("link",{name:"Учить слова"}));
+  expect(screen.getByRole("dialog",{name:"Учить слова"})).toBeVisible();
   fireEvent.click(screen.getByRole("link",{name:"Все темы"}));
   expect(screen.getByRole("heading",{name:"Aulas — Уроки"})).toBeVisible();
   expect(stores.plan.load().completed["practice:grammar:ser"]).toEqual({revision:1,needsReview:false});

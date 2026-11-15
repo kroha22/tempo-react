@@ -5,7 +5,7 @@ import { cardSpeechLocales, chooseSpeechVoice, defaultSpeechSettings, speechLang
 import styles from "./card-speech.module.css";
 import { finishCardSpeech, startCardSpeech, stopCardSpeech } from "../speech-playback";
 
-export function CardSpeechButton({ text, label = "Послушать", disabled = false, children }: { text: string; label?: string; disabled?: boolean; children?:ReactNode }) {
+export function CardSpeechButton({ text, label = "Послушать", disabled = false, children,announceText=true }: { text: string; label?: string; disabled?: boolean; children?:ReactNode;announceText?:boolean }) {
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
   const [catalogueStatus, setCatalogueStatus] = useState<"loading" | "ready" | "unsupported">("loading");
   const storedSettings = JSON.parse(useSyncExternalStore(subscribeSpeechSettings, speechSettingsSnapshot, () => defaultSpeechSettings)) as { language: string; voice: string };
@@ -97,7 +97,7 @@ export function CardSpeechButton({ text, label = "Послушать", disabled 
   }
 
   return <div className={styles.control}>
-    <button type="button" className={`${styles.button} ${styles.icon}`} disabled={disabled || catalogueStatus !== "ready" || !voice} aria-busy={speaking === playbackKey} title="Послушать" onClick={() => speak()} aria-label={`${label}: ${text}`}>
+    <button type="button" className={`${styles.button} ${styles.icon}`} disabled={disabled || catalogueStatus !== "ready" || !voice} aria-busy={speaking === playbackKey} title="Послушать" onClick={() => speak()} aria-label={announceText?`${label}: ${text}`:label}>
       {children??<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4 6 8H3v8h3l5 4V4Z"/><path d="M15 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/></svg>}
     </button>
     <span className={styles.message} role="status">{message || (catalogueStatus === "loading" ? "Загружаем голоса устройства…" : !voice && "Голос недоступен. Нажмите значок помощи с озвучкой.")}</span>

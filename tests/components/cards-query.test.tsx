@@ -2,7 +2,7 @@ import { StrictMode, useEffect } from "react";
 import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
-import Flashcards from "@/features/cards/components/Flashcards";
+import {LegacyFlashcards as Flashcards} from "@/features/cards/components/Flashcards";
 import { CardsQueryBoundary, useCardsScope } from "@/features/cards/query/CardsQueryBoundary";
 import { cardsKeys, useCardProgressQuery } from "@/features/cards/query/queries";
 import { SavedStudyItemLibrary } from "@/features/cards/saved-items/SavedStudyItemLibrary";

@@ -18,8 +18,9 @@ for(const lesson of futureAndMoodLessons)it(`U${lesson.unit}: Portuguese explana
   fireEvent.click(screen.getByRole("button",{name:"Читать по-португальски"}));expect(screen.queryByText(lesson.rule)).not.toBeInTheDocument();
   expect((await store.read()).progress).toEqual([]);cleanup();
   render(<GrammarCourse slug={`words/u${lesson.unit}`}/>);
-  expect(screen.getByRole("link",{name:/К объяснению и практике:/})).toHaveAttribute("href",`/learning/gramatica-ativa/${lesson.slug}/explanation`);
-  expect(screen.getByRole("link",{name:`Проверить себя по уроку ${lesson.unit} →`})).toHaveAttribute("href",`/learning/gramatica-ativa/${lesson.slug}`);
+  expect(screen.getByRole("dialog",{name:"Учить слова"})).toBeVisible();
+  expect(screen.getByRole("button",{name:/^Карточки слов/})).toBeVisible();
+  expect((await store.read()).progress).toEqual([]);
 });
 it("resumes a checked U27 answer, completes practice and preserves earlier progress and reviewed cards",async()=>{
   const {store,api}=setup(),lesson=futureAndMoodLessons.find(l=>l.unit===27)!;

@@ -1,0 +1,1 @@
+export const learningCoverArt:Readonly<Record<string,string>>={hello:"/images/learning-covers/greetings-v1.png","adult-small-talk":"/images/learning-covers/greetings-v1.png","child-friends":"/images/learning-covers/greetings-v1.png","browse:essentials":"/images/learning-covers/essentials-v1.png","quick:words":"/images/learning-covers/essentials-v1.png"};

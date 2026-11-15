@@ -1,4 +1,5 @@
 "use client";
+import {WordLearningEntry} from "../../practice/WordLearningEntry";
 import {useEffect,useRef} from "react";
 import {bodyCardWords,bodyCardSources,bodyCardTopics,bodyCardTitles,bodyStudyItemIds,bodyCardsHref,bodyActionWordIds,type BodyCardTopic} from "../../content/body-cards";
 import {readingSource} from "../../content/reading-sources";
@@ -16,6 +17,7 @@ export function BodyCards({topic:requestedTopic,mode,source:requestedSource,onBa
     {!embedded&&<>{onBack?<button type="button" onClick={onBack}>← Назад</button>:<LegacyLessonLink href="/learning/topics">← Все темы</LegacyLessonLink>}
     <h1 ref={heading} tabIndex={-1}>{review?"Тело и самочувствие · Повторение":actions?"Тело и действия · 6 знакомых слов":`Тело и самочувствие · ${bodyCardTitles[topic]}`}</h1>
     <nav className={styles.navigation} aria-label="Карточки тела и самочувствия">{bodyCardTopics.map(id=><LegacyLessonLink key={id} href={bodyCardsHref(id)} current={!actions&&!review&&topic===id}>{bodyCardTitles[id]} · {id==="face"?8:6} слов</LegacyLessonLink>)}<LegacyLessonLink href={bodyCardsHref(topic,true)} current={review}>Повторение темы</LegacyLessonLink></nav></>}
+    {!review&&<WordLearningEntry sources={[topic==="feelings"?"collection:feelings-now":topic==="movement"?"collection:expansion-body-movement":"collection:expansion-body-face"]}/>}
     {review?<><p>Только сохранённые слова этих трёх пачек, когда наступает срок. Задания и отметки знакомства сохраняют самостоятельные результаты.</p><StudyReview studyItemIds={bodyStudyItemIds} embedded/></>:<>
       <p>Добавьте нужные слова. Повторное добавление дополняет источники той же карточки без сброса расписания.</p>
       {topic==="face"&&<p>O ouvido — орган слуха, a orelha — наружная часть уха. A língua здесь означает часть тела.</p>}

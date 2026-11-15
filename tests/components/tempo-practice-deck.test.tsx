@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { expect, test, vi } from "vitest";
-import { TempoPracticeDeck } from "@/features/cards/components/TempoPracticeDeck";
+import { LegacyTempoPracticeDeck as TempoPracticeDeck } from "@/features/cards/components/TempoPracticeDeck";
 import { tempoPracticeDecks } from "@/features/cards/data/tempo-decks";
 
 test("a phrase flips to Russian, rating advances and manual previous resets the flip", () => {

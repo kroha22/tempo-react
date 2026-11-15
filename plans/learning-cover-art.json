@@ -1,0 +1,14 @@
+{
+  "tool": "built-in image_gen",
+  "created": "2026-11-15",
+  "assets": [
+    {
+      "file": "public/images/learning-covers/greetings-v1.png",
+      "prompt": "Create one polished small illustration for a Portuguese language learning app category cover, square composition. Two original friendly children, one with warm brown skin and dark curly hair, one with fair skin and short chestnut hair, smiling and waving hello to each other, three-quarter bodies, with two small empty speech bubbles floating above. Soft hand-painted 3D storybook illustration, gently textured matte clay, readable simple silhouettes, rich azure, lavender and turquoise clothing with small coral accents. Warm approachable expressions, tasteful not babyish. Subjects centered with 12 percent safe padding all sides, no cropping of hands. Genuine transparent background. No text, no letters, no logos, no branded characters, no frame, no UI. Designed to read clearly as a 64-pixel thumbnail on a deep indigo glass card."
+    },
+    {
+      "file": "public/images/learning-covers/essentials-v1.png",
+      "prompt": "Create one polished small illustration for the essential vocabulary category of a Portuguese learning app, square composition. A charming miniature open illustrated notebook with blank cream pages, a turquoise pencil, a small golden star, and a friendly little blue backpack grouped in one coherent still life, 3/4 perspective. Soft hand-painted 3D storybook illustration, gently textured matte clay, readable simple silhouettes, rich azure lavender turquoise with warm golden highlights. The objects form one compact balanced composition centered with 12 percent safe padding. Genuine transparent background. No text, no letters, no logos, no branded characters, no frame, no UI. Designed to read clearly as a 64-pixel thumbnail on a deep indigo glass card."
+    }
+  ]
+}

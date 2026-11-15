@@ -6,7 +6,7 @@ import {grammarTasks,gramaticaLessons} from "@/features/content/gramatica-ativa"
 import {emptyLocalLearning,localLearningSchema,type LearningStore} from "@/github-pages/local-learning-store";
 import {createLocalLearningApi} from "@/github-pages/local-learning-api";
 import {activateLocalTransport} from "@/shared/http/local-transport";
-import {GrammarWordBatch} from "@/features/learning/gramatica/GrammarWordBatch";
+import {LegacyGrammarWordBatch as GrammarWordBatch} from "@/features/learning/gramatica/GrammarWordBatch";
 import {gramaticaVocabulary} from "@/features/content/gramatica-vocabulary";
 let release:(()=>void)|undefined;
 afterEach(()=>{release?.();release=undefined;});

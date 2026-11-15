@@ -3,6 +3,8 @@ import { describe, expect, it, vi } from "vitest";
 import { GrammarCourse } from "../../features/learning/gramatica/GrammarCourse";
 import * as api from "../../features/learning/progress/api";
 import * as saved from "../../features/cards/api/saved-items";
+// Preserve the source/save contract checks; the unified route is covered separately.
+vi.mock("../../features/learning/gramatica/GrammarVocabulary",async importOriginal=>{const actual=await importOriginal<typeof import("../../features/learning/gramatica/GrammarVocabulary")>();return {...actual,GrammarVocabulary:actual.LegacyGrammarVocabulary};});
 
 vi.mock("../../features/learning/progress/api", () => ({ saveStudyItem: vi.fn() }));
 vi.mock("../../features/cards/api/saved-items", () => ({ loadSavedItems: vi.fn() }));

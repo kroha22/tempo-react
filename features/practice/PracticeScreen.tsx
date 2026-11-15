@@ -2,6 +2,7 @@
 
 import {ChildPresentation} from "./ActivityCompletion";
 import { useMemo, useReducer, useState } from "react";
+import {WordLearningReturn} from "./WordLearningEntry";
 import Flashcards from "@/features/cards/components/Flashcards";
 import AdultLessons from "@/features/practice/AdultLessons";
 import { ActionGuide } from "@/features/practice/ActionGuide";
@@ -412,7 +413,7 @@ export default function PracticeScreen({ initialVerbKey = "fazer", initialTense 
 
         {formExercise}
         </>}
-      </section> : section === "lessons"&&planEnabled&&!allLessons ? <ChildPracticePlan key={launch.revision} initialStepId={launch.id} onOpenCatalog={()=>changeSection("vocabulary")}/> : section === "lessons"&&initialGrammarLessonId ? <><button type="button" onClick={openConjugationOverview}>Все спряжения →</button><AdultLessons singleLesson showPractice consolidateBeing childMode={childMode} activeLessonId={activeLessonId} onLessonChange={setActiveLessonId} onOpenPractice={openLessonPractice} onOpenConjugationOverview={openConjugationOverview}/></> : section === "vocabulary"||section === "lessons" ? <VocabularyHub key={catalogRevision} initialChildMode={childMode} initialTopicId={catalogRevision===0?resumeTopicId:null} onOpenPlan={onOpenGeneralPlan??(plan?()=>changeSection("lessons"):undefined)} planLabel={onOpenGeneralPlan?"Общий план":undefined} onOpenCards={onOpenGeneralCards??(() => changeSection("cards"))} /> : <Flashcards />}
+      </section> : section === "lessons"&&planEnabled&&!allLessons ? <ChildPracticePlan key={launch.revision} initialStepId={launch.id} onOpenCatalog={()=>changeSection("vocabulary")}/> : section === "lessons"&&initialGrammarLessonId ? <><button type="button" onClick={openConjugationOverview}>Все спряжения →</button><AdultLessons singleLesson showPractice consolidateBeing childMode={childMode} activeLessonId={activeLessonId} onLessonChange={setActiveLessonId} onOpenPractice={openLessonPractice} onOpenConjugationOverview={openConjugationOverview}/></> : section === "vocabulary"||section === "lessons" ? <VocabularyHub key={catalogRevision} initialChildMode={childMode} initialTopicId={catalogRevision===0?resumeTopicId:null} onOpenPlan={onOpenGeneralPlan??(plan?()=>changeSection("lessons"):undefined)} planLabel={onOpenGeneralPlan?"Общий план":undefined} onOpenCards={onOpenGeneralCards??(() => changeSection("cards"))} />  : <WordLearningReturn value={()=>changeSection("vocabulary")}><Flashcards /></WordLearningReturn>}
 
       <footer><span>{section === "cards" ? "Колоды: базовые слова, глаголы и тематические наборы" : section === "vocabulary" ? "Темы, карточки, пары и задания на смысл" : section === "lessons" ? "Коротко о форме — сразу в живом примере" : "Учи форму вместе с местоимением"}</span><span>Português · A1–B2</span></footer>
     </div></ChildPresentation>

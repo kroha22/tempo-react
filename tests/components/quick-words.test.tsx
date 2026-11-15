@@ -1,6 +1,7 @@
 import {fireEvent,render,screen,within,waitFor} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {expect,it,vi} from "vitest";
+import {wordLibraryFor} from "@/features/content/word-learning-library";
 import {QuickWords} from "@/features/practice/QuickWords";
 import {quickWordSets,quickSetsFor} from "@/features/content/quick-word-sets";
 import {catalogWords} from "@/features/content/learning-catalog-view";
@@ -12,7 +13,10 @@ import {verbs} from "@/features/conjugation/data";
 import {VocabularyCards} from "@/features/practice/VocabularyCards";
 import {WordPairs} from "@/features/practice/WordPairs";
 
+async function openCardView(user:ReturnType<typeof userEvent.setup>){const tile=screen.queryByRole("button",{name:/^Карточки слов/});if(tile)await user.click(tile);}
 async function finishCards(user:ReturnType<typeof userEvent.setup>,count:number){
+  await openCardView(user);
+  count=Math.min(count,Number(screen.getByText(/^1 \/ \d+$/).textContent?.split("/")[1]));
   for(let index=0;index<count;index++){
     await user.click(screen.getByRole("button",{name:"Перевернуть карточку"}));
     await user.click(screen.getByRole("button",{name:index===count-1?"Завершить карточки":"Следующая карточка"}));
@@ -20,7 +24,7 @@ async function finishCards(user:ReturnType<typeof userEvent.setup>,count:number)
 }
 async function startTraining(user:ReturnType<typeof userEvent.setup>,count:number){
   await finishCards(user,count);
-  await user.click(screen.getByRole("button",{name:"Тренировать"}));
+  await user.click(screen.getByRole("button",{name:"Пары"}));
 }
 
 it("has bounded shared sets and one object per repeated phrase",()=>{
@@ -53,7 +57,7 @@ it("filters shared sets, keeps the chosen filter on return and shows spoken verb
   const user=userEvent.setup();render(<QuickWords onBack={()=>{}}/>);
   await user.click(screen.getByRole("button",{name:"Глаголы"}));
   expect(screen.queryByRole("button",{name:/Животные фермы/})).not.toBeInTheDocument();
-  await user.click(screen.getByRole("button",{name:/Основные неправильные/}));
+  await user.click(screen.getByRole("button",{name:/Основные неправильные/}));await openCardView(user);
   expect(screen.getByText("Eu sou.")).toBeVisible();
   expect(screen.getByRole("button",{name:"Послушать: Sou de Portugal."})).toBeVisible();
   await user.click(screen.getByText("Формы · Presente"));
@@ -61,6 +65,7 @@ it("filters shared sets, keeps the chosen filter on return and shows spoken verb
   await user.click(screen.getByRole("button",{name:"Перевернуть карточку"}));
   await user.click(screen.getByRole("button",{name:"Следующая карточка"}));
   expect(screen.getByText("Eu estou.")).toBeVisible();
+  await user.click(screen.getByRole("button",{name:"К активностям"}));
   await user.click(screen.getByRole("button",{name:"Все наборы"}));
   expect(screen.getByRole("button",{name:"Глаголы"})).toHaveAttribute("aria-pressed","true");
   await user.click(screen.getByRole("button",{name:"Слова"}));
@@ -69,7 +74,7 @@ it("filters shared sets, keeps the chosen filter on return and shows spoken verb
 });
 it("offers child search for the new word sets but no extra games to adults",async()=>{
   const user=userEvent.setup();render(<QuickWords child onBack={()=>{}}/>);
-  await user.click(screen.getByRole("button",{name:/Основные цвета/}));
+  await user.click(screen.getByRole("button",{name:/Цвета/}));
   await startTraining(user,6);
   expect(screen.getByRole("button",{name:"⌕ Поиск"})).toBeVisible();
   await user.click(screen.getByRole("button",{name:"✎ Написать"}));
@@ -84,14 +89,15 @@ it("keeps four pairs visible and finishes the complete set",()=>{
   for(const id of ids){expect(board.left).toContain(id);board=matchPair(board,id,id);}
   expect(board.completed).toBe(8);expect(board.queue).toHaveLength(0);
 });
-it.each(quickSetsFor(false))("opens adult $id with cards and pairs only and returns",async(pack)=>{
+it.each(wordLibraryFor(false).filter(set=>set.origin==="topics"&&quickWordSets.some(old=>old.id===set.id)))("opens adult $id with cards and pairs only and returns",async(pack)=>{
   const user=userEvent.setup(),back=vi.fn();render(<QuickWords onBack={back}/>);
-    await user.click(screen.getByRole("button",{name:new RegExp(pack.title)}));
+    await user.click(screen.getByRole("button",{name:new RegExp(pack.title)}));await openCardView(user);
     expect(screen.getByRole("button",{name:"Перевернуть карточку"})).toBeVisible();
     expect(screen.queryByText("Поиграть ещё")).not.toBeInTheDocument();
-    expect(screen.queryByRole("button",{name:"Тренировать"})).not.toBeInTheDocument();
-    await startTraining(user,pack.words.length);
-    expect(screen.queryByRole("group",{name:"Тренировка"})).not.toBeInTheDocument();
+    expect(screen.queryByRole("button",{name:"Пары"})).not.toBeInTheDocument();
+    await startTraining(user,Math.min(6,pack.words.length));
+    expect(screen.getByRole("group",{name:"Тренировка"})).toBeVisible();
+    expect(screen.queryByRole("button",{name:"✎ Написать"})).not.toBeInTheDocument();
     expect(within(screen.getByLabelText("Португальские слова")).getAllByRole("button")).toHaveLength(4);
     await user.click(screen.getByRole("button",{name:"Назад"}));
     await user.click(screen.getByRole("button",{name:"Все наборы"}));
@@ -100,7 +106,7 @@ it.each(quickSetsFor(false))("opens adult $id with cards and pairs only and retu
 it("uses the profile presentation and limits search to individual school words",async()=>{
   const user=userEvent.setup();render(<ProfileLearningContext value={{profile:{id:"child",child:true},learning:emptyProfileLearning(),savingError:false,update:()=>true}}><QuickWords onBack={()=>{}}/></ProfileLearningContext>);
   await user.click(screen.getByRole("button",{name:/В рюкзаке/}));
-  await startTraining(user,7);
+  await startTraining(user,6);
   expect(screen.getByRole("button",{name:"⌕ Поиск"})).toBeVisible();
   await user.click(screen.getByRole("button",{name:"✎ Написать"}));
   expect(screen.getByRole("textbox")).toBeVisible();
@@ -117,9 +123,9 @@ it.each(quickSetsFor(true).filter(set=>set.id.startsWith("child-")))("trains chi
   expect(teacher.words.some(word=>word.label==="Abra, por favor.")).toBe(true);
   expect(friend.words.some(word=>word.label==="Abre, por favor.")).toBe(true);
   const user=userEvent.setup();render(<QuickWords child onBack={()=>{}}/>);
-    await user.click(screen.getByRole("button",{name:new RegExp(pack.title)}));
+    await user.click(screen.getByRole("button",{name:new RegExp(pack.title)}));await openCardView(user);
     if(["child-classroom","child-friends"].includes(pack.id))expect(screen.getByText(pack.cue)).toBeVisible();
-    await startTraining(user,pack.words.length);
+    await startTraining(user,Math.min(6,pack.words.length));
       expect(screen.queryByRole("button",{name:"⌕ Поиск"})).not.toBeInTheDocument();
     await user.click(screen.getByRole("button",{name:"✎ Написать"}));
     expect(screen.getByRole("textbox")).toBeVisible();
@@ -130,15 +136,15 @@ it.each(quickSetsFor(true).filter(set=>set.id.startsWith("child-")))("trains chi
 });
 it("requires each translation, offers exactly repeat or train, and restarts cards",async()=>{
   const user=userEvent.setup();render(<QuickWords onBack={()=>{}}/>);
-  await user.click(screen.getByRole("button",{name:/В магазине и кафе/}));
+  await user.click(screen.getByRole("button",{name:/В магазине и кафе/}));await openCardView(user);
   expect(screen.getByRole("button",{name:"Следующая карточка"})).toBeDisabled();
   await finishCards(user,6);
   expect(screen.queryByRole("button",{name:"Перевернуть карточку"})).not.toBeInTheDocument();
-  expect(screen.getByRole("button",{name:"Повторить"})).toBeVisible();
-  expect(screen.getByRole("button",{name:"Тренировать"})).toBeVisible();
-  await user.click(screen.getByRole("button",{name:"Повторить"}));
+  expect(screen.getByRole("button",{name:/^Карточки слов/})).toBeVisible();
+  expect(screen.getByRole("button",{name:"Пары"})).toBeVisible();
+  await user.click(screen.getByRole("button",{name:/^Карточки слов/}));
   expect(screen.getByRole("button",{name:"Следующая карточка"})).toBeDisabled();
-  expect(screen.getByText("1 / 6")).toBeVisible();
+  expect(screen.getByText(/^1 \/ [4-6]$/)).toBeVisible();
 });
 it("leaves ordinary lesson cards free to navigate without flipping",async()=>{
   const user=userEvent.setup();render(<VocabularyCards words={quickColorWords.slice(0,6)}/>);
@@ -146,6 +152,31 @@ it("leaves ordinary lesson cards free to navigate without flipping",async()=>{
   for(let i=0;i<5;i++)await user.click(screen.getByRole("button",{name:"Следующая карточка"}));
   await user.click(screen.getByRole("button",{name:"Повторить набор"}));
   expect(screen.getByText("1 / 6")).toBeVisible();
+});
+it("returns to the full catalogue after a search and offers an explicit clear action",async()=>{
+  const user=userEvent.setup();render(<QuickWords onBack={()=>{}}/>);
+  const search=screen.getByRole("searchbox",{name:"Найти подборку"});
+  await user.type(search,"цвета");expect(screen.queryByRole("button",{name:/Животные фермы/})).not.toBeInTheDocument();
+  await user.click(screen.getByRole("button",{name:/As cores Цвета/}));
+  await user.click(screen.getByRole("button",{name:"Все наборы"}));
+  expect(screen.getByRole("searchbox",{name:"Найти подборку"})).toHaveValue("");
+  expect(screen.getByRole("button",{name:/Животные фермы/})).toBeVisible();
+  await user.type(screen.getByRole("searchbox"),"цвета");
+  await user.click(screen.getByRole("button",{name:"Очистить поиск"}));
+  expect(screen.getByRole("searchbox")).toHaveValue("");
+  expect(screen.getByRole("button",{name:/Животные фермы/})).toBeVisible();
+});
+it("advances a large set to its next short round and persists the global card index",async()=>{
+  const update=vi.fn<(change:(value:ReturnType<typeof emptyProfileLearning>)=>ReturnType<typeof emptyProfileLearning>)=>boolean>(()=>true),user=userEvent.setup();
+  render(<ProfileLearningContext value={{profile:{id:"adult",child:false},learning:emptyProfileLearning(),savingError:false,update}}><QuickWords onBack={()=>{}}/></ProfileLearningContext>);
+  await user.click(screen.getByRole("button",{name:/Цвета/}));
+  expect(screen.getByText("1–6 / 12")).toBeVisible();
+  await finishCards(user,6);
+  await user.click(screen.getByRole("button",{name:"Следующие слова →"}));await openCardView(user);
+  expect(screen.getByText("7–12 / 12")).toBeVisible();expect(screen.getByText("laranja")).toBeVisible();
+  const apply=update.mock.calls.at(-1)![0] as unknown as (value:ReturnType<typeof emptyProfileLearning>)=>ReturnType<typeof emptyProfileLearning>;
+  expect(apply(emptyProfileLearning()).wordSession?.index).toBe(6);
+  await finishCards(user,6);expect(screen.queryByRole("button",{name:"Следующие слова →"})).not.toBeInTheDocument();
 });
 it("keeps minimal pair results on the old activity owner without the reward screen",async()=>{
   const user=userEvent.setup(),done=vi.fn(),update=vi.fn(()=>true),words=quickColorWords.slice(0,2);

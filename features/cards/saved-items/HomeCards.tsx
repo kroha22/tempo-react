@@ -1,4 +1,5 @@
 "use client";
+import {WordLearningEntry} from "../../practice/WordLearningEntry";
 import {homeFlowHref} from "../../content/home-flow";
 import {useEffect,useRef} from "react";
 import {homeWordsForTopic,homeBatchSources,homeRouteSources,homeCardTopics,homeCardTitles,homeStudyItemIds,homeCardsHref,type HomeCardTopic} from "../../content/home-cards";
@@ -17,6 +18,7 @@ export function HomeCards({topic:requestedTopic,mode,source:requestedSource,onBa
     {!embedded&&<>{onBack?<button type="button" onClick={onBack}>← Назад</button>:<LegacyLessonLink href="/learning/topics">← Все темы</LegacyLessonLink>}
     <h1 ref={heading} tabIndex={-1}>{review?"Дом и расположение · Повторение":`Дом и расположение · ${homeCardTitles[topic]}`}</h1>
     <nav className={styles.navigation} aria-label="Карточки дома и расположения">{homeCardTopics.map(id=><LegacyLessonLink key={id} href={homeCardsHref(id)} current={!review&&topic===id}>{homeCardTitles[id]} · {id==="rooms"?6:id==="objects"?7:5} слов</LegacyLessonLink>)}<LegacyLessonLink href={homeCardsHref(topic,true)} current={review}>Повторение темы</LegacyLessonLink></nav></>}
+    {!review&&<WordLearningEntry sources={["topic:vocabulary-house"]}/>}
     {review?<><p>Только сохранённые карточки этих трёх пачек по сроку SRS. Просмотр слов и добавление источника не засчитывают задания.</p><StudyReview studyItemIds={homeStudyItemIds} embedded/></>:<>
       <p>Выберите нужные слова. Сохранение прежней карточки из этой пачки добавляет источник и подключает повторение, если его ещё не было. Имеющаяся оценка сохраняется.</p>
       {requestedSource==="route"&&<p>Источник сохранения: {source.title}. Здесь только слова этого урока: {words.length}. Полные пачки доступны во вкладках выше.</p>}

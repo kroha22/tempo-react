@@ -1,4 +1,5 @@
 "use client";
+import {WordLearningRoute} from "../../practice/WordLearningEntry";
 import { useMemo, useState } from "react";
 import { allGramaticaLessons as gramaticaLessons } from "../../content/gramatica-ativa";
 import { gramaticaVocabulary, vocabularyForUnit, vocabularyFront, vocabularyHref, allVocabularySources as vocabularySources } from "../../content/gramatica-vocabulary";
@@ -11,7 +12,7 @@ import { reviewHref } from "../../cards/study-review/catalog";
 import { wordBatchHref } from "./first-units";
 
 const labels: Record<WordClass, string> = { noun: "существительное", verb: "глагол", adjective: "прилагательное", adverb: "наречие", pronoun: "местоимение", preposition: "предлог", conjunction: "союз", determiner: "определитель", particle: "частица", chunk: "выражение / конструкция" };
-export function GrammarVocabulary({ unit, practiceOnly = false }: { unit?: number; practiceOnly?: boolean }) {
+export function LegacyGrammarVocabulary({ unit, practiceOnly = false }: { unit?: number; practiceOnly?: boolean }) {
   const [stage, setStage] = useState<"all" | "preview" | "core">("all");
   const [search, setSearch] = useState("");
   const [index, setIndex] = useState(0);
@@ -60,3 +61,5 @@ export function GrammarVocabulary({ unit, practiceOnly = false }: { unit?: numbe
     <p>Перелистывание не отмечает слово выученным и не меняет расписание прежней колоды.</p>
   </section>;
 }
+
+export function GrammarVocabulary({unit}:{unit?:number;practiceOnly?:boolean}){return <WordLearningRoute sources={unit?[`book:${unit}`]:Array.from({length:54},(_,i)=>`book:${i+1}`)}/>;}

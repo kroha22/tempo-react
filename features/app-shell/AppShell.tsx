@@ -1,4 +1,5 @@
 import Link from "next/link";
+import "../../shared/ui/tempo-appearance.css";
 
 type AppShellProps = {
   current: "learning" | "cards";
@@ -12,7 +13,7 @@ const areas = [
 
 export function AppShell({ current, children }: AppShellProps) {
   return (
-    <div className="tempo-shell">
+    <div className="tempo-shell tempo-appearance">
       <a className="skip-link" href="#main-content">Перейти к содержимому</a>
       <header className="tempo-shell__header">
         <Link className="tempo-shell__brand" href="/learning" aria-label="Tempo — на главную обучения">

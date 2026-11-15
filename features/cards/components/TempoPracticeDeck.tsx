@@ -1,10 +1,12 @@
 "use client";
+import {WordLearningRoute} from "../../practice/WordLearningEntry";
 
 import { useState } from "react";
 import type { TempoPracticeDeck as PracticeDeck } from "../data/tempo-decks";
 import { DeckCardFrame } from "./DeckCardFrame";
 
-export function TempoPracticeDeck({ deck, onBack }: { deck: PracticeDeck; onBack: () => void }) {
+export function TempoPracticeDeck({deck,onBack}:{deck:PracticeDeck;onBack:()=>void}){return <WordLearningRoute sources={[`deck:${deck.id}`]} onBack={onBack}/>;}
+export function LegacyTempoPracticeDeck({ deck, onBack }: { deck: PracticeDeck; onBack: () => void }) {
   const [index, setIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [ratings, setRatings] = useState<Record<string, number>>({});

@@ -32,6 +32,7 @@ import {LegacyCards} from "@/features/cards/saved-items/LegacyCards";
 import {legacyCardGroups,legacyCardsHref} from "@/features/content/legacy-cards";
 import {FoodFlow} from "@/features/practice/FoodFlow";
 import {QuickWords} from "@/features/practice/QuickWords";
+import {WordLearningReturn} from "@/features/practice/WordLearningEntry";
 
 export function relatedDestination(href: string) {
   if(href.startsWith("/learning/practice?")){
@@ -69,7 +70,7 @@ export function RelatedLearning({ href, onBack }: { href: string; onBack: () => 
   if(href.split("?")[0]==="/learning/time-day"){const params=new URLSearchParams(href.split("?")[1]);return <TimeDayFlow topic={params.get("topic")??undefined} phase={params.get("phase")??undefined} related={params.get("related")??undefined} onBack={onBack} renderRelated={(target,back)=><RelatedLearning key={beingDestinationForHref(target)?"being-lesson":target} href={target} onBack={back}/>}/>;}
   if(href==="/learning/plan"||href==="/learning/gramatica-ativa")return <GeneralPlan practiceOnly={!localTransport()}/>;
   if(href.startsWith("/learning/plan/step/")){let id="";try{id=decodeURIComponent(href.slice("/learning/plan/step/".length));}catch{}return <PlanActivity id={id}/>;}
-  if (href.startsWith("/learning/gramatica-ativa/")) return <GrammarCourse key={href} slug={href.slice("/learning/gramatica-ativa/".length)} practiceOnly={!localTransport()} />;
+  if (href.startsWith("/learning/gramatica-ativa/")) return <WordLearningReturn value={onBack}><GrammarCourse key={href} slug={href.slice("/learning/gramatica-ativa/".length)} practiceOnly={!localTransport()} /></WordLearningReturn>;
   const practiceParams = href.startsWith("/learning/practice?") ? new URLSearchParams(href.split("?")[1]) : null;
   const requestedVerb = practiceParams?.get("verb") ?? "fazer";
   const grammarLesson=shortGrammarLessons.find(lesson=>lesson.id===practiceParams?.get("lesson"));

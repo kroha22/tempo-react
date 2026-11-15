@@ -30,7 +30,8 @@ export function mergeBrowserData(a:ReturnType<typeof parseProfileData>,b:ReturnT
     const old=activities[id];
     if(!old||row.correct/row.total>old.correct/old.total)activities[id]=row;
   }
-  const learning={...a.learning,activities,lastTopicId:a.learning.lastTopicId??b.learning.lastTopicId,feelings:{...a.learning.feelings,viewed:[...new Set([...a.learning.feelings.viewed,...b.learning.feelings.viewed])],practised:a.learning.feelings.practised||b.learning.feelings.practised,repeated:a.learning.feelings.repeated||b.learning.feelings.repeated}};
+  const wordSession=!a.learning.wordSession?b.learning.wordSession:!b.learning.wordSession||a.learning.wordSession.updatedAt>=b.learning.wordSession.updatedAt?a.learning.wordSession:b.learning.wordSession;
+  const learning={...a.learning,...(wordSession?{wordSession}:{}),activities,lastTopicId:a.learning.lastTopicId??b.learning.lastTopicId,feelings:{...a.learning.feelings,viewed:[...new Set([...a.learning.feelings.viewed,...b.learning.feelings.viewed])],practised:a.learning.feelings.practised||b.learning.feelings.practised,repeated:a.learning.feelings.repeated||b.learning.feelings.repeated}};
   return parseProfileData({version:1,plan:mergePracticePlanProgress(a.plan,b.plan),cards:[...cards.values()],learning});
 }
 const pendingKey=(id:string)=>`tempo-react:pending-import:${id}:v1`;

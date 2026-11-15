@@ -1,7 +1,7 @@
 import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
-import Flashcards from "@/features/cards/components/Flashcards";
+import {LegacyFlashcards as Flashcards} from "@/features/cards/components/Flashcards";
 import CardsPage from "@/app/cards/page";
 import type { ReviewProgress } from "@/features/cards/scheduler";
 
@@ -132,13 +132,10 @@ describe("card review through the HTTP boundary", () => {
   it("gives the cards page one main landmark, one h1 and review before the library", async () => {
     vi.stubGlobal("fetch", vi.fn((url: unknown) => Promise.resolve(String(url).includes("study-items") ? json({ items: [], sources: [] }) : json({ progress: [] }))));
     render(<CardsPage />);
-    await openVerbDeck();
-    await waitFor(() => expect(screen.getByRole("button", { name: "Показать перевод" })).toBeEnabled());
-    expect(screen.getAllByRole("main")).toHaveLength(1);
+    expect(screen.getByRole("dialog",{name:"Учить слова"})).toBeVisible();
     expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
-    const sections = screen.getAllByRole("region");
-    expect(sections[0]).toHaveAccessibleName("Карточки для запоминания глаголов");
-    expect(sections[1]).toHaveAccessibleName("Сохранённые из уроков");
+    expect(screen.queryByRole("button",{name:"Колоды"})).not.toBeInTheDocument();
+    expect(screen.getByRole("searchbox",{name:"Найти подборку"})).toBeVisible();
   });
 
   it("offers the separate basic-word deck without loading verb progress", async () => {
@@ -149,20 +146,12 @@ describe("card review through the HTTP boundary", () => {
 
     expect(screen.getByRole("button", { name: "Открыть колоду «1 000 глаголов»" })).toBeInTheDocument();
     await user.click(screen.getByRole("button", { name: "Открыть колоду «357 базовых слов»" }));
-    expect(screen.getByRole("region", { name: "Колода «357 базовых слов»" })).toBeInTheDocument();
-    expect(screen.getByText("1 / 357")).toBeInTheDocument();
-    expect(screen.getByText("ter")).toBeInTheDocument();
-
-    await user.click(screen.getByRole("button", { name: "Показать перевод слова" }));
-    expect(screen.getByText("иметь")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Не знаю" })).toBeEnabled();
-    expect(screen.getByRole("button", { name: "Сложно" })).toBeEnabled();
-    expect(screen.getByRole("button", { name: "Помню" })).toBeEnabled();
-    expect(screen.getByRole("button", { name: "Легко" })).toBeEnabled();
-    await user.click(screen.getByRole("button", { name: "Помню" }));
-    expect(screen.getByText("haver")).toBeInTheDocument();
-    expect(screen.getByLabelText("Прогресс карточек в этой сессии")).toHaveTextContent(/1\s*встречалось/);
-    expect(screen.getByLabelText("Прогресс карточек в этой сессии")).toHaveTextContent(/1\s*запомнено/);
+    expect(screen.getByRole("dialog", { name: "Учить слова" })).toBeVisible();
+    await user.click(screen.getByRole("button",{name:/Palavras · 1 Базовые слова · 1 /}));
+    await user.click(screen.getByRole("button",{name:/^Карточки слов/}));
+    expect(screen.getByText(/^1 \/ [1-6]$/)).toBeVisible();
+    await user.click(screen.getByRole("button",{name:"Перевернуть карточку"}));
+    expect(screen.getByRole("button",{name:"Следующая карточка"})).toBeEnabled();
     expect(fetchMock).not.toHaveBeenCalled();
   });
 });

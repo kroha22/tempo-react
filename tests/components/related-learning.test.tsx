@@ -17,9 +17,9 @@ test("both catalog card actions open the deck picker and return to the top",()=>
   for(const name of ["Перейти к карточкам","Мои карточки и повторение"]){
     vi.mocked(window.scrollTo).mockClear();
     fireEvent.click(screen.getByRole("button",{name}));
-    expect(screen.getByRole("region",{name:"Колоды карточек"})).toBeVisible();
+    expect(screen.getByRole("dialog",{name:"Учить слова"})).toBeVisible();
     expect(window.scrollTo).toHaveBeenCalledWith(0,0);
-    fireEvent.click(screen.getByRole("button",{name:"Уроки"}));
+    fireEvent.click(screen.getByRole("button",{name:"К урокам"}));
   }
 });
 test("all previous grammar lessons are addressable and a selected lesson opens from the catalog",()=>{

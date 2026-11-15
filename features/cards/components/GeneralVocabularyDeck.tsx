@@ -1,4 +1,5 @@
 "use client";
+import {WordLearningRoute} from "../../practice/WordLearningEntry";
 
 import { useMemo, useState } from "react";
 import { basicWordCards as generalVocabulary } from "../data/basic-word-cards";
@@ -22,7 +23,8 @@ const partOfSpeechLabels: Record<GeneralVocabularyPartOfSpeech, string> = {
   "adverb-or-other": "другое",
 };
 
-export function GeneralVocabularyDeck({ onBack }: { onBack: () => void }) {
+export function GeneralVocabularyDeck({onBack}:{onBack:()=>void}){return <WordLearningRoute sources={["deck:basic"]} onBack={onBack}/>;}
+export function LegacyGeneralVocabularyDeck({ onBack }: { onBack: () => void }) {
   const [index, setIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [confidenceByCard, setConfidenceByCard] = useState<Record<string, Confidence>>({});

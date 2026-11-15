@@ -1,4 +1,5 @@
 "use client";
+import {WordLearningRoute} from "../../practice/WordLearningEntry";
 import { useEffect, useRef, useState } from "react";
 import { vocabularyForUnit, vocabularyFront, vocabularyHref } from "../../content/gramatica-vocabulary";
 import { LegacyLessonLink } from "../../practice/LegacyLessonLink";
@@ -10,7 +11,8 @@ import {futureGrammarUnits} from "./future-units";
 import { reviewHref } from "../../cards/study-review/catalog";
 import styles from "./grammar.module.css";
 
-export function GrammarWordBatch({ unit, practiceOnly = false }: { unit: number; practiceOnly?: boolean }) {
+export function GrammarWordBatch({unit}:{unit:number;practiceOnly?:boolean}){return <WordLearningRoute sources={[`book:${unit}`]}/>;}
+export function LegacyGrammarWordBatch({ unit, practiceOnly = false }: { unit: number; practiceOnly?: boolean }) {
   const words = vocabularyForUnit(unit);
   const lesson = firstGrammarUnits.find((item) => item.unit === unit);
   const pastLesson=[...pastGrammarUnits,...futureGrammarUnits].find(item=>item.unit===unit);

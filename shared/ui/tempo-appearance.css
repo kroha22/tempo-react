@@ -1,0 +1,51 @@
+/* Shared appearance for Pages and the application shell. Learning data stays local to its owner. */
+:root {--tempo-text:#eef3ff;--tempo-muted:#c1cce2;--tempo-edge:#ffffff1a;--tempo-surface:linear-gradient(135deg,#3e558b38,#59417d29);}
+body:has(.tempo-appearance) {background:radial-gradient(ellipse at 0 0,#28658170,transparent 50%),radial-gradient(ellipse at 100% 30%,#6349a962,transparent 60%),#14182f!important;background-attachment:fixed!important;color:var(--tempo-text);}
+.tempo-appearance {--ink:var(--tempo-text);--muted:var(--tempo-muted);--green:#a8dfdc;--sun-dark:#d6b8ff;--line:var(--tempo-edge);--cream:#222c49;--paper:#171d36;--color-text:var(--tempo-text);--color-text-muted:var(--tempo-muted);--color-surface:#222c49;min-height:100vh;color:var(--tempo-text);color-scheme:dark;}
+.tempo-appearance .tempo-shell,.tempo-appearance.tempo-shell,.tempo-appearance .kids-mode {background:transparent;}
+.tempo-appearance :where(section,article,aside,header,fieldset,details,[data-ui-surface],.study-area,.adult-lesson-card,.deck-library__item,.topic-card,.route-map__unit):not(dialog[aria-label="Учить слова"] *) {background:var(--tempo-surface)!important;color:var(--tempo-text)!important;border-color:var(--tempo-edge)!important;box-shadow:inset 0 1px #ffffff0d,0 8px 24px #070b2514;}
+.tempo-appearance :where(h1,h2,h3,h4,h5,p,small,label,legend,summary,dt,dd,strong,em,li,th,td):not(dialog[aria-label="Учить слова"] *) {color:inherit!important;}
+.tempo-appearance :where(p,small):not(dialog[aria-label="Учить слова"] *) {color:var(--tempo-muted)!important;}
+.tempo-appearance :where(button,input:not([type="radio"]):not([type="checkbox"]),select,textarea,a[class]):not(dialog[aria-label="Учить слова"] *) {background:linear-gradient(135deg,#7394cf19,#bea2ed0d)!important;border-color:#ffffff26!important;color:var(--tempo-text)!important;box-shadow:inset 0 1px #ffffff16;}
+.tempo-appearance :where(button,input,select,textarea) {accent-color:#b39af4;}
+.tempo-appearance :where(button[aria-pressed="true"],a[aria-current="page"],button[aria-current="step"]):not(dialog[aria-label="Учить слова"] *) {background:linear-gradient(135deg,#6989b957,#8e67c250)!important;border-color:#b9baff66!important;outline-color:#b9baff;}
+.tempo-appearance a:not(dialog[aria-label="Учить слова"] *) {color:#b7dfff;}
+.tempo-appearance [data-tone="0"]:not(dialog[aria-label="Учить слова"] *) {background:linear-gradient(140deg,#245d837a,#30457770)!important;}
+.tempo-appearance [data-tone="1"]:not(dialog[aria-label="Учить слова"] *) {background:linear-gradient(140deg,#55409285,#31376b70)!important;}
+.tempo-appearance [data-tone="2"]:not(dialog[aria-label="Учить слова"] *) {background:linear-gradient(140deg,#315e9c85,#37326f70)!important;}
+.tempo-appearance [data-tone="3"]:not(dialog[aria-label="Учить слова"] *) {background:linear-gradient(140deg,#713e8380,#41346c70)!important;}
+.tempo-appearance [data-tone="4"]:not(dialog[aria-label="Учить слова"] *) {background:linear-gradient(140deg,#286b7280,#344b7270)!important;}
+.tempo-appearance :where(a,button,input,select,summary,textarea):focus-visible {outline:3px solid #a6f0dc!important;outline-offset:3px;}
+.tempo-appearance :where(button:disabled) {cursor:default;}
+.tempo-appearance :where(table,td,th):not(dialog[aria-label="Учить слова"] *) {background:transparent!important;border-color:#ffffff24!important;}
+.tempo-appearance :where(.general-navigation,.profile-bar,.demo-intro,.tempo-shell__header,.tempo-shell__nav) {color:var(--tempo-text);}
+.tempo-appearance .tempo-shell__header {background:#19223ad9;border-color:var(--tempo-edge);backdrop-filter:blur(12px);}
+.tempo-appearance .profile-bar {padding-block:8px;}
+.tempo-appearance .demo-intro {color:var(--tempo-text);}
+.tempo-appearance .demo-intro details {background:#222c49!important;}
+.tempo-appearance .general-navigation a {border-radius:16px;}
+.tempo-appearance .general-navigation a {background:#ffffff09!important;color:#edf3ff!important;border-color:#ffffff26!important;}
+.tempo-appearance .general-navigation a[aria-current="page"] {background:linear-gradient(135deg,#547cab55,#8a65bd55)!important;outline-color:#b2a1e4;}
+.tempo-appearance :where(h1,h2,h3,h4,p,button,a) span:not(dialog[aria-label="Учить слова"] *) {color:inherit!important;}
+.tempo-appearance .profile-bar>span,.tempo-appearance footer span {color:#bdcbe3!important;}
+.tempo-appearance .profile-panel {border:1px solid var(--tempo-edge);backdrop-filter:blur(12px);}
+.tempo-appearance .profile-list article {background:linear-gradient(140deg,#32648575,#49337260)!important;}
+.tempo-appearance .profile-list article[data-child="true"] {background:linear-gradient(140deg,#4c609180,#7042a575)!important;}
+.tempo-appearance .house-activity {border-radius:22px;}
+.tempo-appearance .house-column-label,.tempo-appearance .tempo-kicker {color:#d1c5f4;}
+.tempo-appearance .house-pair:not(dialog[aria-label="Учить слова"] *) {background:linear-gradient(140deg,#557baf35,#8c6cad20)!important;color:#f6f8ff!important;}
+.tempo-appearance :where(.is-match,[data-result="correct"],[data-state="correct"]):not(dialog[aria-label="Учить слова"] *) {background:#285e52!important;border-color:#8ad6bd!important;color:#effff8!important;}
+.tempo-appearance :where(.is-wrong,[data-result="wrong"],[data-state="wrong"]):not(dialog[aria-label="Учить слова"] *) {background:#743c56!important;border-color:#f3a8c6!important;color:#fff1f5!important;}
+/* Preserve the four conjugation families on the shared dark surfaces. */
+.tempo-appearance [data-group="ar"],.tempo-appearance .group-ar {--group-color:#ff9a9e;border-color:#db656e!important;}
+.tempo-appearance [data-group="er"],.tempo-appearance .group-er {--group-color:#8be0b3;border-color:#50b783!important;}
+.tempo-appearance [data-group="ir"],.tempo-appearance .group-ir {--group-color:#8abfff;border-color:#5b93dd!important;}
+.tempo-appearance [data-group="irregular"] {--group-color:#d1adff;border-color:#b598ed!important;}
+.tempo-appearance [data-group] .deck-library__icon {color:var(--group-color)!important;background:#ffffff0d!important;}
+.tempo-appearance .vocabulary-card-glass:not(dialog[aria-label="Учить слова"] *) {background:linear-gradient(140deg,#4c739645,#69538945)!important;border-color:var(--tempo-edge);backdrop-filter:blur(12px);}
+.tempo-appearance .vocabulary-flashcard:not(dialog[aria-label="Учить слова"] *) {background:transparent!important;color:var(--tempo-text)!important;}
+.tempo-appearance .vocabulary-tap-hint {color:var(--tempo-muted)!important;}
+.tempo-appearance .vocabulary-page-arrow {color:#d8eaff!important;}
+.tempo-appearance :where([role="alert"],[role="status"]):not(dialog[aria-label="Учить слова"] *) {color:#e2e9ff!important;}
+@media(max-width:620px){.tempo-appearance .github-pages-demo{width:calc(100% - 20px);}.tempo-appearance .profile-panel{margin:10px;padding:16px;}.tempo-appearance .general-navigation{gap:6px;}.tempo-appearance .general-navigation a{padding:8px 10px;}}
+@media(prefers-reduced-transparency:reduce){.tempo-appearance{--tempo-surface:#232d49;}}

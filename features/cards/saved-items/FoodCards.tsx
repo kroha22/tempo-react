@@ -1,4 +1,5 @@
 "use client";
+import {WordLearningEntry} from "../../practice/WordLearningEntry";
 import {useEffect,useRef} from "react";
 import {foodCardSources,foodProductWords,foodPreferenceWordIds,foodPreferenceCard,foodPreferenceSource,foodStudyItemIds,foodCardsHref,type FoodCardTopic} from "../../content/food-cards";
 import {EnsureQueryScope} from "../../../shared/query/SessionQueryBoundary";
@@ -19,6 +20,7 @@ export function FoodCards({topic:requestedTopic,mode,onBack,embedded=false}:{top
     {!embedded&&<>{onBack?<button type="button" onClick={onBack}>← Назад</button>:<LegacyLessonLink href="/learning/topics">← Все темы</LegacyLessonLink>}
     <h1 ref={heading} tabIndex={-1}>{review?"Еда · Повторение":`Еда · ${titles[topic]}`}</h1>
     <nav className={styles.navigation} aria-label="Карточки еды">{(["fruit","meals","preferences"] as const).map(id=><LegacyLessonLink key={id} href={foodCardsHref(id)} current={!review&&topic===id}>{titles[id]}{id==="fruit"?" · 6 слов":id==="meals"?" · 8 слов":""}</LegacyLessonLink>)}<LegacyLessonLink href={foodCardsHref(topic,true)} current={review}>Повторение еды</LegacyLessonLink></nav></>}
+    {!review&&<WordLearningEntry sources={[topic==="fruit"?"fruit":"food"]}/>}
     {review?<><p>Только сохранённые продукты и gostar de, когда наступает срок. Письмо и задания сохраняют самостоятельные результаты.</p><StudyReview studyItemIds={foodStudyItemIds} embedded/></>:<>
       <p>Добавьте нужные слова. Повторное добавление сохраняет ту же карточку и дополняет её источники без сброса расписания.</p>
       {topic==="preferences"&&<><p>Шесть знакомых продуктов во фразах. В словаре есть артикль: o queijo; в общем предпочтении: gosto de queijo.</p><LegacyLessonLink href="/learning/everyday/likes">GOSTAR DE: объяснение и задания →</LegacyLessonLink></>}

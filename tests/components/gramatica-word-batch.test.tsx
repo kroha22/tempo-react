@@ -4,6 +4,8 @@ import { GrammarCourse } from "../../features/learning/gramatica/GrammarCourse";
 import { vocabularyForUnit, vocabularyFront } from "../../features/content/gramatica-vocabulary";
 import * as api from "../../features/learning/progress/api";
 import * as saved from "../../features/cards/api/saved-items";
+// Compatibility coverage for the retained owner, not the new route presentation.
+vi.mock("../../features/learning/gramatica/GrammarWordBatch",async importOriginal=>{const actual=await importOriginal<typeof import("../../features/learning/gramatica/GrammarWordBatch")>();return {...actual,GrammarWordBatch:actual.LegacyGrammarWordBatch};});
 
 vi.mock("../../features/learning/progress/api", () => ({ saveStudyItem: vi.fn() }));
 vi.mock("../../features/cards/api/saved-items", () => ({ loadSavedItems: vi.fn() }));

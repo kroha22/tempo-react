@@ -5,7 +5,7 @@ import styles from "./VocabularyHub.module.css";
 export function VocabularyHub({ onOpenCards,initialChildMode=false,initialTopicId,onOpenPlan,planLabel="Мой план" }: { onOpenCards: () => void;initialChildMode?:boolean;initialTopicId?:string|null;onOpenPlan?:()=>void;planLabel?:string }) {
   return (
     <main className={styles.shell} aria-label="Уроки">
-      <header className={styles.header}>
+      <header className={styles.header} data-ui-surface>
         <div>
           <span>Aprender · Учимся</span>
           <h1 lang="pt-PT">Aulas — Уроки</h1>

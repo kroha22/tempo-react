@@ -9,7 +9,7 @@ import {VocabularyIllustration} from "./VocabularyIllustration";
 import type {VocabularyWord} from "../content/vocabulary-model";
 import { vocabularySets } from "../content/vocabulary-model";
 import { WordPairs } from "./WordPairs";
-import { VocabularyCards } from "./VocabularyCards";
+import {WordLearningEntry} from "./WordLearningEntry";
 import { VocabularyWriting } from "./VocabularyWriting";
 import { OddWordExercise } from "./OddWordExercise";
 import { ImageMatchingExercise } from "./ImageMatchingExercise";
@@ -145,7 +145,7 @@ export function VocabularyStudy({ onOpenCards,initialChildMode=false,initialTopi
     {group.id==="topic:vocabulary-cooperation"&&<div hidden={mode!=="cooperation"}><CooperationLesson initialChildMode={initialChildMode} active={mode==="cooperation"} onFeelings={()=>{setGroupId("topic:people");setSetId(null);setUsageId(null);setMode("feelings");}}/></div>}
     {group.id==="topic:vocabulary-calendar"&&<div hidden={mode!=="calendar"}><CalendarLesson initialLessonId={calendarStart} initialChildMode={initialChildMode} active={mode==="calendar"} onRoutine={()=>{setGroupId("topic:vocabulary-my-day");setSetId(null);setUsageId(null);setMode("routine");}}/></div>}
     {isMyDay&&<><div hidden={mode!=="routine"}><MyDayOverview onClock={()=>setMode("clock")} onPhrases={()=>setMode("usage")} onWords={()=>{setSetId("collection:my-day-actions");setMode("cards");}}/></div><div hidden={mode!=="clock"}><ClockLesson embedded/></div></>}
-    <div hidden={mode !== "cards"}><VocabularyCards key={`cards-${setId}`} words={words} active={mode === "cards"} /></div>
+    <div hidden={mode !== "cards"}><WordLearningEntry sources={sets.map(set=>set.id)}/></div>
     <div hidden={mode !== "writing"}><VocabularyWriting key={`writing-${setId}`} words={words} title={setId?sets[0]?.title:group.title} active={mode === "writing"} /></div>
     {hasSearch && <div hidden={mode !== "search"}><WordSearch key={`search-${setId}`} words={words} title={setId?sets[0]?.title:group.title} /></div>}
     <div hidden={mode !== "pairs"}><WordPairs key={`pairs-${setId}`} words={pairVocabulary} blocks={sets} onComplete={() => setMode(null)} completionLabel="Выбрать способ изучения" /></div>
