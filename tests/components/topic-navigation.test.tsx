@@ -13,6 +13,7 @@ import {QuickWords} from "@/features/practice/QuickWords";
 import {supplementalSteps} from "@/features/learning/plan/model";
 import {readingLessonIds} from "@/features/content/reading-lessons";
 import {ReadingLessons} from "@/features/practice/ReadingLessons";
+import {wordCollections} from "@/features/content/word-collections";
 
 it("uses existing topic/legacy IDs and keeps all twenty school lessons exactly once",()=>{
   expect(navigationTopics.map(topic=>topic.id)).toEqual(["topic:reading","topic:vocabulary-family","topic:food","topic:vocabulary-calendar","topic:vocabulary-body","topic:vocabulary-house"]);
@@ -29,6 +30,9 @@ it("keeps the reading ID, all ten lesson IDs, the original word set and the lega
   expect(topic.schoolUnitIds).toEqual(readingLessonIds);
   const sets=wordBrowseSets(false).filter(set=>topicForWordSet(set)?.id===topic.id);
   expect(sets.map(set=>set.id)).toEqual(["school:words:reading"]);
+  const childSets=wordBrowseSets(true),childGroups=wordCollections(childSets,true);
+  expect(childGroups.find(group=>group.title==="Школа, друзья и игры")?.sets.some(set=>set.id==="school:words:reading")).toBe(true);
+  expect(childGroups.flatMap(group=>group.sets.map(set=>set.id)).sort()).toEqual(childSets.map(set=>set.id).sort());
   render(<ReadingLessons onBack={vi.fn()}/>);
   expect(screen.getByText("10 тем · 10 всего")).toBeVisible();
   for(const id of readingLessonIds){const unit=preparationUnits.find(unit=>unit.id===id)!;expect(screen.getByRole("button",{name:new RegExp(unit.title[0].replace(/[.*+?^${}()|[\]\\]/g,"\\$&"))})).toBeVisible();}
@@ -77,6 +81,7 @@ it.each(navigationTopics)("opens only existing $title word sets and keeps the fi
 });
 it("groups the child catalogue and leaves a lesson-source scope ungrouped",()=>{
   render(<QuickWords child onBack={vi.fn()}/>);expect(screen.getByText("Время и календарь")).toBeVisible();
+  expect(screen.queryByText("Буквы и чтение",{exact:true})).toBeNull();
   cleanup();render(<QuickWords sourceIds={["book:1"]} onBack={vi.fn()}/>);
   expect(document.querySelectorAll("details")).toHaveLength(0);
 });
