@@ -69,6 +69,21 @@
 .screen[data-child="true"] .gameModes button[aria-pressed="true"] {background:linear-gradient(135deg,#6e5de1,#995ee0);border-color:#d3baff66;box-shadow:inset 0 1px #ffffff40,0 3px 0 #3d2a77;}
 .moreGames {margin-bottom:8px;}
 .miniGame {padding:18px;text-align:center;}
+.memoryGame {padding:12px;}
+.memoryGame h2 {font-size:23px;margin:4px 0;}
+.memoryGame>p {font-size:13px;margin:6px 0 12px;}
+.memoryBoard {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;max-width:540px;margin:auto;}
+.memoryCard {position:relative;height:84px;min-width:0;display:flex;align-items:center;justify-content:center;padding:8px;border:1px solid #ffffff26;border-radius:15px;background:linear-gradient(135deg,#5b68a550,#9373ce25);box-shadow:inset 0 1px #ffffff26,0 3px #10182e66;color:#f4f6ff;font:inherit;font-size:clamp(14px,4vw,18px);overflow:hidden;cursor:pointer;}
+.memoryCard>span {max-width:100%;overflow-wrap:anywhere;line-height:1.2;}
+.memoryCard>span[aria-hidden] {font-size:25px;font-weight:700;}
+.memoryCard>span[style],.memoryCard>svg {width:56px;height:56px;flex-shrink:0;}
+.memoryCard:disabled {cursor:default;opacity:.45;}
+.memoryCard[data-open="true"] {background:linear-gradient(135deg,#35596b,#4a3f71);opacity:1;}
+.memoryCard[data-found="true"] {border-color:#a2f4ce;background:#245b50;opacity:1;}
+.memoryCard small {position:absolute;top:3px;right:7px;color:#b7ffe0;}
+.memoryFeedback {min-height:54px;display:flex;gap:8px;align-items:center;justify-content:center;margin:6px 0;font-size:14px;}
+.memoryBoard:has(>button:nth-child(8):last-child),.memoryBoard:has(>button:nth-child(6):last-child),.memoryBoard:has(>button:nth-child(4):last-child) {grid-template-columns:repeat(2,minmax(0,1fr));max-width:360px;}
+.screen[data-child="true"] .memoryCard {box-shadow:inset 0 2px #ffffff30,0 3px #18234e;}
 .foodSorting {padding:12px;}
 .foodSorting h2 {margin:6px 0 4px;font-size:23px;}
 .foodSorting>p {margin:0 0 6px;}
