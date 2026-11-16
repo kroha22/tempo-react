@@ -9,6 +9,11 @@
 .root button { min-height:44px; cursor:pointer; font-family:inherit; }
 .back { display:grid; place-items:center; width:44px; flex-shrink:0; padding:0; border:1px solid #ffffff30; border-radius:14px; background:#ffffff0d; color:#e6f7ef; font-size:26px; }
 .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+.collectionCard {min-height:140px!important;padding-right:20px;}
+.collectionCard strong,.collectionCard>span:not(.collectionArt),.collectionCard small {position:relative;z-index:1;max-width:90%;}
+.collectionArt {position:absolute;right:10px;bottom:10px;width:50px;height:50px;opacity:.4;pointer-events:none;}
+.collectionArt i {position:absolute;width:32px;height:39px;bottom:2px;right:2px;border:1px solid #ffffff60;border-radius:8px;background:linear-gradient(140deg,#e1c4ff55,#8eeadf22);box-shadow:inset 0 1px #ffffff4a;}
+.collectionArt i:first-child {transform:rotate(-18deg) translate(-10px,-3px);}.collectionArt i:nth-child(2){transform:rotate(-8deg) translate(-5px,-2px);}
 .topicSection{margin:12px 0;border:1px solid #ffffff30;border-radius:16px;padding:0 10px 10px;}.topicSection>summary{display:flex;align-items:center;gap:10px;min-height:52px;cursor:pointer;list-style:none;}.topicSection>summary strong{font-size:17px;}.topicSection>summary span{margin-left:auto;font-size:12px;white-space:nowrap;}.topicSection>summary::after{content:"›";font-size:22px;}.topicSection[open]>summary::after{transform:rotate(90deg);}.topicSection>summary:focus-visible{outline:3px solid #d1adff;outline-offset:3px;}
 .pack { --glass-tint:#63e8cd29; position:relative; overflow:hidden; isolation:isolate; display:flex; flex-direction:column; align-items:flex-start; justify-content:center; gap:5px; min-height:112px!important; text-align:left; padding:15px 13px; border:1px solid #ffffff1a; border-radius:22px; background:radial-gradient(ellipse at 0 0,var(--glass-tint),transparent 95%),linear-gradient(145deg,#ffffff0e,#ffffff03); color:#f3fbff; backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); box-shadow:inset 0 1px 1px #ffffff1c,inset 0 0 28px var(--glass-tint),0 8px 24px #05071925; transition:background .2s,transform .2s; }
 .pack::before {content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(125deg,#ffffff0d,transparent 48%);}

@@ -1,22 +1,34 @@
-import {expect,it} from "vitest";
+import {expect,it,vi} from "vitest";
 import {wordBrowseSets} from "@/features/content/word-browse-sets";
 import {wordCollections} from "@/features/content/word-collections";
 import {render,screen,fireEvent} from "@testing-library/react";
 import {QuickWords} from "@/features/practice/QuickWords";
-it.each([false,true])("starts collapsed, opens on click and reveals search results (%s)",child=>{
-  render(<QuickWords child={child} onBack={()=>{}}/>);
-  expect([...document.querySelectorAll("details")].every(el=>!el.open)).toBe(true);
-  expect(screen.getByRole("button",{name:/Os meses Месяцы/})).not.toBeVisible();
-  fireEvent.click(screen.getByText("Время и календарь",{exact:true}));
-  expect(screen.getByRole("button",{name:/Os meses Месяцы/})).toBeVisible();
+it.each([false,true])("keeps collection and scroll on return, but resets on a new entry (%s)",child=>{
+  const view=render(<QuickWords child={child} onBack={()=>{}}/>);
+  const dialog=screen.getByRole("dialog",{name:"Учить слова"});
+  Object.defineProperty(dialog,"scrollTo",{value:vi.fn((_x:number,y:number)=>{dialog.scrollTop=y;})});
+  expect(screen.queryByRole("button",{name:/Os meses Месяцы/})).not.toBeInTheDocument();
+  expect(screen.getByRole("button",{name:/O essencial Самые нужные/})).toBeVisible();
+  const collection=screen.getByRole("button",{name:/^Время и календарь ·/});
+  dialog.scrollTop=320;fireEvent.click(collection);expect(dialog.scrollTop).toBe(0);
+  const months=screen.getByRole("button",{name:/Os meses Месяцы/});
+  dialog.scrollTop=180;fireEvent.click(months);
+  fireEvent.click(screen.getByRole("button",{name:"Все наборы"}));
+  expect(screen.getByRole("heading",{name:"Время и календарь"})).toBeVisible();
+  expect(screen.getByRole("button",{name:/Os meses Месяцы/})).toHaveFocus();
+  expect(dialog.scrollTop).toBe(180);
+  fireEvent.click(screen.getByRole("button",{name:"Все сборники"}));
+  expect(dialog.scrollTop).toBe(320);
+  expect(screen.getByRole("button",{name:/^Время и календарь ·/})).toHaveFocus();
+  view.unmount();render(<QuickWords child={child} onBack={()=>{}}/>);
+  expect(screen.queryByRole("button",{name:/Os meses Месяцы/})).not.toBeInTheDocument();
   fireEvent.change(screen.getByRole("searchbox"),{target:{value:"цвет"}});
   expect(screen.getByRole("button",{name:/As cores Цвета/})).toBeVisible();
-  fireEvent.click(screen.getByText("Цвета и одежда",{exact:true}));
-  expect(screen.getByRole("button",{name:/As cores Цвета/})).not.toBeVisible();
-  fireEvent.change(screen.getByRole("searchbox"),{target:{value:"цвета"}});
-  expect(screen.getByRole("button",{name:/As cores Цвета/})).toBeVisible();
+  fireEvent.click(screen.getByRole("button",{name:/As cores Цвета/}));
+  fireEvent.click(screen.getByRole("button",{name:"Все наборы"}));
+  expect(screen.getByRole("searchbox")).toHaveValue("цвет");
   fireEvent.click(screen.getByRole("button",{name:"Очистить поиск"}));
-  expect([...document.querySelectorAll("details")].every(el=>!el.open)).toBe(true);
+  expect(screen.queryByRole("button",{name:/As cores Цвета/})).not.toBeInTheDocument();
 });
 it.each([false,true])("groups calendar vocabulary without copying or losing source sets (%s)",child=>{
   const sets=wordBrowseSets(child),groups=wordCollections(sets);

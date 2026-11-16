@@ -1,4 +1,4 @@
-import {renderExpandedWords as render} from "./render-expanded-words";
+import {renderExpandedWords as render,openWordSet} from "./render-expanded-words";
 import {useState} from "react";
 import {fireEvent,screen,waitFor,cleanup} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -62,7 +62,7 @@ it("resumes the same card after remount and keeps the second profile empty",asyn
     return <ProfileLearningContext value={{profile:{id:"a",child:false},learning,savingError:false,update:fn=>{stored=fn(stored);setLearning(stored);return true;}}}><SessionQueryBoundary><QuickWords onBack={()=>{}}/></SessionQueryBoundary></ProfileLearningContext>;
   }
   const user=userEvent.setup();const first=render(<Harness initial={stored}/>);
-  await user.click(screen.getByRole("button",{name:/Цвета/}));await user.click(screen.getByRole("button",{name:/^Карточки слов/}));
+  await openWordSet(user,/Цвета/);await user.click(screen.getByRole("button",{name:/^Карточки слов/}));
   await user.click(screen.getByRole("button",{name:"Перевернуть карточку"}));await user.click(screen.getByRole("button",{name:"Следующая карточка"}));
   expect(stored.wordSession?.index).toBe(1);first.unmount();
   render(<Harness initial={stored}/>);await user.click(screen.getByRole("button",{name:/Продолжить · Цвета/}));

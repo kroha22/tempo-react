@@ -1,4 +1,4 @@
-import {renderExpandedWords as render} from "./render-expanded-words";
+import {renderExpandedWords as render,openWordSet} from "./render-expanded-words";
 import {fireEvent,screen,within,waitFor} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {expect,it,vi} from "vitest";
@@ -59,7 +59,7 @@ it("filters shared sets, keeps the chosen filter on return and shows spoken verb
   const user=userEvent.setup();render(<QuickWords onBack={()=>{}}/>);
   await user.click(screen.getByRole("button",{name:"Глаголы"}));
   expect(screen.queryByRole("button",{name:/Животные фермы/})).not.toBeInTheDocument();
-  await user.click(screen.getByRole("button",{name:/Основные неправильные/}));await openCardView(user);
+  await openWordSet(user,/Основные неправильные/);await openCardView(user);
   expect(screen.getByText("Eu sou.")).toBeVisible();
   expect(screen.getByRole("button",{name:"Послушать: Sou de Portugal."})).toBeVisible();
   await user.click(screen.getByText("Формы · Presente"));
@@ -76,7 +76,7 @@ it("filters shared sets, keeps the chosen filter on return and shows spoken verb
 });
 it("offers child search for the new word sets but no extra games to adults",async()=>{
   const user=userEvent.setup();render(<QuickWords child onBack={()=>{}}/>);
-  await user.click(screen.getByRole("button",{name:/Цвета/}));
+  await openWordSet(user,/Цвета/);
   await startTraining(user,6);
   expect(screen.getByRole("button",{name:"⌕ Поиск"})).toBeVisible();
   await user.click(screen.getByRole("button",{name:"✎ Написать"}));
@@ -93,7 +93,7 @@ it("keeps four pairs visible and finishes the complete set",()=>{
 });
 it.each(wordLibraryFor(false).filter(set=>set.origin==="topics"&&quickWordSets.some(old=>old.id===set.id)))("opens adult $id with cards and pairs only and returns",async(pack)=>{
   const user=userEvent.setup(),back=vi.fn();render(<QuickWords onBack={back}/>);
-    await user.click(screen.getByRole("button",{name:new RegExp(pack.title)}));await openCardView(user);
+    await openWordSet(user,new RegExp(pack.title));await openCardView(user);
     expect(screen.getByRole("button",{name:"Перевернуть карточку"})).toBeVisible();
     expect(screen.queryByText("Поиграть ещё")).not.toBeInTheDocument();
     expect(screen.queryByRole("button",{name:"Пары"})).not.toBeInTheDocument();
@@ -103,18 +103,19 @@ it.each(wordLibraryFor(false).filter(set=>set.origin==="topics"&&quickWordSets.s
     expect(within(screen.getByLabelText("Португальские слова")).getAllByRole("button")).toHaveLength(4);
     await user.click(screen.getByRole("button",{name:"Назад"}));
     await user.click(screen.getByRole("button",{name:"Все наборы"}));
+  if(screen.queryByRole("button",{name:"Все сборники"}))await user.click(screen.getByRole("button",{name:"Все сборники"}));
   await user.click(screen.getByRole("button",{name:"К урокам"}));expect(back).toHaveBeenCalledOnce();
 });
 it("uses the profile presentation and limits search to individual school words",async()=>{
   const user=userEvent.setup();render(<ProfileLearningContext value={{profile:{id:"child",child:true},learning:emptyProfileLearning(),savingError:false,update:()=>true}}><QuickWords onBack={()=>{}}/></ProfileLearningContext>);
-  await user.click(screen.getByRole("button",{name:/В рюкзаке/}));
+  await openWordSet(user,/В рюкзаке/);
   await startTraining(user,6);
   expect(screen.getByRole("button",{name:"⌕ Поиск"})).toBeVisible();
   await user.click(screen.getByRole("button",{name:"✎ Написать"}));
   expect(screen.getByRole("textbox")).toBeVisible();
   await user.click(screen.getByRole("button",{name:"Назад"}));
   await user.click(screen.getByRole("button",{name:"Все наборы"}));
-  await user.click(screen.getByRole("button",{name:/Просьбы в школе/}));
+  await openWordSet(user,/Просьбы в школе/);
   expect(screen.queryByRole("button",{name:"⌕ Поиск"})).not.toBeInTheDocument();
 });
 it.each(quickSetsFor(true).filter(set=>set.id.startsWith("child-")))("trains child $id without mixing address",async(pack)=>{
@@ -126,7 +127,7 @@ it.each(quickSetsFor(true).filter(set=>set.id.startsWith("child-")))("trains chi
   expect(friend.words.some(word=>word.label==="Abre, por favor.")).toBe(true);
   const user=userEvent.setup();render(<QuickWords child onBack={()=>{}}/>);
     const merged=wordBrowseSets(true).find(set=>set.id===pack.id||set.aliases.includes(pack.id))!;
-    await user.click(screen.getByRole("button",{name:new RegExp(merged.title)}));await openCardView(user);
+    await openWordSet(user,new RegExp(merged.title));await openCardView(user);
     if(["requests","child-friends"].includes(merged.id))expect(screen.getByText(merged.cue)).toBeVisible();
     await startTraining(user,Math.min(6,pack.words.length));
       expect(screen.queryByRole("button",{name:"⌕ Поиск"})).not.toBeInTheDocument();
@@ -139,7 +140,7 @@ it.each(quickSetsFor(true).filter(set=>set.id.startsWith("child-")))("trains chi
 });
 it("requires each translation, offers exactly repeat or train, and restarts cards",async()=>{
   const user=userEvent.setup();render(<QuickWords onBack={()=>{}}/>);
-  await user.click(screen.getByRole("button",{name:/В магазине и кафе/}));await openCardView(user);
+  await openWordSet(user,/В магазине и кафе/);await openCardView(user);
   expect(screen.getByRole("button",{name:"Следующая карточка"})).toBeDisabled();
   await finishCards(user,6);
   expect(screen.queryByRole("button",{name:"Перевернуть карточку"})).not.toBeInTheDocument();
@@ -156,24 +157,22 @@ it("leaves ordinary lesson cards free to navigate without flipping",async()=>{
   await user.click(screen.getByRole("button",{name:"Повторить набор"}));
   expect(screen.getByText("1 / 6")).toBeVisible();
 });
-it("returns to the full catalogue after a search and offers an explicit clear action",async()=>{
+it("retains the search on return and offers an explicit clear action",async()=>{
   const user=userEvent.setup();render(<QuickWords onBack={()=>{}}/>);
   const search=screen.getByRole("searchbox",{name:"Найти подборку"});
   await user.type(search,"цвета");expect(screen.queryByRole("button",{name:/Животные фермы/})).not.toBeInTheDocument();
-  await user.click(screen.getByRole("button",{name:/As cores Цвета/}));
+  await openWordSet(user,/As cores Цвета/);
   await user.click(screen.getByRole("button",{name:"Все наборы"}));
-  expect(screen.getByRole("searchbox",{name:"Найти подборку"})).toHaveValue("");
-  await user.click(screen.getByText("Мир вокруг нас",{exact:true}));
-  expect(screen.getByRole("button",{name:/Животные фермы/})).toBeVisible();
-  await user.type(screen.getByRole("searchbox"),"цвета");
+  expect(screen.getByRole("searchbox",{name:"Найти подборку"})).toHaveValue("цвета");
+  expect(screen.getByRole("button",{name:/As cores Цвета/})).toHaveFocus();
   await user.click(screen.getByRole("button",{name:"Очистить поиск"}));
   expect(screen.getByRole("searchbox")).toHaveValue("");
-  expect(screen.getByRole("button",{name:/Животные фермы/})).not.toBeVisible();
+  expect(screen.queryByRole("button",{name:/Животные фермы/})).not.toBeInTheDocument();
 });
 it("advances a large set to its next short round and persists the global card index",async()=>{
   const update=vi.fn<(change:(value:ReturnType<typeof emptyProfileLearning>)=>ReturnType<typeof emptyProfileLearning>)=>boolean>(()=>true),user=userEvent.setup();
   render(<ProfileLearningContext value={{profile:{id:"adult",child:false},learning:emptyProfileLearning(),savingError:false,update}}><QuickWords onBack={()=>{}}/></ProfileLearningContext>);
-  await user.click(screen.getByRole("button",{name:/Цвета/}));
+  await openWordSet(user,/Цвета/);
   expect(screen.getByText("1–6 / 12")).toBeVisible();
   await finishCards(user,6);
   await user.click(screen.getByRole("button",{name:"Следующие слова →"}));await openCardView(user);
@@ -196,11 +195,13 @@ it("keeps minimal pair results on the old activity owner without the reward scre
 });
 it("uses one back arrow, keeps focus on screen changes and handles Escape",async()=>{
   const user=userEvent.setup(),back=vi.fn();render(<QuickWords onBack={back}/>);
-  await user.click(screen.getByRole("button",{name:/В магазине и кафе/}));
+  await openWordSet(user,/В магазине и кафе/);
   expect(screen.getByRole("heading",{name:"В магазине и кафе"})).toHaveFocus();
   expect(screen.getByRole("button",{name:"Все наборы"})).toHaveTextContent("←");
   expect(screen.queryByText("Nas compras",{exact:true})).not.toBeInTheDocument();
   fireEvent(screen.getByRole("dialog"),new Event("cancel",{cancelable:true,bubbles:true}));
-  expect(screen.getByRole("heading",{name:"Учить слова"})).toHaveFocus();
+  expect(screen.getByRole("button",{name:/В магазине и кафе/})).toHaveFocus();
+  fireEvent(screen.getByRole("dialog"),new Event("cancel",{cancelable:true,bubbles:true}));
+  expect(screen.getByRole("heading",{name:"Учить слова"})).toBeVisible();expect(back).not.toHaveBeenCalled();
   fireEvent(screen.getByRole("dialog"),new Event("cancel",{cancelable:true,bubbles:true}));expect(back).toHaveBeenCalledOnce();
 });
