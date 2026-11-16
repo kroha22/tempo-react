@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import { beforeEach, expect, test, vi } from "vitest";
 import { LegacyDemo as Demo } from "@/github-pages/Demo";
 import { RelatedLearning, relatedDestination } from "@/github-pages/RelatedLearning";
@@ -70,7 +70,9 @@ test("the forms destination uses the existing present-tense trainer", () => {
 test("food phrases open the preference builder and return to the same selected answer",()=>{
   render(<Demo/>);
   fireEvent.click(screen.getByRole("button",{name:"Уроки"}));
-  fireEvent.click(screen.getByRole("button",{name:/^Alimentação e compras/}));
+  const food=within(screen.getByRole("region",{name:"Тема: Еда и предпочтения"}));
+  fireEvent.click(food.getByText("Материалы темы"));
+  fireEvent.click(food.getByRole("button",{name:"Еда: прежние наборы и упражнения"}));
   fireEvent.click(screen.getByRole("button",{name:/^Frases/}));
   fireEvent.click(screen.getByRole("button",{name:"morangos"}));
   fireEvent.click(screen.getByRole("link",{name:"Мне нравится: собери фразу →"}));
