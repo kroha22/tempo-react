@@ -28,7 +28,8 @@ test("lesson → word → Cards → SRS → reload keeps the lesson result, sour
   const word=wordsRegion(page).locator("article").filter({has:page.getByText("Olá!",{exact:true})});
   await word.getByRole("button",{name:"В карточки",exact:true}).click();
   await expect(word.getByRole("button",{name:"Повторение подключено ✓",exact:true})).toBeDisabled();
-  await page.getByRole("link",{name:"Карточки",exact:true}).click();
+  await page.getByRole("link",{name:"Общий план",exact:true}).click();
+  await page.getByRole("link",{name:"Слова и повторение",exact:true}).click();
   await page.getByRole("link",{name:"Мои карточки из уроков →",exact:true}).click();
   await expect(page.getByText("1 карточек",{exact:true})).toBeVisible();
   await expect(page.getByRole("button",{name:"Повторение подключено ✓",exact:true})).toBeDisabled();
