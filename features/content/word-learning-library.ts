@@ -54,7 +54,7 @@ function combineRelated(sets:WordLearningSet[]){
     const key=title?`related:${title[0]}`:set.id;
     const existing=groups.get(key);
     if(existing){existing.words=[...new Map([...existing.words,...set.words].map(word=>[meaning.get(word.id)??word.id,word])).values()];existing.aliases=[...new Set([...existing.aliases,...set.aliases,set.id])];existing.pairId=undefined;}
-    else groups.set(key,title?{...set,pt:title[0],title:title[1]}:set);
+    else groups.set(key,title?{...set,words:[...set.words],aliases:[...set.aliases],pt:title[0],title:title[1]}:set);
   }
   return [...groups.values()];
 }

@@ -7,7 +7,7 @@ import { SpeechHelpButton } from "../cards/components/SpeechHelpButton";
 import styles from "./VocabularyCards.module.css";
 import { VocabularyIllustration } from "./VocabularyIllustration";
 
-export function VocabularyCards({ words, active = true,onReveal,textOnly=false,renderDetails,onComplete,initialSession,onSessionChange }: { words: readonly VocabularyWord[]; active?: boolean;onReveal?:(wordId:string)=>void;textOnly?:boolean;renderDetails?:(word:VocabularyWord)=>ReactNode;onComplete?:()=>void;initialSession?:{index:number;viewed:readonly string[]};onSessionChange?:(index:number,viewed:string[])=>void }) {
+export function VocabularyCards({ words, active = true,onReveal,textOnly=false,renderDetails,renderRating,onComplete,initialSession,onSessionChange }: { words: readonly VocabularyWord[]; active?: boolean;onReveal?:(wordId:string)=>void;textOnly?:boolean;renderDetails?:(word:VocabularyWord)=>ReactNode;renderRating?:(word:VocabularyWord)=>ReactNode;onComplete?:()=>void;initialSession?:{index:number;viewed:readonly string[]};onSessionChange?:(index:number,viewed:string[])=>void }) {
   const [index, setIndex] = useState(()=>Math.min(words.length-1,Math.max(0,initialSession?.index??0)));
   const [flipped, setFlipped] = useState(false);
   const [viewed,setViewed]=useState<Record<string,boolean>>(()=>Object.fromEntries((initialSession?.viewed??[]).filter(id=>words.some(word=>word.id===id)).map(id=>[id,true])));
@@ -33,6 +33,7 @@ export function VocabularyCards({ words, active = true,onReveal,textOnly=false,r
         {lang:"ru",text:flipped&&word.noun?word.example?.ru??"":"",variants:words.filter(item=>item.noun).map(item=>item.example?.ru??"")},
       ]:[],
     ].map((row,i)=><div className={styles.detailSlot} key={i}><span lang={row.lang}>{row.text}</span>{[...new Set(row.variants)].map(text=><span key={text} className={styles.textMeasure} data-text={text} aria-hidden="true"/>)}</div>)}</div>}
+    {flipped&&renderRating?.(word)}
     {renderDetails?.(word)}
   </section>;
 }

@@ -1,3 +1,4 @@
+import {mergePersonalDeck} from "../features/practice/personal-word-deck";
 import { z } from "zod";
 import { localLearningSchema, mergeLocalLearning, type LearningStore } from "./local-learning-store";
 import { parseProfileData, profileDataKey, type LocalProfile } from "./profiles";
@@ -31,7 +32,7 @@ export function mergeBrowserData(a:ReturnType<typeof parseProfileData>,b:ReturnT
     if(!old||row.correct/row.total>old.correct/old.total)activities[id]=row;
   }
   const wordSession=!a.learning.wordSession?b.learning.wordSession:!b.learning.wordSession||a.learning.wordSession.updatedAt>=b.learning.wordSession.updatedAt?a.learning.wordSession:b.learning.wordSession;
-  const learning={...a.learning,...(wordSession?{wordSession}:{}),activities,lastTopicId:a.learning.lastTopicId??b.learning.lastTopicId,feelings:{...a.learning.feelings,viewed:[...new Set([...a.learning.feelings.viewed,...b.learning.feelings.viewed])],practised:a.learning.feelings.practised||b.learning.feelings.practised,repeated:a.learning.feelings.repeated||b.learning.feelings.repeated}};
+  const learning={...a.learning,...(a.learning.wordDeck||b.learning.wordDeck?{wordDeck:mergePersonalDeck(a.learning.wordDeck,b.learning.wordDeck)}:{}),...(wordSession?{wordSession}:{}),activities,lastTopicId:a.learning.lastTopicId??b.learning.lastTopicId,feelings:{...a.learning.feelings,viewed:[...new Set([...a.learning.feelings.viewed,...b.learning.feelings.viewed])],practised:a.learning.feelings.practised||b.learning.feelings.practised,repeated:a.learning.feelings.repeated||b.learning.feelings.repeated}};
   return parseProfileData({version:1,plan:mergePracticePlanProgress(a.plan,b.plan),cards:[...cards.values()],learning});
 }
 const pendingKey=(id:string)=>`tempo-react:pending-import:${id}:v1`;

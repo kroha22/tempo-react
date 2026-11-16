@@ -11,7 +11,7 @@ export function letterGameWords(words:readonly VocabularyWord[]){return words.fi
 function phraseOptions(words:readonly VocabularyWord[]){return words.some(word=>/\s/.test(word.label.replace(/^(o|a|os|as) /,"")));}
 export function listeningGameWords(words:readonly VocabularyWord[]){const phrases=phraseOptions(words),seen=new Set<string>();return words.filter(word=>{const key=phrases?word.label:word.translation;return !seen.has(key)&&!!seen.add(key);});}
 function rotate<T>(items:T[],index:number){const offset=index%items.length;return [...items.slice(offset),...items.slice(0,offset)];}
-export function WordMiniGame({words,mode,child,onComplete}:{words:readonly VocabularyWord[];mode:"letters"|"listening";child:boolean;onComplete:()=>void}){
+export function WordMiniGame({words,mode,child,onComplete,onMistake}:{words:readonly VocabularyWord[];mode:"letters"|"listening";child:boolean;onMistake?:(id:string)=>void;onComplete:()=>void}){
   const tasks=mode==="letters"?letterGameWords(words):listeningGameWords(words);
   const [index,setIndex]=useState(0),[selected,setSelected]=useState<string|null>(null),[missed,setMissed]=useState(false),[correct,setCorrect]=useState(0),[finished,setFinished]=useState(false);
   const word=tasks[index];
@@ -24,7 +24,7 @@ export function WordMiniGame({words,mode,child,onComplete}:{words:readonly Vocab
   const resolved=selected===target;
   const title=mode==="letters"?"Вставь букву":"Послушай и выбери";
   const phrases=phraseOptions(tasks);
-  function answer(value:string){if(resolved)return;setSelected(value);if(value!==target)setMissed(true);else if(!missed)setCorrect(score=>score+1);}
+  function answer(value:string){if(resolved)return;setSelected(value);if(value!==target){if(!missed)onMistake?.(word.id);setMissed(true);}else if(!missed)setCorrect(score=>score+1);}
   function next(){if(index===tasks.length-1)setFinished(true);else{setIndex(value=>value+1);setSelected(null);setMissed(false);}}
   if(finished)return <ActivityCompletion id={wordActivityId(mode,tasks.map(word=>word.id))} title={title} group="Слова и игры" correct={correct} total={tasks.length} child={child}><p role="status">Готово · {correct} / {tasks.length}</p><button type="button" onClick={onComplete}>Готово</button></ActivityCompletion>;
   return <section className={styles.miniGame} aria-label={title}>

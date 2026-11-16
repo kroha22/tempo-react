@@ -9,7 +9,7 @@ import { SpeechHelpButton } from "../cards/components/SpeechHelpButton";
 import styles from "./VocabularyWriting.module.css";
 import { usePracticePlan } from "./plan/PracticePlanContext";
 
-export function VocabularyWriting({ words, active = true, title, phrases = false }: { words: readonly VocabularyWord[]; active?: boolean; title?:string; phrases?:boolean }) {
+export function VocabularyWriting({ words, active = true, title,onMistake, phrases = false }: { words: readonly VocabularyWord[]; active?: boolean; title?:string;onMistake?:(id:string)=>void; phrases?:boolean }) {
   const plan=usePracticePlan();
   const answerId=useId(),feedbackId=useId();
   const [index, setIndex] = useState(0);
@@ -47,6 +47,7 @@ export function VocabularyWriting({ words, active = true, title, phrases = false
       if (resolved) { next(); return; }
       if (!answer.trim()) return;
       const outcome = checkVocabularyWritingAnswer(word, answer, words);
+      if(outcome!=="correct"&&!hadMistake)onMistake?.(word.id);
       const correct = outcome === "correct";
       setResult(outcome);
       if (correct && !hint && !hadMistake) setScore(score + 1);

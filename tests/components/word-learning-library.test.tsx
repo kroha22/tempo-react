@@ -9,6 +9,17 @@ import {studyReviewCardById} from "@/features/cards/study-review/catalog";
 import {mergeBrowserData} from "@/github-pages/local-backup";
 import {parseProfileData} from "@/github-pages/profiles";
 import {emptyPracticePlanProgress} from "@/features/practice/plan/model";
+import {wordBrowseSets} from "@/features/content/word-browse-sets";
+import {spatialCapability} from "@/features/content/spatial-capabilities";
+it("merges the catalogue while retaining original source membership and spatial capabilities",()=>{
+  const library=wordLibraryFor(true),browse=wordBrowseSets(true);
+  const old=library.find(set=>set.id==="child-classroom")!;
+  expect(old.title).toBe("Говорю с учителем");
+  const school=browse.find(set=>set.aliases.includes(old.id))!;
+  expect(school.title).toBe("Просьбы в школе");for(const word of old.words)expect(school.words.some(item=>item.label===word.label&&item.translation===word.translation)).toBe(true);
+  expect(browse.filter(set=>set.title==="Где находится?")).toHaveLength(1);
+  expect(spatialCapability(browse.find(set=>set.title==="Где находится?"))).toBe("placement");
+});
 
 it("keeps old quick IDs and reaches all 1000 verb IDs and all 54 book sources",()=>{
   const all=wordLibraryFor(false);

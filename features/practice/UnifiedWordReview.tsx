@@ -10,16 +10,19 @@ import {useCardProgressQuery} from "../cards/query/queries";
 import {CardSpeechButton} from "../cards/components/CardSpeechButton";
 import type {ReviewGrade} from "../cards/scheduler";
 import styles from "./QuickWords.module.css";
+import {useProfileLearning} from "./profile-learning";
 
 export function WordReviewEntry({onOpen}:{onOpen:()=>void}){return <EnsureQueryScope><ReviewEntry onOpen={onOpen}/></EnsureQueryScope>;}
 function ReviewEntry({onOpen}:{onOpen:()=>void}){
   const scope=useQueryScope(),verbs=useCardProgressQuery();
+  const learner=useProfileLearning();
   const [clientNow]=useState(()=>Date.now());
   const words=useQuery({queryKey:["cards",scope.scopeKey,"study-reviews"],queryFn:({signal})=>loadStudyReviews(signal),enabled:!scope.blocked});
   const known=!!words.data&&!!verbs.data&&!words.isError&&!verbs.isError&&!scope.blocked;
   const now=words.data?.serverNow??clientNow;
   const due=known?words.data!.cards.filter(row=>!row.progress||row.progress.due<=now).length+verbs.data!.filter(row=>row.due<=clientNow).length:null;
-  return <button type="button" className={styles.reviewEntry} onClick={onOpen}>Повторить сегодня{due!==null?` · ${due}`:""}</button>;
+  const total=new Set([...(learner?.learning.wordDeck??[]).map(row=>row.id),...(verbs.data??[]).map(row=>`legacy:${row.cardId}`),...(words.data?.cards??[]).map(row=>`study:${row.studyItemId}`)]).size;
+  return <button type="button" className={styles.reviewEntry} onClick={onOpen}>{learner?`Моя колода · ${total}`:`Повторить сегодня${due!==null?` · ${due}`:""}`}</button>;
 }
 export function UnifiedWordReview(){return <EnsureQueryScope><Session/></EnsureQueryScope>;}
 function Session(){

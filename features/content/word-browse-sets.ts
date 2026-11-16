@@ -4,11 +4,26 @@ import {schoolWordSets} from "./school-word-sets";
 
 const cache=new Map<boolean,WordLearningSet[]>();
 const unique=(words:readonly VocabularyWord[])=>[...new Map(words.map(word=>[word.id,word])).values()];
+function themedCatalog(sets:WordLearningSet[]){
+  const titles:Record<string,[string,string]>={
+    "Где находится?":["Onde está?","Где находится?"],"Движение и поездки":["Mover-se e viajar","Движение и поездки"],
+    "Фрукты":["Fruta e bagas","Фрукты и ягоды"],"Ещё фрукты и ягоды":["Fruta e bagas","Фрукты и ягоды"],
+    "Мясо и мясные продукты":["Carne e peixe","Мясо и рыба"],"Рыба и морепродукты":["Carne e peixe","Мясо и рыба"],
+    "Просьбы в классе":["Pedir na escola","Просьбы в школе"],"Говорю с учителем":["Pedir na escola","Просьбы в школе"],"Можно мне?":["Pedir na escola","Просьбы в школе"],
+    "С друзьями":["Amigos e jogos","Друзья и игры"],"Играем вместе":["Amigos e jogos","Друзья и игры"],
+  };
+  const groups=new Map<string,WordLearningSet>();
+  for(const set of sets){const title=titles[set.title],key=title?.[0]??set.id,old=groups.get(key);
+    if(old){const seen=new Set<string>();old.words=[...old.words,...set.words].filter(word=>{const key=`${word.label}\u0000${word.translation}`;if(seen.has(key))return false;seen.add(key);return true;});old.aliases=[...new Set([...old.aliases,...set.aliases,set.id])];old.pairId=undefined;}
+    else groups.set(key,{...set,words:[...set.words],aliases:[...set.aliases],...(title?{pt:title[0],title:title[1]}:{}),...(title?.[1]==="Просьбы в школе"?{cue:"К учителю: вежливое обращение. Abra, por favor. — Откройте, пожалуйста."}:{})});
+  }return [...groups.values()];
+}
 /** Sources remain addressable in the library; the phone catalogue shows themes. */
 export function wordBrowseSets(child:boolean){
   const cached=cache.get(child);if(cached)return cached;
   const library=wordLibraryFor(child);
-  const topics=library.filter(set=>set.origin==="topics");
+  const sourceTopics=library.filter(set=>set.origin==="topics");
+  const topics=themedCatalog(sourceTopics);
   const decks=new Map<string,WordLearningSet>();
   for(const set of library.filter(set=>set.origin==="decks")){
     const source=set.aliases.find(id=>id.startsWith("deck:"))??set.id;
@@ -19,7 +34,7 @@ export function wordBrowseSets(child:boolean){
   const basic=decks.get("deck:basic");
   // One reference dictionary also reaches vocabulary that only occurs in a lesson.
   if(basic)basic.words=unique([...basic.words,...library.filter(set=>set.origin==="lessons").flatMap(set=>set.words)]);
-  const essentials=unique(topics.filter(set=>["hello","polite","basic-irregular",child?"backpack":"adult-everyday",child?"child-classroom":"adult-shopping"].includes(set.id)).flatMap(set=>set.words));
+  const essentials=unique(sourceTopics.filter(set=>["hello","polite","basic-irregular",child?"backpack":"adult-everyday",child?"child-classroom":"adult-shopping"].includes(set.id)).flatMap(set=>set.words));
   const featured:WordLearningSet={id:"browse:essentials",pt:"O essencial",title:"Самые нужные слова и фразы",cue:"На каждый день",audience:"all",kind:"words",origin:"topics",aliases:[],words:essentials};
   const result=[featured,...topics,...schoolWordSets,...decks.values()];cache.set(child,result);return result;
 }

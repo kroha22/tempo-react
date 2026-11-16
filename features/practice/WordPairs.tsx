@@ -6,7 +6,7 @@ import { makePairBoard, matchPair, shufflePairWords, type PairBoard, type PairWo
 import { VocabularyIllustration } from "./VocabularyIllustration";
 import styles from "./WordPairs.module.css";
 
-export function WordPairs({ words, blocks, catalog = false, onComplete, completionLabel = "Готово", footer, embedded=false, maxVisible=7, minimal=false }: { words: readonly PairWord[]; blocks: readonly PairBlock[]; catalog?: boolean; onComplete?: () => void; completionLabel?: string; footer?: ReactNode; embedded?:boolean; maxVisible?:number; minimal?:boolean }) {
+export function WordPairs({ words, blocks, catalog = false, onComplete,onMistake, completionLabel = "Готово", footer, embedded=false, maxVisible=7, minimal=false }: { words: readonly PairWord[]; blocks: readonly PairBlock[]; catalog?: boolean; onComplete?: () => void;onMistake?:(id:string)=>void; completionLabel?: string; footer?: ReactNode; embedded?:boolean; maxVisible?:number; minimal?:boolean }) {
   const packs = blocks.map(block => block.words);
   const wordMap = new Map(words.map(word => [word.id, word]));
   function practiceWord(id: string) { const word = wordMap.get(id); if (!word) throw new Error(`Unknown pair word: ${id}`); return word; }
@@ -39,6 +39,7 @@ export function WordPairs({ words, blocks, catalog = false, onComplete, completi
     if (!nextLeft || !nextRight) return;
     busy.current = true;
     if (nextLeft !== nextRight) {
+      for(const wordId of [nextLeft,nextRight])if(!missed[`${pack}:${wordId}`])onMistake?.(wordId);
       setMissed(previous=>({...previous,[`${pack}:${nextLeft}`]:true,[`${pack}:${nextRight}`]:true}));
       setWrong({ side, id });
       setAnnouncement("Не пара. Выбери слова ещё раз.");

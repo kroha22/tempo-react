@@ -2,6 +2,7 @@ import {fireEvent,render,screen,within,waitFor} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {expect,it,vi} from "vitest";
 import {wordLibraryFor} from "@/features/content/word-learning-library";
+import {wordBrowseSets} from "@/features/content/word-browse-sets";
 import {QuickWords} from "@/features/practice/QuickWords";
 import {quickWordSets,quickSetsFor} from "@/features/content/quick-word-sets";
 import {catalogWords} from "@/features/content/learning-catalog-view";
@@ -112,7 +113,7 @@ it("uses the profile presentation and limits search to individual school words",
   expect(screen.getByRole("textbox")).toBeVisible();
   await user.click(screen.getByRole("button",{name:"Назад"}));
   await user.click(screen.getByRole("button",{name:"Все наборы"}));
-  await user.click(screen.getByRole("button",{name:/Просьбы в классе/}));
+  await user.click(screen.getByRole("button",{name:/Просьбы в школе/}));
   expect(screen.queryByRole("button",{name:"⌕ Поиск"})).not.toBeInTheDocument();
 });
 it.each(quickSetsFor(true).filter(set=>set.id.startsWith("child-")))("trains child $id without mixing address",async(pack)=>{
@@ -123,8 +124,9 @@ it.each(quickSetsFor(true).filter(set=>set.id.startsWith("child-")))("trains chi
   expect(teacher.words.some(word=>word.label==="Abra, por favor.")).toBe(true);
   expect(friend.words.some(word=>word.label==="Abre, por favor.")).toBe(true);
   const user=userEvent.setup();render(<QuickWords child onBack={()=>{}}/>);
-    await user.click(screen.getByRole("button",{name:new RegExp(pack.title)}));await openCardView(user);
-    if(["child-classroom","child-friends"].includes(pack.id))expect(screen.getByText(pack.cue)).toBeVisible();
+    const merged=wordBrowseSets(true).find(set=>set.id===pack.id||set.aliases.includes(pack.id))!;
+    await user.click(screen.getByRole("button",{name:new RegExp(merged.title)}));await openCardView(user);
+    if(["requests","child-friends"].includes(merged.id))expect(screen.getByText(merged.cue)).toBeVisible();
     await startTraining(user,Math.min(6,pack.words.length));
       expect(screen.queryByRole("button",{name:"⌕ Поиск"})).not.toBeInTheDocument();
     await user.click(screen.getByRole("button",{name:"✎ Написать"}));

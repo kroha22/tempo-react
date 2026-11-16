@@ -111,4 +111,5 @@
 .reviewCard strong {font-size:30px;overflow-wrap:anywhere;}
 .grades {display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:12px 0;}
 .grades button {padding:12px;border:1px solid #9bb3b955;border-radius:14px;background:#c8efdf;color:#15332c;font:inherit;font-weight:800;}
+.grades small {display:block;font-size:12px;font-weight:500;margin-top:4px;}
 @media(min-width:650px) { .grid { grid-template-columns:repeat(3,minmax(0,1fr)); } .root { padding-top:16px; } }
