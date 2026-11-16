@@ -2,7 +2,7 @@ import {groupTopicWordSets} from "./topic-navigation";
 import type {WordLearningSet} from "./word-learning-library";
 /** Presentation only: source sets, word IDs and review schedules remain unchanged. */
 export function wordCollections(sets:readonly WordLearningSet[],child=false){
-  const adultOnly=(id:string)=>id==="topic:reading"||id==="topic:vocabulary-cooperation"||id==="topic:vocabulary-clothing"||id==="foundation:hello"||id==="topic:city";
+  const adultOnly=(id:string)=>id==="topic:reading"||id==="topic:vocabulary-cooperation"||id==="topic:vocabulary-clothing"||id==="foundation:hello"||id==="topic:city"||id==="topic:work";
   const registered=groupTopicWordSets(sets),primary=registered.filter(group=>!child||!adultOnly(group.id));
   const remaining=registered.filter(group=>group.id==="other"||(child&&adultOnly(group.id))).flatMap(group=>group.sets);
   // Preserve the existing child ordering: reading first, then original source-set order.

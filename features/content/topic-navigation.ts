@@ -1,6 +1,9 @@
 /** Navigation only. These IDs already exist; this is not a content/progress registry. */
 import {readingLessonIds} from "./reading-lessons";
 export const navigationTopics=[
+  {id:"topic:work",title:"Работа и учёба",description:"Работа и встречи · действия · инструкции · учебные просьбы",href:"/learning/work-study",
+    legacyEntries:[{id:"topic:work",title:"Работа и встречи: прежние наборы и задания"}],
+    schoolUnitIds:[],supplementalStepIds:[],wordSources:["topic:work","collection:pairs-verbs-study-work","collection:pairs-school-instructions","deck:tempo:deck:phrases:study"]},
   {id:"topic:city",title:"Город и дорога",description:"Места в городе · улица и парк · движение · транспортные фразы",href:"/learning/city",
     legacyEntries:[{id:"topic:city",title:"Город: прежние наборы и сцены"}],
     schoolUnitIds:[],supplementalStepIds:[],wordSources:["topic:city","collection:pairs-city","collection:pairs-verbs-movement","collection:vocabulary-lesson:movement","collection:scene-set-street","collection:scene-set-park","deck:tempo:deck:phrases:transport"]},

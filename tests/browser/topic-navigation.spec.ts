@@ -4,6 +4,7 @@ import {createAdult,exportBackup,importBackup,expectNoOverflow} from "./learning
 import {wordBrowseSets} from "../../features/content/word-browse-sets";
 import {topicForWordSet} from "../../features/content/topic-navigation";
 const topics=[
+  {id:"topic:work",title:"Работа и учёба",href:"/learning/work-study"},
   {id:"topic:city",title:"Город и дорога",href:"/learning/city"},
   {id:"foundation:hello",title:"Знакомство и первые фразы",href:"/learning/introduction"},
   {id:"topic:vocabulary-clothing",title:"Одежда и цвета",href:"/learning/clothing"},
@@ -16,6 +17,14 @@ const topics=[
   {id:"topic:vocabulary-house",title:"Дом и расположение",href:"/learning/home?topic=rooms&phase=explanation"},
 ];
 test.beforeEach(async({page})=>{await page.clock.setFixedTime(browserNow);await page.goto("./");await createAdult(page,"Topic QA");});
+test("work route and legacy entry retain the original pair result and return to their origin",async({page})=>{
+  const backup=legacyBackup();backup.browser.learning.activities={...backup.browser.learning.activities,"pairs:collection:vocabulary-lesson:work":{title:"Работа и встречи",group:"Слова и игры",correct:6,total:6}};
+  await importBackup(page,backup);const before=await exportBackup(page);
+  await page.goto("#/learning/plan");const everyday=page.locator("summary").filter({hasText:"Повседневные темы"}).locator("..");await everyday.locator("summary").first().click();await everyday.locator("summary").filter({hasText:"Работа и учёба"}).click();await everyday.getByRole("link",{name:"Открыть урок: Работа и учёба →",exact:true}).click();
+  await page.getByRole("button",{name:/^Pares/}).click();await expect(page.getByRole("heading",{name:"Найди перевод",exact:true})).toBeVisible();await expectNoOverflow(page);await page.getByRole("button",{name:"Назад",exact:true}).click();await expect(page.getByRole("heading",{name:"Общий план",exact:true})).toBeVisible();
+  await page.goto("#/learning/topics");const entry=page.getByRole("region",{name:"Тема: Работа и учёба",exact:true});await entry.locator("summary").click();await entry.getByRole("button",{name:"Работа и встречи: прежние наборы и задания",exact:true}).click();await page.getByRole("button",{name:/^Pares/}).click();await expect(page.getByRole("heading",{name:"Найди перевод",exact:true})).toBeVisible();await page.getByRole("button",{name:"Назад ко всем темам",exact:true}).click();await expect(entry).toBeVisible();
+  await page.goto("#/learning/plan");await page.reload();const after=await exportBackup(page);expect(after.browser.learning.activities).toEqual(before.browser.learning.activities);expect(after.learning).toEqual(before.learning);expect(after.browser.cards).toEqual(before.browser.cards);
+});
 test("city route and legacy entry reuse street and park without changing existing results",async({page})=>{
   const backup=legacyBackup();backup.browser.learning.activities={...backup.browser.learning.activities,"image:image-street":{title:"На нашей улице",group:"Слова и игры",correct:8,total:8},"image:image-park":{title:"В парке",group:"Слова и игры",correct:7,total:7}};
   await importBackup(page,backup);const before=await exportBackup(page);
@@ -66,7 +75,7 @@ test("reading route and old catalogue entry share ten lessons and retain an exis
   await page.goto("#/learning/plan");await page.reload();const after=await exportBackup(page);
   expect(after.browser.learning.activities).toEqual(before.browser.learning.activities);expect(after.learning).toEqual(before.learning);expect(after.browser.cards).toEqual(before.browser.cards);
 });
-for(const [index,batch] of [topics.slice(0,5),topics.slice(5)].entries())test(`plan, catalogue and words preserve canonical entries and old saves (batch ${index+1})`,async({page},info)=>{
+for(const [index,batch] of Array.from({length:Math.ceil(topics.length/5)},(_,index)=>topics.slice(index*5,index*5+5)).entries())test(`plan, catalogue and words preserve canonical entries and old saves (batch ${index+1})`,async({page},info)=>{
   await importBackup(page,legacyBackup());const before=await exportBackup(page);
   await page.goto("#/learning/plan");const everyday=page.locator("summary").filter({hasText:"Повседневные темы"}).locator("..");await everyday.locator("summary").first().click();
   for(const topic of batch){
@@ -96,6 +105,7 @@ for(const [index,batch] of [topics.slice(0,5),topics.slice(5)].entries())test(`p
   await page.screenshot({path:info.outputPath("topic-catalogue.png")});
 });
 for(const scope of [
+  {title:"Работа и учёба",id:"topic:work",setId:"library:collection:pairs-verbs-study-work:0",resume:"Работа и учёба"},
   {title:"Город и дорога",id:"topic:city",setId:"library:collection:scene-set-street:0",resume:"На нашей улице"},
   {title:"Знакомство и первые фразы",id:"foundation:hello",setId:"hello",resume:"Приветствия"},
   {title:"Одежда и цвета",id:"topic:vocabulary-clothing",setId:"colors-basic",resume:"Цвета"},

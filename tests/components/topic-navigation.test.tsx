@@ -19,9 +19,10 @@ import {ClothingTopic} from "@/features/practice/ClothingTopic";
 import {ProfileLearningContext,emptyProfileLearning} from "@/features/practice/profile-learning";
 import {IntroductionTopic} from "@/features/practice/IntroductionTopic";
 import {CityTopic} from "@/features/practice/CityTopic";
+import {WorkStudyTopic} from "@/features/practice/WorkStudyTopic";
 
 it("uses existing topic/legacy IDs and keeps all twenty school lessons exactly once",()=>{
-  expect(navigationTopics.map(topic=>topic.id)).toEqual(["topic:city","foundation:hello","topic:vocabulary-clothing","topic:vocabulary-cooperation","topic:reading","topic:vocabulary-family","topic:food","topic:vocabulary-calendar","topic:vocabulary-body","topic:vocabulary-house"]);
+  expect(navigationTopics.map(topic=>topic.id)).toEqual(["topic:work","topic:city","foundation:hello","topic:vocabulary-clothing","topic:vocabulary-cooperation","topic:reading","topic:vocabulary-family","topic:food","topic:vocabulary-calendar","topic:vocabulary-body","topic:vocabulary-house"]);
   for(const topic of navigationTopics){
     expect(topic.id==="topic:reading"||topic.id==="foundation:hello"||catalogGroups.some(group=>group.id===topic.id)).toBe(true);
     for(const entry of topic.legacyEntries)expect(topicForLegacyId(entry.id)?.id).toBe(topic.id);
@@ -29,6 +30,13 @@ it("uses existing topic/legacy IDs and keeps all twenty school lessons exactly o
     for(const id of topic.supplementalStepIds)expect(supplementalSteps.some(step=>step.id===id)).toBe(true);
   }
   expect(schoolPlanGroups.flatMap(group=>group.units.map(unit=>unit.id)).sort()).toEqual(preparationUnits.map(unit=>unit.id).sort());
+});
+it("reuses four work/study packs and leaves the broader school and verb owners intact",()=>{
+  const sets=wordBrowseSets(false).filter(set=>topicForWordSet(set)?.id==="topic:work");
+  expect(sets.map(set=>[set.id,set.words.length])).toEqual([["library:collection:pairs-verbs-study-work:0",8],["library:collection:pairs-school-instructions:0",8],["library:collection:vocabulary-lesson:work:0",6],["browse:deck:tempo:deck:phrases:study",8]]);
+  expect(topicForLegacyId("topic:school")).toBeUndefined();expect(topicForLegacyId("topic:vocabulary-verbs")).toBeUndefined();
+  const back=vi.fn();render(<WorkStudyTopic onBack={back}/>);fireEvent.click(screen.getByRole("button",{name:/^Pares/}));expect(screen.getByRole("heading",{name:"Найди перевод"})).toBeVisible();
+  fireEvent.click(screen.getByRole("button",{name:"Назад"}));expect(back).toHaveBeenCalledOnce();expect(wordCollections(wordBrowseSets(true),true).some(group=>group.id==="topic:work")).toBe(false);
 });
 it("reuses six city packs and both scene owners without removing shared park links",()=>{
   const sets=wordBrowseSets(false).filter(set=>topicForWordSet(set)?.id==="topic:city");
@@ -66,6 +74,7 @@ it("keeps the new clothing entry out of the child plan",()=>{
   expect(document.querySelector('a[href="/learning/clothing"]')).toBeNull();
   expect(document.querySelector('a[href="/learning/introduction"]')).toBeNull();
   expect(document.querySelector('a[href="/learning/city"]')).toBeNull();
+  expect(document.querySelector('a[href="/learning/work-study"]')).toBeNull();
 });
 it("keeps the reading ID, all ten lesson IDs, the original word set and the legacy reader",()=>{
   const topic=navigationTopics.find(topic=>topic.id==="topic:reading")!;

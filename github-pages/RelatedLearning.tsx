@@ -3,6 +3,7 @@ import {ReadingLessons} from "@/features/practice/ReadingLessons";
 import {ClothingTopic} from "@/features/practice/ClothingTopic";
 import {IntroductionTopic} from "@/features/practice/IntroductionTopic";
 import {CityTopic} from "@/features/practice/CityTopic";
+import {WorkStudyTopic} from "@/features/practice/WorkStudyTopic";
 import {LegacyLessonLink} from "@/features/practice/LegacyLessonLink";
 import { useState } from "react";
 import { routeLessonExperiences } from "@/features/content/first-vertical-slice/route-extension";
@@ -65,6 +66,7 @@ export function RelatedLearning({ href, onBack }: { href: string; onBack: () => 
   if(href==="/learning/clothing")return <ClothingTopic onBack={onBack}/>;
   if(href==="/learning/introduction")return <IntroductionTopic onBack={onBack}/>;
   if(href==="/learning/city")return <CityTopic onBack={onBack}/>;
+  if(href==="/learning/work-study")return <WorkStudyTopic onBack={onBack}/>;
   if(href.split("?")[0]==="/learning/quick-words")return <QuickWords onBack={onBack} topicId={new URLSearchParams(href.split("?")[1]).get("topic")??undefined}/>;
   if(href.split("?")[0]==="/learning/legacy-cards"){const params=new URLSearchParams(href.split("?")[1]);return <LegacyCards group={params.get("group")??undefined} mode={params.get("mode")??undefined} onBack={onBack}/>;}
   if(["/learning/home","/learning/house","/cards/house"].includes(href.split("?")[0])){const params=new URLSearchParams(href.split("?")[1]);return <HomeFlow legacyWords={href==="/cards/house"} topic={params.get("topic")??undefined} phase={href==="/cards/house"?"words":params.get("phase")??undefined} related={params.get("related")??undefined} renderRelated={(href,back)=><RelatedLearning key={href} href={href} onBack={back}/>} onBack={onBack}/>;}
