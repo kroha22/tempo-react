@@ -1,5 +1,9 @@
 /** Navigation only. These IDs already exist; this is not a content/progress registry. */
+import {readingLessonIds} from "./reading-lessons";
 export const navigationTopics=[
+  {id:"topic:reading",title:"Буквы и чтение",description:"Алфавит · звуки · сочетания букв",href:"/learning/reading",
+    legacyEntries:[{id:"topic:reading",title:"Буквы и чтение"}],
+    schoolUnitIds:readingLessonIds,supplementalStepIds:[],wordSources:["school:words:reading"]},
   {id:"topic:vocabulary-family",title:"Моя семья и близкие",description:"Близкие · родственники · рассказ о семье",href:"/learning/family?topic=close&phase=explanation",
     legacyEntries:[{id:"topic:vocabulary-family",title:"Семья и друзья: прежние упражнения"}],
     schoolUnitIds:[],supplementalStepIds:["practice:words:expansion-family-close","practice:words:expansion-family-relatives"],

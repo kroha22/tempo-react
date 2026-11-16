@@ -11,16 +11,29 @@ import {PlanWords} from "@/features/learning/plan/PlanWords";
 import {VocabularyHub} from "@/features/practice/VocabularyHub";
 import {QuickWords} from "@/features/practice/QuickWords";
 import {supplementalSteps} from "@/features/learning/plan/model";
+import {readingLessonIds} from "@/features/content/reading-lessons";
+import {ReadingLessons} from "@/features/practice/ReadingLessons";
 
 it("uses existing topic/legacy IDs and keeps all twenty school lessons exactly once",()=>{
-  expect(navigationTopics.map(topic=>topic.id)).toEqual(["topic:vocabulary-family","topic:food","topic:vocabulary-calendar","topic:vocabulary-body","topic:vocabulary-house"]);
+  expect(navigationTopics.map(topic=>topic.id)).toEqual(["topic:reading","topic:vocabulary-family","topic:food","topic:vocabulary-calendar","topic:vocabulary-body","topic:vocabulary-house"]);
   for(const topic of navigationTopics){
-    expect(catalogGroups.some(group=>group.id===topic.id)).toBe(true);
+    expect(topic.id==="topic:reading"||catalogGroups.some(group=>group.id===topic.id)).toBe(true);
     for(const entry of topic.legacyEntries)expect(topicForLegacyId(entry.id)?.id).toBe(topic.id);
     for(const id of topic.schoolUnitIds)expect(preparationUnits.some(unit=>unit.id===id)).toBe(true);
     for(const id of topic.supplementalStepIds)expect(supplementalSteps.some(step=>step.id===id)).toBe(true);
   }
   expect(schoolPlanGroups.flatMap(group=>group.units.map(unit=>unit.id)).sort()).toEqual(preparationUnits.map(unit=>unit.id).sort());
+});
+it("keeps the reading ID, all ten lesson IDs, the original word set and the legacy reader",()=>{
+  const topic=navigationTopics.find(topic=>topic.id==="topic:reading")!;
+  expect(topic.schoolUnitIds).toEqual(readingLessonIds);
+  const sets=wordBrowseSets(false).filter(set=>topicForWordSet(set)?.id===topic.id);
+  expect(sets.map(set=>set.id)).toEqual(["school:words:reading"]);
+  render(<ReadingLessons onBack={vi.fn()}/>);
+  expect(screen.getByText("10 тем · 10 всего")).toBeVisible();
+  for(const id of readingLessonIds){const unit=preparationUnits.find(unit=>unit.id===id)!;expect(screen.getByRole("button",{name:new RegExp(unit.title[0].replace(/[.*+?^${}()|[\]\\]/g,"\\$&"))})).toBeVisible();}
+  cleanup();render(<VocabularyHub initialTopicId="topic:reading" onOpenCards={vi.fn()}/>);
+  expect(screen.getByText("10 тем · 10 всего")).toBeVisible();
 });
 it("assigns the existing family and food sources, including the meals alias, exactly once",()=>{
   const sets=wordBrowseSets(false);
