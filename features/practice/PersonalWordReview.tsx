@@ -64,7 +64,7 @@ function TopicRating({word,set}:{word:VocabularyWord;set:WordLearningSet}){
     };void execute();
   }
   if(!learner)return null;
-  return <div className={styles.grades} aria-label="Знаешь слово?">{status==="saved"?<span role="status">✓ В моей колоде</span>:status==="conflict"?<button type="button" onClick={()=>setStatus("ready")}>Карточка изменилась. Оценить ещё раз</button>:status==="error"?<button type="button" onClick={()=>void execute()}>Повторить сохранение</button>:<><button type="button" disabled={status==="saving"||scope.blocked} onClick={()=>choose(0)}>Не знаю</button><button type="button" disabled={status==="saving"||scope.blocked} onClick={()=>choose(2)}>Знаю</button></>}</div>;
+  return <div className={styles.cardRating} aria-label="Знаешь слово?">{status==="saved"?<span role="status">✓ В моей колоде</span>:status==="conflict"?<button type="button" onClick={()=>setStatus("ready")}>Карточка изменилась. Оценить ещё раз</button>:status==="error"?<button type="button" onClick={()=>void execute()}>Повторить сохранение</button>:<><button type="button" disabled={status==="saving"||scope.blocked} onClick={()=>choose(0)}>Не знаю</button><button type="button" disabled={status==="saving"||scope.blocked} data-known="true" onClick={()=>choose(2)}>Знаю</button></>}</div>;
 }
 function Review(){
   const learner=useProfileLearning(),scope=useQueryScope(),local=useLocalCardProgress(),legacy=useCardProgressQuery(),saveLegacy=useSaveReviewMutation();

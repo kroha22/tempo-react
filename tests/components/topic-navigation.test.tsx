@@ -61,8 +61,8 @@ it.each(navigationTopics)("opens only existing $title word sets and keeps the fi
   fireEvent.click(packs[0]);fireEvent.click(screen.getByRole("button",{name:/Карточки слов/}));
   expect(screen.getByRole("button",{name:"Перевернуть карточку"})).toHaveTextContent(expected[0].words[0].label);
 });
-it("leaves the child catalogue and lesson-source scope ungrouped",()=>{
-  render(<QuickWords child onBack={vi.fn()}/>);expect(document.querySelectorAll("details")).toHaveLength(0);
+it("groups the child catalogue and leaves a lesson-source scope ungrouped",()=>{
+  render(<QuickWords child onBack={vi.fn()}/>);expect(screen.getByText("Время и календарь")).toBeVisible();
   cleanup();render(<QuickWords sourceIds={["book:1"]} onBack={vi.fn()}/>);
   expect(document.querySelectorAll("details")).toHaveLength(0);
 });

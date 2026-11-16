@@ -1,3 +1,4 @@
+import {SpeechHelpButton} from "../cards/components/SpeechHelpButton";
 import Link from "next/link";
 import "../../shared/ui/tempo-appearance.css";
 
@@ -30,6 +31,7 @@ export function AppShell({ current, children }: AppShellProps) {
               {area.label}
             </Link>
           ))}
+          <SpeechHelpButton/>
         </nav>
       </header>
       <main className="tempo-shell__main" id="main-content" tabIndex={-1}>{children}</main>

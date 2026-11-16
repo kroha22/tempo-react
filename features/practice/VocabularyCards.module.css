@@ -14,3 +14,4 @@
 .detailSlot {display:grid;min-height:1.3em;}
 .detailSlot>span {grid-area:1/1;align-self:center;}
 .details .textMeasure {visibility:hidden;pointer-events:none;}
+.ratingSlot {min-height:54px;padding:0 12px 10px;box-sizing:border-box;}
