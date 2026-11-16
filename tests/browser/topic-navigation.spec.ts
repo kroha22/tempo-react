@@ -4,6 +4,7 @@ import {createAdult,exportBackup,importBackup,expectNoOverflow} from "./learning
 import {wordBrowseSets} from "../../features/content/word-browse-sets";
 import {topicForWordSet} from "../../features/content/topic-navigation";
 const topics=[
+  {id:"topic:city",title:"Город и дорога",href:"/learning/city"},
   {id:"foundation:hello",title:"Знакомство и первые фразы",href:"/learning/introduction"},
   {id:"topic:vocabulary-clothing",title:"Одежда и цвета",href:"/learning/clothing"},
   {id:"topic:vocabulary-cooperation",title:"Сотрудничество и общение",href:"/learning/plan/school?unit=cooperation"},
@@ -15,6 +16,15 @@ const topics=[
   {id:"topic:vocabulary-house",title:"Дом и расположение",href:"/learning/home?topic=rooms&phase=explanation"},
 ];
 test.beforeEach(async({page})=>{await page.clock.setFixedTime(browserNow);await page.goto("./");await createAdult(page,"Topic QA");});
+test("city route and legacy entry reuse street and park without changing existing results",async({page})=>{
+  const backup=legacyBackup();backup.browser.learning.activities={...backup.browser.learning.activities,"image:image-street":{title:"На нашей улице",group:"Слова и игры",correct:8,total:8},"image:image-park":{title:"В парке",group:"Слова и игры",correct:7,total:7}};
+  await importBackup(page,backup);const before=await exportBackup(page);
+  await page.goto("#/learning/plan");const everyday=page.locator("summary").filter({hasText:"Повседневные темы"}).locator("..");await everyday.locator("summary").first().click();await everyday.locator("summary").filter({hasText:"Город и дорога"}).click();await everyday.getByRole("link",{name:"Открыть урок: Город и дорога →",exact:true}).click();
+  await page.getByRole("button",{name:/^Imagem/}).click();await expect(page.getByRole("img",{name:"Иллюстрация к заданию «На нашей улице»"})).toBeVisible();await page.getByRole("combobox",{name:"Картинка",exact:true}).selectOption("image-park");await expect(page.getByRole("img",{name:"Иллюстрация к заданию «В парке»"})).toBeVisible();await expectNoOverflow(page);
+  await page.getByRole("button",{name:"Назад",exact:true}).click();await expect(page.getByRole("heading",{name:"Общий план",exact:true})).toBeVisible();
+  await page.goto("#/learning/topics");const entry=page.getByRole("region",{name:"Тема: Город и дорога",exact:true});await entry.locator("summary").click();await entry.getByRole("button",{name:"Город: прежние наборы и сцены",exact:true}).click();await page.getByRole("button",{name:/^Imagem/}).click();await expect(page.getByRole("img",{name:"Иллюстрация к заданию «На нашей улице»"})).toBeVisible();
+  await page.goto("#/learning/plan");await page.reload();const after=await exportBackup(page);expect(after.browser.learning.activities).toEqual(before.browser.learning.activities);expect(after.learning).toEqual(before.learning);expect(after.browser.cards).toEqual(before.browser.cards);
+});
 test("introduction reuses both foundation lessons, retains an answer and keeps old results",async({page})=>{
   const backup=legacyBackup();backup.browser.learning.activities={...backup.browser.learning.activities,"greetings:hello":{title:"Поздороваться",group:"Первые фразы",correct:1,total:1},"foundation:first-steps:identity":{title:"Кто я",group:"Первые фразы",correct:1,total:1}};
   await importBackup(page,backup);const before=await exportBackup(page);
@@ -56,10 +66,10 @@ test("reading route and old catalogue entry share ten lessons and retain an exis
   await page.goto("#/learning/plan");await page.reload();const after=await exportBackup(page);
   expect(after.browser.learning.activities).toEqual(before.browser.learning.activities);expect(after.learning).toEqual(before.learning);expect(after.browser.cards).toEqual(before.browser.cards);
 });
-test("plan, catalogue and word sections share nine entries without changing old saves",async({page},info)=>{
+for(const [index,batch] of [topics.slice(0,5),topics.slice(5)].entries())test(`plan, catalogue and words preserve canonical entries and old saves (batch ${index+1})`,async({page},info)=>{
   await importBackup(page,legacyBackup());const before=await exportBackup(page);
   await page.goto("#/learning/plan");const everyday=page.locator("summary").filter({hasText:"Повседневные темы"}).locator("..");await everyday.locator("summary").first().click();
-  for(const topic of topics){
+  for(const topic of batch){
     if(topic.id==="topic:reading"||topic.id==="topic:vocabulary-cooperation"){
       const school=page.locator("summary").filter({hasText:"Буквы и школьные темы"}).locator("..");if(!await school.evaluate(node=>(node as HTMLDetailsElement).open))await school.locator("summary").first().click();
       await school.locator("summary").filter({hasText:topic.title}).click();
@@ -69,7 +79,7 @@ test("plan, catalogue and word sections share nine entries without changing old 
     await expect(everyday.locator(`a[href="#${topic.href}"]`)).toBeVisible();
   }
   await page.goto("#/learning/topics");
-  for(const topic of topics){
+  for(const topic of batch){
     const entry=page.getByRole("region",{name:`Тема: ${topic.title}`,exact:true});await expect(entry).toHaveCount(1);
     await expect(entry.locator(`a[href="#${topic.href}"]`)).toBeVisible();
     if(!await entry.locator("details").evaluate(node=>(node as HTMLDetailsElement).open))await entry.locator("summary").click();await entry.getByRole("link",{name:`Учить слова: ${topic.title} →`,exact:true}).click();
@@ -86,6 +96,7 @@ test("plan, catalogue and word sections share nine entries without changing old 
   await page.screenshot({path:info.outputPath("topic-catalogue.png")});
 });
 for(const scope of [
+  {title:"Город и дорога",id:"topic:city",setId:"library:collection:scene-set-street:0",resume:"На нашей улице"},
   {title:"Знакомство и первые фразы",id:"foundation:hello",setId:"hello",resume:"Приветствия"},
   {title:"Одежда и цвета",id:"topic:vocabulary-clothing",setId:"colors-basic",resume:"Цвета"},
   {title:"Сотрудничество и общение",id:"topic:vocabulary-cooperation",setId:"library:collection:cooperation-rules:0",resume:"Общение и договорённости"},

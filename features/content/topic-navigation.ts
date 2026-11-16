@@ -1,6 +1,9 @@
 /** Navigation only. These IDs already exist; this is not a content/progress registry. */
 import {readingLessonIds} from "./reading-lessons";
 export const navigationTopics=[
+  {id:"topic:city",title:"Город и дорога",description:"Места в городе · улица и парк · движение · транспортные фразы",href:"/learning/city",
+    legacyEntries:[{id:"topic:city",title:"Город: прежние наборы и сцены"}],
+    schoolUnitIds:[],supplementalStepIds:[],wordSources:["topic:city","collection:pairs-city","collection:pairs-verbs-movement","collection:vocabulary-lesson:movement","collection:scene-set-street","collection:scene-set-park","deck:tempo:deck:phrases:transport"]},
   {id:"foundation:hello",title:"Знакомство и первые фразы",description:"Поздороваться · представиться · начать разговор",href:"/learning/introduction",
     legacyEntries:[{id:"foundation:hello",title:"Olá! — Приветствия и общение"},{id:"foundation:identity",title:"Quem sou? — Кто я"}],
     schoolUnitIds:[],supplementalStepIds:[],wordSources:["hello","polite","adult-small-talk","collection:pairs-introductions","deck:tempo:deck:phrases:social"]},
