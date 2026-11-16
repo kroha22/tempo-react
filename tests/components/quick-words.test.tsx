@@ -190,7 +190,7 @@ it("keeps minimal pair results on the old activity owner without the reward scre
     await waitFor(()=>expect(screen.queryByRole("button",{name:word.label})).not.toBeInTheDocument());
   }
   expect(screen.queryByRole("region",{name:"Результат занятия"})).not.toBeInTheDocument();
-  expect(update).toHaveBeenCalledOnce();
+  await waitFor(()=>expect(update).toHaveBeenCalledOnce());
   await user.click(screen.getByRole("button",{name:"Готово"}));expect(done).toHaveBeenCalledOnce();
 });
 it("uses one back arrow, keeps focus on screen changes and handles Escape",async()=>{
