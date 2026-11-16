@@ -1,4 +1,5 @@
-import {fireEvent,render,screen,within,waitFor} from "@testing-library/react";
+import {renderExpandedWords as render} from "./render-expanded-words";
+import {fireEvent,screen,within,waitFor} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {expect,it,vi} from "vitest";
 import {wordLibraryFor} from "@/features/content/word-learning-library";
@@ -162,11 +163,12 @@ it("returns to the full catalogue after a search and offers an explicit clear ac
   await user.click(screen.getByRole("button",{name:/As cores Цвета/}));
   await user.click(screen.getByRole("button",{name:"Все наборы"}));
   expect(screen.getByRole("searchbox",{name:"Найти подборку"})).toHaveValue("");
+  await user.click(screen.getByText("Мир вокруг нас",{exact:true}));
   expect(screen.getByRole("button",{name:/Животные фермы/})).toBeVisible();
   await user.type(screen.getByRole("searchbox"),"цвета");
   await user.click(screen.getByRole("button",{name:"Очистить поиск"}));
   expect(screen.getByRole("searchbox")).toHaveValue("");
-  expect(screen.getByRole("button",{name:/Животные фермы/})).toBeVisible();
+  expect(screen.getByRole("button",{name:/Животные фермы/})).not.toBeVisible();
 });
 it("advances a large set to its next short round and persists the global card index",async()=>{
   const update=vi.fn<(change:(value:ReturnType<typeof emptyProfileLearning>)=>ReturnType<typeof emptyProfileLearning>)=>boolean>(()=>true),user=userEvent.setup();

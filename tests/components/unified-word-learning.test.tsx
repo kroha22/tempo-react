@@ -1,5 +1,6 @@
+import {renderExpandedWords as render} from "./render-expanded-words";
 import {useState} from "react";
-import {fireEvent,render,screen,waitFor,cleanup} from "@testing-library/react";
+import {fireEvent,screen,waitFor,cleanup} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {beforeEach,expect,it,vi} from "vitest";
 import {SessionQueryBoundary} from "@/shared/query/SessionQueryBoundary";
