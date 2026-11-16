@@ -1,6 +1,9 @@
 /** Navigation only. These IDs already exist; this is not a content/progress registry. */
 import {readingLessonIds} from "./reading-lessons";
 export const navigationTopics=[
+  {id:"topic:vocabulary-clothing",title:"Одежда и цвета",description:"Одежда · обувь · цвета · готовое задание с гардеробом",href:"/learning/clothing",
+    legacyEntries:[{id:"topic:vocabulary-clothing",title:"Одежда: прежние наборы и задания"}],
+    schoolUnitIds:[],supplementalStepIds:[],wordSources:["clothes-basic","colors-basic","collection:clothing-basics"]},
   {id:"topic:vocabulary-cooperation",title:"Сотрудничество и общение",description:"Слушать · договариваться · выражать чувства · просить о помощи",href:"/learning/plan/school?unit=cooperation",
     legacyEntries:[{id:"topic:vocabulary-cooperation",title:"Общаемся и договариваемся: прежние уроки"}],
     schoolUnitIds:["cooperation"],supplementalStepIds:[],wordSources:["topic:vocabulary-cooperation","school:words:cooperation"]},

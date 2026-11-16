@@ -4,6 +4,7 @@ import {createAdult,exportBackup,importBackup,expectNoOverflow} from "./learning
 import {wordBrowseSets} from "../../features/content/word-browse-sets";
 import {topicForWordSet} from "../../features/content/topic-navigation";
 const topics=[
+  {id:"topic:vocabulary-clothing",title:"Одежда и цвета",href:"/learning/clothing"},
   {id:"topic:vocabulary-cooperation",title:"Сотрудничество и общение",href:"/learning/plan/school?unit=cooperation"},
   {id:"topic:reading",title:"Буквы и чтение",href:"/learning/reading"},
   {id:"topic:vocabulary-family",title:"Моя семья и близкие",href:"/learning/family?topic=close&phase=explanation"},
@@ -13,6 +14,15 @@ const topics=[
   {id:"topic:vocabulary-house",title:"Дом и расположение",href:"/learning/home?topic=rooms&phase=explanation"},
 ];
 test.beforeEach(async({page})=>{await page.clock.setFixedTime(browserNow);await page.goto("./");await createAdult(page,"Topic QA");});
+test("clothing route reuses the wardrobe activity, returns to plan and preserves its old result",async({page})=>{
+  const backup=legacyBackup();backup.browser.learning.activities={...backup.browser.learning.activities,"image-clothing":{title:"Что сегодня надеть?",group:"Слова в жизни",correct:10,total:10}};
+  await importBackup(page,backup);const before=await exportBackup(page);
+  await page.goto("#/learning/plan");const everyday=page.locator("summary").filter({hasText:"Повседневные темы"}).locator("..");await everyday.locator("summary").first().click();await everyday.locator("summary").filter({hasText:"Одежда и цвета"}).click();await everyday.getByRole("link",{name:"Открыть урок: Одежда и цвета →",exact:true}).click();
+  await page.getByRole("button",{name:/^Imagem/}).click();await expect(page.getByRole("img",{name:"Открытый гардероб с одеждой, пижамой, шарфом и туфлями"})).toBeVisible();await expectNoOverflow(page);
+  await page.getByRole("button",{name:"Назад",exact:true}).click();await expect(page.getByRole("heading",{name:"Общий план",exact:true})).toBeVisible();
+  await page.goto("#/learning/topics");const entry=page.getByRole("region",{name:"Тема: Одежда и цвета",exact:true});await entry.locator("summary").click();await entry.getByRole("button",{name:"Одежда: прежние наборы и задания",exact:true}).click();await page.getByRole("button",{name:/^Imagem/}).click();await expect(page.getByRole("img",{name:"Открытый гардероб с одеждой, пижамой, шарфом и туфлями"})).toBeVisible();
+  await page.goto("#/learning/plan");await page.reload();const after=await exportBackup(page);expect(after.browser.learning.activities).toEqual(before.browser.learning.activities);expect(after.learning).toEqual(before.learning);expect(after.browser.cards).toEqual(before.browser.cards);
+});
 test("cooperation lesson and legacy stages retain both existing activity results",async({page})=>{
   const backup=legacyBackup();backup.browser.learning.activities={...backup.browser.learning.activities,"prep:cooperation":{title:"Общение",group:"Слова в жизни",correct:2,total:2},"usage:cooperation:rules":{title:"Общение",group:"Слова в жизни",correct:3,total:3}};
   await importBackup(page,backup);const before=await exportBackup(page);
@@ -36,7 +46,7 @@ test("reading route and old catalogue entry share ten lessons and retain an exis
   await page.goto("#/learning/plan");await page.reload();const after=await exportBackup(page);
   expect(after.browser.learning.activities).toEqual(before.browser.learning.activities);expect(after.learning).toEqual(before.learning);expect(after.browser.cards).toEqual(before.browser.cards);
 });
-test("plan, catalogue and word sections share seven entries without changing old saves",async({page},info)=>{
+test("plan, catalogue and word sections share eight entries without changing old saves",async({page},info)=>{
   await importBackup(page,legacyBackup());const before=await exportBackup(page);
   await page.goto("#/learning/plan");const everyday=page.locator("summary").filter({hasText:"Повседневные темы"}).locator("..");await everyday.locator("summary").first().click();
   for(const topic of topics){
@@ -66,6 +76,7 @@ test("plan, catalogue and word sections share seven entries without changing old
   await page.screenshot({path:info.outputPath("topic-catalogue.png")});
 });
 for(const scope of [
+  {title:"Одежда и цвета",id:"topic:vocabulary-clothing",setId:"colors-basic",resume:"Цвета"},
   {title:"Сотрудничество и общение",id:"topic:vocabulary-cooperation",setId:"library:collection:cooperation-rules:0",resume:"Общение и договорённости"},
   {title:"Буквы и чтение",id:"topic:reading",setId:"school:words:reading",resume:"Буквы и звуки"},
   {title:"Время и мой день",id:"topic:vocabulary-calendar",setId:"library:collection:calendar-week:0",resume:"Дни недели"},

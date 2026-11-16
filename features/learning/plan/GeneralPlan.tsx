@@ -12,8 +12,10 @@ import {wordBatchHref} from "../gramatica/first-units";
 import {schoolPlanGroups,schoolLessonHref} from "./school-plan";
 import styles from "./GeneralPlan.module.css";
 import {navigationTopic,topicWordsHref} from "../../content/topic-navigation";
+import {useProfileLearning} from "../../practice/profile-learning";
 
 const everyday=[
+  {...navigationTopic("topic:vocabulary-clothing")!,steps:[]},
   {...navigationTopic("topic:vocabulary-house")!,steps:[]},
   {...navigationTopic("topic:vocabulary-family")!,steps:supplementalSteps.filter(s=>(navigationTopic("topic:vocabulary-family")!.supplementalStepIds as readonly string[]).includes(s.id))},
   {...navigationTopic("topic:food")!,steps:supplementalSteps.filter(s=>(navigationTopic("topic:food")!.supplementalStepIds as readonly string[]).includes(s.id))},
@@ -22,6 +24,8 @@ const everyday=[
 ];
 export function GeneralPlan({practiceOnly=false}:{practiceOnly?:boolean}){return <EnsureQueryScope><Plan practiceOnly={practiceOnly}/></EnsureQueryScope>;}
 function Plan({practiceOnly}:{practiceOnly:boolean}){
+  const child=useProfileLearning()?.profile.child??false;
+  const everydayTopics=everyday.filter(topic=>!child||topic.id!=="topic:vocabulary-clothing");
   const scope=useQueryScope(),practice=usePracticePlan();
   const query=useQuery({...learningProgressOptions(scope.scopeKey),enabled:!practiceOnly&&!scope.blocked,staleTime:0,refetchOnMount:"always"});
   const [filter,setFilter]=useState<"all"|"active"|"done"|"review">("all");
@@ -54,8 +58,8 @@ function Plan({practiceOnly}:{practiceOnly:boolean}){
       <LegacyLessonLink href="/learning/gramatica-ativa/review-foundations">Смешанное повторение U01–U11 →</LegacyLessonLink>
       <details className={styles.info}><summary>О курсе и отметках</summary><p>Готовы объяснения и задания U01–U30; слова доступны для всех 54 тем. Короткая практика и проверка по книге отмечаются отдельно.</p></details>
     </div></details>
-    <details className={styles.section}><summary><strong>Повседневные темы</strong><span>5 тем</span></summary><div className={styles.content}>
-      {everyday.map(topic=><details className={styles.block} key={topic.href}><summary><strong>{topic.title}</strong></summary><div className={styles.content}><LegacyLessonLink href={topic.href}>Открыть урок: {topic.title} →</LegacyLessonLink>{topic.steps.map(step=>{const done=practice&&isPracticeStepComplete(practice.progress,step);return <div className={styles.related} key={step.id}><LegacyLessonLink href={planStepHref(step.id)}>{step.title} →</LegacyLessonLink><small>{done?practice.progress.completed[step.id].needsReview?"Пройдено · повторить":"✓ Пройдено":`${step.minutes} минут`}</small></div>;})}</div></details>)}
+    <details className={styles.section}><summary><strong>Повседневные темы</strong><span>{everydayTopics.length} тем</span></summary><div className={styles.content}>
+      {everydayTopics.map(topic=><details className={styles.block} key={topic.href}><summary><strong>{topic.title}</strong></summary><div className={styles.content}><LegacyLessonLink href={topic.href}>Открыть урок: {topic.title} →</LegacyLessonLink>{topic.steps.map(step=>{const done=practice&&isPracticeStepComplete(practice.progress,step);return <div className={styles.related} key={step.id}><LegacyLessonLink href={planStepHref(step.id)}>{step.title} →</LegacyLessonLink><small>{done?practice.progress.completed[step.id].needsReview?"Пройдено · повторить":"✓ Пройдено":`${step.minutes} минут`}</small></div>;})}</div></details>)}
       <small>Дополнительные занятия: {state.supplementalDone.length} из {supplementalSteps.length} пройдено.</small>
     </div></details>
     <details className={styles.section}><summary><strong>Буквы и школьные темы</strong><span>20 уроков</span></summary><div className={styles.content}>{schoolPlanGroups.map(group=><details className={styles.block} key={group.title}><summary><strong>{group.title}</strong><span>{group.units.length}</span></summary>{(group.topic?.id==="topic:reading"||group.topic?.id==="topic:vocabulary-cooperation")&&<nav className={styles.links} aria-label={`Материалы: ${group.topic.title}`} >{group.units.length>1&&<LegacyLessonLink href={group.topic.href}>Открыть раздел: {group.topic.title} →</LegacyLessonLink>}<LegacyLessonLink href={topicWordsHref(group.topic.id)}>Учить слова: {group.topic.title} →</LegacyLessonLink></nav>}<nav className={styles.links} aria-label={group.title}>{group.units.map(unit=><LegacyLessonLink key={unit.id} href={schoolLessonHref(unit.id)}>{unit.title[1]} →</LegacyLessonLink>)}</nav></details>)}</div></details>

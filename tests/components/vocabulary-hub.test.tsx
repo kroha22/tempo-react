@@ -66,7 +66,9 @@ describe("VocabularyHub", () => {
     render(<VocabularyHub onOpenCards={vi.fn()} />);
     const user = userEvent.setup();
 
-    await user.click(screen.getByRole("button", { name: /Одежда/ }));
+    const entry=within(screen.getByRole("region",{name:"Тема: Одежда и цвета"}));
+    await user.click(entry.getByText("Материалы темы"));
+    await user.click(entry.getByRole("button", { name: "Одежда: прежние наборы и задания" }));
     await user.click(screen.getByRole("button", { name: /^Imagem/ }));
 
     expect(screen.getByRole("img", { name: "Открытый гардероб с одеждой, пижамой, шарфом и туфлями" })).toHaveAttribute("src", "/images/scenes/clothing.webp");
