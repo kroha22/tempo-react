@@ -57,6 +57,7 @@ it.each(navigationTopics)("opens only existing $title word sets and keeps the fi
   const expected=wordBrowseSets(false).filter(set=>topicForWordSet(set)?.id===topic.id);expect(expected.length).toBeGreaterThan(0);
   render(<QuickWords onBack={vi.fn()} topicId={topic.id}/>);
   const dialog=screen.getByRole("dialog",{name:"Учить слова"});
+  expect(within(dialog).getByText(topic.title,{exact:true})).toBeVisible();
   const packs=dialog.querySelectorAll("button[data-tone]");expect(packs).toHaveLength(expected.length);
   fireEvent.click(packs[0]);fireEvent.click(screen.getByRole("button",{name:/Карточки слов/}));
   expect(screen.getByRole("button",{name:"Перевернуть карточку"})).toHaveTextContent(expected[0].words[0].label);
