@@ -4,6 +4,7 @@ import {createAdult,exportBackup,importBackup,expectNoOverflow} from "./learning
 import {wordBrowseSets} from "../../features/content/word-browse-sets";
 import {topicForWordSet} from "../../features/content/topic-navigation";
 const topics=[
+  {id:"foundation:hello",title:"Знакомство и первые фразы",href:"/learning/introduction"},
   {id:"topic:vocabulary-clothing",title:"Одежда и цвета",href:"/learning/clothing"},
   {id:"topic:vocabulary-cooperation",title:"Сотрудничество и общение",href:"/learning/plan/school?unit=cooperation"},
   {id:"topic:reading",title:"Буквы и чтение",href:"/learning/reading"},
@@ -14,6 +15,15 @@ const topics=[
   {id:"topic:vocabulary-house",title:"Дом и расположение",href:"/learning/home?topic=rooms&phase=explanation"},
 ];
 test.beforeEach(async({page})=>{await page.clock.setFixedTime(browserNow);await page.goto("./");await createAdult(page,"Topic QA");});
+test("introduction reuses both foundation lessons, retains an answer and keeps old results",async({page})=>{
+  const backup=legacyBackup();backup.browser.learning.activities={...backup.browser.learning.activities,"greetings:hello":{title:"Поздороваться",group:"Первые фразы",correct:1,total:1},"foundation:first-steps:identity":{title:"Кто я",group:"Первые фразы",correct:1,total:1}};
+  await importBackup(page,backup);const before=await exportBackup(page);
+  await page.goto("#/learning/plan");const everyday=page.locator("summary").filter({hasText:"Повседневные темы"}).locator("..");await everyday.locator("summary").first().click();await everyday.locator("summary").filter({hasText:"Знакомство и первые фразы"}).click();await everyday.getByRole("link",{name:"Открыть урок: Знакомство и первые фразы →",exact:true}).click();
+  await page.getByRole("button",{name:"Практика диалога",exact:true}).click();await page.getByRole("button",{name:"Bom dia!",exact:true}).click();await page.getByRole("button",{name:"Рассказать о себе",exact:true}).click();await expect(page.getByRole("heading",{name:"Quem sou? — Кто я",exact:true})).toBeVisible();await page.getByRole("button",{name:"Приветствия",exact:true}).click();await expect(page.getByRole("button",{name:"Bom dia!",exact:true})).toHaveAttribute("aria-pressed","true");await expectNoOverflow(page);
+  await page.getByRole("button",{name:"← Назад",exact:true}).click();await expect(page.getByRole("heading",{name:"Общий план",exact:true})).toBeVisible();
+  await page.goto("#/learning/topics");const entry=page.getByRole("region",{name:"Тема: Знакомство и первые фразы",exact:true});await entry.locator("summary").click();await entry.getByRole("button",{name:"Quem sou? — Кто я",exact:true}).click();await expect(page.getByRole("heading",{name:"Quem sou? — Кто я",exact:true})).toBeVisible();
+  await page.goto("#/learning/plan");await page.reload();const after=await exportBackup(page);expect(after.browser.learning.activities).toEqual(before.browser.learning.activities);expect(after.learning).toEqual(before.learning);expect(after.browser.cards).toEqual(before.browser.cards);
+});
 test("clothing route reuses the wardrobe activity, returns to plan and preserves its old result",async({page})=>{
   const backup=legacyBackup();backup.browser.learning.activities={...backup.browser.learning.activities,"image-clothing":{title:"Что сегодня надеть?",group:"Слова в жизни",correct:10,total:10}};
   await importBackup(page,backup);const before=await exportBackup(page);
@@ -46,7 +56,7 @@ test("reading route and old catalogue entry share ten lessons and retain an exis
   await page.goto("#/learning/plan");await page.reload();const after=await exportBackup(page);
   expect(after.browser.learning.activities).toEqual(before.browser.learning.activities);expect(after.learning).toEqual(before.learning);expect(after.browser.cards).toEqual(before.browser.cards);
 });
-test("plan, catalogue and word sections share eight entries without changing old saves",async({page},info)=>{
+test("plan, catalogue and word sections share nine entries without changing old saves",async({page},info)=>{
   await importBackup(page,legacyBackup());const before=await exportBackup(page);
   await page.goto("#/learning/plan");const everyday=page.locator("summary").filter({hasText:"Повседневные темы"}).locator("..");await everyday.locator("summary").first().click();
   for(const topic of topics){
@@ -76,6 +86,7 @@ test("plan, catalogue and word sections share eight entries without changing old
   await page.screenshot({path:info.outputPath("topic-catalogue.png")});
 });
 for(const scope of [
+  {title:"Знакомство и первые фразы",id:"foundation:hello",setId:"hello",resume:"Приветствия"},
   {title:"Одежда и цвета",id:"topic:vocabulary-clothing",setId:"colors-basic",resume:"Цвета"},
   {title:"Сотрудничество и общение",id:"topic:vocabulary-cooperation",setId:"library:collection:cooperation-rules:0",resume:"Общение и договорённости"},
   {title:"Буквы и чтение",id:"topic:reading",setId:"school:words:reading",resume:"Буквы и звуки"},

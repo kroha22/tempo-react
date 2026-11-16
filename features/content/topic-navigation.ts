@@ -1,6 +1,9 @@
 /** Navigation only. These IDs already exist; this is not a content/progress registry. */
 import {readingLessonIds} from "./reading-lessons";
 export const navigationTopics=[
+  {id:"foundation:hello",title:"Знакомство и первые фразы",description:"Поздороваться · представиться · начать разговор",href:"/learning/introduction",
+    legacyEntries:[{id:"foundation:hello",title:"Olá! — Приветствия и общение"},{id:"foundation:identity",title:"Quem sou? — Кто я"}],
+    schoolUnitIds:[],supplementalStepIds:[],wordSources:["hello","polite","adult-small-talk","collection:pairs-introductions","deck:tempo:deck:phrases:social"]},
   {id:"topic:vocabulary-clothing",title:"Одежда и цвета",description:"Одежда · обувь · цвета · готовое задание с гардеробом",href:"/learning/clothing",
     legacyEntries:[{id:"topic:vocabulary-clothing",title:"Одежда: прежние наборы и задания"}],
     schoolUnitIds:[],supplementalStepIds:[],wordSources:["clothes-basic","colors-basic","collection:clothing-basics"]},

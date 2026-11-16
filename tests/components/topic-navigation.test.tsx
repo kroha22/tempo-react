@@ -17,16 +17,27 @@ import {wordCollections} from "@/features/content/word-collections";
 import {clothingWords} from "@/features/content/clothing";
 import {ClothingTopic} from "@/features/practice/ClothingTopic";
 import {ProfileLearningContext,emptyProfileLearning} from "@/features/practice/profile-learning";
+import {IntroductionTopic} from "@/features/practice/IntroductionTopic";
 
 it("uses existing topic/legacy IDs and keeps all twenty school lessons exactly once",()=>{
-  expect(navigationTopics.map(topic=>topic.id)).toEqual(["topic:vocabulary-clothing","topic:vocabulary-cooperation","topic:reading","topic:vocabulary-family","topic:food","topic:vocabulary-calendar","topic:vocabulary-body","topic:vocabulary-house"]);
+  expect(navigationTopics.map(topic=>topic.id)).toEqual(["foundation:hello","topic:vocabulary-clothing","topic:vocabulary-cooperation","topic:reading","topic:vocabulary-family","topic:food","topic:vocabulary-calendar","topic:vocabulary-body","topic:vocabulary-house"]);
   for(const topic of navigationTopics){
-    expect(topic.id==="topic:reading"||catalogGroups.some(group=>group.id===topic.id)).toBe(true);
+    expect(topic.id==="topic:reading"||topic.id==="foundation:hello"||catalogGroups.some(group=>group.id===topic.id)).toBe(true);
     for(const entry of topic.legacyEntries)expect(topicForLegacyId(entry.id)?.id).toBe(topic.id);
     for(const id of topic.schoolUnitIds)expect(preparationUnits.some(unit=>unit.id===id)).toBe(true);
     for(const id of topic.supplementalStepIds)expect(supplementalSteps.some(step=>step.id===id)).toBe(true);
   }
   expect(schoolPlanGroups.flatMap(group=>group.units.map(unit=>unit.id)).sort()).toEqual(preparationUnits.map(unit=>unit.id).sort());
+});
+it("reuses introduction owners, keeps a selected greeting across tabs and returns to its origin",()=>{
+  const sets=wordBrowseSets(false).filter(set=>topicForWordSet(set)?.id==="foundation:hello");
+  expect(sets.map(set=>set.id)).toEqual(["hello","polite","adult-small-talk","library:collection:pairs-introductions:0","browse:deck:tempo:deck:phrases:social"]);
+  const back=vi.fn();render(<IntroductionTopic onBack={back}/>);
+  fireEvent.click(screen.getByRole("button",{name:"Практика диалога"}));fireEvent.click(screen.getByRole("button",{name:"Bom dia!"}));
+  fireEvent.click(screen.getByRole("button",{name:"Рассказать о себе"}));expect(screen.getByRole("heading",{name:"Quem sou? — Кто я"})).toBeVisible();
+  fireEvent.click(screen.getByRole("button",{name:"Приветствия"}));expect(screen.getByRole("button",{name:"Bom dia!"})).toHaveAttribute("aria-pressed","true");
+  fireEvent.click(screen.getByRole("button",{name:"← Назад"}));expect(back).toHaveBeenCalledOnce();
+  expect(wordCollections(wordBrowseSets(true),true).some(group=>group.id==="foundation:hello")).toBe(false);
 });
 it("keeps clothing activity words separate from both broader word packs and returns to its origin",()=>{
   const sets=wordBrowseSets(false).filter(set=>topicForWordSet(set)?.id==="topic:vocabulary-clothing");
@@ -42,6 +53,7 @@ it("keeps clothing activity words separate from both broader word packs and retu
 it("keeps the new clothing entry out of the child plan",()=>{
   render(<ProfileLearningContext value={{profile:{id:"child-plan",child:true},learning:emptyProfileLearning(),savingError:false,update:()=>true}}><GeneralPlan practiceOnly/></ProfileLearningContext>);
   expect(document.querySelector('a[href="/learning/clothing"]')).toBeNull();
+  expect(document.querySelector('a[href="/learning/introduction"]')).toBeNull();
 });
 it("keeps the reading ID, all ten lesson IDs, the original word set and the legacy reader",()=>{
   const topic=navigationTopics.find(topic=>topic.id==="topic:reading")!;

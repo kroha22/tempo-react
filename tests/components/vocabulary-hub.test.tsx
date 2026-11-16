@@ -7,11 +7,14 @@ describe("VocabularyHub", () => {
   it.each([false,true])("lists foundation topics without a duplicate SER/ESTAR card and returns to the same catalog (child=%s)", async(child)=>{
     render(<VocabularyHub onOpenCards={vi.fn()} initialChildMode={child}/>);
     const user=userEvent.setup();
+    async function openIntroduction(){if(!child){const entry=screen.getByRole("region",{name:"Тема: Знакомство и первые фразы"});const summary=within(entry).getByText("Материалы темы");if(!summary.closest("details")!.open)await user.click(summary);}}
     expect(screen.queryByRole("button",{name:/Primeiros passos/})).toBeNull();
     expect(screen.getByRole("link",{name:/^Моя семья и близкие/})).toBeVisible();
     await user.click(child?screen.getByText("Отдельные материалы семьи"):within(screen.getByRole("region",{name:"Тема: Моя семья и близкие"})).getByText("Материалы темы"));
+    await openIntroduction();
     for(const name of [/^Olá!/,/^Quem sou\?/,child?/^Família e amigos/:/^Семья и друзья: прежние упражнения/,...(child?[/^Como me sinto\?/]:[])])expect(screen.getByRole("button",{name})).toBeVisible();
     for(const name of [/^Olá!/,/^Quem sou\?/]){
+      await openIntroduction();
       await user.click(screen.getByRole("button",{name}));
       expect(screen.queryByRole("navigation",{name:"Шаги первого занятия"})).toBeNull();
       expect(screen.getByRole("button",{name:child?"Для детей":"Для взрослых"})).toHaveAttribute("aria-pressed","true");
@@ -21,6 +24,7 @@ describe("VocabularyHub", () => {
     await user.click(screen.getByRole("button",{name:child?/^Como me sinto\?/:"Чувства и состояния"}));
     expect(screen.getByRole("region",{name:"Как я себя чувствую: слова и ESTAR"})).toBeVisible();
     await user.click(screen.getByRole("button",{name:"Назад ко всем темам"}));
+    await openIntroduction();
     expect(screen.getByRole("button",{name:/^Olá!/})).toBeVisible();
   },15000);
   it("keeps internal anatomy behind its explicit set selection", async () => {

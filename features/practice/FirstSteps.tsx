@@ -12,7 +12,7 @@ import styles from "./FirstSteps.module.css";
 import {useProfileLearning} from "./profile-learning";
 
 const titles=["Olá! — Приветствия и общение","Quem sou? — Кто я","SER / ESTAR — Характеристика и состояние","A minha família — Моя семья","Como me sinto? — Как я себя чувствую"];
-export function FirstSteps({onBack,initialChildMode=false,topicStep}:{onBack:()=>void;initialChildMode?:boolean;topicStep?:0|1|2}) {
+export function FirstSteps({onBack,initialChildMode=false,topicStep,backLabel="‹ К темам"}:{onBack:()=>void;initialChildMode?:boolean;topicStep?:0|1|2;backLabel?:string}) {
   const learner=useProfileLearning();
   const [localChild,setChild]=useState(initialChildMode),[step,setStep]=useState<number>(topicStep??0);
   const child=learner?.profile.child??localChild;
@@ -22,7 +22,7 @@ export function FirstSteps({onBack,initialChildMode=false,topicStep}:{onBack:()=
   if(step===3)return <FamilyLesson initialChildMode={child} onBack={()=>setStep(2)} onNext={()=>setStep(4)}/>;
   if(step===4)return <FeelingsLesson initialChildMode={child} onBack={()=>setStep(3)}/>;
   return <ChildPresentation value={child}><section className={styles.pilot} aria-label="Первые фразы" data-presentation={child?"child":"adult"}>
-    <button type="button" className="pair-back" onClick={onBack}>‹ К темам</button>
+    <button type="button" className="pair-back" onClick={onBack}>{backLabel}</button>
     <header><span className="tempo-kicker">Aprender · Учимся</span><h1>{topicStep===undefined?"Знакомимся и рассказываем о себе":titles[step]}</h1>{!learner&&<div className={styles.switch} role="group" aria-label="Подача объяснения"><button type="button" aria-pressed={!child} onClick={()=>setChild(false)}>Для взрослых</button><button type="button" aria-pressed={child} onClick={()=>setChild(true)}>Для детей</button></div>}</header>
     {topicStep===undefined&&<><nav className={styles.steps} aria-label="Шаги первого занятия">{titles.map((title,index)=><button type="button" key={title} aria-current={step===index?"step":undefined} onClick={()=>setStep(index)}>{index+1}. {title}</button>)}</nav><h2>{titles[step]}</h2></>}
     {step===0?<GreetingsLesson child={child}/>:step===1?<IdentityLesson child={child}/>:<SerEstarExplanation childMode={child}/>}

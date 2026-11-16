@@ -15,6 +15,7 @@ import {navigationTopic,topicWordsHref} from "../../content/topic-navigation";
 import {useProfileLearning} from "../../practice/profile-learning";
 
 const everyday=[
+  {...navigationTopic("foundation:hello")!,steps:[]},
   {...navigationTopic("topic:vocabulary-clothing")!,steps:[]},
   {...navigationTopic("topic:vocabulary-house")!,steps:[]},
   {...navigationTopic("topic:vocabulary-family")!,steps:supplementalSteps.filter(s=>(navigationTopic("topic:vocabulary-family")!.supplementalStepIds as readonly string[]).includes(s.id))},
@@ -25,7 +26,7 @@ const everyday=[
 export function GeneralPlan({practiceOnly=false}:{practiceOnly?:boolean}){return <EnsureQueryScope><Plan practiceOnly={practiceOnly}/></EnsureQueryScope>;}
 function Plan({practiceOnly}:{practiceOnly:boolean}){
   const child=useProfileLearning()?.profile.child??false;
-  const everydayTopics=everyday.filter(topic=>!child||topic.id!=="topic:vocabulary-clothing");
+  const everydayTopics=everyday.filter(topic=>!child||!["topic:vocabulary-clothing","foundation:hello"].includes(topic.id));
   const scope=useQueryScope(),practice=usePracticePlan();
   const query=useQuery({...learningProgressOptions(scope.scopeKey),enabled:!practiceOnly&&!scope.blocked,staleTime:0,refetchOnMount:"always"});
   const [filter,setFilter]=useState<"all"|"active"|"done"|"review">("all");
