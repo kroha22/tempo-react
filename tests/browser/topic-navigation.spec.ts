@@ -2,12 +2,14 @@ import {expect,test} from "@playwright/test";
 import {browserNow,legacyBackup} from "./fixtures/legacy-profile";
 import {createAdult,exportBackup,importBackup,expectNoOverflow} from "./learning.helpers";
 const topics=[
+  {id:"topic:vocabulary-family",title:"Моя семья и близкие",href:"/learning/family?topic=close&phase=explanation"},
+  {id:"topic:food",title:"Еда и предпочтения",href:"/learning/food?topic=fruit&phase=explanation"},
   {id:"topic:vocabulary-calendar",title:"Время и мой день",href:"/learning/time-day?topic=hours&phase=explanation"},
   {id:"topic:vocabulary-body",title:"Тело и здоровье",href:"/learning/body?topic=face&phase=explanation"},
   {id:"topic:vocabulary-house",title:"Дом и расположение",href:"/learning/home?topic=rooms&phase=explanation"},
 ];
 test.beforeEach(async({page})=>{await page.clock.setFixedTime(browserNow);await page.goto("./");await createAdult(page,"Topic QA");});
-test("plan, catalogue and word sections share three entries without changing old saves",async({page},info)=>{
+test("plan, catalogue and word sections share five entries without changing old saves",async({page},info)=>{
   await importBackup(page,legacyBackup());const before=await exportBackup(page);
   await page.goto("#/learning/plan");const everyday=page.locator("summary").filter({hasText:"Повседневные темы"}).locator("..");await everyday.locator("summary").first().click();
   for(const topic of topics){
@@ -28,18 +30,22 @@ test("plan, catalogue and word sections share three entries without changing old
   const after=await exportBackup(page);expect(after.learning).toEqual(before.learning);expect(after.browser).toEqual(before.browser);
   await page.screenshot({path:info.outputPath("topic-catalogue.png")});
 });
-test("topic word selection keeps the original set ID and resumes through reload and JSON",async({page},info)=>{
+for(const scope of [
+  {title:"Время и мой день",id:"topic:vocabulary-calendar",setId:"library:collection:calendar-week:0",resume:"Дни недели"},
+  {title:"Моя семья и близкие",id:"topic:vocabulary-family",setId:"library:collection:expansion-family-close:0",resume:"Семья и родственники"},
+  {title:"Еда и предпочтения",id:"topic:food",setId:"fruit",resume:"Фрукты и ягоды"},
+])test(`${scope.title}: keeps the original set ID and resumes through reload and JSON`,async({page},info)=>{
   await importBackup(page,legacyBackup());const before=await exportBackup(page);
-  await page.goto("#/learning/plan/words");await page.getByRole("link",{name:"Время и мой день →",exact:true}).click();
+  await page.goto("#/learning/plan/words");await page.getByRole("link",{name:`${scope.title} →`,exact:true}).click();
   const dialog=page.getByRole("dialog",{name:"Учить слова",exact:true});await dialog.locator("button[data-tone]").first().click();
   await page.getByRole("button",{name:"Карточки слов",exact:true}).click();
   const front=await page.getByRole("button",{name:"Перевернуть карточку",exact:true}).locator("strong").innerText();
   await page.getByRole("button",{name:"Перевернуть карточку",exact:true}).click();
   await page.goto("#/learning/plan");
   const saved=await exportBackup(page);
-  expect(saved.browser.learning.wordSession?.setId).toBe("library:collection:calendar-week:0");
+  expect(saved.browser.learning.wordSession?.setId).toBe(scope.setId);
   expect(saved.learning).toEqual(before.learning);expect(saved.browser.cards).toEqual(before.browser.cards);
-  await page.goto("#/learning/quick-words?topic=topic%3Avocabulary-calendar");await page.reload();await page.getByRole("button",{name:/^Продолжить · Дни недели/}).click();
+  await page.goto(`#/learning/quick-words?topic=${encodeURIComponent(scope.id)}`);await page.reload();await page.getByRole("button",{name:new RegExp(`^Продолжить · ${scope.resume}`)}).click();
   await expect(page.getByRole("button",{name:"Перевернуть карточку",exact:true}).locator("strong")).toHaveText(front);
   await page.goto("#/learning/plan");const resumed=await exportBackup(page);await importBackup(page,resumed);const restored=await exportBackup(page);
   expect(restored.learning).toEqual(saved.learning);expect(restored.browser.learning.wordSession).toEqual(resumed.browser.learning.wordSession);

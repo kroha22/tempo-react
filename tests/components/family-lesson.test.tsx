@@ -1,4 +1,4 @@
-import {fireEvent,render,screen} from "@testing-library/react";
+import {fireEvent,render,screen,within} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {expect,it,vi} from "vitest";
 import {VocabularyHub} from "@/features/practice/VocabularyHub";
@@ -45,8 +45,8 @@ it("reuses the six family meanings and the existing usage identity",()=>{
 it.each([false,true])("opens the family topic and completes the shared phrase flow (child=%s)",async(child)=>{
   render(<VocabularyHub initialChildMode={child} onOpenCards={vi.fn()}/>);
   const user=userEvent.setup();
-  await user.click(screen.getByText("Отдельные материалы семьи"));
-  await user.click(screen.getByRole("button",{name:/^Família e amigos/}));
+  await user.click(child?screen.getByText("Отдельные материалы семьи"):within(screen.getByRole("region",{name:"Тема: Моя семья и близкие"})).getByText("Материалы темы"));
+  await user.click(screen.getByRole("button",{name:child?/^Família e amigos/:"Семья и друзья: прежние упражнения"}));
   expect(screen.getByRole("button",{name:child?"Для детей":"Для взрослых"})).toHaveAttribute("aria-pressed","true");
   expect(screen.getByRole("img",{name:"Вымышленная семья: мама, папа, девочка Рита, мальчик Мигел, бабушка и дедушка"})).toHaveAttribute("src","/images/vocabulary/fictional-family-v1.webp");
   await user.click(screen.getByRole("button",{name:"К фразам с SER →"}));

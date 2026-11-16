@@ -15,8 +15,8 @@ import {navigationTopic} from "../../content/topic-navigation";
 
 const everyday=[
   {...navigationTopic("topic:vocabulary-house")!,steps:[]},
-  {title:"Моя семья и близкие",href:"/learning/family?topic=close&phase=explanation",steps:supplementalSteps.filter(s=>s.id.includes("family"))},
-  {title:"Еда и предпочтения",href:"/learning/food?topic=fruit&phase=explanation",steps:supplementalSteps.filter(s=>s.id.includes("food")||s.id.endsWith(":likes"))},
+  {...navigationTopic("topic:vocabulary-family")!,steps:supplementalSteps.filter(s=>(navigationTopic("topic:vocabulary-family")!.supplementalStepIds as readonly string[]).includes(s.id))},
+  {...navigationTopic("topic:food")!,steps:supplementalSteps.filter(s=>(navigationTopic("topic:food")!.supplementalStepIds as readonly string[]).includes(s.id))},
   {...navigationTopic("topic:vocabulary-body")!,steps:supplementalSteps.filter(s=>(navigationTopic("topic:vocabulary-body")!.supplementalStepIds as readonly string[]).includes(s.id))},
   {...navigationTopic("topic:vocabulary-calendar")!,steps:[]},
 ];

@@ -10,15 +10,22 @@ import {GeneralPlan} from "@/features/learning/plan/GeneralPlan";
 import {PlanWords} from "@/features/learning/plan/PlanWords";
 import {VocabularyHub} from "@/features/practice/VocabularyHub";
 import {QuickWords} from "@/features/practice/QuickWords";
+import {supplementalSteps} from "@/features/learning/plan/model";
 
 it("uses existing topic/legacy IDs and keeps all twenty school lessons exactly once",()=>{
-  expect(navigationTopics.map(topic=>topic.id)).toEqual(["topic:vocabulary-calendar","topic:vocabulary-body","topic:vocabulary-house"]);
+  expect(navigationTopics.map(topic=>topic.id)).toEqual(["topic:vocabulary-family","topic:food","topic:vocabulary-calendar","topic:vocabulary-body","topic:vocabulary-house"]);
   for(const topic of navigationTopics){
     expect(catalogGroups.some(group=>group.id===topic.id)).toBe(true);
     for(const entry of topic.legacyEntries)expect(topicForLegacyId(entry.id)?.id).toBe(topic.id);
     for(const id of topic.schoolUnitIds)expect(preparationUnits.some(unit=>unit.id===id)).toBe(true);
+    for(const id of topic.supplementalStepIds)expect(supplementalSteps.some(step=>step.id===id)).toBe(true);
   }
   expect(schoolPlanGroups.flatMap(group=>group.units.map(unit=>unit.id)).sort()).toEqual(preparationUnits.map(unit=>unit.id).sort());
+});
+it("assigns the existing family and food sources, including the meals alias, exactly once",()=>{
+  const sets=wordBrowseSets(false);
+  const expected={"topic:vocabulary-family":["library:collection:expansion-family-close:0"],"topic:food":["fruit","food","library:collection:pairs-verbs-food-shopping:0","library:collection:expansion-food-table:0","library:collection:expansion-food-vegetables:0","library:collection:expansion-food-dairy:0","library:collection:expansion-food-meat:0","library:collection:expansion-food-seasoning:0","library:collection:expansion-food-other:0","library:collection:vocabulary-lesson:cooking:0"]};
+  for(const [id,ids] of Object.entries(expected))expect(sets.filter(set=>topicForWordSet(set)?.id===id).map(set=>set.id)).toEqual(ids);
 });
 it("groups without merging, copying, dropping or changing any set/word/source in either presentation",()=>{
   for(const child of [false,true]){

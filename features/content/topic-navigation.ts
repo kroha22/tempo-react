@@ -1,5 +1,13 @@
 /** Navigation only. These IDs already exist; this is not a content/progress registry. */
 export const navigationTopics=[
+  {id:"topic:vocabulary-family",title:"Моя семья и близкие",description:"Близкие · родственники · рассказ о семье",href:"/learning/family?topic=close&phase=explanation",
+    legacyEntries:[{id:"topic:vocabulary-family",title:"Семья и друзья: прежние упражнения"}],
+    schoolUnitIds:[],supplementalStepIds:["practice:words:expansion-family-close","practice:words:expansion-family-relatives"],
+    wordSources:["topic:vocabulary-family"]},
+  {id:"topic:food",title:"Еда и предпочтения",description:"Фрукты · продукты · GOSTAR DE",href:"/learning/food?topic=fruit&phase=explanation",
+    legacyEntries:[{id:"topic:food",title:"Еда: прежние наборы и упражнения"}],
+    schoolUnitIds:[],supplementalStepIds:["practice:words:expansion-food-fruit","practice:words:expansion-food-meals","practice:words:expansion-food-table","practice:everyday:likes"],
+    wordSources:["topic:food","collection:expansion-food-meals","collection:pairs-verbs-food-shopping"]},
   {id:"topic:vocabulary-calendar",title:"Время и мой день",description:"Часы · календарь · распорядок · порядок событий",href:"/learning/time-day?topic=hours&phase=explanation",
     legacyEntries:[{id:"topic:vocabulary-calendar",title:"Календарь: прежние упражнения"},{id:"topic:vocabulary-my-day",title:"Распорядок: прежние упражнения"},{id:"topic:school-ordinals",title:"Порядковые числительные"},{id:"topic:school-timeline",title:"Линия времени"}],
     schoolUnitIds:["hours","months","ordinals-first","ordinals-last","timeline"],supplementalStepIds:[],
