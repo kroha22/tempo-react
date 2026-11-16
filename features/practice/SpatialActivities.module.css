@@ -7,25 +7,25 @@
 .activity button:disabled {opacity:.45;cursor:default;}
 .tray {justify-content:center;margin:10px 0;}
 .tray button {display:grid;justify-items:center;gap:4px;flex:1;font-size:12px;padding:6px;}
-.tray button>span,.tray button>svg {width:44px!important;height:44px!important;margin:0;}
+.tray button>span {margin:0;white-space:nowrap;line-height:1.4;}
 .scene {position:relative;width:100%;max-width:360px;aspect-ratio:6/5;margin:8px auto;background:#fffdf7;border:1px solid #ffffff40;border-radius:20px;overflow:hidden;}
-.table {position:absolute;left:23%;top:61%;width:54%;height:4%;background:#b28765;border-radius:5px;}
+.table {position:absolute;left:7%;top:65%;width:86%;height:4%;background:#b28765;border-radius:5px;}
 .table::before,.table::after {content:"";position:absolute;top:100%;width:7%;height:65px;background:#bf9670;}
 .table::before {left:5%;}.table::after{right:5%;}
-.box {position:absolute;left:33%;top:30%;width:34%;height:36%;pointer-events:none;}
-.box>span,.box>svg {width:100%!important;height:100%!important;padding:0;margin:0;}
-.zone>span[style] {opacity:1;}
-.zone svg,.tray svg {padding:0;}
-.front {clip-path:polygon(13% 60%,87% 60%,87% 100%,13% 100%);z-index:4;}
+.box {position:absolute;left:30%;top:35%;width:40%;height:32%;pointer-events:none;}
+.front {clip-path:polygon(0 24%,68% 33%,100% 20%,100% 100%,0 100%);z-index:4;}
 .zone {position:absolute!important;width:22%;height:27%;padding:0!important;border:1px dashed #526f8f88!important;background:transparent!important;border-radius:15px!important;color:#375470!important;display:grid;place-items:center;z-index:3;}
 .zone>span {font-size:18px;opacity:.6;}
 .activity .zone:disabled {opacity:1;}
-.zone svg,.zone>span[style] {width:100%!important;height:100%!important;margin:0;background-color:transparent;}
 .zone[data-place=inside] {left:39%;top:29%;}
-.zone[data-place=above] {left:39%;top:2%;}
+.zone[data-place=above] {left:39%;top:8%;}
 .zone[data-place=below] {left:39%;top:70%;}
-.zone[data-place=left] {left:4%;top:34%;}
-.zone[data-place=right] {right:4%;top:34%;}
+.zone[data-place=left] {left:4%;top:38%;}
+.zone[data-place=right] {right:4%;top:38%;}
+.sprite {display:block;object-fit:contain;background:transparent;border:0;border-radius:0;margin:0;padding:0;width:100%;height:100%;pointer-events:none;}
+.tray .sprite {width:48px;height:48px;}
+.zone[data-place=above] .sprite,.zone[data-place=left] .sprite,.zone[data-place=right] .sprite {object-position:center bottom;}
+.zone[data-filled=true] {border-color:transparent!important;}
 .status {min-height:36px;font-size:14px;line-height:1.4;margin:8px 0;color:#e6eaff;}
 .actions {justify-content:center;}
 .actions button:last-child {background:#91d8bc25;border-color:#c8ead344;}

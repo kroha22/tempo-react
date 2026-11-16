@@ -1,21 +1,22 @@
 "use client";
 import {useRef,useState} from "react";
 import {placementTasks,dictationTasks,directionWords,commandText,type SpatialObject,type SpatialPlace,type GridPoint} from "../content/spatial-practice";
-import {catalogWords} from "../content/learning-catalog-view";
-import type {VocabularyWord} from "../content/vocabulary-model";
-import {VocabularyIllustration} from "./VocabularyIllustration";
+import {spatialArt} from "../content/spatial-art";
+import {publicAssetUrl} from "../../shared/public-asset";
 import {CardSpeechButton} from "../cards/components/CardSpeechButton";
 import {ActivityCompletion} from "./ActivityCompletion";
 import {appendTrace,checkTrace,placementCorrect,placeObject,type Placements} from "./spatial-model";
 import styles from "./SpatialActivities.module.css";
 
-const atlas="/images/vocabulary/space-drawn-v1.webp";
-const crop=(x:number,y:number,width:number,height:number)=>({src:atlas,column:0,row:0,crop:{x,y,width,height,sourceWidth:1254,sourceHeight:1254}});
-const catArt=crop(404,7,146,171),boxArt=crop(946,129,192,164);
-const objects:readonly {id:SpatialObject;label:string;art:NonNullable<VocabularyWord["illustration"]>}[]=[
-  {id:"cat",label:"o gato",art:catArt},
-  ...(["book","bag"] as const).map((id)=>{const label=id==="book"?"o livro":"a mochila";const word=catalogWords.find(word=>word.label===label&&word.illustration)!;return {id,label,art:word.illustration!};}),
+const objects:readonly {id:SpatialObject;label:string;src:string}[]=[
+  {id:"cat",label:"o gato",src:spatialArt.cat},
+  {id:"book",label:"o livro",src:spatialArt.book},
+  {id:"bag",label:"a mochila",src:spatialArt.bag},
 ];
+function Sprite({src}:{src:string}){
+  // eslint-disable-next-line @next/next/no-img-element
+  return <img className={styles.sprite} src={publicAssetUrl(src)} alt="" draggable={false}/>;
+}
 const places:readonly {id:SpatialPlace;label:string}[]=[{id:"inside",label:"Внутри коробки"},{id:"above",label:"На коробке"},{id:"below",label:"Под коробкой"},{id:"left",label:"Слева рядом с коробкой"},{id:"right",label:"Справа рядом с коробкой"}];
 type Props={child:boolean;onComplete:()=>void;onMistake?:(wordId:string)=>void};
 export function SpatialPlacement({child,onComplete,onMistake}:Props){
@@ -29,8 +30,8 @@ export function SpatialPlacement({child,onComplete,onMistake}:Props){
   return <section className={styles.activity} aria-label="Расставь по инструкции">
     <div className={styles.top}><span>{index+1} / {placementTasks.length}</span><button type="button" aria-pressed={ru} onClick={()=>setRu(value=>!value)}>⇄ Перевод</button></div>
     <h2 lang={ru?"ru":"pt-PT"}>{ru?task.ru:task.pt}</h2><CardSpeechButton text={task.pt}/>
-    <div className={styles.tray} role="group" aria-label="Выбери предмет">{objects.map(object=><button type="button" key={object.id} aria-pressed={chosen===object.id} disabled={result==="correct"} draggable onDragStart={event=>{setChosen(object.id);event.dataTransfer.setData("text/plain",object.id);}} onClick={()=>setChosen(object.id)}><VocabularyIllustration illustration={object.art}/><span lang="pt-PT">{object.label}</span></button>)}</div>
-    <div className={styles.scene} role="group" aria-label="Коробка и места для предметов"><div className={styles.table}/><div className={styles.box}><VocabularyIllustration illustration={boxArt}/></div>{places.map(place=>{const placed=objects.find(object=>state[object.id]===place.id);return <button type="button" key={place.id} className={styles.zone} data-place={place.id} aria-label={placed?`${place.label}: ${placed.label}`:place.label} disabled={!chosen||result==="correct"} onDragOver={event=>event.preventDefault()} onDrop={event=>{event.preventDefault();const id=event.dataTransfer.getData("text/plain");if(objects.some(object=>object.id===id))move(place.id,id as SpatialObject);}} onClick={()=>move(place.id)}>{placed?<VocabularyIllustration illustration={placed.art}/>:<span aria-hidden="true">＋</span>}</button>;})}{Object.values(state).includes("inside")&&<div className={`${styles.box} ${styles.front}`}><VocabularyIllustration illustration={boxArt}/></div>}</div>
+    <div className={styles.tray} role="group" aria-label="Выбери предмет">{objects.map(object=><button type="button" key={object.id} aria-pressed={chosen===object.id} disabled={result==="correct"} draggable onDragStart={event=>{setChosen(object.id);event.dataTransfer.setData("text/plain",object.id);}} onClick={()=>setChosen(object.id)}><Sprite src={object.src}/><span lang="pt-PT">{object.label}</span></button>)}</div>
+    <div className={styles.scene} role="group" aria-label="Коробка и места для предметов"><div className={styles.table}/><div className={styles.box}><Sprite src={spatialArt.box}/></div>{places.map(place=>{const placed=objects.find(object=>state[object.id]===place.id);return <button type="button" key={place.id} className={styles.zone} data-place={place.id} data-filled={!!placed} aria-label={placed?`${place.label}: ${placed.label}`:place.label} disabled={!chosen||result==="correct"} onDragOver={event=>event.preventDefault()} onDrop={event=>{event.preventDefault();const id=event.dataTransfer.getData("text/plain");if(objects.some(object=>object.id===id))move(place.id,id as SpatialObject);}} onClick={()=>move(place.id)}>{placed?<Sprite src={placed.src}/>:<span aria-hidden="true">＋</span>}</button>;})}{Object.values(state).includes("inside")&&<div className={`${styles.box} ${styles.front}`}><Sprite src={spatialArt.box}/></div>}</div>
     <div className={styles.status} role="status">{result==="correct"?"✓ Certo! Верно.":result==="wrong"?"Tenta outra vez. Проверь предмет и его место.":chosen?"Нажми на место для предмета. Можно перенести его ещё раз.":"Выбери предмет, затем его место."}</div>
     <div className={styles.actions}><button type="button" disabled={history.length===1||result==="correct"} onClick={()=>{setHistory(old=>old.slice(0,-1));setResult(null);}}>↶ Отменить</button>{result==="correct"?<button type="button" onClick={next}>{index===placementTasks.length-1?"Завершить":"Дальше"}</button>:<button type="button" disabled={!Object.keys(state).length} onClick={check}>Проверить</button>}</div>
   </section>;
