@@ -1,6 +1,8 @@
 import {expect,test} from "@playwright/test";
 import {browserNow,legacyBackup} from "./fixtures/legacy-profile";
 import {createAdult,exportBackup,importBackup,expectNoOverflow} from "./learning.helpers";
+import {wordBrowseSets} from "../../features/content/word-browse-sets";
+import {topicForWordSet} from "../../features/content/topic-navigation";
 const topics=[
   {id:"topic:vocabulary-cooperation",title:"Сотрудничество и общение",href:"/learning/plan/school?unit=cooperation"},
   {id:"topic:reading",title:"Буквы и чтение",href:"/learning/reading"},
@@ -52,8 +54,11 @@ test("plan, catalogue and word sections share seven entries without changing old
     await expect(entry.locator(`a[href="#${topic.href}"]`)).toBeVisible();
     if(!await entry.locator("details").evaluate(node=>(node as HTMLDetailsElement).open))await entry.locator("summary").click();await entry.getByRole("link",{name:`Учить слова: ${topic.title} →`,exact:true}).click();
     const dialog=page.getByRole("dialog",{name:"Учить слова",exact:true});await expect(dialog).toBeVisible();
-    await expect(dialog.locator("summary").filter({hasText:topic.title})).toBeVisible();
-    expect(await dialog.locator("summary").count()).toBe(1);
+    await expect(dialog.getByRole("heading",{name:topic.title,level:1,exact:true})).toBeVisible();
+    const expectedSets=wordBrowseSets(false).filter(set=>topicForWordSet(set)?.id===topic.id).map(set=>set.id).sort();
+    const visibleSets=await dialog.locator("button[data-word-set-id]").evaluateAll(nodes=>nodes.map(node=>node.getAttribute("data-word-set-id"))).then(ids=>ids.sort());
+    expect(expectedSets.length).toBeGreaterThan(0);expect(visibleSets).toEqual(expectedSets);
+    await expect(dialog.locator("[data-collection-id]")).toHaveCount(0);
     await expect(page.locator('nav[aria-label="Разделы Tempo"] a[aria-current="page"]')).toHaveText("Учить слова");
     await expectNoOverflow(page);await page.goto("#/learning/topics");
   }
