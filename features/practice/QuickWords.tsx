@@ -6,6 +6,8 @@ import {wordCollections} from "../content/word-collections";
 import {navigationTopic,topicForWordSet} from "../content/topic-navigation";
 import {WordTopicSections} from "./WordTopicSections";
 import {SpeechHelpButton} from "../cards/components/SpeechHelpButton";
+import {FoodSorting} from "./FoodSorting";
+import {canSortFood,foodSortingWords} from "../content/food-sorting";
 import {WordBuilder,orderedCalendarWords} from "./WordBuilder";
 import {WordMiniGame,letterGameWords,listeningGameWords} from "./WordMiniGame";
 import {VocabularyIllustration} from "./VocabularyIllustration";
@@ -26,9 +28,9 @@ import {wordRoundRanges,wordSessionTimestamp,type WordLearningSession} from "./w
 import {spatialCapability} from "../content/spatial-capabilities";
 import {SpatialPlacement,GraphicDictation} from "./SpatialActivities";
 
-type Mode = "builder" | "sequence" | "pairs" | "writing" | "search" | "letters" | "listening" | "placement" | "dictation";
-const modeTitles:Record<Mode,string>={builder:"Собери слово",sequence:"По порядку",pairs:"Пары",letters:"Вставь букву",listening:"Послушай и выбери",writing:"Написать",search:"Поиск слов",placement:"Расставить",dictation:"Рисовать"};
-const modeIcons:Record<Mode,string>={builder:"▧",sequence:"①",pairs:"↔",letters:"А_",listening:"♫",writing:"✎",search:"⌕",placement:"▦",dictation:"⌁"};
+type Mode = "sorting" | "builder" | "sequence" | "pairs" | "writing" | "search" | "letters" | "listening" | "placement" | "dictation";
+const modeTitles:Record<Mode,string>={sorting:"Сортировка еды",builder:"Собери слово",sequence:"По порядку",pairs:"Пары",letters:"Вставь букву",listening:"Послушай и выбери",writing:"Написать",search:"Поиск слов",placement:"Расставить",dictation:"Рисовать"};
+const modeIcons:Record<Mode,string>={sorting:"▤",builder:"▧",sequence:"①",pairs:"↔",letters:"А_",listening:"♫",writing:"✎",search:"⌕",placement:"▦",dictation:"⌁"};
 const packSymbols:Record<string,string>={hello:"👋",polite:"🤝","adult-everyday":"🏡","adult-small-talk":"💬","adult-shopping":"🛍️","adult-plans":"🗓️",backpack:"🎒",instructions:"📖",requests:"🙋","child-classroom":"🙋","child-friends":"🤝","child-games":"🎲","browse:essentials":"⭐"};
 export function QuickWords({ child = false, onBack,sourceIds,initialSetId,topicId }: { child?: boolean; onBack: () => void;sourceIds?:readonly string[];initialSetId?:string;topicId?:string }) {
   const screen = useRef<HTMLDialogElement>(null);
@@ -80,7 +82,7 @@ export function QuickWords({ child = false, onBack,sourceIds,initialSetId,topicI
   const canLetters=letterGameWords(roundWords).length>=2;
   const canListen=listeningGameWords(roundWords).length>=2;
   const spatial=spatialCapability(pack);
-  const modes=[...(spatial?[spatial]:[]),"pairs",...(canLetters?["builder" as const]:[]),...(orderedCalendarWords(roundWords).length>=2?["sequence" as const]:[]),...(canLetters?["letters" as const]:[]),...(canListen?["listening" as const]:[]),...(isChild?["writing" as const]:[]),...(isChild&&canSearch?["search" as const]:[])] as Mode[];
+  const modes=[...(spatial?[spatial]:[]),"pairs",...(pack&&canSortFood(pack.words)&&foodSortingWords(roundWords).length?["sorting" as const]:[]),...(canLetters?["builder" as const]:[]),...(orderedCalendarWords(roundWords).length>=2?["sequence" as const]:[]),...(canLetters?["letters" as const]:[]),...(canListen?["listening" as const]:[]),...(isChild?["writing" as const]:[]),...(isChild&&canSearch?["search" as const]:[])] as Mode[];
   function remember(next:Partial<WordLearningSession>,setId=pack?.id){
     if(!setId)return;
     const value={setId,stage,index:cardSession.index,viewed:cardSession.viewed,mode,updatedAt:wordSessionTimestamp(),...next};
@@ -93,7 +95,7 @@ export function QuickWords({ child = false, onBack,sourceIds,initialSetId,topicI
       if(group&&group.sets.length>1)setCollection({id:group.id,title:group.title});
     }
     const restored=resume&&(resume.setId===item.id||item.aliases.includes(resume.setId))?resume:undefined;
-    setMoreGames(!!restored&&["letters","listening","builder","sequence"].includes(restored.mode));setSelected(item.id);setStage(restored?.stage??"choice");setMode(restored?.mode??"pairs");
+    setMoreGames(!!restored&&["letters","listening","builder","sequence","sorting"].includes(restored.mode));setSelected(item.id);setStage(restored?.stage??"choice");setMode(restored?.mode??"pairs");
     const previous=restored&&library.find(set=>set.id===restored.setId);
     const previousWord=previous?.words[restored?.index??0];
     const mappedIndex=restored&&restored.setId!==item.id&&previousWord?item.words.findIndex(word=>word.id===previousWord.id||word.label===previousWord.label&&word.translation===previousWord.translation):-1;
@@ -129,6 +131,7 @@ export function QuickWords({ child = false, onBack,sourceIds,initialSetId,topicI
         {stage==="training"&&visibleMode === "pairs" && <WordPairs key={`${pack.id}:${round}`} words={roundWords} blocks={[{ id: pack.words.length>6?`${pack.pairId??`quick:${pack.id}`}:round:${round}`:pack.pairId??`quick:${pack.id}`, title: pack.title, words: roundWords.map(word => word.id) }]} onMistake={mistake} embedded minimal maxVisible={4} onComplete={()=>phase("choice")}/>}
         {stage==="training"&&isChild && visibleMode === "writing" && <VocabularyWriting onMistake={mistake} words={roundWords} title={pack.title} phrases={pack.kind==="phrases"}/>}
         {stage==="training"&&isChild && visibleMode === "search" && canSearch && <WordSearch words={roundWords} title={pack.title} embedded/>}
+        {stage==="training"&&visibleMode==="sorting"&&<FoodSorting key={`${pack.id}:${round}:sorting`} words={roundWords} child={isChild} onMistake={mistake} onComplete={()=>phase("choice")}/>}
         {stage==="training"&&(visibleMode==="builder"||visibleMode==="sequence")&&<WordBuilder key={`${pack.id}:${round}:${visibleMode}`} words={roundWords} mode={visibleMode} child={isChild} onMistake={mistake} onComplete={()=>phase("choice")}/>}
         {stage==="training"&&((visibleMode==="letters"&&canLetters)||(visibleMode==="listening"&&canListen))&&<WordMiniGame onMistake={mistake} key={`${pack.id}:${round}:${visibleMode}`} words={roundWords} mode={visibleMode as "letters"|"listening"} child={isChild} onComplete={()=>phase("choice")}/>}
         {stage==="training"&&visibleMode==="placement"&&spatial==="placement"&&<SpatialPlacement onMistake={mistake} child={isChild} onComplete={()=>phase("choice")}/>}
