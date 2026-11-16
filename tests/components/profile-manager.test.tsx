@@ -54,7 +54,8 @@ it("isolates rewards and presentation, resumes the theme and preserves rewards t
   expect(within(screen.getByRole("article",{name:"Профиль Взрослый QA"})).getByText(/Награды: 0/)).toBeVisible();
   fireEvent.click(screen.getByRole("button",{name:"Продолжить — Взрослый QA"}));
   fireEvent.click(screen.getByRole("link",{name:"Все темы"}));
-  fireEvent.click(screen.getByRole("button",{name:/^Como me sinto\?/}));
+  fireEvent.click(within(screen.getByRole("region",{name:"Тема: Тело и здоровье"})).getByText("Материалы темы"));
+  fireEvent.click(screen.getByRole("button",{name:"Чувства и состояния"}));
   expect(screen.getByRole("region",{name:"Как я себя чувствую: слова и ESTAR"})).toHaveAttribute("data-presentation","adult");
   expect(screen.getByLabelText("Знакомство: впереди")).toBeVisible();
   expect(profileStores(adult.id).learning.load().feelings.viewed).toHaveLength(0);

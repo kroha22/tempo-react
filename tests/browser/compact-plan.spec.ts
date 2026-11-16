@@ -29,7 +29,7 @@ test("permanent school lessons and word cards preserve old saved data through sw
   await page.goto("#/learning/plan/words");
   await expect(page.getByRole("link",{name:"Повторить сохранённые →",exact:true})).toBeVisible();
   await page.locator("summary").filter({hasText:"Слова из школьных уроков"}).click();
-  await page.locator("summary").filter({hasText:"Здоровье и привычки"}).click();
+  await page.locator("summary").filter({hasText:"Тело и здоровье"}).click();
   const words=page.locator('a[href="#/learning/plan/school?unit=wellbeing&words=1"]');await words.click();
   await expect(page.getByRole("button",{name:"Перевернуть карточку",exact:true})).toBeVisible();
   await page.reload();await expect(page.getByRole("button",{name:"Перевернуть карточку",exact:true})).toBeVisible();

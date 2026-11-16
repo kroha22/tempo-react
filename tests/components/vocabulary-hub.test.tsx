@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { VocabularyHub } from "@/features/practice/VocabularyHub";
@@ -10,14 +10,15 @@ describe("VocabularyHub", () => {
     expect(screen.queryByRole("button",{name:/Primeiros passos/})).toBeNull();
     expect(screen.getByRole("link",{name:/Моя семья и близкие/})).toBeVisible();
     await user.click(screen.getByText("Отдельные материалы семьи"));
-    for(const name of [/^Olá!/,/^Quem sou\?/,/^Família e amigos/,/^Como me sinto\?/])expect(screen.getByRole("button",{name})).toBeVisible();
+    for(const name of [/^Olá!/,/^Quem sou\?/,/^Família e amigos/,...(child?[/^Como me sinto\?/]:[])])expect(screen.getByRole("button",{name})).toBeVisible();
     for(const name of [/^Olá!/,/^Quem sou\?/]){
       await user.click(screen.getByRole("button",{name}));
       expect(screen.queryByRole("navigation",{name:"Шаги первого занятия"})).toBeNull();
       expect(screen.getByRole("button",{name:child?"Для детей":"Для взрослых"})).toHaveAttribute("aria-pressed","true");
       await user.click(screen.getByRole("button",{name:"‹ К темам"}));
     }
-    await user.click(screen.getByRole("button",{name:/^Como me sinto\?/}));
+    if(!child)await user.click(within(screen.getByRole("region",{name:"Тема: Тело и здоровье"})).getByText("Материалы темы"));
+    await user.click(screen.getByRole("button",{name:child?/^Como me sinto\?/:"Чувства и состояния"}));
     expect(screen.getByRole("region",{name:"Как я себя чувствую: слова и ESTAR"})).toBeVisible();
     await user.click(screen.getByRole("button",{name:"Назад ко всем темам"}));
     expect(screen.getByRole("button",{name:/^Olá!/})).toBeVisible();
@@ -25,9 +26,9 @@ describe("VocabularyHub", () => {
   it("keeps internal anatomy behind its explicit set selection", async () => {
     const {container}=render(<VocabularyHub onOpenCards={vi.fn()}/>);
     const user=userEvent.setup();
-    await user.click(screen.getByText("Отдельные материалы тела"));
-    const body=screen.getByRole("button",{name:/^O corpo/});
-    expect(body.querySelector("img")).toHaveAttribute("src","/images/covers/body-v1.webp");
+    await user.click(within(screen.getByRole("region",{name:"Тема: Тело и здоровье"})).getByText("Материалы темы"));
+    const body=screen.getByRole("button",{name:"Тело: схемы и прежние упражнения"});
+    expect(body).toHaveAttribute("data-topic-id","topic:vocabulary-body");
     await user.click(body);
     expect(container.textContent).not.toContain("o coração");
     await user.click(screen.getByRole("button",{name:/^Por dentro do corpo/}));

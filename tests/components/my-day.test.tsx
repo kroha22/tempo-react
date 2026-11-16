@@ -1,4 +1,4 @@
-import {render,screen} from "@testing-library/react";
+import {render,screen,within} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {expect,it,vi} from "vitest";
 import {VocabularyHub} from "@/features/practice/VocabularyHub";
@@ -6,7 +6,8 @@ import {VocabularyHub} from "@/features/practice/VocabularyHub";
 it("connects the daily routine to the existing clock and sentence practice",async()=>{
   render(<VocabularyHub onOpenCards={vi.fn()}/>);
   const user=userEvent.setup();
-  await user.click(screen.getByRole("button",{name:/^O meu dia.*Мой день/}));
+  await user.click(within(screen.getByRole("region",{name:"Тема: Время и мой день"})).getByText("Материалы темы"));
+  await user.click(screen.getByRole("button",{name:"Распорядок: прежние упражнения"}));
   expect(screen.getByRole("region",{name:"Мой день: время и действия"})).toBeVisible();
   await user.click(screen.getByRole("button",{name:/^17:00/}));
   expect(screen.getByText("Я возвращаюсь домой в пять вечера.",{selector:"p"})).toBeVisible();

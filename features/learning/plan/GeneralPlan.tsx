@@ -11,13 +11,14 @@ import {generalPlanBlocks,generalPlanUnits,generalPlanSummary,bookState,bookPass
 import {wordBatchHref} from "../gramatica/first-units";
 import {schoolPlanGroups,schoolLessonHref} from "./school-plan";
 import styles from "./GeneralPlan.module.css";
+import {navigationTopic} from "../../content/topic-navigation";
 
 const everyday=[
-  {title:"Дом и расположение",href:"/learning/home?topic=rooms&phase=explanation",steps:[]},
+  {...navigationTopic("topic:vocabulary-house")!,steps:[]},
   {title:"Моя семья и близкие",href:"/learning/family?topic=close&phase=explanation",steps:supplementalSteps.filter(s=>s.id.includes("family"))},
   {title:"Еда и предпочтения",href:"/learning/food?topic=fruit&phase=explanation",steps:supplementalSteps.filter(s=>s.id.includes("food")||s.id.endsWith(":likes"))},
-  {title:"Тело и самочувствие",href:"/learning/body?topic=face&phase=explanation",steps:supplementalSteps.filter(s=>s.id.includes("body"))},
-  {title:"Время и мой день",href:"/learning/time-day?topic=hours&phase=explanation",steps:[]},
+  {...navigationTopic("topic:vocabulary-body")!,steps:supplementalSteps.filter(s=>(navigationTopic("topic:vocabulary-body")!.supplementalStepIds as readonly string[]).includes(s.id))},
+  {...navigationTopic("topic:vocabulary-calendar")!,steps:[]},
 ];
 export function GeneralPlan({practiceOnly=false}:{practiceOnly?:boolean}){return <EnsureQueryScope><Plan practiceOnly={practiceOnly}/></EnsureQueryScope>;}
 function Plan({practiceOnly}:{practiceOnly:boolean}){
