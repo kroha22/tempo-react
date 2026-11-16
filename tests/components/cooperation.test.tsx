@@ -6,7 +6,8 @@ import {VocabularyHub} from "@/features/practice/VocabularyHub";
 it.each([false,true])("practises all three cooperation stages and reuses feelings (child=%s)",async child=>{
   const user=userEvent.setup();
   render(<VocabularyHub initialChildMode={child} onOpenCards={vi.fn()}/>);
-  await user.click(within(screen.getByRole("region",{name:"Школьные материалы"})).getByRole("button",{name:/^Conversar e chegar a acordo/}));
+  if(child)await user.click(within(screen.getByRole("region",{name:"Школьные материалы"})).getByRole("button",{name:/^Conversar e chegar a acordo/}));
+  else {const entry=within(screen.getByRole("region",{name:"Тема: Сотрудничество и общение"}));await user.click(entry.getByText("Материалы темы"));await user.click(entry.getByRole("button",{name:"Общаемся и договариваемся: прежние уроки"}));}
   const region=screen.getByRole("region",{name:"Общаемся и договариваемся: уроки"});
   expect(within(region).getByRole("img")).toHaveAccessibleName(/O Rui e a Rita/);
   expect(within(region).getByRole("button",{name:"Anterior — Назад"})).toBeDisabled();

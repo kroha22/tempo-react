@@ -1,6 +1,9 @@
 /** Navigation only. These IDs already exist; this is not a content/progress registry. */
 import {readingLessonIds} from "./reading-lessons";
 export const navigationTopics=[
+  {id:"topic:vocabulary-cooperation",title:"Сотрудничество и общение",description:"Слушать · договариваться · выражать чувства · просить о помощи",href:"/learning/plan/school?unit=cooperation",
+    legacyEntries:[{id:"topic:vocabulary-cooperation",title:"Общаемся и договариваемся: прежние уроки"}],
+    schoolUnitIds:["cooperation"],supplementalStepIds:[],wordSources:["topic:vocabulary-cooperation","school:words:cooperation"]},
   {id:"topic:reading",title:"Буквы и чтение",description:"Алфавит · звуки · сочетания букв",href:"/learning/reading",
     legacyEntries:[{id:"topic:reading",title:"Буквы и чтение"}],
     schoolUnitIds:readingLessonIds,supplementalStepIds:[],wordSources:["school:words:reading"]},

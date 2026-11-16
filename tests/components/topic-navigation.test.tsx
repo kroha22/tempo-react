@@ -16,7 +16,7 @@ import {ReadingLessons} from "@/features/practice/ReadingLessons";
 import {wordCollections} from "@/features/content/word-collections";
 
 it("uses existing topic/legacy IDs and keeps all twenty school lessons exactly once",()=>{
-  expect(navigationTopics.map(topic=>topic.id)).toEqual(["topic:reading","topic:vocabulary-family","topic:food","topic:vocabulary-calendar","topic:vocabulary-body","topic:vocabulary-house"]);
+  expect(navigationTopics.map(topic=>topic.id)).toEqual(["topic:vocabulary-cooperation","topic:reading","topic:vocabulary-family","topic:food","topic:vocabulary-calendar","topic:vocabulary-body","topic:vocabulary-house"]);
   for(const topic of navigationTopics){
     expect(topic.id==="topic:reading"||catalogGroups.some(group=>group.id===topic.id)).toBe(true);
     for(const entry of topic.legacyEntries)expect(topicForLegacyId(entry.id)?.id).toBe(topic.id);
@@ -44,6 +44,15 @@ it("assigns the existing family and food sources, including the meals alias, exa
   const expected={"topic:vocabulary-family":["library:collection:expansion-family-close:0"],"topic:food":["fruit","food","library:collection:pairs-verbs-food-shopping:0","library:collection:expansion-food-table:0","library:collection:expansion-food-vegetables:0","library:collection:expansion-food-dairy:0","library:collection:expansion-food-meat:0","library:collection:expansion-food-seasoning:0","library:collection:expansion-food-other:0","library:collection:vocabulary-lesson:cooking:0"]};
   for(const [id,ids] of Object.entries(expected))expect(sets.filter(set=>topicForWordSet(set)?.id===id).map(set=>set.id)).toEqual(ids);
 });
+it("keeps cooperation sets separate and preserves their child collection membership",()=>{
+  const sets=wordBrowseSets(false).filter(set=>topicForWordSet(set)?.id==="topic:vocabulary-cooperation");
+  expect(sets.map(set=>set.id)).toEqual(["library:collection:cooperation-rules:0","school:words:cooperation"]);
+  expect(sets.map(set=>set.words.length)).toEqual([12,4]);
+  const childGroups=wordCollections(wordBrowseSets(true),true);
+  expect(childGroups.some(group=>group.id==="topic:vocabulary-cooperation")).toBe(false);
+  expect(childGroups.find(group=>group.title==="Школа, друзья и игры")?.sets[0].id).toBe("school:words:reading");
+  for(const set of sets)expect(childGroups.flatMap(group=>group.sets).filter(item=>item.id===set.id)).toHaveLength(1);
+});
 it("groups without merging, copying, dropping or changing any set/word/source in either presentation",()=>{
   for(const child of [false,true]){
     const library=wordLibraryFor(child),sets=wordBrowseSets(child),before=JSON.stringify({library,sets});
@@ -60,7 +69,7 @@ it("groups without merging, copying, dropping or changing any set/word/source in
 });
 it("renders the same canonical entry in plan, catalogue and words, preserving legacy buttons",()=>{
   render(<GeneralPlan practiceOnly/>);
-  for(const topic of navigationTopics)expect(document.querySelector(`a[href="${topic.href}"]`)).toHaveTextContent(topic.title);
+  for(const topic of navigationTopics){const link=document.querySelector(`a[href="${topic.href}"]`);expect(link).not.toBeNull();expect(topic.id==="topic:vocabulary-cooperation"?link!.closest("details")!.querySelector("summary"):link).toHaveTextContent(topic.title);}
   cleanup();render(<VocabularyHub onOpenCards={vi.fn()}/>);
   for(const topic of navigationTopics){
     const card=within(screen.getByRole("region",{name:`Тема: ${topic.title}`}));
@@ -82,6 +91,7 @@ it.each(navigationTopics)("opens only existing $title word sets and keeps the fi
 it("groups the child catalogue and leaves a lesson-source scope ungrouped",()=>{
   render(<QuickWords child onBack={vi.fn()}/>);expect(screen.getByText("Время и календарь")).toBeVisible();
   expect(screen.queryByText("Буквы и чтение",{exact:true})).toBeNull();
+  expect(screen.queryByText("Сотрудничество и общение",{exact:true})).toBeNull();
   cleanup();render(<QuickWords sourceIds={["book:1"]} onBack={vi.fn()}/>);
   expect(document.querySelectorAll("details")).toHaveLength(0);
 });

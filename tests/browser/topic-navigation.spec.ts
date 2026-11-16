@@ -2,6 +2,7 @@ import {expect,test} from "@playwright/test";
 import {browserNow,legacyBackup} from "./fixtures/legacy-profile";
 import {createAdult,exportBackup,importBackup,expectNoOverflow} from "./learning.helpers";
 const topics=[
+  {id:"topic:vocabulary-cooperation",title:"Сотрудничество и общение",href:"/learning/plan/school?unit=cooperation"},
   {id:"topic:reading",title:"Буквы и чтение",href:"/learning/reading"},
   {id:"topic:vocabulary-family",title:"Моя семья и близкие",href:"/learning/family?topic=close&phase=explanation"},
   {id:"topic:food",title:"Еда и предпочтения",href:"/learning/food?topic=fruit&phase=explanation"},
@@ -10,6 +11,18 @@ const topics=[
   {id:"topic:vocabulary-house",title:"Дом и расположение",href:"/learning/home?topic=rooms&phase=explanation"},
 ];
 test.beforeEach(async({page})=>{await page.clock.setFixedTime(browserNow);await page.goto("./");await createAdult(page,"Topic QA");});
+test("cooperation lesson and legacy stages retain both existing activity results",async({page})=>{
+  const backup=legacyBackup();backup.browser.learning.activities={...backup.browser.learning.activities,"prep:cooperation":{title:"Общение",group:"Слова в жизни",correct:2,total:2},"usage:cooperation:rules":{title:"Общение",group:"Слова в жизни",correct:3,total:3}};
+  await importBackup(page,backup);const before=await exportBackup(page);
+  await page.goto("#/learning/plan/school?unit=cooperation");await expect(page.getByRole("heading",{name:"Общение и конфликты",level:1})).toBeVisible();
+  await page.getByRole("button",{name:"Praticar",exact:true}).click();
+  await page.getByRole("button",{name:/Общаемся и договариваемся: комикс и практика/}).click();
+  const lesson=page.getByRole("region",{name:"Общаемся и договариваемся: уроки",exact:true});await expect(lesson).toBeVisible();await expect(lesson.getByRole("navigation",{name:"Шаги общения"}).getByRole("button")).toHaveCount(3);
+  await page.goto("#/learning/topics");const entry=page.getByRole("region",{name:"Тема: Сотрудничество и общение",exact:true});await entry.locator("summary").click();
+  await entry.getByRole("button",{name:"Общаемся и договариваемся: прежние уроки",exact:true}).click();await expect(lesson).toBeVisible();
+  await page.goto("#/learning/plan");await page.reload();const after=await exportBackup(page);
+  expect(after.browser.learning.activities).toEqual(before.browser.learning.activities);expect(after.learning).toEqual(before.learning);expect(after.browser.cards).toEqual(before.browser.cards);
+});
 test("reading route and old catalogue entry share ten lessons and retain an existing spelling result",async({page})=>{
   const backup=legacyBackup();backup.browser.learning.activities={...backup.browser.learning.activities,"prep:phonics:r-rr":{title:"R/RR",group:"Слова в жизни",correct:12,total:12}};
   await importBackup(page,backup);const before=await exportBackup(page);
@@ -21,12 +34,12 @@ test("reading route and old catalogue entry share ten lessons and retain an exis
   await page.goto("#/learning/plan");await page.reload();const after=await exportBackup(page);
   expect(after.browser.learning.activities).toEqual(before.browser.learning.activities);expect(after.learning).toEqual(before.learning);expect(after.browser.cards).toEqual(before.browser.cards);
 });
-test("plan, catalogue and word sections share six entries without changing old saves",async({page},info)=>{
+test("plan, catalogue and word sections share seven entries without changing old saves",async({page},info)=>{
   await importBackup(page,legacyBackup());const before=await exportBackup(page);
   await page.goto("#/learning/plan");const everyday=page.locator("summary").filter({hasText:"Повседневные темы"}).locator("..");await everyday.locator("summary").first().click();
   for(const topic of topics){
-    if(topic.id==="topic:reading"){
-      const school=page.locator("summary").filter({hasText:"Буквы и школьные темы"}).locator("..");await school.locator("summary").first().click();
+    if(topic.id==="topic:reading"||topic.id==="topic:vocabulary-cooperation"){
+      const school=page.locator("summary").filter({hasText:"Буквы и школьные темы"}).locator("..");if(!await school.evaluate(node=>(node as HTMLDetailsElement).open))await school.locator("summary").first().click();
       await school.locator("summary").filter({hasText:topic.title}).click();
       await expect(school.locator(`a[href="#${topic.href}"]`)).toBeVisible();continue;
     }
@@ -48,6 +61,7 @@ test("plan, catalogue and word sections share six entries without changing old s
   await page.screenshot({path:info.outputPath("topic-catalogue.png")});
 });
 for(const scope of [
+  {title:"Сотрудничество и общение",id:"topic:vocabulary-cooperation",setId:"library:collection:cooperation-rules:0",resume:"Общение и договорённости"},
   {title:"Буквы и чтение",id:"topic:reading",setId:"school:words:reading",resume:"Буквы и звуки"},
   {title:"Время и мой день",id:"topic:vocabulary-calendar",setId:"library:collection:calendar-week:0",resume:"Дни недели"},
   {title:"Моя семья и близкие",id:"topic:vocabulary-family",setId:"library:collection:expansion-family-close:0",resume:"Семья и родственники"},
