@@ -19,7 +19,7 @@
 .front {clip-path:polygon(13% 60%,87% 60%,87% 100%,13% 100%);z-index:4;}
 .zone {position:absolute!important;width:22%;height:27%;padding:0!important;border:1px dashed #526f8f88!important;background:transparent!important;border-radius:15px!important;color:#375470!important;display:grid;place-items:center;z-index:3;}
 .zone>span {font-size:18px;opacity:.6;}
-.zone:disabled {opacity:1;}
+.activity .zone:disabled {opacity:1;}
 .zone svg,.zone>span[style] {width:100%!important;height:100%!important;margin:0;background-color:transparent;}
 .zone[data-place=inside] {left:39%;top:29%;}
 .zone[data-place=above] {left:39%;top:2%;}
