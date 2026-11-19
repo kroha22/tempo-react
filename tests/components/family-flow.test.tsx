@@ -73,11 +73,25 @@ it("retains separate phrase and writing results after remount without inventing 
   const view=render(<Learner><LegacyDemo/></Learner>);
   expect(screen.queryByRole("region",{name:"Каталог единого маршрута",hidden:true})).not.toBeInTheDocument();
   fireEvent.click(screen.getByRole("link",{name:"3 · Задания"}));
-  for(const exercise of learningCatalog.usageModules.find(module=>module.id==="usage:family")!.exercises){fireEvent.click(screen.getByRole("button",{name:exercise.options.find(option=>option.id===exercise.correctOptionId)!.text}));fireEvent.click(screen.getByRole("button",{name:"Проверить"}));fireEvent.click(screen.getByRole("button",{name:exercise.id==="cloze:family-your-engineer"?"Завершить":"Следующая фраза →"}));}
+  const family=within(screen.getByRole("region",{name:"Моя семья: слова и SER"}));
+  const phrases=within(family.getByLabelText("Варианты ответа").closest("section")!);
+  const exercises=learningCatalog.usageModules.find(module=>module.id==="usage:family")!.exercises;
+  for(const [index,exercise] of exercises.entries()){
+    const answer=exercise.options.find(option=>option.id===exercise.correctOptionId)!;
+    fireEvent.click(phrases.getByRole("button",{name:answer.text}));
+    fireEvent.click(phrases.getByRole("button",{name:"Проверить"}));
+    fireEvent.click(phrases.getByRole("button",{name:index+1===exercises.length?"Завершить":"Следующая фраза →"}));
+  }
   expect(learning.activities?.["usage:family"].correct).toBe(10);expect(browserPracticePlanStorage.load().completed).toEqual({});
   fireEvent.click(screen.getByRole("button",{name:"К повторению →"}));
   fireEvent.click(screen.getByRole("link",{name:"Родственники"}));fireEvent.click(screen.getByRole("link",{name:"3 · Задания"}));
-  for(const word of familyCardWords.filter(word=>word.topic==="relatives")){fireEvent.change(screen.getByRole("textbox",{name:"Твой ответ"}),{target:{value:word.noun!.lemma}});fireEvent.click(screen.getByRole("button",{name:"Проверить"}));fireEvent.click(screen.getByRole("button",{name:word.wordId.includes("filha")?"Завершить":"Дальше"}));}
+  const writing=within(screen.getByRole("region",{name:"Напиши слово"}));
+  const relatives=familyCardWords.filter(word=>word.topic==="relatives");
+  for(const [index,word] of relatives.entries()){
+    fireEvent.change(writing.getByRole("textbox",{name:"Твой ответ"}),{target:{value:word.noun!.lemma}});
+    fireEvent.click(writing.getByRole("button",{name:"Проверить"}));
+    fireEvent.click(writing.getByRole("button",{name:index+1===relatives.length?"Завершить":"Дальше"}));
+  }
   expect(learning.activities?.["practice:words:expansion-family-relatives"].correct).toBe(6);
   expect(Object.keys(browserPracticePlanStorage.load().completed)).toEqual(["practice:words:expansion-family-relatives"]);
   fireEvent.click(screen.getByRole("link",{name:"4 · Повторение"}));view.unmount();render(<Learner><LegacyDemo/></Learner>);

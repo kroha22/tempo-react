@@ -7,6 +7,7 @@ import {readingCardChoices} from "./reading-cards.ts";
 export const introductionPhases=["explanation","words","practice","review"] as const;
 export type IntroductionPhase=typeof introductionPhases[number];
 export const introductionHref=(phase:IntroductionPhase="explanation",related?:string)=>`/learning/introduction?phase=${phase}${related?`&related=${encodeURIComponent(related)}`:""}`;
+export const introductionFamilyHref=(related?:string)=>`${introductionHref("practice",related)}&activity=family`;
 export const introductionCards=legacyCardGroups.find(group=>group.id==="intro")!;
 export const introductionExplanation=[
   {pt:"Posso cumprimentar outra pessoa, dizer o meu nome e perguntar o nome e a origem dela.",ru:"Я могу поздороваться, назвать своё имя и спросить имя и происхождение собеседника."},

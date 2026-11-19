@@ -64,7 +64,16 @@ export function RelatedLearning({ href, onBack }: { href: string; onBack: () => 
   if(href.split("?")[0]==="/learning/plan/school"){const params=new URLSearchParams(href.split("?")[1]);return <PlanSchoolLesson key={href} unitId={params.get("unit")??undefined} wordsOnly={params.get("words")==="1"}/>;}
   if(href==="/learning/reading")return <ReadingLessons onBack={onBack}/>;
   if(href==="/learning/clothing")return <ClothingTopic onBack={onBack}/>;
-  if(href.split("?")[0]==="/learning/introduction"){const params=new URLSearchParams(href.split("?")[1]);return <IntroductionTopic phase={params.get("phase")??undefined} related={params.get("related")??undefined} renderRelated={(target,back)=><RelatedLearning key={target} href={target} onBack={back}/>} onBack={onBack}/>;}
+  if(href.split("?")[0]==="/learning/introduction"){
+    const params=new URLSearchParams(href.split("?")[1]);
+    return <IntroductionTopic phase={params.get("phase")??undefined} familyBridge={params.get("activity")==="family"}
+      related={params.get("related")??undefined} onBack={onBack}
+      renderRelated={(target,back)=>{
+        // Keep the family lesson mounted as its phase changes, just as at its direct URL.
+        const page=target.split("?")[0];
+        return <RelatedLearning key={page==="/learning/family"?page:target} href={target} onBack={back}/>;
+      }}/>;
+  }
   if(href==="/learning/city")return <CityTopic onBack={onBack}/>;
   if(href==="/learning/work-study")return <WorkStudyTopic onBack={onBack}/>;
   if(href.split("?")[0]==="/learning/quick-words"){const params=new URLSearchParams(href.split("?")[1]);return <QuickWords onBack={onBack} topicId={params.get("topic")??undefined} initialSetId={params.get("set")??undefined} resumeInitial={params.get("resume")==="1"}/>;}
