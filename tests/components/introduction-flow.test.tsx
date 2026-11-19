@@ -34,7 +34,8 @@ it("reuses U36 and U40 in adult practice and returns from the family lesson to t
   const before=structuredClone(learning),saved=structuredClone(data);
   window.history.replaceState(null,"",`/tempo-react/#${introductionHref("practice")}`);
   render(<Learner><LegacyDemo/></Learner>);
-  fireEvent.click(screen.getByRole("link",{name:"Представить близкого →"}));
+  const activities=within(screen.getByRole("navigation",{name:"Виды заданий знакомства"}));
+  fireEvent.click(activities.getByRole("link",{name:"Представить близкого →"}));
   expect(window.location.hash).toBe(`#${introductionFamilyHref()}`);
   const bridge=within(screen.getByRole("region",{name:"Представить близкого"}));
   fireEvent.click(bridge.getByRole("button",{name:"Показать объяснение по-русски"}));
@@ -42,14 +43,17 @@ it("reuses U36 and U40 in adult practice and returns from the family lesson to t
   fireEvent.click(bridge.getByText("Брат и сестра в U36"));
   expect(bridge.getByText("a irmã — as irmãs")).toBeVisible();
   expect(bridge.getByRole("link",{name:"Слова U36 →"})).toHaveAttribute("href","#/learning/gramatica-ativa/words/u36");
-  fireEvent.click(bridge.getByRole("button",{name:"o"}));
-  expect(bridge.queryByRole("button",{name:"Перейти к вопросу →"})).toBeNull();
-  fireEvent.click(bridge.getByRole("button",{name:"a"}));
+  const articles=within(bridge.getByRole("group",{name:"Выберите артикль"}));
+  fireEvent.click(articles.getByRole("button",{name:"o"}));
+  expect(bridge.queryByText("Перейти к вопросу →",{selector:"button"})).toBeNull();
+  fireEvent.click(articles.getByRole("button",{name:"a"}));
   fireEvent.click(bridge.getByRole("button",{name:"Перейти к вопросу →"}));
   expect(bridge.getByRole("link",{name:"Слова U40 →"})).toHaveAttribute("href","#/learning/gramatica-ativa/words/u40");
+  const question=bridge.getByRole("textbox",{name:"Ваш вопрос"});
+  const submit=within(question.closest("form")!).getByRole("button",{name:"Спросить Риту"});
   const ask=(value:string)=>{
-    fireEvent.change(bridge.getByRole("textbox",{name:"Ваш вопрос"}),{target:{value}});
-    fireEvent.click(bridge.getByRole("button",{name:"Спросить Риту"}));
+    fireEvent.change(question,{target:{value}});
+    fireEvent.click(submit);
   };
   ask("De onde és?");expect(bridge.getByRole("status")).toHaveTextContent("узнать, кто");
   ask("Quem e?");expect(bridge.getByRole("status")).toHaveTextContent("ударение");
@@ -58,7 +62,8 @@ it("reuses U36 and U40 in adult practice and returns from the family lesson to t
   fireEvent.click(bridge.getByRole("link",{name:"Открыть урок «Моя семья и близкие» →"}));
   expect(window.location.hash).toBe(`#${introductionFamilyHref(familyFlowHref())}`);
   expect(screen.getByRole("heading",{name:"Близкие · Объяснение"})).toBeVisible();
-  fireEvent.click(screen.getByRole("button",{name:"← К первым разговорам"}));
+  const back=screen.getByText("← К первым разговорам",{selector:"button"});
+  expect(back).toBeVisible();fireEvent.click(back);
   expect(bridge.getByText("É a minha mãe.")).toBeVisible();
   await waitFor(()=>expect(learning).toEqual(before));
   expect(data).toEqual(saved);
