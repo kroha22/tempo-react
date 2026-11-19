@@ -26,11 +26,11 @@ test("book practice returns to the common plan, resumes its saved answer and pre
   const snapshot=grammarStart(lesson);
   await api("/api/learning/progress",post({lessonId:lesson.id,flowRevision:1,status:"active",sessionId:snapshot.sessionId,snapshot:{grammar:snapshot},updatedAt:200}));
   render(<LegacyDemo/>);
-  fireEvent.click(await screen.findByRole("link",{name:"Продолжить урок →"}));
-  await screen.findByRole("textbox");fireEvent.change(screen.getByRole("textbox"),{target:{value:"abras"}});fireEvent.click(screen.getByRole("button",{name:"Проверить"}));
+  fireEvent.click(await screen.findByText("Продолжить урок →",{selector:"a"}));
+  const answer=await screen.findByRole("textbox");fireEvent.change(answer,{target:{value:"abras"}});fireEvent.click(screen.getByRole("button",{name:"Проверить"}));
   await screen.findByText("Верно",{exact:true});fireEvent.click(screen.getByRole("link",{name:"← К общему плану"}));
   expect(await screen.findByRole("heading",{name:"Общий план"})).toBeVisible();
-  const resume=await screen.findByRole("link",{name:"Продолжить урок →"});expect(resume).toHaveAttribute("href",`#/learning/gramatica-ativa/${lesson.slug}`);
+  const resume=await screen.findByText("Продолжить урок →",{selector:"a"});expect(resume).toHaveAttribute("href",`#/learning/gramatica-ativa/${lesson.slug}`);
   fireEvent.click(resume);expect(await screen.findByText("Верно",{exact:true})).toBeVisible();
   expect((await store.read()).progress.find(row=>row.lessonId===old.lessonId)).toEqual(old);expect((await store.read()).reviews[0]).toEqual(review);
 });
