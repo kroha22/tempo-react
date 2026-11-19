@@ -18,6 +18,9 @@ const eslintConfig = defineConfig([
     "worker/worker-configuration.d.ts",
     "outputs/**",
     "work/**",
+    "playwright-report/**",
+    "test-results/**",
+    ".playwright-cli/**",
   ]),
   {
     files: ["features/**/*.{ts,tsx}", "shared/**/*.{ts,tsx}"],

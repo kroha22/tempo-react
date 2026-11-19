@@ -13,6 +13,7 @@ import {GeneralPlan} from "../features/learning/plan/GeneralPlan";
 import {generalPlanHref} from "../features/learning/plan/model";
 import {LegacyLessonLink} from "../features/practice/LegacyLessonLink";
 import {WordLearningReturn} from "../features/practice/WordLearningEntry";
+import {LearningReturnOrigin} from "../features/practice/LearningReturnOrigin";
 import Flashcards from "../features/cards/components/Flashcards";
 import "../shared/ui/tempo-appearance.css";
 
@@ -26,6 +27,8 @@ function ProfileDemo({profile}:{profile?:LocalProfile}) {
   const learning=useProfileLearning();
   const [resumeTopic]=useState(()=>learning?.learning.lastTopicId??null);
   const [href, setHref] = useState(() => window.location.hash.slice(1));
+  const [planBlock,setPlanBlock]=useState<string>();
+  const [catalogOrigin,setCatalogOrigin]=useState(false);
   const main = useRef<HTMLDivElement>(null);
   const related = useRef<HTMLDivElement>(null);
   const previousHref = useRef("");
@@ -47,14 +50,15 @@ function ProfileDemo({profile}:{profile?:LocalProfile}) {
     if (isRelated) {
       previousHref.current = href;
       if(!["/learning/house","/cards/house","/learning/time-day","/learning/family","/learning/food","/learning/body","/learning/home","/learning/legacy-cards"].includes(href.split("?")[0]))related.current?.querySelector("h1")?.focus();
-    } else if(isPlan){main.current?.querySelector<HTMLHeadingElement>("h1")?.focus();originLink.current=null;
+    } else if(isPlan){(main.current?.querySelector<HTMLElement>(`details[data-route-block="${planBlock}"] > summary`)??main.current?.querySelector<HTMLHeadingElement>("h1"))?.focus();originLink.current=null;
     } else if (previousHref.current) {
       const origin=originLink.current?.isConnected?originLink.current:Array.from(main.current?.querySelectorAll("a") ?? []).find(link => link.getAttribute("href") === `#${previousHref.current}`);
       origin?.focus({preventScroll:true});origin?.scrollIntoView?.({block:"center"});originLink.current=null;
     }
-  }, [href,isRelated,isPlan]);
+  }, [href,isRelated,isPlan,planBlock]);
   function navigate(nextHref: string, origin?:HTMLElement) {
-    if(nextHref&&!isRelated){returnHref.current=profile?(isTopics?"/learning/topics":isCards?"/cards":generalPlanHref):"";const source=origin??document.activeElement;originLink.current=source instanceof HTMLElement&&main.current?.contains(source)?source:null;}
+    if(isPlan){const block=(origin??document.activeElement)?.closest<HTMLElement>("[data-route-block]")?.dataset.routeBlock;if(block)setPlanBlock(block);}
+    if(nextHref&&!isRelated){setCatalogOrigin(!!profile&&!profile.child&&isTopics);returnHref.current=profile?(isTopics?"/learning/topics":isCards?"/cards":generalPlanHref):"";const source=origin??document.activeElement;originLink.current=source instanceof HTMLElement&&main.current?.contains(source)?source:null;}
     window.location.hash = nextHref;
     setHref(nextHref);
     if (nextHref) window.scrollTo(0, 0);
@@ -66,11 +70,11 @@ function ProfileDemo({profile}:{profile?:LocalProfile}) {
     <RelatedLearningNavigation value={navigate}>
       {profile&&<nav className="general-navigation" aria-label="Разделы Tempo"><LegacyLessonLink href={generalPlanHref} current={!isTopics&&!isCards&&!isWords}>Общий план</LegacyLessonLink><LegacyLessonLink href="/learning/topics" current={isTopics}>Все темы</LegacyLessonLink><LegacyLessonLink href="/learning/quick-words" current={isWords||isCards}>Учить слова</LegacyLessonLink>{!isWords&&<SpeechHelpButton/>}</nav>}
       <div ref={main} hidden={isRelated}>{profile?<>
-        {isPlan&&<GeneralPlan/>}
-        <div hidden={!isTopics}><PracticeScreen initialChildMode={initialChildMode} initialSection="vocabulary" resumeTopicId={resumeTopic} onOpenGeneralPlan={()=>navigate(generalPlanHref)} onOpenGeneralCards={()=>navigate("/cards")}/></div>
+        {isPlan&&<GeneralPlan initialBlock={planBlock}/>}
+        <div hidden={!isTopics}><PracticeScreen initialChildMode={initialChildMode} initialSection="vocabulary" resumeTopicId={initialChildMode?resumeTopic:null} onOpenGeneralPlan={()=>navigate(generalPlanHref)} onOpenGeneralCards={()=>navigate("/cards")}/></div>
         {isCards&&<Flashcards/>}
       </>:<PracticeScreen initialChildMode={initialChildMode} initialSection={resumeTopic?"vocabulary":"lessons"} resumeTopicId={resumeTopic}/>}</div>
-      {isRelated && <div ref={related}><WordLearningReturn value={()=>navigate(returnHref.current)}><RelatedLearning key={href==="/learning/house"||href==="/cards/house"?"/learning/home":["/learning/time-day","/learning/family","/learning/food","/learning/body","/learning/home","/learning/legacy-cards"].includes(href.split("?")[0])?href.split("?")[0]:beingDestinationForHref(href)?"being-lesson":href} href={href} onBack={() => navigate(returnHref.current)} /></WordLearningReturn></div>}
+      {isRelated && <div ref={related}><LearningReturnOrigin value={catalogOrigin?"/learning/topics":null}><WordLearningReturn value={()=>navigate(returnHref.current)}><RelatedLearning key={href==="/learning/house"||href==="/cards/house"?"/learning/home":["/learning/time-day","/learning/family","/learning/food","/learning/body","/learning/home","/learning/legacy-cards"].includes(href.split("?")[0])?href.split("?")[0]:beingDestinationForHref(href)?"being-lesson":href} href={href} onBack={() => navigate(returnHref.current)} /></WordLearningReturn></LearningReturnOrigin></div>}
     </RelatedLearningNavigation>
   </div>;
 }

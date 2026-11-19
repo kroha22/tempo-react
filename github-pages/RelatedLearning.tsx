@@ -67,7 +67,7 @@ export function RelatedLearning({ href, onBack }: { href: string; onBack: () => 
   if(href==="/learning/introduction")return <IntroductionTopic onBack={onBack}/>;
   if(href==="/learning/city")return <CityTopic onBack={onBack}/>;
   if(href==="/learning/work-study")return <WorkStudyTopic onBack={onBack}/>;
-  if(href.split("?")[0]==="/learning/quick-words")return <QuickWords onBack={onBack} topicId={new URLSearchParams(href.split("?")[1]).get("topic")??undefined}/>;
+  if(href.split("?")[0]==="/learning/quick-words"){const params=new URLSearchParams(href.split("?")[1]);return <QuickWords onBack={onBack} topicId={params.get("topic")??undefined} initialSetId={params.get("set")??undefined} resumeInitial={params.get("resume")==="1"}/>;}
   if(href.split("?")[0]==="/learning/legacy-cards"){const params=new URLSearchParams(href.split("?")[1]);return <LegacyCards group={params.get("group")??undefined} mode={params.get("mode")??undefined} onBack={onBack}/>;}
   if(["/learning/home","/learning/house","/cards/house"].includes(href.split("?")[0])){const params=new URLSearchParams(href.split("?")[1]);return <HomeFlow legacyWords={href==="/cards/house"} topic={params.get("topic")??undefined} phase={href==="/cards/house"?"words":params.get("phase")??undefined} related={params.get("related")??undefined} renderRelated={(href,back)=><RelatedLearning key={href} href={href} onBack={back}/>} onBack={onBack}/>;}
   if(href.split("?")[0]==="/learning/home/cards"){const params=new URLSearchParams(href.split("?")[1]);return <HomeCards topic={params.get("topic")??undefined} mode={params.get("mode")??undefined} source={params.get("source")??undefined} onBack={onBack}/>;}

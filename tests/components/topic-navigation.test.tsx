@@ -92,8 +92,12 @@ it("keeps the reading ID, all ten lesson IDs, the original word set and the lega
 });
 it("assigns the existing family and food sources, including the meals alias, exactly once",()=>{
   const sets=wordBrowseSets(false);
-  const expected={"topic:vocabulary-family":["library:collection:expansion-family-close:0"],"topic:food":["fruit","food","library:collection:pairs-verbs-food-shopping:0","library:collection:expansion-food-table:0","library:collection:expansion-food-vegetables:0","library:collection:expansion-food-dairy:0","library:collection:expansion-food-meat:0","library:collection:expansion-food-seasoning:0","library:collection:expansion-food-other:0","library:collection:vocabulary-lesson:cooking:0"]};
+  const expected={"topic:vocabulary-family":["library:collection:expansion-family-close:0"],"topic:food":["fruit","food","library:collection:pairs-verbs-food-shopping:0","library:collection:expansion-food-table:0","library:collection:expansion-food-vegetables:0","library:collection:expansion-food-meat:0","library:collection:expansion-food-seasoning:0","library:collection:expansion-food-other:0","library:collection:vocabulary-lesson:cooking:0"]};
   for(const [id,ids] of Object.entries(expected))expect(sets.filter(set=>topicForWordSet(set)?.id===id).map(set=>set.id)).toEqual(ids);
+  const dairy=wordLibraryFor(false).find(set=>set.id==="library:collection:expansion-food-dairy:0")!;
+  const food=sets.find(set=>set.id==="food")!;
+  expect(food.aliases).toContain(dairy.id);
+  expect(dairy.words.every(word=>food.words.includes(word))).toBe(true);
 });
 it("keeps cooperation sets separate and preserves their child collection membership",()=>{
   const sets=wordBrowseSets(false).filter(set=>topicForWordSet(set)?.id==="topic:vocabulary-cooperation");

@@ -122,7 +122,8 @@
 .root button:focus-visible,.root input:focus-visible,.root summary:focus-visible { outline:3px solid #8bf0cd; outline-offset:2px; }
 .header h1:focus {outline:none;}
 .homeActions {display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-bottom:12px;}
-.homeActions button,.saveSet button {padding:10px 12px;border:1px solid #ffffff1a;border-radius:16px;background:linear-gradient(135deg,#9debd81c,#c8c1ff0c);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:inset 0 1px #ffffff14;color:#f2fff9;text-align:left;}
+.homeActions button,.homeActions a,.saveSet button {padding:10px 12px;border:1px solid #ffffff1a;border-radius:16px;background:linear-gradient(135deg,#9debd81c,#c8c1ff0c);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:inset 0 1px #ffffff14;color:#f2fff9;text-align:left;}
+.homeActions a{display:flex;align-items:center;min-height:44px;box-sizing:border-box;text-underline-offset:3px;}
 .libraryTools input {box-sizing:border-box;width:100%;min-height:44px;margin-bottom:8px;padding:8px 14px;border:1px solid #ffffff1a;border-radius:16px;background:#ffffff05;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#fff;font:inherit;}
 .libraryTools input::placeholder {color:#c0c9dd;}
 .searchRow {display:flex;align-items:stretch;gap:6px;}

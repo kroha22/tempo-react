@@ -23,7 +23,8 @@ it("opens all ten language lessons and keeps the full preparation available",()=
   fireEvent.click(screen.getByRole("button",{name:"← Ко всем темам"}));
   expect(screen.queryByRole("button",{name:/Подготовка к тесту/})).not.toBeInTheDocument();
   view.unmount();render(<VocabularyHub initialTopicId="school:preparation" onOpenCards={vi.fn()}/>);
-  expect(screen.getByText("6 тем · 20 всего")).toBeVisible();
+  expect(screen.getByRole("link",{name:/^Буквы и чтение/})).toBeVisible();
+  expect(screen.getByRole("link",{name:/^Буквы и чтение/})).toHaveAttribute("href","/learning/reading");
 });
 
 it.each(["c-cedilla","s-z","g-gu","nasal","digraphs","x-sounds","clusters"])("keeps %s answers and existing progress after remount and a worse retry",id=>{
@@ -75,7 +76,7 @@ it.each([false,true])("shares spelling results with preparation (previous best: 
   await user.click(screen.getByRole("button",{name:"← Ко всем темам"}));
   expect(screen.queryByRole("button",{name:/Подготовка к тесту/})).not.toBeInTheDocument();
   view.unmount();render(<Session legacy/>);
-  await user.click(within(screen.getByRole("navigation",{name:"Предмет подготовки"})).getByRole("button",{name:"Português"}));
+  await user.click(screen.getByRole("button",{name:/Буквы и чтение/}));
   await user.click(screen.getByRole("button",{name:/R ou RR/}));
   await user.click(screen.getByRole("button",{name:"Praticar"}));
   expect(screen.getByText("Ronda 1 / 3 · 4 palavras")).toBeVisible();

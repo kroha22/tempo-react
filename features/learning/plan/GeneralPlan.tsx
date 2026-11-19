@@ -13,6 +13,7 @@ import {schoolPlanGroups,schoolLessonHref} from "./school-plan";
 import styles from "./GeneralPlan.module.css";
 import {navigationTopic,topicWordsHref} from "../../content/topic-navigation";
 import {useProfileLearning} from "../../practice/profile-learning";
+import {AdultGeneralPlan} from "./AdultGeneralPlan";
 
 const everyday=[
   {...navigationTopic("topic:work")!,steps:[]},
@@ -25,7 +26,7 @@ const everyday=[
   {...navigationTopic("topic:vocabulary-body")!,steps:supplementalSteps.filter(s=>(navigationTopic("topic:vocabulary-body")!.supplementalStepIds as readonly string[]).includes(s.id))},
   {...navigationTopic("topic:vocabulary-calendar")!,steps:[]},
 ];
-export function GeneralPlan({practiceOnly=false}:{practiceOnly?:boolean}){return <EnsureQueryScope><Plan practiceOnly={practiceOnly}/></EnsureQueryScope>;}
+export function GeneralPlan({practiceOnly=false,initialBlock}:{practiceOnly?:boolean;initialBlock?:string}){const profile=useProfileLearning()?.profile;return <EnsureQueryScope>{profile&&!profile.child?<AdultGeneralPlan key={profile.id} practiceOnly={practiceOnly} initialBlock={initialBlock}/>:<Plan practiceOnly={practiceOnly}/>}</EnsureQueryScope>;}
 function Plan({practiceOnly}:{practiceOnly:boolean}){
   const child=useProfileLearning()?.profile.child??false;
   const everydayTopics=everyday.filter(topic=>!child||!["topic:vocabulary-clothing","foundation:hello","topic:city","topic:work"].includes(topic.id));
@@ -36,7 +37,7 @@ function Plan({practiceOnly}:{practiceOnly:boolean}){
   const known=!practiceOnly&&!!query.data&&!query.isError&&!scope.blocked;
   const matches=(unit:typeof generalPlanUnits[number])=>filter==="all"||(known&&unit.lesson&&(filter==="done"?bookPassed(state.rowById.get(unit.lesson.id)):bookState(unit.lesson,state.rowById.get(unit.lesson.id))===filter));
   return <section className={styles.plan} aria-label="Общий план обучения">
-    <header className={styles.intro}><h1 tabIndex={-1}>Общий план</h1>{known&&<div><small>По книге · {state.done.length}/{state.ready.length}</small><progress aria-label="Пройденные проверки книги" value={state.done.length} max={state.ready.length}/></div>}</header>
+    <header className={styles.intro} data-ui-surface><h1 tabIndex={-1}>Общий план</h1>{known&&<div><small>По книге · {state.done.length}/{state.ready.length}</small><progress aria-label="Пройденные проверки книги" value={state.done.length} max={state.ready.length}/></div>}</header>
     {known&&<article className={styles.continue}><span>{bookState(state.next.lesson,state.rowById.get(state.next.lesson.id))==="active"?"Продолжить начатое":"Следующая тема по книге"}</span><h2>U{String(state.next.unit).padStart(2,"0")} · {state.next.title}</h2><LegacyLessonLink className={styles.primary} href={`/learning/gramatica-ativa/${state.next.lesson.slug}`}>{bookState(state.next.lesson,state.rowById.get(state.next.lesson.id))==="active"?"Продолжить урок →":"Начать проверку →"}</LegacyLessonLink><LegacyLessonLink className={styles.secondary} href={`/learning/gramatica-ativa/${state.next.lesson.slug}/explanation`}>Сначала прочитать объяснение →</LegacyLessonLink></article>}
     {!practiceOnly&&query.isFetching&&<p role="status">Обновляем прогресс…</p>}
     {!practiceOnly&&(query.isError||scope.blocked)&&<div role="alert"><p>Не удалось загрузить прогресс книги. Сохранения не изменены; уроки можно открыть ниже.</p><button type="button" onClick={()=>scope.blocked?scope.retryAccess():void query.refetch()}>Повторить загрузку прогресса</button></div>}

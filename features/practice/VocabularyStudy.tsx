@@ -43,6 +43,8 @@ import {useProfileLearning} from "./profile-learning";
 import {navigationTopics,topicForLegacyId} from "../content/topic-navigation";
 import {RegisteredTopicCard} from "./RegisteredTopicCard";
 import {LearningLibrary} from "./LearningLibrary";
+import {AdultLearningCatalog} from "./AdultLearningCatalog";
+import type {AdultRouteBlockKey} from "../content/adult-route";
 import {QuickWords} from "./QuickWords";
 
 const foundationTopics=[
@@ -76,7 +78,9 @@ function FoundationCover({src}:{src:string|NonNullable<VocabularyWord["illustrat
 
 export function VocabularyStudy({ onOpenCards,onBackToOrigin,initialChildMode=false,initialTopicId,initialTarget }: { onOpenCards?: () => void;onBackToOrigin?:()=>void;initialChildMode?:boolean;initialTopicId?:string|null;initialTarget?:import("../content/test-preparation").PrepTarget } = {}) {
   const learner=useProfileLearning();
-  const [groupId, setCurrentGroup] = useState<string | null>(initialTopicId??null);
+  const [catalogQuery,setCatalogQuery]=useState("");
+  const [catalogBlocks,setCatalogBlocks]=useState<AdultRouteBlockKey[]>([]);
+  const [groupId, setCurrentGroup] = useState<string | null>(initialTopicId==="school:preparation"?null:initialTopicId??null);
   function setGroupId(id:string|null){if(id)learner?.update(current=>({...current,lastTopicId:id}));setCurrentGroup(id);}
   const [prepUnitId,setPrepUnitId]=useState<string|null>(()=>permanentLessonForTopic(initialTopicId)?.id??null);
   const [permanentUnitId,setPermanentUnitId]=useState<string|null>(()=>permanentLessonForTopic(initialTopicId)?.id??null);
@@ -86,11 +90,11 @@ export function VocabularyStudy({ onOpenCards,onBackToOrigin,initialChildMode=fa
   const [mode, setMode] = useState<Mode | null>(initialTarget?.mode??(initialTopicId==="topic:vocabulary-cooperation"?"cooperation":initialTopicId==="topic:vocabulary-calendar"?"calendar":initialTopicId==="topic:people"?"feelings":initialTopicId==="topic:vocabulary-family"?"family":initialTopicId==="topic:vocabulary-my-day"?"routine":"cards"));
   const [imageId, setImageId] = useState<string | null>(null);
   const [usageId, setUsageId] = useState<string | null>(null);
-  const lessonActive=groupId==="school:preparation"||!!permanentLessonForTopic(groupId);
+  const lessonActive=!!permanentLessonForTopic(groupId);
   const permanentSection=permanentUnitId?sectionForUnit(permanentUnitId):undefined;
   const topicSection=schoolLessonSections.find(section=>section.topicId===groupId);
   function openPermanentLesson(id:string){setPrepUnitId(id);setPermanentUnitId(id);setReturnToPrep(false);setGroupId(permanentLessonTopic(id));}
-  function returnToSource(){setGroupId(permanentUnitId?permanentLessonTopic(permanentUnitId):"school:preparation");}
+  function returnToSource(){setGroupId(permanentUnitId?permanentLessonTopic(permanentUnitId):null);}
   const preparationPanel=(lessonActive||returnToPrep)&&<div key="preparation" hidden={!lessonActive}><TestPreparation key={permanentUnitId??"legacy"} active={lessonActive} permanentTitle={permanentSection?.title} initialChildMode={initialChildMode} initialUnitId={prepUnitId} onUnitChange={setPrepUnitId} onBack={()=>{setGroupId(permanentSection?.topicId??null);setReturnToPrep(false);setPermanentUnitId(null);}} onOpen={target=>{setReturnToPrep(true);setGroupId(target.topicId);setSetId(target.collectionId??null);setMode(target.mode);setUsageId(null);setCalendarStart(target.calendarLessonId??"hours");}}/></div>;
   if(groupId==="quick:words")return <QuickWords child={initialChildMode} onBack={()=>setGroupId(null)}/>;
   if(groupId==="topic:reading")return <TestPreparation reading initialChildMode={initialChildMode} initialUnitId={null} onUnitChange={()=>{}} onBack={()=>setGroupId(null)} onOpen={()=>{}}/>;
@@ -100,6 +104,7 @@ export function VocabularyStudy({ onOpenCards,onBackToOrigin,initialChildMode=fa
   if(foundation)return <FirstSteps key={foundation.id} topicStep={foundation.step} initialChildMode={initialChildMode} onBack={()=>setGroupId(null)}/>;
   const group = studyVocabularyGroups.find(group => group.id === groupId);
   const registryEnabled=!(learner?.profile.child??initialChildMode);
+  if(!group&&learner&&!learner.profile.child)return <AdultLearningCatalog query={catalogQuery} onQueryChange={setCatalogQuery} openBlocks={catalogBlocks} onToggleBlock={(key,open)=>setCatalogBlocks(current=>open?current.includes(key)?current:[...current,key]:current.includes(key)?current.filter(id=>id!==key):current)} onOpenLegacy={id=>{setGroupId(id);setMode(id==="topic:vocabulary-cooperation"?"cooperation":id==="topic:vocabulary-calendar"?"calendar":id==="topic:people"?"feelings":id==="topic:vocabulary-family"?"family":"cards");}}/>;
   const orderedGroups=[...studyVocabularyGroups.filter(group=>group.id==="topic:vocabulary-family"),...studyVocabularyGroups.filter(group=>group.id==="topic:people"),...studyVocabularyGroups.filter(group=>group.id!=="topic:vocabulary-family"&&group.id!=="topic:people")];
   const renderTopic=(group:(typeof studyVocabularyGroups)[number],index:number)=>{
     if(group.id==="topic:vocabulary-house")return <div key={group.id}><LegacyLessonLink className={styles.topicCard} href="/learning/home?topic=rooms&phase=explanation"><strong>Дом и расположение</strong><span>Комнаты · предметы · положение</span><small>Объяснение → слова → задания → повторение</small></LegacyLessonLink><details><summary>Отдельные материалы дома</summary><button type="button" onClick={()=>{setGroupId(group.id);setMode("cards");}}>Прежние наборы дома и полная схема</button></details></div>;

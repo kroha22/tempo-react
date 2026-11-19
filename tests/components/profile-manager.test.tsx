@@ -18,7 +18,13 @@ it.each([true,false])("opens and restores a profile (child=%s) without the casin
   expect(registry.profiles).toHaveLength(1);
   expect(registry.profiles[0].child).toBe(child);
   expect(screen.getByRole("heading",{name:"Общий план"})).toBeVisible();
-  fireEvent.click(screen.getByRole("link",{name:"Короткий урок: SER →"}));
+  if(child)fireEvent.click(screen.getByRole("link",{name:"Короткий урок: SER →"}));
+  else{
+    fireEvent.click(document.querySelector('details[data-route-block="B01"] > summary')!);
+    const block=document.querySelector('details[data-route-block="B01"]')!;
+    fireEvent.click(within(block as HTMLElement).getByText("Ещё объяснения и практика",{exact:true}));
+    fireEvent.click(within(document.querySelector('[data-material-key="short-grammar/ser"]') as HTMLElement).getByRole("link",{name:"Открыть материал →"}));
+  }
   if(child)expect(screen.getByRole("img",{name:"Мальчик"})).toHaveTextContent("👦");
   expect(screen.getByRole("img",{name:"Люди, роли и происхождение"})).toHaveAttribute("src",child?"/ser-guide-kingdoms.webp":"/ser-guide-adult.webp");
   const saved=window.localStorage.getItem(profilesKey);

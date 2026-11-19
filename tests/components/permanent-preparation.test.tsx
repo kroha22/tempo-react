@@ -57,9 +57,12 @@ it("restores the old school:preparation continuation without resetting existing 
   const learning={...stores.learning.load(),lastTopicId:"school:preparation",activities:{"prep:cooperation":{title:"Общение",group:"Слова в жизни" as const,correct:2,total:2}}};
   stores.learning.save(learning);
   render(<VocabularyHub initialTopicId={stores.learning.load().lastTopicId} onOpenCards={vi.fn()}/>);
-  expect(screen.getByText("6 тем · 20 всего")).toBeVisible();
-  fireEvent.click(screen.getByRole("button",{name:/^Conviver e resolver conflitos/}));
-  expect(screen.getByRole("button",{name:"Praticar"})).toBeVisible();
+  expect(screen.queryByRole("heading",{name:"Preparar o teste"})).not.toBeInTheDocument();
+  const reading=screen.getByRole("region",{name:"Тема: Буквы и чтение"});
+  expect(within(reading).getByRole("link",{name:/^Буквы и чтение/})).toBeVisible();
+  fireEvent.click(within(reading).getByText("Материалы темы"));
+  fireEvent.click(within(reading).getByRole("button",{name:"Буквы и чтение"}));
+  expect(screen.getByText("10 тем · 10 всего")).toBeVisible();
   expect(stores.learning.load()).toEqual(learning);
 });
 

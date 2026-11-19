@@ -5,6 +5,7 @@ import {wordBrowseSets} from "../content/word-browse-sets";
 import {wordCollections} from "../content/word-collections";
 import {navigationTopic,topicForWordSet} from "../content/topic-navigation";
 import {WordTopicSections} from "./WordTopicSections";
+import {LegacyLessonLink} from "./LegacyLessonLink";
 import {SpeechHelpButton} from "../cards/components/SpeechHelpButton";
 import {WordMemory} from "./WordMemory";
 import {canPlayWordMemory} from "./word-memory";
@@ -35,7 +36,7 @@ type Mode = "memory" | "sorting" | "builder" | "sequence" | "pairs" | "writing" 
 const modeTitles:Record<Mode,string>={memory:"Мемори",sorting:"Сортировка еды",builder:"Собери слово",sequence:"По порядку",pairs:"Пары",letters:"Вставь букву",listening:"Послушай и выбери",writing:"Написать",search:"Поиск слов",placement:"Расставить",dictation:"Рисовать"};
 const modeIcons:Record<Mode,string>={memory:"▦",sorting:"▤",builder:"▧",sequence:"①",pairs:"↔",letters:"А_",listening:"♫",writing:"✎",search:"⌕",placement:"▦",dictation:"⌁"};
 const packSymbols:Record<string,string>={hello:"👋",polite:"🤝","adult-everyday":"🏡","adult-small-talk":"💬","adult-shopping":"🛍️","adult-plans":"🗓️",backpack:"🎒",instructions:"📖",requests:"🙋","child-classroom":"🙋","child-friends":"🤝","child-games":"🎲","browse:essentials":"⭐"};
-export function QuickWords({ child = false, onBack,sourceIds,initialSetId,topicId }: { child?: boolean; onBack: () => void;sourceIds?:readonly string[];initialSetId?:string;topicId?:string }) {
+export function QuickWords({ child = false, onBack,sourceIds,initialSetId,topicId,resumeInitial=false }: { child?: boolean; onBack: () => void;sourceIds?:readonly string[];initialSetId?:string;topicId?:string;resumeInitial?:boolean }) {
   const screen = useRef<HTMLDialogElement>(null);
   useLayoutEffect(() => {
     const dialog = screen.current;
@@ -52,6 +53,9 @@ export function QuickWords({ child = false, onBack,sourceIds,initialSetId,topicI
   const library=useMemo(()=>wordLibraryFor(isChild),[isChild]);
   const selectedTopic=isChild?undefined:navigationTopic(topicId);
   const sets=useMemo(()=>{const available=sourceIds?library.filter(set=>sourceIds.some(id=>set.id===id||set.aliases.includes(id))):wordBrowseSets(isChild);return selectedTopic?available.filter(set=>topicForWordSet(set)?.id===selectedTopic.id):available;},[library,sourceIds,isChild,selectedTopic]);
+  const initialPack=sets.find(set=>set.id===initialSetId)??library.find(set=>set.id===initialSetId);
+  const initialSaved=resumeInitial&&initialPack&&learner?.learning.wordSession?.setId===initialSetId?learner?.learning.wordSession:undefined;
+  const initialIndex=Math.min(initialSaved?.index??0,Math.max(0,(initialPack?.words.length??1)-1));
   const [selected, setSelected] = useState<string | null>(initialSetId??(sourceIds&&sets.length===1?sets[0].id:null));
   const [filter,setFilter]=useState<"all"|QuickSetKind>("all");
   const [search,setSearch]=useState("");
@@ -61,10 +65,10 @@ export function QuickWords({ child = false, onBack,sourceIds,initialSetId,topicI
   function saveCatalogPosition(){catalogPositions.current[collection?.id??"root"]=screen.current?.scrollTop??0;}
   function openCollection(group:{id:string;title:string}){saveCatalogPosition();setCollection(group);}
   const [review,setReview]=useState(false);
-  const [cardSession,setCardSession]=useState({index:0,viewed:[] as string[]});
+  const [cardSession,setCardSession]=useState({index:initialIndex,viewed:(initialSaved?.viewed??[]).filter(id=>initialPack?.words.some(word=>word.id===id))});
   const [run,setRun]=useState(0);
-  const [round,setRound]=useState(0);
-  const [stage,setStage]=useState<"cards"|"choice"|"training">("choice");
+  const [round,setRound]=useState(Math.max(0,wordRoundRanges(initialPack?.words.length??0).findIndex(range=>initialIndex<range.end)));
+  const [stage,setStage]=useState<"cards"|"choice"|"training">(initialSaved?.stage??"choice");
   const heading = useRef<HTMLHeadingElement>(null);
   useLayoutEffect(() => {
     const saved=!selected&&!review?restoreCatalog.current:null;
@@ -73,8 +77,8 @@ export function QuickWords({ child = false, onBack,sourceIds,initialSetId,topicI
     screen.current?.scrollTo?.(0,saved?.top??0);
     restoreCatalog.current=null;
   }, [selected,stage,review,collection?.id]);
-  const [mode, setMode] = useState<Mode>("pairs");
-  const [moreGames,setMoreGames]=useState(false);
+  const [mode, setMode] = useState<Mode>(initialSaved?.mode??"pairs");
+  const [moreGames,setMoreGames]=useState(!!initialSaved&&["letters","listening","builder","sequence","sorting","memory"].includes(initialSaved.mode));
   const pack = sets.find(item => item.id === selected)??library.find(item=>item.id===selected);
   const range=wordRoundRanges(pack?.words.length??0)[round]??{start:0,end:0};
   const roundStart=range.start,roundEnd=range.end;
@@ -124,7 +128,7 @@ export function QuickWords({ child = false, onBack,sourceIds,initialSetId,topicI
   return <dialog ref={screen} className={styles.screen} data-child={isChild} aria-label="Учить слова" onCancel={event => {event.preventDefault();back();}}><section className={styles.root}>
     <header className={styles.header}><button type="button" className={styles.back} aria-label={review?"Назад":pack ? stage==="training"?"Назад":stage==="cards"?"К активностям":"Все наборы" : collection?"Все сборники":"К урокам"} onClick={back}>←</button><h1 ref={heading} tabIndex={-1}>{review?"Повторение":pack ? pack.title : collection?.title??selectedTopic?.title??"Учить слова"}</h1><SpeechHelpButton/></header>
     {learner?.savingError&&<p role="alert">Продолжение не сохранено. <button type="button" onClick={()=>remember({})}>Повторить сохранение</button></p>}
-    {review?<PersonalWordReview/>:!pack ? <>{learner&&!collection&&<div className={styles.homeActions}>{resumeSet&&<button type="button" onClick={()=>choose(resumeSet,resume)}>Продолжить · {resumeSet.title}</button>}<WordReviewEntry onOpen={()=>{saveCatalogPosition();setReview(true);}}/></div>}{!sourceIds&&<div className={styles.libraryTools}><div className={styles.searchRow}><input type="search" aria-label="Найти подборку" placeholder="Найти…" value={search} onChange={event=>setSearch(event.target.value)}/>{search&&<button type="button" className={styles.clearSearch} aria-label="Очистить поиск" onClick={()=>setSearch("")}>×</button>}</div></div>}<div className={styles.modes} role="group" aria-label="Вид подборок">{(["all","words","verbs","phrases"] as const).map(value=><button type="button" key={value} aria-pressed={filter===value} onClick={()=>setFilter(value)}>{({all:"Все",words:"Слова",verbs:"Глаголы",phrases:"Фразы"})[value]}</button>)}</div>{sourceIds?<div className={styles.grid}>{visibleSets.map(renderPack)}</div>:<WordTopicSections key={search} child={isChild} sets={visibleSets} expanded={!!search||filter!=="all"} activeGroup={collection?.id} onOpenGroup={openCollection} scoped={!!selectedTopic} renderItem={renderPack}/>}</> : <>
+    {review?<PersonalWordReview/>:!pack ? <>{learner&&!collection&&<div className={styles.homeActions}>{resumeSet&&<button type="button" onClick={()=>choose(resumeSet,resume)}>Продолжить · {resumeSet.title}</button>}<WordReviewEntry onOpen={()=>{saveCatalogPosition();setReview(true);}}/>{!isChild&&<><LegacyLessonLink href="/learning/gramatica-ativa/saved">Мои карточки из уроков →</LegacyLessonLink><LegacyLessonLink href="/learning/gramatica-ativa/review">Повторить сохранённые →</LegacyLessonLink></>}</div>}{!sourceIds&&<div className={styles.libraryTools}><div className={styles.searchRow}><input type="search" aria-label="Найти подборку" placeholder="Найти…" value={search} onChange={event=>setSearch(event.target.value)}/>{search&&<button type="button" className={styles.clearSearch} aria-label="Очистить поиск" onClick={()=>setSearch("")}>×</button>}</div></div>}<div className={styles.modes} role="group" aria-label="Вид подборок">{(["all","words","verbs","phrases"] as const).map(value=><button type="button" key={value} aria-pressed={filter===value} onClick={()=>setFilter(value)}>{({all:"Все",words:"Слова",verbs:"Глаголы",phrases:"Фразы"})[value]}</button>)}</div>{sourceIds?<div className={styles.grid}>{visibleSets.map(renderPack)}</div>:<WordTopicSections key={search} child={isChild} sets={visibleSets} expanded={!!search||filter!=="all"} activeGroup={collection?.id} onOpenGroup={openCollection} scoped={!!selectedTopic} renderItem={renderPack}/>}</> : <>
       {stage==="training"&&<>{!isChild&&<button type="button" className={styles.moreGames} aria-expanded={moreGames} onClick={()=>setMoreGames(value=>!value)}>Другие игры</button>}{(isChild||moreGames)&&<div className={styles.gameModes} role="group" aria-label="Тренировка">{modes.map(value=><button type="button" key={value} aria-pressed={visibleMode===value} onClick={()=>{if(value==="memory"&&visibleMode!==value)setRun(current=>current+1);setMode(value);remember({mode:value});}}>{`${modeIcons[value]} ${value==="letters"?"Буква":value==="listening"?"На слух":value==="search"?"Поиск":modeTitles[value]}`}</button>)}</div>}</>}
       {pack.words.length>6&&!(stage==="training"&&(visibleMode==="placement"||visibleMode==="dictation"))&&<p className={styles.cue}>{roundStart+1}–{roundEnd} / {pack.words.length}</p>}
       {stage==="choice"&&<><div className={styles.activityCards} role="group" aria-label="Выбери активность"><button type="button" data-tone="repeat" onClick={()=>{setCardSession({index:roundStart,viewed:[]});setRun(value=>value+1);setStage("cards");remember({stage:"cards",index:roundStart,viewed:[]});}}><span aria-hidden="true">▱</span><strong>Карточки слов</strong>{cardSession.viewed.length>0&&<small>Повторить</small>}</button>{modes.map((value,index)=><button type="button" data-tone={index%5} key={value} onClick={()=>{if(value==="memory")setRun(current=>current+1);setMode(value);setMoreGames(true);setStage("training");remember({stage:"training",mode:value});}}><span aria-hidden="true">{modeIcons[value]}</span><strong>{modeTitles[value]}</strong></button>)}</div>{hasNextRound&&<button type="button" className={styles.nextWords} onClick={()=>{const index=roundEnd;setRound(value=>value+1);setCardSession({index,viewed:[]});setRun(value=>value+1);phase("choice");remember({stage:"choice",index,viewed:[]});}}>Следующие слова →</button>}</>}

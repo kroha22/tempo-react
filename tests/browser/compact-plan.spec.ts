@@ -5,15 +5,13 @@ import {createAdult,exportBackup,importBackup,expectNoOverflow} from "./learning
 test.beforeEach(async({page})=>{await page.clock.setFixedTime(browserNow);await page.goto("./");await createAdult(page,"Compact adult");});
 test("compact plan puts the next action in the first viewport and opens book materials by keyboard",async({page},info)=>{
   const plan=page.getByRole("region",{name:"Общий план обучения",exact:true});
-  const start=plan.getByRole("link",{name:"Начать проверку →",exact:true});await expect(start).toBeVisible();
+  const start=plan.getByRole("link",{name:"Начать занятие →",exact:true});await expect(start).toBeVisible();
   const rect=await start.boundingBox();expect(rect!.y+rect!.height).toBeLessThanOrEqual(page.viewportSize()!.height);
   expect(await plan.locator("details[open]").count()).toBe(0);
   await expect(plan.getByRole("link",{name:"Слова и повторение",exact:true})).toBeVisible();
   await page.screenshot({path:info.outputPath("compact-home.png")});
-  const course=plan.locator("summary").filter({hasText:"Курс по книге"});await course.focus();await page.keyboard.press("Enter");
-  await plan.locator("summary").filter({hasText:"U01–U11"}).click();
-  const first=plan.locator("summary").filter({has:page.getByText("SER · Кто, откуда и что это",{exact:true})});await first.focus();await page.keyboard.press("Enter");
-  await expect(plan.getByRole("link",{name:"Объяснение U01 →",exact:true})).toBeVisible();
+  const course=plan.locator('details[data-route-block="B01"] > summary');await course.focus();await page.keyboard.press("Enter");
+  await expect(plan.locator('[data-material-key="book/U01"]').getByRole("link",{name:"Объяснение →",exact:true})).toBeVisible();
   await expectNoOverflow(page);await page.screenshot({path:info.outputPath("compact-course.png")});
 });
 test("permanent school lessons and word cards preserve old saved data through switches and reload",async({page},info)=>{

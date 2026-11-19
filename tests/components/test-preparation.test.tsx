@@ -50,15 +50,14 @@ it("keeps the preparation catalogue free of paper directions and scores",()=>{
 });
 
 it("returns through a second related topic to the original task without clearing its answer",async()=>{
-  const user=userEvent.setup();render(<VocabularyHub initialChildMode onOpenCards={vi.fn()} initialTopicId="school:preparation"/>);
-  await user.click(screen.getByRole("button",{name:/^Conviver e resolver conflitos/}));
+  const user=userEvent.setup();render(<VocabularyHub initialChildMode onOpenCards={vi.fn()} initialTopicId="lesson:preparation:cooperation"/>);
   await user.click(screen.getByRole("button",{name:"Praticar"}));
   const quiz=within(screen.getByRole("region",{name:"Практика темы"}));
   await user.click(quiz.getByRole("button",{name:"Выбрать вариант 2"}));
   await user.click(screen.getByRole("button",{name:"Общаемся и договариваемся: комикс и практика →"}));
   await user.click(screen.getByRole("button",{name:/Como me sinto.*Rever palavras/}));
   expect(screen.getByRole("region",{name:"Как я себя чувствую: слова и ESTAR"})).toBeVisible();
-  await user.click(screen.getByRole("button",{name:"Вернуться к заданию подготовки"}));
+  await user.click(screen.getByRole("button",{name:"Вернуться к уроку"}));
   expect(screen.getByRole("heading",{name:"Conviver e resolver conflitos"})).toBeVisible();
   expect(quiz.getByRole("button",{name:"Выбрать вариант 2"})).toHaveAttribute("aria-pressed","true");
 });
@@ -126,11 +125,9 @@ it("keeps saved best scores but hides results from preparation cards",async()=>{
 
 it.each([false,true])("embeds existing clocks and keeps explanation, quiz and paper together (child=%s)",async child=>{
   const user=userEvent.setup();
-  render(<VocabularyHub initialTopicId="school:preparation" initialChildMode={child} onOpenCards={vi.fn()}/>);
-  const region=screen.getByRole("region",{name:"Набор подготовки к проверочной"});
-  await user.click(within(region).getByRole("button",{name:"Matemática"}));
+  render(<VocabularyHub initialTopicId="lesson:preparation:hours" initialChildMode={child} onOpenCards={vi.fn()}/>);
+  const region=screen.getByRole("main",{name:"Уроки"});
   const hours=preparationUnits.find(u=>u.id==="hours")!;
-  await user.click(within(region).getByRole("button",{name:new RegExp(hours.title[0])}));
   expect(screen.queryByRole("button",{name:new RegExp(hours.targetLabel!)})).not.toBeInTheDocument();
   expect(screen.queryByLabelText("Задание на бумаге")).not.toBeInTheDocument();
   await user.click(screen.getByRole("button",{name:"Praticar"}));

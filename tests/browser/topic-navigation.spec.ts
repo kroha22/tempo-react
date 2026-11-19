@@ -1,4 +1,4 @@
-import {expect,test} from "@playwright/test";
+import {expect,test,type Page} from "@playwright/test";
 import {browserNow,legacyBackup} from "./fixtures/legacy-profile";
 import {createAdult,exportBackup,importBackup,expectNoOverflow} from "./learning.helpers";
 import {wordBrowseSets} from "../../features/content/word-browse-sets";
@@ -16,40 +16,54 @@ const topics=[
   {id:"topic:vocabulary-body",title:"Тело и здоровье",href:"/learning/body?topic=face&phase=explanation"},
   {id:"topic:vocabulary-house",title:"Дом и расположение",href:"/learning/home?topic=rooms&phase=explanation"},
 ];
+async function planTopic(page:Page,title:string){
+  const blocks:Record<string,string>={"Работа и учёба":"B08","Город и дорога":"B06","Знакомство и первые фразы":"B01","Одежда и цвета":"B05","Сотрудничество и общение":"B08","Буквы и чтение":"B01","Моя семья и близкие":"B02","Еда и предпочтения":"B05","Время и мой день":"B04","Тело и здоровье":"B07","Дом и расположение":"B03"};
+  const block=page.locator(`details[data-route-block="${blocks[title]}"]`);
+  if(!await block.evaluate(node=>(node as HTMLDetailsElement).open))await block.locator("summary").first().click();
+  const link=block.getByRole("link",{name:`Открыть урок: ${title} →`,exact:true});
+  if(!await link.isVisible())await block.locator("summary").filter({hasText:"Ещё объяснения и практика"}).click();
+  return link;
+}
+async function catalogTopic(page:Page,title:string){
+  const entry=page.getByRole("region",{name:`Тема: ${title}`,exact:true,includeHidden:true});
+  const block=entry.locator('xpath=ancestor::details[@data-catalog-block][1]');
+  if(!await block.evaluate(node=>(node as HTMLDetailsElement).open))await block.locator("summary").first().click();
+  return page.getByRole("region",{name:`Тема: ${title}`,exact:true});
+}
 test.beforeEach(async({page})=>{await page.clock.setFixedTime(browserNow);await page.goto("./");await createAdult(page,"Topic QA");});
 test("work route and legacy entry retain the original pair result and return to their origin",async({page})=>{
   const backup=legacyBackup();backup.browser.learning.activities={...backup.browser.learning.activities,"pairs:collection:vocabulary-lesson:work":{title:"Работа и встречи",group:"Слова и игры",correct:6,total:6}};
   await importBackup(page,backup);const before=await exportBackup(page);
-  await page.goto("#/learning/plan");const everyday=page.locator("summary").filter({hasText:"Повседневные темы"}).locator("..");await everyday.locator("summary").first().click();await everyday.locator("summary").filter({hasText:"Работа и учёба"}).click();await everyday.getByRole("link",{name:"Открыть урок: Работа и учёба →",exact:true}).click();
+  await page.goto("#/learning/plan");await (await planTopic(page,"Работа и учёба")).click();
   await page.getByRole("button",{name:/^Pares/}).click();await expect(page.getByRole("heading",{name:"Найди перевод",exact:true})).toBeVisible();await expectNoOverflow(page);await page.getByRole("button",{name:"Назад",exact:true}).click();await expect(page.getByRole("heading",{name:"Общий план",exact:true})).toBeVisible();
-  await page.goto("#/learning/topics");const entry=page.getByRole("region",{name:"Тема: Работа и учёба",exact:true});await entry.locator("summary").click();await entry.getByRole("button",{name:"Работа и встречи: прежние наборы и задания",exact:true}).click();await page.getByRole("button",{name:/^Pares/}).click();await expect(page.getByRole("heading",{name:"Найди перевод",exact:true})).toBeVisible();await page.getByRole("button",{name:"Назад ко всем темам",exact:true}).click();await expect(entry).toBeVisible();
+  await page.goto("#/learning/topics");const entry=await catalogTopic(page,"Работа и учёба");await entry.locator("summary").click();await entry.getByRole("button",{name:"Работа и встречи: прежние наборы и задания",exact:true}).click();await page.getByRole("button",{name:/^Pares/}).click();await expect(page.getByRole("heading",{name:"Найди перевод",exact:true})).toBeVisible();await page.getByRole("button",{name:"Назад ко всем темам",exact:true}).click();await expect(entry).toBeVisible();
   await page.goto("#/learning/plan");await page.reload();const after=await exportBackup(page);expect(after.browser.learning.activities).toEqual(before.browser.learning.activities);expect(after.learning).toEqual(before.learning);expect(after.browser.cards).toEqual(before.browser.cards);
 });
 test("city route and legacy entry reuse street and park without changing existing results",async({page})=>{
   const backup=legacyBackup();backup.browser.learning.activities={...backup.browser.learning.activities,"image:image-street":{title:"На нашей улице",group:"Слова и игры",correct:8,total:8},"image:image-park":{title:"В парке",group:"Слова и игры",correct:7,total:7}};
   await importBackup(page,backup);const before=await exportBackup(page);
-  await page.goto("#/learning/plan");const everyday=page.locator("summary").filter({hasText:"Повседневные темы"}).locator("..");await everyday.locator("summary").first().click();await everyday.locator("summary").filter({hasText:"Город и дорога"}).click();await everyday.getByRole("link",{name:"Открыть урок: Город и дорога →",exact:true}).click();
+  await page.goto("#/learning/plan");await (await planTopic(page,"Город и дорога")).click();
   await page.getByRole("button",{name:/^Imagem/}).click();await expect(page.getByRole("img",{name:"Иллюстрация к заданию «На нашей улице»"})).toBeVisible();await page.getByRole("combobox",{name:"Картинка",exact:true}).selectOption("image-park");await expect(page.getByRole("img",{name:"Иллюстрация к заданию «В парке»"})).toBeVisible();await expectNoOverflow(page);
   await page.getByRole("button",{name:"Назад",exact:true}).click();await expect(page.getByRole("heading",{name:"Общий план",exact:true})).toBeVisible();
-  await page.goto("#/learning/topics");const entry=page.getByRole("region",{name:"Тема: Город и дорога",exact:true});await entry.locator("summary").click();await entry.getByRole("button",{name:"Город: прежние наборы и сцены",exact:true}).click();await page.getByRole("button",{name:/^Imagem/}).click();await expect(page.getByRole("img",{name:"Иллюстрация к заданию «На нашей улице»"})).toBeVisible();
+  await page.goto("#/learning/topics");const entry=await catalogTopic(page,"Город и дорога");await entry.locator("summary").click();await entry.getByRole("button",{name:"Город: прежние наборы и сцены",exact:true}).click();await page.getByRole("button",{name:/^Imagem/}).click();await expect(page.getByRole("img",{name:"Иллюстрация к заданию «На нашей улице»"})).toBeVisible();
   await page.goto("#/learning/plan");await page.reload();const after=await exportBackup(page);expect(after.browser.learning.activities).toEqual(before.browser.learning.activities);expect(after.learning).toEqual(before.learning);expect(after.browser.cards).toEqual(before.browser.cards);
 });
 test("introduction reuses both foundation lessons, retains an answer and keeps old results",async({page})=>{
   const backup=legacyBackup();backup.browser.learning.activities={...backup.browser.learning.activities,"greetings:hello":{title:"Поздороваться",group:"Первые фразы",correct:1,total:1},"foundation:first-steps:identity":{title:"Кто я",group:"Первые фразы",correct:1,total:1}};
   await importBackup(page,backup);const before=await exportBackup(page);
-  await page.goto("#/learning/plan");const everyday=page.locator("summary").filter({hasText:"Повседневные темы"}).locator("..");await everyday.locator("summary").first().click();await everyday.locator("summary").filter({hasText:"Знакомство и первые фразы"}).click();await everyday.getByRole("link",{name:"Открыть урок: Знакомство и первые фразы →",exact:true}).click();
+  await page.goto("#/learning/plan");await (await planTopic(page,"Знакомство и первые фразы")).click();
   await page.getByRole("button",{name:"Практика диалога",exact:true}).click();await page.getByRole("button",{name:"Bom dia!",exact:true}).click();await page.getByRole("button",{name:"Рассказать о себе",exact:true}).click();await expect(page.getByRole("heading",{name:"Quem sou? — Кто я",exact:true})).toBeVisible();await page.getByRole("button",{name:"Приветствия",exact:true}).click();await expect(page.getByRole("button",{name:"Bom dia!",exact:true})).toHaveAttribute("aria-pressed","true");await expectNoOverflow(page);
   await page.getByRole("button",{name:"← Назад",exact:true}).click();await expect(page.getByRole("heading",{name:"Общий план",exact:true})).toBeVisible();
-  await page.goto("#/learning/topics");const entry=page.getByRole("region",{name:"Тема: Знакомство и первые фразы",exact:true});await entry.locator("summary").click();await entry.getByRole("button",{name:"Quem sou? — Кто я",exact:true}).click();await expect(page.getByRole("heading",{name:"Quem sou? — Кто я",exact:true})).toBeVisible();
+  await page.goto("#/learning/topics");const entry=await catalogTopic(page,"Знакомство и первые фразы");await entry.locator("summary").click();await entry.getByRole("button",{name:"Quem sou? — Кто я",exact:true}).click();await expect(page.getByRole("heading",{name:"Quem sou? — Кто я",exact:true})).toBeVisible();
   await page.goto("#/learning/plan");await page.reload();const after=await exportBackup(page);expect(after.browser.learning.activities).toEqual(before.browser.learning.activities);expect(after.learning).toEqual(before.learning);expect(after.browser.cards).toEqual(before.browser.cards);
 });
 test("clothing route reuses the wardrobe activity, returns to plan and preserves its old result",async({page})=>{
   const backup=legacyBackup();backup.browser.learning.activities={...backup.browser.learning.activities,"image-clothing":{title:"Что сегодня надеть?",group:"Слова в жизни",correct:10,total:10}};
   await importBackup(page,backup);const before=await exportBackup(page);
-  await page.goto("#/learning/plan");const everyday=page.locator("summary").filter({hasText:"Повседневные темы"}).locator("..");await everyday.locator("summary").first().click();await everyday.locator("summary").filter({hasText:"Одежда и цвета"}).click();await everyday.getByRole("link",{name:"Открыть урок: Одежда и цвета →",exact:true}).click();
+  await page.goto("#/learning/plan");await (await planTopic(page,"Одежда и цвета")).click();
   await page.getByRole("button",{name:/^Imagem/}).click();await expect(page.getByRole("img",{name:"Открытый гардероб с одеждой, пижамой, шарфом и туфлями"})).toBeVisible();await expectNoOverflow(page);
   await page.getByRole("button",{name:"Назад",exact:true}).click();await expect(page.getByRole("heading",{name:"Общий план",exact:true})).toBeVisible();
-  await page.goto("#/learning/topics");const entry=page.getByRole("region",{name:"Тема: Одежда и цвета",exact:true});await entry.locator("summary").click();await entry.getByRole("button",{name:"Одежда: прежние наборы и задания",exact:true}).click();await page.getByRole("button",{name:/^Imagem/}).click();await expect(page.getByRole("img",{name:"Открытый гардероб с одеждой, пижамой, шарфом и туфлями"})).toBeVisible();
+  await page.goto("#/learning/topics");const entry=await catalogTopic(page,"Одежда и цвета");await entry.locator("summary").click();await entry.getByRole("button",{name:"Одежда: прежние наборы и задания",exact:true}).click();await page.getByRole("button",{name:/^Imagem/}).click();await expect(page.getByRole("img",{name:"Открытый гардероб с одеждой, пижамой, шарфом и туфлями"})).toBeVisible();
   await page.goto("#/learning/plan");await page.reload();const after=await exportBackup(page);expect(after.browser.learning.activities).toEqual(before.browser.learning.activities);expect(after.learning).toEqual(before.learning);expect(after.browser.cards).toEqual(before.browser.cards);
 });
 test("cooperation lesson and legacy stages retain both existing activity results",async({page})=>{
@@ -59,7 +73,7 @@ test("cooperation lesson and legacy stages retain both existing activity results
   await page.getByRole("button",{name:"Praticar",exact:true}).click();
   await page.getByRole("button",{name:/Общаемся и договариваемся: комикс и практика/}).click();
   const lesson=page.getByRole("region",{name:"Общаемся и договариваемся: уроки",exact:true});await expect(lesson).toBeVisible();await expect(lesson.getByRole("navigation",{name:"Шаги общения"}).getByRole("button")).toHaveCount(3);
-  await page.goto("#/learning/topics");const entry=page.getByRole("region",{name:"Тема: Сотрудничество и общение",exact:true});await entry.locator("summary").click();
+  await page.goto("#/learning/topics");const entry=await catalogTopic(page,"Сотрудничество и общение");await entry.locator("summary").click();
   await entry.getByRole("button",{name:"Общаемся и договариваемся: прежние уроки",exact:true}).click();await expect(lesson).toBeVisible();
   await page.goto("#/learning/plan");await page.reload();const after=await exportBackup(page);
   expect(after.browser.learning.activities).toEqual(before.browser.learning.activities);expect(after.learning).toEqual(before.learning);expect(after.browser.cards).toEqual(before.browser.cards);
@@ -70,26 +84,21 @@ test("reading route and old catalogue entry share ten lessons and retain an exis
   await page.goto("#/learning/reading");await expect(page.getByText("10 тем · 10 всего",{exact:true})).toBeVisible();
   await page.getByRole("button",{name:/R ou RR/}).click();await expect(page.getByRole("button",{name:"Praticar",exact:true})).toBeVisible();
   await page.getByRole("button",{name:"← К буквам и чтению",exact:true}).click();
-  await page.goto("#/learning/topics");const entry=page.getByRole("region",{name:"Тема: Буквы и чтение",exact:true});await entry.locator("summary").click();
+  await page.goto("#/learning/topics");const entry=await catalogTopic(page,"Буквы и чтение");await entry.locator("summary").click();
   await entry.getByRole("button",{name:"Буквы и чтение",exact:true}).click();await expect(page.getByText("10 тем · 10 всего",{exact:true})).toBeVisible();
   await page.goto("#/learning/plan");await page.reload();const after=await exportBackup(page);
   expect(after.browser.learning.activities).toEqual(before.browser.learning.activities);expect(after.learning).toEqual(before.learning);expect(after.browser.cards).toEqual(before.browser.cards);
 });
-for(const [index,batch] of Array.from({length:Math.ceil(topics.length/5)},(_,index)=>topics.slice(index*5,index*5+5)).entries())test(`plan, catalogue and words preserve canonical entries and old saves (batch ${index+1})`,async({page},info)=>{
+// Each topic lookup is independent. Keep the same assertions in bounded cases;
+// do not extend the default timeout as the shared catalogue grows.
+const topicBatchSize=3;
+for(const [index,batch] of Array.from({length:Math.ceil(topics.length/topicBatchSize)},(_,index)=>topics.slice(index*topicBatchSize,index*topicBatchSize+topicBatchSize)).entries())test(`plan, catalogue and words preserve canonical entries and old saves (batch ${index+1})`,async({page},info)=>{
   await importBackup(page,legacyBackup());const before=await exportBackup(page);
-  await page.goto("#/learning/plan");const everyday=page.locator("summary").filter({hasText:"Повседневные темы"}).locator("..");await everyday.locator("summary").first().click();
-  for(const topic of batch){
-    if(topic.id==="topic:reading"||topic.id==="topic:vocabulary-cooperation"){
-      const school=page.locator("summary").filter({hasText:"Буквы и школьные темы"}).locator("..");if(!await school.evaluate(node=>(node as HTMLDetailsElement).open))await school.locator("summary").first().click();
-      await school.locator("summary").filter({hasText:topic.title}).click();
-      await expect(school.locator(`a[href="#${topic.href}"]`)).toBeVisible();continue;
-    }
-    await everyday.locator("summary").filter({hasText:topic.title}).click();
-    await expect(everyday.locator(`a[href="#${topic.href}"]`)).toBeVisible();
-  }
+  await page.goto("#/learning/plan");
+  for(const topic of batch)await expect(await planTopic(page,topic.title)).toHaveAttribute("href",`#${topic.href}`);
   await page.goto("#/learning/topics");
   for(const topic of batch){
-    const entry=page.getByRole("region",{name:`Тема: ${topic.title}`,exact:true});await expect(entry).toHaveCount(1);
+    const entry=await catalogTopic(page,topic.title);await expect(entry).toHaveCount(1);
     await expect(entry.locator(`a[href="#${topic.href}"]`)).toBeVisible();
     if(!await entry.locator("details").evaluate(node=>(node as HTMLDetailsElement).open))await entry.locator("summary").click();await entry.getByRole("link",{name:`Учить слова: ${topic.title} →`,exact:true}).click();
     const dialog=page.getByRole("dialog",{name:"Учить слова",exact:true});await expect(dialog).toBeVisible();
