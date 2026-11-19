@@ -5,17 +5,17 @@ import {greetingSets,greetingExtras} from "../content/greetings";
 import {LegacyLessonLink} from "./LegacyLessonLink";
 import styles from "./FirstSteps.module.css";
 
-export function GreetingsLesson({child}:{child:boolean}) {
+export function GreetingsLesson({child,practiceOnly=false}:{child:boolean;practiceOnly?:boolean}) {
   const noteRef=useRef<HTMLDetailsElement>(null);
   const [setId,setSetId]=useState(greetingSets[0].id);
-  const [mode,setMode]=useState<"phrases"|"practice">("phrases");
+  const [mode,setMode]=useState<"phrases"|"practice">(practiceOnly?"practice":"phrases");
   const [answers,setAnswers]=useState<Record<string,number>>({});
   const [checked,setChecked]=useState<Record<string,boolean>>({});
   const set=greetingSets.find(item=>item.id===setId)!;
   return <section aria-label="Приветствия и общение">
     <p>{child?"Поздоровайся, познакомься, спроси, как дела, и попрощайся. Попробуем по маленьким шагам!":"Научимся начать и закончить короткий разговор: приветствие, имя, самочувствие и прощание."}</p>
-    <nav className={styles.steps} aria-label="Ситуации общения">{greetingSets.map(item=><button type="button" key={item.id} aria-label={`${item.pt} ${item.ru}`} aria-pressed={setId===item.id} onClick={()=>{setSetId(item.id);setMode("phrases");}}><span lang="pt-PT">{item.pt}</span><br/>{item.ru}</button>)}</nav>
-    <div className={styles.switch} role="group" aria-label="Режим общения"><button type="button" aria-pressed={mode==="phrases"} onClick={()=>setMode("phrases")}>Фразы и пояснения</button><button type="button" aria-pressed={mode==="practice"} onClick={()=>setMode("practice")}>Практика диалога</button></div>
+    <nav className={styles.steps} aria-label="Ситуации общения">{greetingSets.map(item=><button type="button" key={item.id} aria-label={`${item.pt} ${item.ru}`} aria-pressed={setId===item.id} onClick={()=>{setSetId(item.id);setMode(practiceOnly?"practice":"phrases");}}><span lang="pt-PT">{item.pt}</span><br/>{item.ru}</button>)}</nav>
+    {!practiceOnly&&<div className={styles.switch} role="group" aria-label="Режим общения"><button type="button" aria-pressed={mode==="phrases"} onClick={()=>setMode("phrases")}>Фразы и пояснения</button><button type="button" aria-pressed={mode==="practice"} onClick={()=>setMode("practice")}>Практика диалога</button></div>}
     <h2>{set.ru}</h2><p>{child?set.childCue:set.adultCue}</p>
     {mode==="phrases"?<>
       <div className={styles.examples}>{set.phrases.map(phrase=><article key={phrase.pt}><strong lang="pt-PT">{phrase.pt}</strong><span>{phrase.ru}</span>{phrase.note&&<small>{phrase.note}</small>}{phrase.pt==="Chamo-me…"&&<button type="button" aria-label="Почему в chamo-me есть me?" onClick={()=>{if(noteRef.current){noteRef.current.open=true;noteRef.current.querySelector("summary")?.focus();}}}>* Почему здесь me?</button>}</article>)}</div>

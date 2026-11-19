@@ -4,9 +4,14 @@ import {FirstSteps} from "./FirstSteps";
 import {LegacyLessonLink} from "./LegacyLessonLink";
 import {navigationTopic,topicWordsHref} from "../content/topic-navigation";
 import styles from "./FirstSteps.module.css";
+import {useProfileLearning} from "./profile-learning";
+import {IntroductionFlow} from "./IntroductionFlow";
+import type {ReactNode} from "react";
 /** Reuse both existing lesson owners, including their original activity keys. */
-export function IntroductionTopic({onBack}:{onBack:()=>void}){
+export function IntroductionTopic({onBack,phase,related,renderRelated}:{onBack:()=>void;phase?:string;related?:string;renderRelated?:(href:string,onBack:()=>void)=>ReactNode}){
   const [step,setStep]=useState<0|1>(0),topic=navigationTopic("foundation:hello")!;
+  const learner=useProfileLearning();
+  if(learner&&!learner.profile.child)return <IntroductionFlow phase={phase} related={related} renderRelated={renderRelated} onBack={onBack}/>;
   return <section aria-label={topic.title}><p className="tempo-kicker">{topic.title}</p>
     <nav className={styles.steps} aria-label="Уроки знакомства"><button type="button" aria-pressed={step===0} onClick={()=>setStep(0)}>Приветствия</button><button type="button" aria-pressed={step===1} onClick={()=>setStep(1)}>Рассказать о себе</button></nav>
     <nav aria-label="Материалы знакомства"><LegacyLessonLink href={topicWordsHref(topic.id)}>Учить слова: {topic.title} →</LegacyLessonLink><p><LegacyLessonLink href="/learning/practice?lesson=ser-estar">SER / ESTAR · отдельный урок →</LegacyLessonLink></p></nav>

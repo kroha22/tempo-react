@@ -18,6 +18,7 @@ import {futureGrammarUnits} from "./future-units";
 import {GrammarDescription} from "./GrammarDescription";
 import {SavedStudyItemLibrary} from "../../cards/saved-items/SavedStudyItemLibrary";
 import {GeneralPlan} from "../plan/GeneralPlan";
+import {useProfileLearning} from "../../practice/profile-learning";
 
 export function GrammarCourse({ slug, practiceOnly = false }: { slug?: string; practiceOnly?: boolean }) {
   if(slug==="saved")return <section><h1>Мои карточки из уроков</h1><p><LegacyLessonLink href={reviewHref()}>Повторять карточки →</LegacyLessonLink></p><SavedStudyItemLibrary/><LegacyLessonLink href="/learning/plan">К общему плану →</LegacyLessonLink></section>;
@@ -40,6 +41,7 @@ function GrammarExplanation({lesson}:{lesson:GrammarLesson}){
   return <section className={styles.course}><LegacyLessonLink href="/learning/plan">← К общему плану</LegacyLessonLink><span className="tempo-kicker">Урок {lesson.unit} · Объяснение</span><h1>{lesson.title}</h1><article className={styles.card}><GrammarDescription lesson={lesson}/></article><LegacyLessonLink className={styles.next} href={wordBatchHref(lesson.unit)}>Разобрать слова урока →</LegacyLessonLink><LegacyLessonLink className={styles.next} href={`/learning/gramatica-ativa/${lesson.slug}`}>К проверке и практике →</LegacyLessonLink>{[...pastGrammarUnits,...futureGrammarUnits].find(l=>l.unit===lesson.unit)?.related.map(link=><LegacyLessonLink key={link.href} href={link.href}>{link.title} →</LegacyLessonLink>)}</section>;
 }
 function GrammarLessonView({ lesson, practiceOnly }: { lesson: GrammarLesson; practiceOnly: boolean }) {
+  const learner=useProfileLearning();
   const session = useGrammarSession(lesson, practiceOnly);
   const { view, busy, error } = session;
   const [answer, setAnswer] = useState("");
@@ -97,7 +99,7 @@ function GrammarLessonView({ lesson, practiceOnly }: { lesson: GrammarLesson; pr
       {exitMistakes.length > 0 && <ul>{exitMistakes.map((t) => <li key={t.id}><b>{t.prompt}</b><p>{t.explanation}</p><span lang="pt-PT">{t.answers[0]}</span></li>)}</ul>}
       {!practiceOnly && lesson.vocabulary.length > 0 && <><h3>Сохранить выражения в карточки</h3><div className={styles.cards}>{lesson.vocabulary.map((v) => { const id = `study:chunk:ga1:${v.slug}`; const saved = session.savedIds.includes(id); return <Button key={id} variant="secondary" disabled={busy || saved || !!error} onClick={() => session.saveCard(id)}><span lang="pt-PT">{v.pt}</span> · {saved ? "Сохранено ✓" : "+ В карточки"}</Button>; })}</div></>}
       <Button variant="secondary" onClick={() => { setAnswer(""); session.restart(); }} disabled={busy || !!error}>Повторить урок</Button>
-      {nextLesson && <LegacyLessonLink className={styles.next} href={`/learning/gramatica-ativa/${nextLesson.slug}`}>Урок {nextLesson.unit}: {nextLesson.title} →</LegacyLessonLink>}
+      {learner&&!learner.profile.child?<LegacyLessonLink className={styles.next} href="/learning/plan">Продолжить общий план →</LegacyLessonLink>:nextLesson&&<LegacyLessonLink className={styles.next} href={`/learning/gramatica-ativa/${nextLesson.slug}`}>Урок {nextLesson.unit}: {nextLesson.title} →</LegacyLessonLink>}
     </article>}
     {busy && <p role="status">{practiceOnly ? "Проверяем…" : "Сохраняем…"}</p>}
   </section>;

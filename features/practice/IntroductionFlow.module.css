@@ -1,0 +1,6 @@
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:14px 0}
+.link{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:8px 12px;border:1px solid #9eb6a4;border-radius:12px;background:#fffef5;color:#294b39;font:inherit;font-weight:800;text-decoration:none;text-align:center;box-sizing:border-box}
+.steps .link{padding:8px 4px}
+.link[aria-current=page]{outline:2px solid #538669}
+.link:focus-visible{outline:3px solid #8056a6;outline-offset:3px}
+@media(max-width:640px){.steps{grid-template-columns:repeat(2,minmax(0,1fr))}}

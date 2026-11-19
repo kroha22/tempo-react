@@ -32,16 +32,16 @@ function SentencePractice({task,answer,onChange}:{task:IdentityTask;answer:Sente
   </section>;
 }
 
-export function IdentityLesson({child}:{child:boolean}) {
+export function IdentityLesson({child,practiceOnly=false}:{child:boolean;practiceOnly?:boolean}) {
   const [setId,setSetId]=useState(identitySets[0].id);
-  const [mode,setMode]=useState<WordMode|"phrases"|"practice">("cards");
+  const [mode,setMode]=useState<WordMode|"phrases"|"practice">(practiceOnly?"practice":"cards");
   const [question,setQuestion]=useState(0);
   const [answers,setAnswers]=useState<Record<string,SentenceAnswer>>({});
   const set=identitySets.find(item=>item.id===setId)!;
   return <section aria-label="Кто я: слова и фразы с SER">
     <p>{child?"Представь героя: кто он, откуда и какой у него характер. Можно всё придумать — рассказывать о себе необязательно.":"Представь себя или персонажа: роль, происхождение и характеристика. Начни со слов, затем собери фразы с SER."}</p>
-    <nav className={styles.identitySets} aria-label="Наборы Кто я">{identitySets.map(item=><button type="button" key={item.id} aria-label={`${item.title} — ${item.ru}`} aria-pressed={setId===item.id} onClick={()=>{setSetId(item.id);setMode("cards");setQuestion(0);}}><span lang="pt-PT">{item.title}</span><br/>{item.ru}</button>)}</nav>
-    <nav className={styles.identityModes} aria-label="Занятия Кто я">{([["cards","Карточки"],["pairs","Пары"],["writing","Напиши слово"],["phrases","Примеры фраз"],["practice","Собери фразу"]] as const).map(([id,label])=><button type="button" key={id} aria-pressed={mode===id} onClick={()=>setMode(id)}>{label}</button>)}</nav>
+    <nav className={styles.identitySets} aria-label="Наборы Кто я">{identitySets.map(item=><button type="button" key={item.id} aria-label={`${item.title} — ${item.ru}`} aria-pressed={setId===item.id} onClick={()=>{setSetId(item.id);setMode(practiceOnly?"practice":"cards");setQuestion(0);}}><span lang="pt-PT">{item.title}</span><br/>{item.ru}</button>)}</nav>
+    {!practiceOnly&&<nav className={styles.identityModes} aria-label="Занятия Кто я">{([["cards","Карточки"],["pairs","Пары"],["writing","Напиши слово"],["phrases","Примеры фраз"],["practice","Собери фразу"]] as const).map(([id,label])=><button type="button" key={id} aria-pressed={mode===id} onClick={()=>setMode(id)}>{label}</button>)}</nav>}
     <p>{child?set.childCue:set.adultCue}</p>
     <div hidden={!["cards","pairs","writing"].includes(mode)}><IdentityVocabulary key={set.id} active={["cards","pairs","writing"].includes(mode)} setId={set.id} mode={mode==="pairs"||mode==="writing"?mode:"cards"}/></div>
     {mode==="phrases"&&<><div className={styles.examples}>{set.examples.map(example=><article key={example.pt}><strong lang="pt-PT">{example.pt}</strong><span>{example.ru}</span></article>)}</div>
