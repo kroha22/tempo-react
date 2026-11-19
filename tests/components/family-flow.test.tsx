@@ -70,7 +70,9 @@ it("keeps both writing drafts and unique label/feedback associations across step
 });
 
 it("retains separate phrase and writing results after remount without inventing overall completion",()=>{
-  const view=render(<Learner><LegacyDemo/></Learner>);fireEvent.click(screen.getByRole("link",{name:"3 · Задания"}));
+  const view=render(<Learner><LegacyDemo/></Learner>);
+  expect(screen.queryByRole("region",{name:"Каталог единого маршрута",hidden:true})).not.toBeInTheDocument();
+  fireEvent.click(screen.getByRole("link",{name:"3 · Задания"}));
   for(const exercise of learningCatalog.usageModules.find(module=>module.id==="usage:family")!.exercises){fireEvent.click(screen.getByRole("button",{name:exercise.options.find(option=>option.id===exercise.correctOptionId)!.text}));fireEvent.click(screen.getByRole("button",{name:"Проверить"}));fireEvent.click(screen.getByRole("button",{name:exercise.id==="cloze:family-your-engineer"?"Завершить":"Следующая фраза →"}));}
   expect(learning.activities?.["usage:family"].correct).toBe(10);expect(browserPracticePlanStorage.load().completed).toEqual({});
   fireEvent.click(screen.getByRole("button",{name:"К повторению →"}));

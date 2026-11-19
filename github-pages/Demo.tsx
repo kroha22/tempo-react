@@ -29,6 +29,7 @@ function ProfileDemo({profile}:{profile?:LocalProfile}) {
   const [href, setHref] = useState(() => window.location.hash.slice(1));
   const [planBlock,setPlanBlock]=useState<string>();
   const [catalogOrigin,setCatalogOrigin]=useState(false);
+  const [libraryVisited,setLibraryVisited]=useState(()=>profile?window.location.hash.slice(1)==="/learning/topics":!window.location.hash.slice(1));
   const main = useRef<HTMLDivElement>(null);
   const related = useRef<HTMLDivElement>(null);
   const previousHref = useRef("");
@@ -42,10 +43,10 @@ function ProfileDemo({profile}:{profile?:LocalProfile}) {
   const presentation = new URLSearchParams(window.location.search).get("mode");
   const initialChildMode = profile?profile.child:presentation === "child" || presentation === "kingdoms";
   useEffect(() => {
-    const update = () => setHref(window.location.hash.slice(1));
+    const update = () => {const next=window.location.hash.slice(1);if(next===(profile?"/learning/topics":""))setLibraryVisited(true);setHref(next);};
     window.addEventListener("hashchange", update);
     return () => window.removeEventListener("hashchange", update);
-  }, []);
+  }, [profile]);
   useEffect(() => {
     if (isRelated) {
       previousHref.current = href;
@@ -57,6 +58,7 @@ function ProfileDemo({profile}:{profile?:LocalProfile}) {
     }
   }, [href,isRelated,isPlan,planBlock]);
   function navigate(nextHref: string, origin?:HTMLElement) {
+    if(nextHref===(profile?"/learning/topics":""))setLibraryVisited(true);
     if(isPlan){const block=(origin??document.activeElement)?.closest<HTMLElement>("[data-route-block]")?.dataset.routeBlock;if(block)setPlanBlock(block);}
     if(nextHref&&!isRelated){setCatalogOrigin(!!profile&&!profile.child&&isTopics);returnHref.current=profile?(isTopics?"/learning/topics":isCards?"/cards":generalPlanHref):"";const source=origin??document.activeElement;originLink.current=source instanceof HTMLElement&&main.current?.contains(source)?source:null;}
     window.location.hash = nextHref;
@@ -71,9 +73,9 @@ function ProfileDemo({profile}:{profile?:LocalProfile}) {
       {profile&&<nav className="general-navigation" aria-label="Разделы Tempo"><LegacyLessonLink href={generalPlanHref} current={!isTopics&&!isCards&&!isWords}>Общий план</LegacyLessonLink><LegacyLessonLink href="/learning/topics" current={isTopics}>Все темы</LegacyLessonLink><LegacyLessonLink href="/learning/quick-words" current={isWords||isCards}>Учить слова</LegacyLessonLink>{!isWords&&<SpeechHelpButton/>}</nav>}
       <div ref={main} hidden={isRelated}>{profile?<>
         {isPlan&&<GeneralPlan initialBlock={planBlock}/>}
-        <div hidden={!isTopics}><PracticeScreen initialChildMode={initialChildMode} initialSection="vocabulary" resumeTopicId={initialChildMode?resumeTopic:null} onOpenGeneralPlan={()=>navigate(generalPlanHref)} onOpenGeneralCards={()=>navigate("/cards")}/></div>
+        {(libraryVisited||isTopics)&&<div hidden={!isTopics}><PracticeScreen initialChildMode={initialChildMode} initialSection="vocabulary" resumeTopicId={initialChildMode?resumeTopic:null} onOpenGeneralPlan={()=>navigate(generalPlanHref)} onOpenGeneralCards={()=>navigate("/cards")}/></div>}
         {isCards&&<Flashcards/>}
-      </>:<PracticeScreen initialChildMode={initialChildMode} initialSection={resumeTopic?"vocabulary":"lessons"} resumeTopicId={resumeTopic}/>}</div>
+      </>:(libraryVisited||!isRelated)&&<PracticeScreen initialChildMode={initialChildMode} initialSection={resumeTopic?"vocabulary":"lessons"} resumeTopicId={resumeTopic}/>}</div>
       {isRelated && <div ref={related}><LearningReturnOrigin value={catalogOrigin?"/learning/topics":null}><WordLearningReturn value={()=>navigate(returnHref.current)}><RelatedLearning key={href==="/learning/house"||href==="/cards/house"?"/learning/home":["/learning/time-day","/learning/family","/learning/food","/learning/body","/learning/home","/learning/legacy-cards"].includes(href.split("?")[0])?href.split("?")[0]:beingDestinationForHref(href)?"being-lesson":href} href={href} onBack={() => navigate(returnHref.current)} /></WordLearningReturn></LearningReturnOrigin></div>}
     </RelatedLearningNavigation>
   </div>;
