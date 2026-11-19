@@ -29,8 +29,17 @@ it("preserves both writing drafts, body choices and feelings answers through top
 });
 it("keeps acquaintance, practice, phrase repeat and SRS separate and retains confirmed feelings after remount",async()=>{
   window.history.replaceState(null,"",`/tempo-react/#${bodyFlowHref("feelings","words")}`);const view=render(<Harness/>);const word=bodyCardWords.find(word=>word.key==="cansado")!,article=screen.getByText(word.pt,{selector:"strong"}).closest("article")!;fireEvent.click(await within(article).findByRole("button",{name:"В карточки"}));await within(article).findByRole("button",{name:"Уже в карточках ✓"});expect(learning.feelings.viewed).toEqual([]);
-  for(const button of screen.getAllByRole("button",{name:/^Отметить знакомство:/}))fireEvent.click(button);expect(learning.feelings.viewed).toHaveLength(6);go("3 · Задания");
-  const run=(answers:string[])=>{for(const [i,answer] of answers.entries()){fireEvent.click(screen.getByRole("button",{name:answer}));fireEvent.click(screen.getByRole("button",{name:"Проверить"}));fireEvent.click(screen.getByRole("button",{name:i===2?"Завершить":"Следующая фраза →"}));}};
+  const feelings=within(screen.getByRole("region",{name:"Как я себя чувствую: слова и ESTAR"}));
+  for(const button of feelings.getAllByRole("button",{name:/^Отметить знакомство:/}))fireEvent.click(button);
+  expect(learning.feelings.viewed).toHaveLength(6);go("3 · Задания");
+  const run=(answers:string[])=>{
+    const practice=within(feelings.getByLabelText("Варианты ответа").closest("section")!);
+    for(const [i,answer] of answers.entries()){
+      fireEvent.click(practice.getByRole("button",{name:answer}));
+      fireEvent.click(practice.getByRole("button",{name:"Проверить"}));
+      fireEvent.click(practice.getByRole("button",{name:i===answers.length-1?"Завершить":"Следующая фраза →"}));
+    }
+  };
   run(["Estou","cansada","O Miguel está nervoso."]);expect(learning.feelings.practised).toBe(true);expect(learning.feelings.repeated).toBe(false);go("4 · Повторение");fireEvent.click(screen.getByRole("button",{name:"Повторить без примеров →"}));run(["O Miguel está nervoso.","cansada","Estou"]);expect(learning.feelings.repeated).toBe(true);expect(learning.activities?.["usage:feelings"]).toBeUndefined();expect((await store.read()).reviews.every(row=>row.version===0)).toBe(true);go("4 · Повторение");view.unmount();render(<Harness/>);expect(screen.getByLabelText("Повторение: получено")).toBeVisible();expect(screen.getByLabelText("Практика: получено")).toBeVisible();expect(within(screen.getByRole("region",{name:"Награды темы"})).getByText("3 / 3")).toBeVisible();expect(learning.activities?.["usage:feelings"]).toBeUndefined();
 });
 it("preserves four independent numeric results and the three old plan completions",()=>{
