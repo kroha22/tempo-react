@@ -9,6 +9,7 @@ import {learningProgressOptions} from "../query/queries";
 import {adultMaterialKey,adultMaterialsForBlock,adultRouteBlocks,type AdultRouteBlockKey} from "../../content/adult-route";
 import {adultMaterialSources,type AdultMaterialSource} from "../../content/adult-route-catalog";
 import {adultRequiredLessons,adultMaterialRole} from "../../content/adult-route-lessons";
+import {adultLessonGroups} from "../../content/adult-lesson-groups";
 import {readAdultProgress,type AdultMaterialResult} from "./adult-progress";
 import styles from "./GeneralPlan.module.css";
 import {localTransport} from "@/shared/http/local-transport";
@@ -64,7 +65,9 @@ export function AdultGeneralPlan({practiceOnly=false,initialBlock}:{practiceOnly
       const done=summary.required.filter(result=>result.state==="done"||result.previouslyDemonstrated).length;
       return <details key={block.key} className={styles.section} data-route-block={block.key} open={initialBlock===block.key}>
         <summary><strong>{index+1}. {block.title}</strong><span>{progress.status==="unavailable"?`${summary.required.length} занятий`:`${done}/${summary.required.length}`}</span></summary>
-        <div className={styles.content}><p>{block.goal}</p><ol className={styles.materials}>{adultRequiredLessons[block.key].map(key=>material(byKey.get(key)!,true))}</ol>
+        <div className={styles.content}><p>{block.goal}</p>{adultLessonGroups(block.key).map(group=><section className={styles.lessonGroup} key={group.title} aria-label={group.title} data-lesson-group>
+          <h3>{group.title}</h3><ol className={styles.materials}>{group.lessons.map(key=>material(byKey.get(key)!,true))}</ol>
+        </section>)}
           {extra(block.key,"Слова темы",source=>source.kind==="word-set")}
           {extra(block.key,"Ещё объяснения и практика",source=>source.kind!=="word-set"&&adultMaterialRole(adultMaterialKey(source))!=="extension")}
           {extra(block.key,"Дальнейшие занятия",source=>adultMaterialRole(adultMaterialKey(source))==="extension")}
