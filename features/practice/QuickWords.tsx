@@ -24,6 +24,7 @@ import styles from "./QuickWords.module.css";
 import type {QuickSetKind} from "../content/quick-word-expansion";
 import {QuickVerbDetails} from "./QuickVerbDetails";
 import {searchWords} from "./word-search";
+import {wordSetMatchesSearch} from "../content/word-set-search";
 import {WordReviewEntry} from "./UnifiedWordReview";
 import {PersonalWordReview,TopicWordRating,usePersonalWords} from "./PersonalWordReview";
 import {wordRoundRanges,wordSessionTimestamp,type WordLearningSession} from "./word-learning-session";
@@ -118,7 +119,7 @@ export function QuickWords({ child = false, onBack,sourceIds,initialSetId,topicI
   const resume=learner?.learning.wordSession;
   const resumeCandidate=resume?(sets.find(set=>set.id===resume.setId||set.aliases.includes(resume.setId))??library.find(set=>set.id===resume.setId)):undefined;
   const resumeSet=selectedTopic&&resumeCandidate&&topicForWordSet(resumeCandidate)?.id!==selectedTopic.id?undefined:resumeCandidate;
-  const visibleSets=sets.filter(item=>(filter==="all"||item.kind===filter)&&`${item.title} ${item.pt} ${item.cue}`.toLowerCase().includes(search.toLowerCase()));
+  const visibleSets=sets.filter(item=>(filter==="all"||item.kind===filter)&&wordSetMatchesSearch(item,search));
   const renderPack=(item:WordLearningSet,index:number)=><button type="button" className={styles.pack} data-tone={index % 5} data-word-set-id={item.id} aria-label={`${item.pt} ${item.title} ${item.words.length} карточек`} key={item.id} onClick={() => choose(item)}><strong lang="pt-PT">{item.pt}</strong>{item.title!==item.pt&&<span>{item.title}</span>}<small>{item.words.length} карточек</small><span className={styles.packArt} aria-hidden="true">{learningCoverArt[item.id]?<LearningCoverArt id={item.id}/>:item.words.find(word=>word.illustration)?.illustration?<VocabularyIllustration illustration={item.words.find(word=>word.illustration)!.illustration!}/>:learningCoverSource(item.id,item.aliases)?<LearningCoverArt id={item.id} aliases={item.aliases}/>:<span>{packSymbols[item.id]??(item.kind==="verbs"?"⚡":item.kind==="phrases"?"💬":"📚")}</span>}</span></button>;
   return <dialog ref={screen} className={styles.screen} data-child={isChild} aria-label="Учить слова" onCancel={event => {event.preventDefault();back();}}><section className={styles.root}>
     <header className={styles.header}><button type="button" className={styles.back} aria-label={review?"Назад":pack ? stage==="training"?"Назад":stage==="cards"?"К активностям":"Все наборы" : collection?"Все сборники":"К урокам"} onClick={back}>←</button><h1 ref={heading} tabIndex={-1}>{review?"Повторение":pack ? pack.title : collection?.title??selectedTopic?.title??"Учить слова"}</h1><SpeechHelpButton/></header>
