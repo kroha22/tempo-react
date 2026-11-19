@@ -18,7 +18,10 @@ function setup({child=false,error=false,word=false}={}){
 }
 it("shows one continuation and ten collapsed adult blocks without source courses or writing progress",async()=>{
   const test=setup(),before=structuredClone(test.learning);render(test.wrap(<GeneralPlan/>));
-  expect(await screen.findByRole("link",{name:"Начать занятие →"})).toHaveAttribute("href","/learning/introduction");
+  // Wait on the small loading status before scanning the complete material tree.
+  // Repeated accessible-role scans can starve query notifications in jsdom.
+  await screen.findByText("Базовые занятия · 0/49");
+  expect(screen.getByRole("link",{name:"Начать занятие →"})).toHaveAttribute("href","/learning/introduction");
   expect(document.querySelectorAll("details[data-route-block]")).toHaveLength(10);
   expect(document.querySelectorAll("details[open]")).toHaveLength(0);
   expect(screen.queryByText("Курс по книге",{exact:true})).toBeNull();
